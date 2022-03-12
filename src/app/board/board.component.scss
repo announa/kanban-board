@@ -1,0 +1,11 @@
+.board{
+min-height: 100vh;
+padding: 80px 50px 50px;
+}
+
+.board-columns{
+ display: flex;
+ justify-content: flex-start;
+ align-items: flex-start;
+ min-height: calc(100vh - 200px);
+}

@@ -1,0 +1,6 @@
+.column{
+ min-height: calc(100vh - 200px);
+ width: 280px;
+ background-color: rgba(var(--bg-blue),.2);
+ border-radius: 2px;
+}
