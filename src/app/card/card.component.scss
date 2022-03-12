@@ -22,14 +22,15 @@
  align-items: center;
  background-color: #ffffff;
  border-radius: 2px;
- min-height: 50px;
+ min-height: 40px;
  padding: 0 10px;
  width: 100%;
+ font-size: 14px;
 }
 
  .card-description{
   margin-top: 8px;
-  max-height: 300px;
+  max-height: 200px;
   transition: all 250ms ease-in-out;
 }
 
