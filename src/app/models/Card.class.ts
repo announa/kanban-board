@@ -2,9 +2,14 @@ export class Card{
 
  title = '';
  description = '';
- category = ''
- user = [];
+ limitDate?: string;
+ date = '';
+ category = '';
+ /* creator = ''; */
+ priority?: string;
+ /* users = []; */
  id: number;
+ progress = ''
 
  constructor(){
 

@@ -9,4 +9,27 @@ height: calc(100vh - 210px);
  background-color: rgba(var(--bg-blue),.2);
  border-radius: 2px;
  overflow-y: auto;
+ position: relative;
+}
+
+.add-card{
+ position: absolute;
+ bottom: 15px;
+ right: 20px;
+ width: 30px;
+ height: 30px;
+ border-radius: 100%;
+ background-color: rgba(var(--bg-blue),.3);
+ cursor: pointer;
+
+ &:hover{
+  background-color: rgba(var(--bg-blue),.4);
+  box-shadow: 0 0 8px rgba(var(--bg-blue), 0.15);
+ }
+
+ img{
+  filter: invert(100%);
+  width: 100%;
+  height: auto;
+ }
 }

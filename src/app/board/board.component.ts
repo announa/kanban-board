@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Board } from '../models/Board.class';
 
 @Component({
   selector: 'app-board',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
+@Input() board!: Board;
+
+  isAddingCard = false;
+  addToColumn = ''
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  addingCard(){
+    this.isAddingCard = !this.isAddingCard;
+    console.log('received eventmission')
+    console.log(this.isAddingCard)
+  }
 }

@@ -1,0 +1,39 @@
+<div class="add-card-container">
+  <div class="add-card-modal">
+    <h2>Add a new Card to {{ board.title }}</h2>
+    <form action="#">
+      <div class="form-input">
+        <label for="">Card Title</label>
+        <input
+          type="text"
+          name="title"
+          [(ngModel)]="card.title"
+          required
+          minlength="1"
+          placeholder="Card Title"
+        />
+      </div>
+      <div class="form-input">
+        <label for="">Card Description</label>
+        <input
+          type="text"
+          name="description"
+          [(ngModel)]="card.description"
+          required
+          minlength="1"
+          placeholder="Card Description"
+        />
+      </div>
+
+      <div class="form-input">
+        <label for="">Category</label>
+        <select name="category" id="" [(ngModel)]="card.category">
+          <option
+            *ngFor="let category of board.categories"
+            value="category"
+          >{{ category }}</option>
+        </select>
+      </div>
+    </form>
+  </div>
+</div>

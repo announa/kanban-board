@@ -7,6 +7,8 @@ import { BoardComponent } from './board/board.component';
 import { BoardColumnComponent } from './board-column/board-column.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CardComponent } from './card/card.component';
+import { CardAddComponent } from './card-add/card-add.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,11 +16,13 @@ import { CardComponent } from './card/card.component';
     BoardComponent,
     BoardColumnComponent,
     NavigationComponent,
-    CardComponent
+    CardComponent,
+    CardAddComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

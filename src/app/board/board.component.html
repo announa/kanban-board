@@ -1,6 +1,7 @@
 <div class="board">
- <h2>Board</h2>
+ <h2>{{board.title}}</h2>
  <div class="board-columns">
-  <app-board-column></app-board-column>
+  <app-board-column (addingCard)="addingCard()"></app-board-column>
  </div>
+ <app-card-add [isAddingCard]="isAddingCard" [board]="board"></app-card-add>
 </div>
