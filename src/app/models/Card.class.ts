@@ -2,9 +2,9 @@ export class Card{
 
  title = '';
  description = '';
- limitDate?: string;
+ deadline?: string;
  date = '';
- category = '';
+ category?: string;
  /* creator = ''; */
  priority?: string;
  /* users = []; */

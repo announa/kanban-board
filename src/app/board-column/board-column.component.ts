@@ -6,7 +6,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./board-column.component.scss']
 })
 export class BoardColumnComponent implements OnInit {
-  @Output() addingCard = new EventEmitter<boolean>();
+  @Output() addingCard = new EventEmitter;
 
   constructor() { }
 

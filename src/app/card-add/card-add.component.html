@@ -1,12 +1,13 @@
-<div class="add-card-container">
+<div class="add-card-container" [class.d-none]="!this.isAddingCard">
   <div class="add-card-modal">
     <h2>Add a new Card to {{ board.title }}</h2>
     <form action="#">
       <div class="form-input">
-        <label for="">Card Title</label>
+        <label for="">Title</label>
         <input
           type="text"
           name="title"
+          class="input"
           [(ngModel)]="card.title"
           required
           minlength="1"
@@ -14,10 +15,11 @@
         />
       </div>
       <div class="form-input">
-        <label for="">Card Description</label>
+        <label for="">Description</label>
         <input
           type="text"
           name="description"
+          class="input"
           [(ngModel)]="card.description"
           required
           minlength="1"
@@ -27,12 +29,36 @@
 
       <div class="form-input">
         <label for="">Category</label>
-        <select name="category" id="" [(ngModel)]="card.category">
-          <option
-            *ngFor="let category of board.categories"
-            value="category"
-          >{{ category }}</option>
+        <select name="category" class="input" id="" [(ngModel)]="card.category">
+          <option *ngFor="let category of board.categories" value="category">
+            {{ category }}
+          </option>
         </select>
+      </div>
+      <div class="form-input">
+        <label for="">Priority</label>
+        <select name="priority" class="input" id="" [(ngModel)]="card.priority">
+          <option>High</option>
+          <option>Middle</option>
+          <option>Low</option>
+        </select>
+      </div>
+      <div class="form-input">
+        <label for="">Deadline</label>
+        <input
+          type="date"
+          name="deadline"
+          class="input"
+          [(ngModel)]="card.deadline"
+        />
+      </div>
+      <div class="form-input">
+        <label for="">Add responsibles</label>
+        <input type="text" class="input" placeholder="Add users"/>
+      </div>
+      <div class="btn-container">
+        <button class="btn btn-light" (click)="closeModal()">Cancel</button>
+        <input type="submit" class="btn" value="Add Card" />
       </div>
     </form>
   </div>

@@ -27,13 +27,38 @@ a {
 }
 
 .d-none {
-  display: none;
+  display: none !important;
 }
 
 .h-0 {
- margin-top: 0 !important;
+  margin-top: 0 !important;
   min-height: 0 !important;
   height: 0px;
   padding: 0 10px !important;
   overflow-y: hidden;
 }
+
+.btn {
+  padding: 15px;
+  border: none;
+  color: #fff;
+  background: rgba(var(--bg-blue), 0.4);
+  border-radius: 40px;
+  background-position: 30% 50%;
+  cursor: pointer;
+  
+  &:hover {
+    background: rgba(var(--bg-blue), 0.5);
+    
+  }
+}
+  
+  .btn-light{
+    color: rgb(var(--bg-blue)) !important;
+    background: #fff;
+
+    &:hover{
+      background: rgba(var(--bg-blue), 0.2);
+
+    }
+  }

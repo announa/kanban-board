@@ -1,0 +1,68 @@
+.add-card-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 50px 0;
+  background-color: rgba(var(--bg-blue), 0.2);
+  overflow-y: auto;
+ }
+ 
+ .add-card-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 60vw;
+  min-width: 400px;
+  padding: 50px;
+  background-color: #fff;
+  height: min-content;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 6fr;
+  gap: 1.5vw;
+  width: 100%;
+  max-width: 450px;
+  
+  
+  @media (min-width: 1200px) {
+   grid-template-columns: 1fr 1fr;
+   grid-template-rows: 1fr 1fr 1fr 1fr;
+   max-width: 950px;
+  }
+}
+
+.form-input {
+  display: flex;
+  flex-direction: column;
+ }
+ label {
+  margin-bottom: 0.5vw;
+ }
+ 
+ .input{
+ padding: 10px;
+ }
+
+.btn-container {
+  justify-self: flex-end;
+  @media (min-width:1200px) {
+   grid-column-start: 2;
+   grid-column-end: 3;
+  }
+}
+.btn {
+  display: inline-block;
+  width: 150px;
+
+  &:first-child {
+    margin-right: 10px;
+  }
+}
