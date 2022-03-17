@@ -1,0 +1,11 @@
+<div class="ticket" *ngFor="let ticket of fireService.tickets | async; let i = index" (click)="showTicket(i)">
+  <div class="ticket-title">
+    <p>{{ ticket.title }}</p>
+  </div>
+  <div class="ticket-description h-0" #descriptionElem>
+    <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p>
+  </div>
+  <div class="ticket-footer">
+    <img class="delete-icon" src="assets/img/delete_blue.svg" alt="delete ticket">
+  </div>
+</div>

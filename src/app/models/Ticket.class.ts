@@ -1,9 +1,9 @@
-export class Card{
+export class Ticket{
 
  title = '';
  description = '';
  deadline?: string;
- date = '';
+ date: Date;
  category?: string;
  /* creator = ''; */
  priority?: string;
@@ -12,7 +12,7 @@ export class Card{
  progress = ''
 
  constructor(){
-
-  this.id = Math.random() * 1000000;
+  this.date = new Date()
+  this.id = this.date.getTime();
  }
 }

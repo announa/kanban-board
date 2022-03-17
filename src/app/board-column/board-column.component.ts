@@ -6,15 +6,15 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./board-column.component.scss']
 })
 export class BoardColumnComponent implements OnInit {
-  @Output() addingCard = new EventEmitter;
+  @Output() addingTicket = new EventEmitter;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  addCard(){
-    console.log('add card')
-    this.addingCard.emit();
+  addTicket(){
+    console.log('add ticket')
+    this.addingTicket.emit();
   }
 }

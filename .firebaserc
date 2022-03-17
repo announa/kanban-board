@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "kanban-board-b90e7": {
+      "hosting": {
+        "kanban-board": [
+          "kanban-board-b90e7"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "kanban-board-b90e7"
+  }
+}

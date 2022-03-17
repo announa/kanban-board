@@ -1,7 +1,7 @@
 <div class="board">
  <h2>{{board.title}}</h2>
  <div class="board-columns">
-  <app-board-column (addingCard)="addingCard()"></app-board-column>
+  <app-board-column (addingTicket)="addingTicket()"></app-board-column>
  </div>
- <app-card-add [(isAddingCard)]="isAddingCard" [board]="board"></app-card-add>
+ <app-ticket-add [(isAddingTicket)]="isAddingTicket" [board]="board"></app-ticket-add>
 </div>

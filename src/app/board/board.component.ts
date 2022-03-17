@@ -9,16 +9,16 @@ import { Board } from '../models/Board.class';
 export class BoardComponent implements OnInit {
 @Input() board!: Board;
 
-  isAddingCard = false;
+  isAddingTicket = false;
   addToColumn = ''
 
   constructor() { }
 
   ngOnInit(): void {
   }
-  addingCard(){
-    this.isAddingCard = !this.isAddingCard;
+  addingTicket(){
+    this.isAddingTicket = !this.isAddingTicket;
     console.log('received eventmission')
-    console.log(this.isAddingCard)
+    console.log(this.isAddingTicket)
   }
 }
