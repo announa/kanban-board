@@ -1,6 +1,6 @@
-<div #ticket class="ticket" *ngFor="let ticket of fireService.tickets2 | async; let i = index" (click)="showTicket(i)">
+<div #ticket class="ticket" *ngFor="let ticket of fireService.tickets | async; let i = index" (click)="showTicket(i)">
   <div class="ticket-title">
-    <p>{{ ticket.title }}</p>
+    <p>{{ ticket.description }}</p>
   </div>
   <div class="ticket-description h-0" #descriptionElem>
     <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p>

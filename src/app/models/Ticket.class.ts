@@ -5,14 +5,19 @@ export class Ticket{
  deadline?: string;
  date: Date;
  category?: string;
- /* creator = ''; */
  priority?: string;
- /* users = []; */
  id: number;
  progress = ''
+ /* creator = ''; */
+ /* users = []; */
+
+ // transformed data for ordering when getting data from firestore
+ title_transf = '';
+ description_transf = '';
 
  constructor(){
   this.date = new Date()
   this.id = this.date.getTime();
  }
+
 }
