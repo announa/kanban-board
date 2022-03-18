@@ -14,7 +14,6 @@ export class BoardColumnComponent implements OnInit {
   }
 
   addTicket(){
-    console.log('add ticket')
-    this.addingTicket.emit();
+    this.addingTicket.emit(true);
   }
 }

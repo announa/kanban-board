@@ -18,11 +18,10 @@ export class TicketAddComponent implements OnInit {
 
   ngOnInit(): void {}
   closeModal() {
-    this.isAddingTicketChange.emit(!this.isAddingTicket);
+    this.isAddingTicketChange.emit(false);
   }
 
   addTicket() {
-    console.log('add ticket');
     this.fireService.addTicket(this.ticket)
       .then(() => {
         this.closeModal();

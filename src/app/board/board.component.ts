@@ -16,8 +16,8 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  addingTicket(){
-    this.isAddingTicket = !this.isAddingTicket;
+  addingTicket(status: boolean){
+    this.isAddingTicket = status;
     console.log('received eventmission')
     console.log(this.isAddingTicket)
   }

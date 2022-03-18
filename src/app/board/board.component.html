@@ -1,7 +1,7 @@
 <div class="board">
  <h2>{{board.title}}</h2>
  <div class="board-columns">
-  <app-board-column (addingTicket)="addingTicket()"></app-board-column>
+  <app-board-column (addingTicket)="addingTicket($event)"></app-board-column>
  </div>
  <app-ticket-add [(isAddingTicket)]="isAddingTicket" [board]="board"></app-ticket-add>
 </div>
