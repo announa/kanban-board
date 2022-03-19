@@ -6,15 +6,15 @@
 <div
   #ticketElem
   class="ticket"
-  *ngFor="let ticket of column.tickets; let i = index"
+  *ngFor="let ticket of column.tickets | async; let i = index"
   (click)="showTicket(i)"
 >
   <div class="ticket-title">
-    <p>Title</p>
+    <p>{{ ticket.title }}</p>
     <!-- <p>{{ ticket.description }}</p> -->
   </div>
   <div class="ticket-description h-0" #descriptionElem>
-    <p class="d-none" #descriptionTextElem>Description</p>
+    <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p>
     <!-- <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p> -->
   </div>
   <div class="ticket-footer h-0" #footer>

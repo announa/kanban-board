@@ -1,9 +1,9 @@
-<div class="column" *ngFor="let column of fireService.columns | async; let i = index">
+<div class="column" *ngFor="let column of fireService.columns_data | async; let i = index">
   <div class="column-title">{{ column.title }}</div>
   <div class="column-tickets">
     <app-ticket [column]="column"></app-ticket>
   </div>
-  <div class="add-ticket" (click)="addTicket(fireService.columns_data[i].id)">
+  <div class="add-ticket" (click)="addTicket(column.id)">
     <div class="img-container">
       <img src="assets/img/add.png" alt="add a new ticket" />
     </div>

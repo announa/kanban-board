@@ -57,14 +57,12 @@ export class FirestoreService {
           return columns.map((column) => {
             const data = column.payload.doc.data();
             const id = column.payload.doc.id;
-            /*       const tickets = this.getTickets(id);
-             */ return { id, ...data };
+                  const tickets = this.getTickets(id);
+             return { id, ...data, tickets };
           });
         })
-      );
-    setTimeout(() => {
-      console.log(this.columns_data);
-    }, 1000);
+      )
+
   }
 
   getTickets(columnId: string) {
