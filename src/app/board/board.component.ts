@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Board } from '../models/Board.class';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-board',
@@ -7,18 +8,15 @@ import { Board } from '../models/Board.class';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
-@Input() board!: Board;
-
   isAddingTicket = false;
   addToColumn = ''
 
-  constructor() { }
+  constructor(public fireService: FirestoreService) {
+   }
 
   ngOnInit(): void {
   }
   addingTicket(status: boolean){
     this.isAddingTicket = status;
-    console.log('received eventmission')
-    console.log(this.isAddingTicket)
   }
 }

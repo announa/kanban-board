@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FirestoreService } from '../services/firestore.service';
 
@@ -10,26 +10,32 @@ import { FirestoreService } from '../services/firestore.service';
 export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChildren('descriptionElem') descriptionElem!: QueryList<ElementRef>;
   @ViewChildren('descriptionTextElem') descriptionTextElem!: QueryList<ElementRef>;
-  @ViewChildren('ticket') tickets!: QueryList<ElementRef>;
+  @ViewChildren('ticketElem') ticketsElem!: QueryList<ElementRef>;
+  @ViewChildren('footer') footer!: QueryList<ElementRef>;
+  @ViewChildren('icon') icon!: QueryList<ElementRef>;
+  @Input('column') column!: any;
+  tickets!: any;
 
   constructor(public fireService: FirestoreService) {}
 
   ngOnInit(): void {
+    console.log(this.column)
   }
-
+  
   ngAfterViewInit(): void {
-    this.fireService.countTickets(this.tickets);
-    this.tickets.changes.subscribe(() => this.fireService.countTickets(this.tickets))
+/*     this.fireService.countTickets(this.tickets);
+    this.tickets.changes.subscribe(() => this.fireService.countTickets(this.tickets)) */
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    this.fireService.countTickets(this.tickets);
+/*     this.fireService.countTickets(this.tickets); */
   }
 
+  /* showTicket(i: number) { */
   showTicket(i: number) {
-    this.descriptionElem.toArray()[i].nativeElement.classList.toggle('h-0');
+    [this.descriptionElem, this.footer, this.icon].forEach(e => e.toArray()[i].nativeElement.classList.toggle('h-0'));
     setTimeout(() => {
       this.descriptionTextElem.toArray()[i].nativeElement.classList.toggle('d-none');
-    }, 100);
+    }, 150);
   }
 }

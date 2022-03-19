@@ -1,2 +1,2 @@
 <app-navigation></app-navigation>
-<app-board [board]="board"></app-board>
+<app-board *ngIf="fireService.currentBoard"></app-board>

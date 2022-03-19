@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-board-column',
@@ -8,12 +9,14 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class BoardColumnComponent implements OnInit {
   @Output() addingTicket = new EventEmitter;
 
-  constructor() { }
+  constructor(public fireService: FirestoreService) { }
 
   ngOnInit(): void {
   }
 
-  addTicket(){
+  addTicket(id: string){
+    console.log(id)
     this.addingTicket.emit(true);
+    this.fireService.addTicketColumn = id;
   }
 }

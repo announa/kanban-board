@@ -1,6 +1,6 @@
 <div class="add-ticket-container" [class.d-none]="!this.isAddingTicket">
   <div class="add-ticket-modal">
-    <h2>Add a new Ticket to {{ board.title }}</h2>
+    <h2>Add a new Ticket to {{ fireService.currentBoard.title }}</h2>
     <form (ngSubmit)="addTicket()">
       <div class="form-input">
         <label for="">Title</label>
@@ -30,7 +30,7 @@
       <div class="form-input">
         <label for="">Category</label>
         <select name="category" class="input" id="" [(ngModel)]="ticket.category">
-          <option *ngFor="let category of board.categories" value="category">
+          <option *ngFor="let category of fireService.currentBoard.categories" value="category">
             {{ category }}
           </option>
         </select>

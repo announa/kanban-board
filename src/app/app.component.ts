@@ -10,10 +10,11 @@ import { FirestoreService } from './services/firestore.service';
 })
 export class AppComponent {
   title = 'kanban-board';
-  board = new Board('Board 1', ['Category 1', 'Category 2', 'Category 3'])
+  /* board = new Board('Board 1', ['Category 1', 'Category 2', 'Category 3']) */
 
-  constructor(private fireService: FirestoreService){}
+  constructor(public fireService: FirestoreService){}
   ngOnInit(): void {
-    this.fireService.getTickets();
+    this.fireService.loadBoards()
+    /* this.fireService.getTickets(); */
   }
 }

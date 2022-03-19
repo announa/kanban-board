@@ -1,5 +1,8 @@
+import { Column } from "./Column.class";
+
 export class Board {
  title = '';
+ columns?: Column;
  categories: string[];
  id: number;
 

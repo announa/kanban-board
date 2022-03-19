@@ -1,7 +1,8 @@
 <div class="board">
- <h2>{{board.title}}</h2>
+ <h2>{{fireService.currentBoard.title}}</h2>
  <div class="board-columns">
-  <app-board-column (addingTicket)="addingTicket($event)"></app-board-column>
+<!--   <app-board-column (addingTicket)="addingTicket($event)"></app-board-column> -->
+  <app-board-column (addingTicket)="addingTicket($event)" *ngIf="fireService.columns" ></app-board-column>
  </div>
- <app-ticket-add [(isAddingTicket)]="isAddingTicket" [board]="board"></app-ticket-add>
+ <app-ticket-add [(isAddingTicket)]="isAddingTicket"></app-ticket-add>
 </div>

@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  width: 240px;
+  width: 250px;
   background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 1px 1px 3px rgba(var(--bg-blue), 0.1);
   padding: 10px;
@@ -45,9 +45,15 @@ p{
 
 .ticket-footer{
   margin-top: 10px;
+  transition: all 250ms ease-in-out;
 }
 
 .delete-icon{
   width: 20px;
   height: auto;
+  transition: all 250ms ease-in-out;
+}
+
+.hidden-content{
+  transition: all 250ms ease-in-out;
 }

@@ -1,39 +1,56 @@
-.column{
- display: flex;
- flex-direction: column;
- justify-content: flex-start;
- align-items: center;
-height: calc(100vh - 210px);
- width: 280px;
- padding: 20px;
- background-color: rgba(var(--bg-blue),.2);
- border-radius: 2px;
- overflow-y: auto;
- position: relative;
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: calc(100vh - 210px);
+  width: 280px;
+  padding: 15px 0 0 10px;
+  background-color: rgba(var(--bg-blue), 0.2);
+  border-radius: 2px;
+  position: relative;
 }
 
-.add-ticket{
- position: absolute;
- bottom: 15px;
- right: 20px;
- width: 30px;
- height: 30px;
- border-radius: 100%;
- background-color: rgba(var(--bg-blue),.3);
- cursor: pointer;
+.column-tickets {
+ flex: 1;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ width: 100%;
+  overflow-y: auto;
+  /* height: calc(100vh - 270px); */
+}
 
- &:hover{
-  background-color: rgba(var(--bg-blue),.5);
- }
-
-   
- &:hover img{
-  filter: invert(93%);
- }
-
- img{
-  filter: invert(100%);
+.add-ticket {
+ display: flex;
+ justify-content: flex-end;
+ padding-right: 10px;
   width: 100%;
-  height: auto;
+  height: 30px;
  }
+
+ .img-container{
+  height: 100%;
+  aspect-ratio: 1;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+
+  &:hover::before {
+   background-color: rgb(var(--bg-blue));
+ }
+
+  &::before{
+   content: "";
+   position: absolute;
+   inset: 5px;
+   bottom: 10px;
+   background-color: rgba(var(--bg-blue), 0.4);
+  }
+ }
+  
+  img {
+   filter: invert(100%);
+   width: auto;
+   height: 95%;
 }

@@ -10,7 +10,6 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class TicketAddComponent implements OnInit {
   @Input() isAddingTicket: boolean = false;
-  @Input() board!: Board;
   @Output() isAddingTicketChange = new EventEmitter();
   ticket = new Ticket();
 
