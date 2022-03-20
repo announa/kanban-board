@@ -29,15 +29,28 @@
 
       <div class="form-input">
         <label for="">Category</label>
-        <select name="category" class="input" id="" [(ngModel)]="addTicketServ.ticket.category">
-          <option *ngFor="let category of fireService.currentBoard.categories" value="category">
+        <select
+          name="category"
+          class="input"
+          id=""
+          [(ngModel)]="addTicketServ.ticket.category"
+        >
+          <option
+            *ngFor="let category of fireService.currentBoard.categories"
+            value="category"
+          >
             {{ category }}
           </option>
         </select>
       </div>
       <div class="form-input">
         <label for="">Priority</label>
-        <select name="priority" class="input" id="" [(ngModel)]="addTicketServ.ticket.priority">
+        <select
+          name="priority"
+          class="input"
+          id=""
+          [(ngModel)]="addTicketServ.ticket.priority"
+        >
           <option>High</option>
           <option>Middle</option>
           <option>Low</option>
@@ -54,12 +67,27 @@
       </div>
       <div class="form-input">
         <label for="">Add responsibles</label>
-        <input type="text" class="input" placeholder="Add users"/>
+        <input type="text" class="input" placeholder="Add users" />
       </div>
       <div class="btn-container">
-        <button class="btn btn-light" (click)="addTicketServ.closeModal()">Cancel</button>
-        <input type="submit" class="btn" value="Add Ticket" />
+        <button
+          class="btn btn-light"
+          (click)="addTicketServ.closeModal()"
+          [disabled]="addTicketServ.isSavingTicket"
+        >
+          Cancel
+        </button>
+        <input
+          type="submit"
+          class="btn"
+          value="Add Ticket"
+          [disabled]="addTicketServ.isSavingTicket"
+        />
       </div>
     </form>
+
+    <div class="loading-bar" *ngIf="addTicketServ.isSavingTicket">
+      <div class="moving-bar"></div>
+    </div>
   </div>
 </div>

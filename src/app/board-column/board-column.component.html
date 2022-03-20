@@ -7,7 +7,7 @@
       <h3>{{ column.title }}</h3>
     </div>
     <div class="column-tickets">
-      <app-ticket [column]="column"></app-ticket>
+      <app-ticket [column]="column" *ngIf="column.tickets"></app-ticket>
     </div>
     <div class="add-icon-container" (click)="addticket.addTicket(column.id)">
       <div class="add-icon">

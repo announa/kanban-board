@@ -21,7 +21,7 @@
     <img
       class="delete-icon h-0"
       src="assets/img/delete_blue.svg"
-      alt="delete ticket" #icon
+      alt="delete ticket" #icon (click)="fireService.deleteTicket(column.id, ticket.id.toString())"
     />
   </div>
 </div>

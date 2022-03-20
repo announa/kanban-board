@@ -21,6 +21,7 @@
   padding: 50px;
   background-color: #fff;
   height: min-content;
+  position: relative;
 }
 
 form {
@@ -64,5 +65,28 @@ form {
 
   &:first-child {
     margin-right: 10px;
+  }
+}
+
+.loading-bar{
+  width: 60vw;
+  height: 5px;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.moving-bar{
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(var(--bg-blue), 0.5) 20%, transparent 80%);
+  animation: loading-anim 1s linear infinite;
+}
+
+@keyframes loading-anim {
+  0% {
+    transform: translateX(-70%);
+  }
+  100% {
+    transform: translateX(70%);
   }
 }

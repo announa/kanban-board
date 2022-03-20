@@ -14,12 +14,10 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChildren('footer') footer!: QueryList<ElementRef>;
   @ViewChildren('icon') icon!: QueryList<ElementRef>;
   @Input('column') column!: any;
-  tickets!: any;
 
   constructor(public fireService: FirestoreService) {}
 
   ngOnInit(): void {
-    console.log(this.column)
   }
   
   ngAfterViewInit(): void {

@@ -6,7 +6,7 @@ export class Ticket{
  date!: Date;
  category?: string;
  priority?: string;
- id!: number;
+ id!: string;
  progress = ''
  /* creator = ''; */
  /* users = []; */

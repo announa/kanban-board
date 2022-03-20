@@ -95,7 +95,7 @@ export class FirestoreService {
     return this.columns
       .doc(this.addTicketColumn)
       .collection('tickets')
-      .doc(ticket.id.toString())
+      .doc(ticket.id)
       .set({ ...ticket });
   }
 
@@ -107,6 +107,12 @@ export class FirestoreService {
       .collection('columns')
       .doc(column.id)
       .set({ ...column });
+  }
+
+  deleteTicket(columnId: string, ticketId: string ){
+    console.log(columnId)
+    console.log(ticketId)
+   this.firestore.collection('boards').doc(this.currentBoardRef).collection('columns').doc(columnId).collection('tickets').doc(ticketId).delete().then(() => console.log('ticket deleted')).catch(err => console.log(err));
   }
 
   /*   getId() {
