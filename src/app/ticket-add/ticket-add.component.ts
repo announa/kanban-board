@@ -21,6 +21,8 @@ export class TicketAddComponent implements OnInit {
   }
 
   addTicket() {
+    this.ticket.date = new Date()
+    this.ticket.id = this.ticket.date.getTime();
     this.ticket.title_transf = this.ticket.title.toLowerCase()
     this.ticket.description_transf = this.ticket.description.toLowerCase()
     this.fireService.addTicket(this.ticket)

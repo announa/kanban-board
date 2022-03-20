@@ -3,10 +3,10 @@ export class Ticket{
  title = '';
  description = '';
  deadline?: string;
- date: Date;
+ date!: Date;
  category?: string;
  priority?: string;
- id: number;
+ id!: number;
  progress = ''
  /* creator = ''; */
  /* users = []; */
@@ -16,8 +16,6 @@ export class Ticket{
  description_transf = '';
 
  constructor(){
-  this.date = new Date()
-  this.id = this.date.getTime();
  }
 
 }

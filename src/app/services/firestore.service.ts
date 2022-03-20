@@ -12,14 +12,13 @@ export class FirestoreService {
   currentBoardRef: string = 'board1';
   currentBoard!: any;
   columns!: Observable<any>;
-  /* columns!: Observable<any>; */
   columns_data!: any;
-  columns2!: any;
   count!: number;
   sort = {
     ref: 'id',
     dir: 'desc',
   };
+  currentTickets!: any;
   addTicketColumn!: string;
 
   constructor(private firestore: AngularFirestore) {}
@@ -57,12 +56,11 @@ export class FirestoreService {
           return columns.map((column) => {
             const data = column.payload.doc.data();
             const id = column.payload.doc.id;
-                  const tickets = this.getTickets(id);
-             return { id, ...data, tickets };
+            const tickets = this.getTickets(id);
+            return { id, ...data, tickets };
           });
         })
-      )
-
+      );
   }
 
   getTickets(columnId: string) {
@@ -106,21 +104,26 @@ export class FirestoreService {
   }
 
   addTicket(ticket: Ticket) {
-    /*     return this.firestore
-      .collection('tickets')
-      .doc('ticket' + this.count)
-      .set({ ...ticket }); */
     return this.firestore
       .collection('boards')
       .doc(this.currentBoardRef)
       .collection('columns')
       .doc(this.addTicketColumn)
       .collection('tickets')
-      .doc('ticket' + this.count)
+      .doc(ticket.id.toString())
       .set({ ...ticket });
   }
 
-  countTickets(tickets: QueryList<ElementRef>) {
-    this.count = tickets.toArray().length;
-  }
+/*   getId() {
+    this.firestore
+      .collection('boards')
+      .doc(this.currentBoardRef)
+      .collection('columns')
+      .doc(this.addTicketColumn)
+      .collection('tickets').valueChanges().subscribe(
+        tickets => this.currentTickets = tickets.map(t => {return t['id'].split('-')})
+      )
+      console.log(this.currentTickets)
+    return Math.max(this.currentTickets.map((t: Ticket) => {return t.id}));
+  } */
 }
