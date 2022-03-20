@@ -15,10 +15,8 @@
   position: relative;
 }
 
-h3 {
-  font-weight: 400;
-  color: rgb(var(--bg-blue));
-  margin-bottom: 0.8em;
+.highlighted{
+  background-color: rgba(var(--bg-blue), 0.1);
 }
 
 .column-tickets {

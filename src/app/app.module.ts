@@ -12,7 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFirestoreDocument, AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { ColumnTitleComponent } from './column-title/column-title.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     NavigationComponent,
     TicketComponent,
     TicketAddComponent,
+    ColumnTitleComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +31,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    /* AngularFirestoreDocument */
   ],
   providers: [],
   bootstrap: [AppComponent]

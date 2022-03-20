@@ -1,12 +1,10 @@
-<div class="column-container">
+<!-- <div class="column-container"> -->
   <div
     class="column"
-    *ngFor="let column of fireService.columns_data | async; let i = index"
+   [class.highlighted]="dragOver"
   >
-    <div class="column-title">
-      <h3>{{ column.title }}</h3>
-    </div>
-    <div class="column-tickets">
+  <app-column-title [column]="column"> </app-column-title>
+    <div class="column-tickets" (drop)="dragService.dropTicket(column); dragOver = false;" (dragover)="dragService.allowDrop($event); highlightColumn()">
       <app-ticket [column]="column" *ngIf="column.tickets"></app-ticket>
     </div>
     <div class="add-icon-container" (click)="addticket.addTicket(column.id)">
@@ -15,4 +13,4 @@
       </div>
     </div>
   </div>
-</div>
+<!-- </div> -->

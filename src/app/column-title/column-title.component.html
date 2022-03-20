@@ -1,0 +1,30 @@
+<div class="column-title">
+  <input
+    type="text"
+    value="{{ column.title }}"
+    [(ngModel)]="title"
+    id="edit-title-input"
+    [disabled]="!isEditingTitle"
+    #input
+  />
+  <div
+    class="edit-container edit-title"
+    *ngIf="!isEditingTitle"
+    (click)="edit($event)"
+  >
+    <img class="edit-title" src="assets/img/edit.svg" alt="edit title" />
+  </div>
+
+  <div
+    class="edit-container edit-title"
+    *ngIf="isEditingTitle"
+    (click)="saveTitle(column.id)"
+  >
+    <img
+      class="edit-title"
+      src="assets/img/done.svg"
+      alt="save new title"
+      id="save-title"
+    />
+  </div>
+</div>

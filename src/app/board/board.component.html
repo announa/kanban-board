@@ -1,13 +1,16 @@
 <div class="board">
   <h2>{{ fireService.currentBoard.title }}</h2>
   <div class="board-columns">
-    <div class="column-container">
+    <div
+      class="column-container"
+      *ngIf="fireService.columns && fireService.columnTitles"
+    >
       <!--   <app-board-column (addingTicket)="addingTicket($event)"></app-board-column> -->
       <app-board-column
-        *ngIf="fireService.columns"
+        *ngFor="let column of fireService.columns_data | async; let i = index" [column]="column"
       ></app-board-column>
       <div class="add-icon" (click)="fireService.addColumn()">
-          <img src="assets/img/add.svg" alt="add a new column" />
+        <img src="assets/img/add.svg" alt="add a new column" />
       </div>
     </div>
     <app-ticket-add></app-ticket-add>

@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChildren('icon') icon!: QueryList<ElementRef>;
   @Input('column') column!: any;
 
-  constructor(public fireService: FirestoreService) {}
+  constructor(public fireService: FirestoreService, public dragService: DragNdropService) {}
 
   ngOnInit(): void {
   }
@@ -36,4 +37,6 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       this.descriptionTextElem.toArray()[i].nativeElement.classList.toggle('d-none');
     }, 150);
   }
+
+
 }

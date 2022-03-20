@@ -25,6 +25,7 @@ export class FirestoreService {
   };
   currentTickets!: any;
   addTicketColumn!: string;
+  columnTitles!: any;
 
   constructor(private firestore: AngularFirestore) {}
 
@@ -36,6 +37,7 @@ export class FirestoreService {
       .subscribe((board: any) => {
         this.currentBoard = board;
         this.loadColumns();
+        this.getColumnTitles();
       });
   }
 
@@ -109,10 +111,40 @@ export class FirestoreService {
       .set({ ...column });
   }
 
-  deleteTicket(columnId: string, ticketId: string ){
-    console.log(columnId)
-    console.log(ticketId)
-   this.firestore.collection('boards').doc(this.currentBoardRef).collection('columns').doc(columnId).collection('tickets').doc(ticketId).delete().then(() => console.log('ticket deleted')).catch(err => console.log(err));
+  deleteTicket(columnId: string, ticketId: string) {
+    console.log(columnId);
+    console.log(ticketId);
+    this.firestore
+      .collection('boards')
+      .doc(this.currentBoardRef)
+      .collection('columns')
+      .doc(columnId)
+      .collection('tickets')
+      .doc(ticketId)
+      .delete()
+      .then(() => console.log('ticket deleted'))
+      .catch((err) => console.log(err));
+  }
+
+  getColumnTitles() {
+    this.firestore
+      .collection('boards')
+      .doc(this.currentBoardRef)
+      .collection('columns', this.columnFilter.bind(this))
+      .valueChanges()
+      .subscribe(columns => {
+        this.columnTitles = columns.map(c => {
+          return c['title'];
+        });
+      });
+  }
+  saveColumnTitle(columnId: string, newTitle: string){
+    console.log('saving new title')
+    this.firestore
+    .collection('boards')
+    .doc(this.currentBoardRef)
+    .collection('columns')
+    .doc(columnId).update({title: newTitle})
   }
 
   /*   getId() {
@@ -127,4 +159,9 @@ export class FirestoreService {
       console.log(this.currentTickets)
     return Math.max(this.currentTickets.map((t: Ticket) => {return t.id}));
   } */
+
+  moveTicket(ticket: any, col1: any, col2: any){
+    this.columns.doc(col2.id).collection('tickets').doc(ticket.id).set({...ticket})
+    this.columns.doc(col1.id).collection('tickets').doc(ticket.id).delete()
+  }
 }

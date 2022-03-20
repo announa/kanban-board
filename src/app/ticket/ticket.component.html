@@ -7,7 +7,7 @@
   #ticketElem
   class="ticket"
   *ngFor="let ticket of column.tickets | async; let i = index"
-  (click)="showTicket(i)"
+  (click)="showTicket(i)" draggable="true" (dragstart)="dragService.dragTicket(ticket, column)"
 >
   <div class="ticket-title">
     <p>{{ ticket.title }}</p>
