@@ -1,8 +1,15 @@
 <div class="board">
- <h2>{{fireService.currentBoard.title}}</h2>
- <div class="board-columns">
-<!--   <app-board-column (addingTicket)="addingTicket($event)"></app-board-column> -->
-  <app-board-column (addingTicket)="addingTicket($event)" *ngIf="fireService.columns" ></app-board-column>
- </div>
- <app-ticket-add [(isAddingTicket)]="isAddingTicket"></app-ticket-add>
+  <h2>{{ fireService.currentBoard.title }}</h2>
+  <div class="board-columns">
+    <div class="column-container">
+      <!--   <app-board-column (addingTicket)="addingTicket($event)"></app-board-column> -->
+      <app-board-column
+        *ngIf="fireService.columns"
+      ></app-board-column>
+      <div class="add-icon" (click)="fireService.addColumn()">
+          <img src="assets/img/add.svg" alt="add a new column" />
+      </div>
+    </div>
+    <app-ticket-add></app-ticket-add>
+  </div>
 </div>

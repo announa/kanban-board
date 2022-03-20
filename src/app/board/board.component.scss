@@ -9,3 +9,19 @@ padding: 80px 50px 50px;
  align-items: flex-start;
 height: calc(100vh - 210px);
 }
+
+.column-container{
+ display: flex;
+}
+
+.add-icon{
+ background-color: rgba(var(--bg-blue), .2);
+ 
+ &:hover{
+  background-color: rgba(var(--bg-blue), .3);
+ }
+
+ img{
+  filter: brightness(200%);
+ }
+}

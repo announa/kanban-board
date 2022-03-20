@@ -1,22 +1,17 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { AddTicketService } from '../services/add-ticket.service';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-board-column',
   templateUrl: './board-column.component.html',
-  styleUrls: ['./board-column.component.scss']
+  styleUrls: ['./board-column.component.scss'],
 })
 export class BoardColumnComponent implements OnInit {
-  @Output() addingTicket = new EventEmitter;
+  constructor(
+    public fireService: FirestoreService,
+    public addticket: AddTicketService
+  ) {}
 
-  constructor(public fireService: FirestoreService) { }
-
-  ngOnInit(): void {
-  }
-
-  addTicket(id: string){
-    console.log(id)
-    this.addingTicket.emit(true);
-    this.fireService.addTicketColumn = id;
-  }
+  ngOnInit(): void {}
 }

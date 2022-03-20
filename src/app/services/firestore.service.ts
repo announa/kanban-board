@@ -1,6 +1,7 @@
 import { ElementRef, Injectable, QueryList } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map, Observable, pipe } from 'rxjs';
+import { Column } from '../models/Column.class';
 import { Ticket } from '../models/Ticket.class';
 
 @Injectable({
@@ -8,12 +9,16 @@ import { Ticket } from '../models/Ticket.class';
 })
 export class FirestoreService {
   tickets!: Observable<any>;
-  boards!: Observable<any>;
+  boards!: any;
   currentBoardRef: string = 'board1';
   currentBoard!: any;
-  columns!: Observable<any>;
+  columns!: any;
   columns_data!: any;
   count!: number;
+  sortCol = {
+    ref: 'id',
+    dir: 'desc',
+  };
   sort = {
     ref: 'id',
     dir: 'desc',
@@ -24,12 +29,11 @@ export class FirestoreService {
   constructor(private firestore: AngularFirestore) {}
 
   loadBoards() {
-    this.boards = this.firestore.collection('boards').valueChanges();
-    this.firestore
-      .collection('boards')
+    this.boards = this.firestore.collection('boards');
+    this.boards
       .doc(this.currentBoardRef)
       .valueChanges()
-      .subscribe((board) => {
+      .subscribe((board: any) => {
         this.currentBoard = board;
         this.loadColumns();
       });
@@ -39,21 +43,16 @@ export class FirestoreService {
     this.columns = this.firestore
       .collection('boards')
       .doc(this.currentBoardRef)
-      .collection('columns')
-      .valueChanges();
-    /*     this.columns2 = this.firestore.collection('boards').doc(this.currentBoardRef).collection('columns').doc('columns1').valueChanges().subscribe( columns => {
-      this.columns2 = columns
-      console.log(this.columns2.title)
-    }
-    ) */
+      .collection('columns');
+
     this.columns_data = this.firestore
       .collection('boards')
       .doc(this.currentBoardRef)
-      .collection('columns')
+      .collection('columns', this.columnFilter.bind(this))
       .snapshotChanges()
       .pipe(
-        map((columns) => {
-          return columns.map((column) => {
+        map((columns: any) => {
+          return columns.map((column: any) => {
             const data = column.payload.doc.data();
             const id = column.payload.doc.id;
             const tickets = this.getTickets(id);
@@ -64,38 +63,27 @@ export class FirestoreService {
   }
 
   getTickets(columnId: string) {
-    return this.firestore
-      .collection('boards')
-      .doc(this.currentBoardRef)
-      .collection('columns')
-      .doc(columnId)
-      .collection('tickets')
-      .valueChanges();
+    return this.columns.doc(columnId).collection('tickets').valueChanges();
   }
 
   loadTickets(columnId: string, ref?: string, dir?: string) {
     if (ref) this.sort.ref = ref;
     if (dir) this.sort.dir = dir;
-    /*     this.tickets = this.firestore
-      .collection('tickets')
-      .valueChanges()
-      .pipe(map((values) => values.sort((a: any, b: any) => b.id - a.id))); */
-    return this.firestore
-      .collection('boards')
-      .doc(this.currentBoardRef)
-      .collection('columns')
+    return this.columns
       .doc(columnId)
       .collection('tickets', this.ticketFilter.bind(this))
       .valueChanges();
-    /*     this.tickets = this.firestore
-      .collection('tickets', (ref) => ref.orderBy(this.sort.ref, 'desc'))
-      .valueChanges(); */
   }
 
   ticketFilter(ref: any) {
     return this.sort.dir == 'desc'
       ? ref.orderBy(this.sort.ref, 'desc')
       : ref.orderBy(this.sort.ref, 'asc');
+  }
+  columnFilter(ref: any) {
+    return this.sort.dir == 'desc'
+      ? ref.orderBy(this.sortCol.ref, 'desc')
+      : ref.orderBy(this.sortCol.ref, 'asc');
   }
 
   setSortRef(ref: string, dir: string) {
@@ -104,17 +92,24 @@ export class FirestoreService {
   }
 
   addTicket(ticket: Ticket) {
-    return this.firestore
-      .collection('boards')
-      .doc(this.currentBoardRef)
-      .collection('columns')
+    return this.columns
       .doc(this.addTicketColumn)
       .collection('tickets')
       .doc(ticket.id.toString())
       .set({ ...ticket });
   }
 
-/*   getId() {
+  addColumn() {
+    let column = new Column();
+    this.firestore
+      .collection('boards')
+      .doc(this.currentBoardRef)
+      .collection('columns')
+      .doc(column.id)
+      .set({ ...column });
+  }
+
+  /*   getId() {
     this.firestore
       .collection('boards')
       .doc(this.currentBoardRef)

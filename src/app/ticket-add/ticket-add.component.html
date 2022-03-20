@@ -1,14 +1,14 @@
-<div class="add-ticket-container" [class.d-none]="!this.isAddingTicket">
+<div class="add-ticket-container" *ngIf="addTicketServ.isAddingTicket">
   <div class="add-ticket-modal">
     <h2>Add a new Ticket to {{ fireService.currentBoard.title }}</h2>
-    <form (ngSubmit)="addTicket()">
+    <form (ngSubmit)="addTicketServ.saveTicket()">
       <div class="form-input">
         <label for="">Title</label>
         <input
           type="text"
           name="title"
           class="input"
-          [(ngModel)]="ticket.title"
+          [(ngModel)]="addTicketServ.ticket.title"
           required
           minlength="1"
           placeholder="Ticket Title"
@@ -20,7 +20,7 @@
           type="text"
           name="description"
           class="input"
-          [(ngModel)]="ticket.description"
+          [(ngModel)]="addTicketServ.ticket.description"
           required
           minlength="1"
           placeholder="Ticket Description"
@@ -29,7 +29,7 @@
 
       <div class="form-input">
         <label for="">Category</label>
-        <select name="category" class="input" id="" [(ngModel)]="ticket.category">
+        <select name="category" class="input" id="" [(ngModel)]="addTicketServ.ticket.category">
           <option *ngFor="let category of fireService.currentBoard.categories" value="category">
             {{ category }}
           </option>
@@ -37,7 +37,7 @@
       </div>
       <div class="form-input">
         <label for="">Priority</label>
-        <select name="priority" class="input" id="" [(ngModel)]="ticket.priority">
+        <select name="priority" class="input" id="" [(ngModel)]="addTicketServ.ticket.priority">
           <option>High</option>
           <option>Middle</option>
           <option>Low</option>
@@ -49,7 +49,7 @@
           type="date"
           name="deadline"
           class="input"
-          [(ngModel)]="ticket.deadline"
+          [(ngModel)]="addTicketServ.ticket.deadline"
         />
       </div>
       <div class="form-input">
@@ -57,7 +57,7 @@
         <input type="text" class="input" placeholder="Add users"/>
       </div>
       <div class="btn-container">
-        <button class="btn btn-light" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-light" (click)="addTicketServ.closeModal()">Cancel</button>
         <input type="submit" class="btn" value="Add Ticket" />
       </div>
     </form>

@@ -1,7 +1,12 @@
-import { Ticket } from "./Ticket.class";
+import { Ticket } from './Ticket.class';
 
 export class Column {
- title = '';
- tickets?: Ticket[];
- order!: number;
+  title = 'New Column';
+  tickets?: Ticket[];
+  order!: number;
+  id: string;
+
+  constructor() {
+    this.id = new Date().getTime().toString();
+  }
 }

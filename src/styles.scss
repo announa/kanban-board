@@ -46,19 +46,36 @@ a {
   border-radius: 40px;
   background-position: 30% 50%;
   cursor: pointer;
-  
+
   &:hover {
     background: rgba(var(--bg-blue), 0.5);
-    
   }
 }
-  
-  .btn-light{
-    color: rgb(var(--bg-blue)) !important;
-    background: #fff;
 
-    &:hover{
-      background: rgba(var(--bg-blue), 0.2);
+.btn-light {
+  color: rgb(var(--bg-blue)) !important;
+  background: #fff;
 
-    }
+  &:hover {
+    background: rgba(var(--bg-blue), 0.2);
   }
+}
+
+.add-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(var(--bg-blue), 0.2);
+  }
+}
+
+img {
+  width: 70%;
+  height: 70%;
+}
