@@ -53,7 +53,13 @@ export class ColumnTitleComponent implements OnInit {
       !event.target.classList.contains('edit-container')
     ) {
       this.isEditingTitle = false;
-      /* this.input.nativeElement.value = this.column.title; */
+      this.input.nativeElement.value = this.column.title;
+    }
+  }
+
+  checkKey(columnId: string, event: any){
+    if(event.keyCode === 13){
+      this.saveTitle(columnId);
     }
   }
 

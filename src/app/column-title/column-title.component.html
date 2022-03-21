@@ -5,6 +5,7 @@
     [(ngModel)]="title"
     class="edit-title-input"
     [disabled]="!isEditingTitle && !dragService.isDragging"
+    (keyup)="checkKey(column.id, $event)"
     #input
   />
   <div
