@@ -3,8 +3,8 @@
     type="text"
     value="{{ column.title }}"
     [(ngModel)]="title"
-    id="edit-title-input"
-    [disabled]="!isEditingTitle"
+    class="edit-title-input"
+    [disabled]="!isEditingTitle && !dragService.isDragging"
     #input
   />
   <div

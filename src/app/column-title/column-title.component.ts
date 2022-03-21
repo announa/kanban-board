@@ -42,7 +42,6 @@ export class ColumnTitleComponent implements OnInit {
   edit(event: any) {
     event.stopPropagation();
     this.isEditingTitle = true;
-    console.log(this.input.nativeElement);
     setTimeout(() => {
       this.input.nativeElement.focus();
     }, 50);
@@ -50,7 +49,7 @@ export class ColumnTitleComponent implements OnInit {
 
   resetEditTitle(event: any) {
     if (
-      event.target.id != 'edit-title-input' &&
+      !event.target.classList.contains('edit-title-input') &&
       !event.target.classList.contains('edit-container')
     ) {
       this.isEditingTitle = false;

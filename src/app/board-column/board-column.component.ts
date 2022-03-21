@@ -1,4 +1,13 @@
-import { Component, OnInit, HostListener, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  Input,
+  ViewChild,
+  ElementRef,
+  ViewChildren,
+} from '@angular/core';
+import { ColumnTitleComponent } from '../column-title/column-title.component';
 import { AddTicketService } from '../services/add-ticket.service';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -11,6 +20,7 @@ import { FirestoreService } from '../services/firestore.service';
 export class BoardColumnComponent implements OnInit {
   dragOver = false;
   @Input('column') column: any;
+  @ViewChildren(ColumnTitleComponent) titles!: ColumnTitleComponent;
 
   constructor(
     public fireService: FirestoreService,
@@ -20,8 +30,8 @@ export class BoardColumnComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  highlightColumn(status: boolean){
-    if(this.column.id != this.dragService.dragData.col1.id){
+  highlightColumn(status: boolean) {
+    if (this.column.id != this.dragService.dragData.col1.id) {
       this.dragOver = status;
     }
   }

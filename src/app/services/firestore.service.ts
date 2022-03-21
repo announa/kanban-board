@@ -58,8 +58,10 @@ export class FirestoreService {
         map((columns: any) => {
           return columns.map((column: any) => {
             const data = column.payload.doc.data();
+            console.log(data)
             const id = column.payload.doc.id;
             const tickets = this.getTickets(id);
+            console.log(this.getTickets(id))
             return { id, ...data, tickets };
           });
         })
@@ -68,7 +70,6 @@ export class FirestoreService {
       this.colOrder = [];
       columns.forEach((col: any) => {
         this.colOrder.push(Number(col.order))
-        console.log(this.colOrder)
       });
     });
   }

@@ -3,10 +3,13 @@
     class="column"
     [class.highlighted]="dragOver"
     draggable="true"
-    (dragstart)="dragService.dragElem($event, column)"
+    (dragstart)="dragService.dragElem($event, column); dragService.toggleInputs(true)"
+    (dragend)="dragService.toggleInputs(false)"
+    (dragover)="dragService.allowDrop($event); highlightColumn(true)" (dragleave)="highlightColumn(false)"
+    (drop)="dragService.dropElement(column); dragOver = false;"
     >
   <app-column-title [column]="column"> </app-column-title>
-    <div class="column-tickets" (drop)="dragService.dropElement(column); dragOver = false;" (dragover)="dragService.allowDrop($event); highlightColumn(true)" (dragleave)="highlightColumn(false)">
+    <div class="column-tickets">
       <app-ticket [column]="column" *ngIf="column.tickets"></app-ticket>
     </div>
     <div class="add-icon-container" (click)="addticket.addTicket(column.id)">
