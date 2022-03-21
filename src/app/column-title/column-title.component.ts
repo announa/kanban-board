@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -26,7 +27,10 @@ export class ColumnTitleComponent implements OnInit {
     this.resetEditTitle(event);
   }
 
-  constructor(public fireService: FirestoreService) {
+  constructor(
+    public fireService: FirestoreService,
+    public dragService: DragNdropService
+  ) {
     /*     this.newTitles = this.titles; */
   }
 

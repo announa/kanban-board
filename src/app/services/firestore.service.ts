@@ -179,4 +179,14 @@ export class FirestoreService {
       .set({ ...ticket });
     this.columns.doc(col1.id).collection('tickets').doc(ticket.id).delete();
   }
+
+  moveColumn(col1: any, col2: any) {
+    let order_col2_new = col1.order < col2.order ? Number(col2.order) - 1 : Number(col2.order) + 1;
+    this.columns
+      .doc(col1.id)
+      .update({ order: col2.order});
+    this.columns
+      .doc(col2.id)
+      .update({ order: order_col2_new});
+  }
 }

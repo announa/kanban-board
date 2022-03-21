@@ -7,7 +7,7 @@
     >
       <!--   <app-board-column (addingTicket)="addingTicket($event)"></app-board-column> -->
       <app-board-column
-        *ngFor="let column of fireService.columns_data | async; let i = index" [column]="column"
+        *ngFor="let column of fireService.columns_data | async; let i = index" [column]="column"    
       ></app-board-column>
       <div class="add-icon" (click)="fireService.addColumn()">
         <img src="assets/img/add.svg" alt="add a new column" />

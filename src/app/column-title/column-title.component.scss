@@ -3,10 +3,11 @@
   justify-content: space-between;
   align-items: center;
   width: 250px;
+  cursor: pointer;
 }
 
 input {
- text-align: center;
+  text-align: center;
   width: 220px;
   font-size: 1em;
   font-weight: 400;
@@ -16,6 +17,7 @@ input {
   background-color: transparent;
   border: none;
   text-overflow: ellipsis;
+  cursor: pointer;
 
   &:focus {
     outline: none;

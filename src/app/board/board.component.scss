@@ -1,6 +1,7 @@
 .board{
  height: 100vh;
 padding: 80px 50px 50px;
+overflow-y: hidden;
 }
 
 .board-columns{
@@ -11,6 +12,7 @@ height: calc(100vh - 210px);
 }
 
 .column-container{
+ padding-right: 20px;
  display: flex;
 }
 
