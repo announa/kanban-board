@@ -16,8 +16,8 @@ export class FirestoreService {
   columns_data!: any;
   count!: number;
   sortCol = {
-    ref: 'id',
-    dir: 'desc',
+    ref: 'order',
+    dir: 'asc',
   };
   sort = {
     ref: 'id',
@@ -26,6 +26,7 @@ export class FirestoreService {
   currentTickets!: any;
   addTicketColumn!: string;
   columnTitles!: any;
+  colOrder!: number[];
 
   constructor(private firestore: AngularFirestore) {}
 
@@ -38,6 +39,7 @@ export class FirestoreService {
         this.currentBoard = board;
         this.loadColumns();
         this.getColumnTitles();
+        
       });
   }
 
@@ -62,6 +64,13 @@ export class FirestoreService {
           });
         })
       );
+    this.columns_data.subscribe((columns: any) => {
+      this.colOrder = [];
+      columns.forEach((col: any) => {
+        this.colOrder.push(Number(col.order))
+        console.log(this.colOrder)
+      });
+    });
   }
 
   getTickets(columnId: string) {
@@ -83,7 +92,7 @@ export class FirestoreService {
       : ref.orderBy(this.sort.ref, 'asc');
   }
   columnFilter(ref: any) {
-    return this.sort.dir == 'desc'
+    return this.sortCol.dir == 'desc'
       ? ref.orderBy(this.sortCol.ref, 'desc')
       : ref.orderBy(this.sortCol.ref, 'asc');
   }
@@ -102,7 +111,8 @@ export class FirestoreService {
   }
 
   addColumn() {
-    let column = new Column();
+    let order_max = Math.max(...this.colOrder)
+    let column = new Column(order_max);
     this.firestore
       .collection('boards')
       .doc(this.currentBoardRef)
@@ -132,19 +142,20 @@ export class FirestoreService {
       .doc(this.currentBoardRef)
       .collection('columns', this.columnFilter.bind(this))
       .valueChanges()
-      .subscribe(columns => {
-        this.columnTitles = columns.map(c => {
+      .subscribe((columns) => {
+        this.columnTitles = columns.map((c) => {
           return c['title'];
         });
       });
   }
-  saveColumnTitle(columnId: string, newTitle: string){
-    console.log('saving new title')
+  saveColumnTitle(columnId: string, newTitle: string) {
+    console.log('saving new title');
     this.firestore
-    .collection('boards')
-    .doc(this.currentBoardRef)
-    .collection('columns')
-    .doc(columnId).update({title: newTitle})
+      .collection('boards')
+      .doc(this.currentBoardRef)
+      .collection('columns')
+      .doc(columnId)
+      .update({ title: newTitle });
   }
 
   /*   getId() {
@@ -160,8 +171,12 @@ export class FirestoreService {
     return Math.max(this.currentTickets.map((t: Ticket) => {return t.id}));
   } */
 
-  moveTicket(ticket: any, col1: any, col2: any){
-    this.columns.doc(col2.id).collection('tickets').doc(ticket.id).set({...ticket})
-    this.columns.doc(col1.id).collection('tickets').doc(ticket.id).delete()
+  moveTicket(ticket: any, col1: any, col2: any) {
+    this.columns
+      .doc(col2.id)
+      .collection('tickets')
+      .doc(ticket.id)
+      .set({ ...ticket });
+    this.columns.doc(col1.id).collection('tickets').doc(ticket.id).delete();
   }
 }
