@@ -45,13 +45,11 @@ export class ColumnTitleComponent implements OnInit {
   }
 
   resetEditTitle(event: any) {
-    console.log('reset');
     if (
       event.target.id != 'edit-title-input' &&
       !event.target.classList.contains('edit-container')
     ) {
       this.isEditingTitle = false;
-      console.log('reset if');
       /* this.input.nativeElement.value = this.column.title; */
     }
   }

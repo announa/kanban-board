@@ -20,9 +20,9 @@ export class BoardColumnComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  highlightColumn(){
-    if(this.column.id != this.dragService.dragData.col1){
-      this.dragOver = true;
+  highlightColumn(status: boolean){
+    if(this.column.id != this.dragService.dragData.col1.id){
+      this.dragOver = status;
     }
   }
 }
