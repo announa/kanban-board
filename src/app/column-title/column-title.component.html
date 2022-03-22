@@ -19,8 +19,11 @@
         </div>
         <span class="edit-menu-text menu">Edit title</span>
       </div>
-      <div class="edit-menu-item menu">
-        <div class="menu-icon-container menu" (click)="fireService.deleteColumn(column.id)">
+      <div
+        class="edit-menu-item menu"
+        (click)="fireService.deleteColumn(column.id)"
+      >
+        <div class="menu-icon-container menu">
           <img
             src="assets/img/delete_blue.svg"
             alt="delete column"

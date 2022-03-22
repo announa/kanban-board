@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Board } from '../models/Board.class';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -6,13 +7,19 @@ import { FirestoreService } from '../services/firestore.service';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss']
+  styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
-
-  constructor(public fireService: FirestoreService,  public dragService: DragNdropService) {
-   }
+  constructor(
+    public fireService: FirestoreService,
+    public dragService: DragNdropService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      const id = params['id'];
+      this.fireService.loadCurrentBoard(id)
+    });
   }
 }
