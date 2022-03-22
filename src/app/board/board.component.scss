@@ -1,6 +1,8 @@
 .board{
  height: 100vh;
-padding: 80px 50px 50px;
+ background-image: var(--bg-img);
+ background-size: cover;
+
 overflow-y: hidden;
 }
 
@@ -17,10 +19,10 @@ height: calc(100vh - 210px);
 }
 
 .add-icon{
- background-color: rgba(var(--bg-blue), .2);
+ background-color: rgba(var(--theme-color), .2);
  
  &:hover{
-  background-color: rgba(var(--bg-blue), .3);
+  background-color: rgba(var(--theme-color), .3);
  }
 
  img{

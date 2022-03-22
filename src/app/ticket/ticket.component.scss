@@ -5,7 +5,7 @@
   align-items: flex-start;
   width: 250px;
   background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 1px 1px 3px rgba(var(--bg-blue), 0.1);
+  box-shadow: 1px 1px 3px rgba(var(--theme-color), 0.1);
   padding: 5px;
   border-radius: 2px;
   cursor: pointer;
@@ -18,7 +18,7 @@
   
   &:hover{
    background-color: rgba(255, 255, 255, 0.5);
-   box-shadow: 2px 2px 8px rgba(var(--bg-blue), 0.1);
+   box-shadow: 2px 2px 8px rgba(var(--theme-color), 0.1);
   }
  }
  

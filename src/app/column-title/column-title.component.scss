@@ -11,7 +11,7 @@ input {
   width: 220px;
   font-size: 1em;
   font-weight: 400;
-  color: rgb(var(--bg-blue));
+  color: rgb(var(--letter-color));
   margin-top: 1em;
   margin-bottom: 0.8em;
   background-color: transparent;
@@ -24,25 +24,31 @@ input {
   }
 }
 
-.edit-container {
+.menu-container{
+  background-color: #ffffff;
+  border-radius: 50%;
+  position: relative;
+}
+
+.more-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #ffffff;
   cursor: pointer;
 
   &:hover{
-   box-shadow: 2px 2px 4px rgba(var(--bg-blue), 0.2);
+   box-shadow: 2px 2px 4px rgba(var(--theme-color), 0.2);
+   background-color: rgba(var(--theme-color), 0.1);
   }
 
   &:hover img{
    filter: brightness(70%);
   }
 
-  img {
+  > img {
     width: 60%;
     height: 60%;
   }

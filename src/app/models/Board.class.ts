@@ -9,6 +9,6 @@ export class Board {
  constructor(title: string, categories: string[]){
   this.title = title;
   this.categories = categories;
-  this.id = (Math.random() * 1000000).toString();
+  this.id = Date.now().toString();
  }
 }

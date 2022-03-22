@@ -7,7 +7,7 @@ export class Column {
   id: string;
 
   constructor(order: number) {
-    this.id = new Date().getTime().toString();
+    this.id = Date.now().toString();
     this.order = (order + 1).toString();
   }
 }

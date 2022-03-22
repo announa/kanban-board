@@ -10,13 +10,13 @@
   height: calc(100vh - 210px);
   width: 280px;
   margin-right: 20px;
-  background-color: rgba(var(--bg-blue), 0.2);
+  background-color: rgba(var(--theme-color), 0.2);
   border-radius: 2px;
   position: relative;
 }
 
 .highlighted{
-  background-color: rgba(var(--bg-blue), 0.1);
+  background-color: rgba(var(--theme-color), 0.1);
 }
 
 .column-tickets {

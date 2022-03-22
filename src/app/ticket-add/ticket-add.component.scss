@@ -7,7 +7,7 @@
   width: 100vw;
   height: 100vh;
   padding: 50px 0;
-  background-color: rgba(var(--bg-blue), 0.2);
+  background-color: rgba(var(--theme-color), 0.2);
   overflow-y: auto;
  }
  
@@ -78,7 +78,7 @@ form {
 
 .moving-bar{
   height: 100%;
-  background: radial-gradient(circle at 50% 50%, rgba(var(--bg-blue), 0.5) 20%, transparent 80%);
+  background: radial-gradient(circle at 50% 50%, rgba(var(--letter-color), 0.5) 20%, transparent 80%);
   animation: loading-anim 1s linear infinite;
 }
 

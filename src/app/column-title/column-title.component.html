@@ -4,28 +4,41 @@
     value="{{ column.title }}"
     [(ngModel)]="title"
     class="edit-title-input"
-    [disabled]="!isEditingTitle && !dragService.isDragging"
+    [readonly]="!isEditingTitle && !dragService.isDragging"
     (keyup)="checkKey(column.id, $event)"
     #input
   />
-  <div
-    class="edit-container edit-title"
-    *ngIf="!isEditingTitle"
-    (click)="edit($event)"
-  >
-    <img class="edit-title" src="assets/img/edit.svg" alt="edit title" />
+  <div class="menu-container" *ngIf="!isEditingTitle">
+    <div class="more-container" (click)="openMenu($event)">
+      <img class="column-menu" src="assets/img/more.svg" alt="column menu" />
+    </div>
+    <div class="edit-menu menu" *ngIf="menuIsOpen">
+      <div class="edit-menu-item menu" (click)="edit($event)">
+        <div class="menu-icon-container menu">
+          <img src="assets/img/edit.svg" alt="edit title" class="menu" />
+        </div>
+        <span class="edit-menu-text menu">Edit title</span>
+      </div>
+      <div class="edit-menu-item menu">
+        <div class="menu-icon-container menu">
+          <img
+            src="assets/img/delete_blue.svg"
+            alt="delete column"
+            class="menu"
+          />
+        </div>
+        <span class="edit-menu-text menu">Delete column</span>
+      </div>
+    </div>
   </div>
-
-  <div
-    class="edit-container edit-title"
-    *ngIf="isEditingTitle"
-    (click)="saveTitle(column.id)"
-  >
-    <img
-      class="edit-title"
-      src="assets/img/done.svg"
-      alt="save new title"
-      id="save-title"
-    />
+  <div class="menu-container" *ngIf="isEditingTitle">
+    <div class="more-container" (click)="saveTitle(column.id)">
+      <img
+        class=""
+        src="assets/img/done.svg"
+        alt="save new title"
+        id="save-title"
+      />
+    </div>
   </div>
 </div>

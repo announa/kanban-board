@@ -14,6 +14,8 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreDocument, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { ColumnTitleComponent } from './column-title/column-title.component';
+import { BoardsOverviewComponent } from './boards-overview/boards-overview.component';
+import { BoardsPreviewComponent } from './boards-preview/boards-preview.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { ColumnTitleComponent } from './column-title/column-title.component';
     TicketComponent,
     TicketAddComponent,
     ColumnTitleComponent,
+    BoardsOverviewComponent,
+    BoardsPreviewComponent,
   ],
   imports: [
     BrowserModule,

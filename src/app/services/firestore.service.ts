@@ -31,8 +31,9 @@ export class FirestoreService {
   constructor(private firestore: AngularFirestore) {}
 
   loadBoards() {
-    this.boards = this.firestore.collection('boards');
-    this.boards
+    this.firestore.collection('boards').valueChanges().subscribe(boards => this.boards = boards);
+
+    this.firestore.collection('boards')
       .doc(this.currentBoardRef)
       .valueChanges()
       .subscribe((board: any) => {
@@ -41,6 +42,10 @@ export class FirestoreService {
         this.getColumnTitles();
         
       });
+  }
+
+  getBoards(){
+    return this.firestore.collection('boards').valueChanges();
   }
 
   loadColumns() {

@@ -15,6 +15,7 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./column-title.component.scss'],
 })
 export class ColumnTitleComponent implements OnInit {
+  menuIsOpen = false;
   isEditingTitle = false;
   title!: string;
   titles!: string[];
@@ -24,7 +25,7 @@ export class ColumnTitleComponent implements OnInit {
   @ViewChild('input') input!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
-    this.resetEditTitle(event);
+    this.resetVariables(event);
   }
 
   constructor(
@@ -39,26 +40,47 @@ export class ColumnTitleComponent implements OnInit {
     this.titles = this.fireService.columnTitles;
   }
 
+  openMenu(event: any) {
+    if (!this.menuIsOpen) {
+      event.stopPropagation();
+      this.menuIsOpen = true;
+    }
+  }
+
   edit(event: any) {
     event.stopPropagation();
     this.isEditingTitle = true;
+    this.menuIsOpen = false;
     setTimeout(() => {
       this.input.nativeElement.focus();
     }, 50);
   }
 
+  resetVariables(event: any) {
+    console.log('click')
+    this.resetEditTitle(event);
+    this.resetOpenMenu(event);
+  }
+
   resetEditTitle(event: any) {
     if (
       !event.target.classList.contains('edit-title-input') &&
-      !event.target.classList.contains('edit-container')
+      !event.target.classList.contains('menu-container')
     ) {
       this.isEditingTitle = false;
       this.input.nativeElement.value = this.column.title;
     }
   }
 
-  checkKey(columnId: string, event: any){
-    if(event.keyCode === 13){
+  resetOpenMenu(event: any) {
+    if (this.menuIsOpen && !event.target.classList.contains('menu')) {
+      console.log('xxxxxxxxxxxxxx');
+      this.menuIsOpen = false;
+    }
+  }
+
+  checkKey(columnId: string, event: any) {
+    if (event.keyCode === 13) {
       this.saveTitle(columnId);
     }
   }

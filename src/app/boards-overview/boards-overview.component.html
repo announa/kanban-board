@@ -1,0 +1,9 @@
+<div class="overview component-container">
+ <h2>Your Boards</h2>
+  <div class="preview-container" *ngIf="this.fireService.boards">
+    <app-boards-preview
+      *ngFor="let board of this.fireService.boards"
+      [board]="board"
+    ></app-boards-preview>
+  </div>
+</div>
