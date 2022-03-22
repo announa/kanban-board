@@ -10,8 +10,9 @@ input {
   text-align: center;
   width: 220px;
   font-size: 1em;
-  font-weight: 400;
+  font-weight: 500;
   color: rgb(var(--letter-color));
+  text-shadow: 0 0 8px rgba(var(--letter-shadow), 1);
   margin-top: 1em;
   margin-bottom: 0.8em;
   background-color: transparent;

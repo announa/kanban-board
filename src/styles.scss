@@ -9,8 +9,9 @@ body {
   min-height: 100vh;
   min-width: 100%;
   color: rgb(var(--letter-color));
-  --theme-color: 50, 50, 50;
-  --letter-color: 70,70,70;
+  --theme-color: 50, 40, 30;
+  --letter-color: 70, 70, 70;
+  --letter-shadow: 200, 200, 200;
   --bg-white: 255, 255, 255;
   --bg-img: url("assets/bg-img/bg-6.jpg");
 }

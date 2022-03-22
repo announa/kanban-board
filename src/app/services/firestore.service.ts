@@ -128,8 +128,6 @@ export class FirestoreService {
   }
 
   deleteTicket(columnId: string, ticketId: string) {
-    console.log(columnId);
-    console.log(ticketId);
     this.firestore
       .collection('boards')
       .doc(this.currentBoardRef)
@@ -140,6 +138,17 @@ export class FirestoreService {
       .delete()
       .then(() => console.log('ticket deleted'))
       .catch((err) => console.log(err));
+  }
+
+  deleteColumn(columnId: string){
+    this.firestore
+    .collection('boards')
+    .doc(this.currentBoardRef)
+    .collection('columns')
+    .doc(columnId)
+    .delete()
+    .then(() => console.log('column deleted'))
+    .catch((err) => console.log(err));
   }
 
   getColumnTitles() {

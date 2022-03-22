@@ -1,5 +1,10 @@
 <div class="overview component-container">
- <h2>Your Boards</h2>
+  <h2>
+    Your Boards
+    <div class="add-icon" (click)="fireService.addColumn()">
+      <img src="assets/img/add.svg" alt="add a new column" />
+    </div>
+  </h2>
   <div class="preview-container" *ngIf="this.fireService.boards">
     <app-boards-preview
       *ngFor="let board of this.fireService.boards"
