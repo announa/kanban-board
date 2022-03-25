@@ -1,6 +1,6 @@
 import { ElementRef, Injectable, QueryList } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { map, Observable, pipe } from 'rxjs';
+import { firstValueFrom, map, Observable, pipe } from 'rxjs';
 import { Board } from '../models/Board.class';
 import { Column } from '../models/Column.class';
 import { Ticket } from '../models/Ticket.class';
@@ -11,7 +11,6 @@ import { Ticket } from '../models/Ticket.class';
 export class FirestoreService {
   tickets!: Observable<any>;
   boards!: any;
-  /*   currentBoardId: string = 'board1'; */
   currentBoard!: any;
   currentBoardId!: string;
   columnsRef!: any;
@@ -34,18 +33,10 @@ export class FirestoreService {
   constructor(private firestore: AngularFirestore) {}
 
   loadBoards() {
-    this.firestore
+    this.boards = this.firestore
       .collection('boards')
       .valueChanges()
       .subscribe((boards) => (this.boards = boards));
-    /* 
-    this.firestore
-      .collection('boards')
-      .doc(this.currentBoardId)
-      .valueChanges()
-      .subscribe((board: any) => {
-        this.currentBoard = board;
-      }); */
   }
 
   loadCurrentBoard(id: string) {
@@ -60,16 +51,7 @@ export class FirestoreService {
       });
   }
 
-  /*   getBoards() {
-    return this.firestore.collection('boards').valueChanges();
-  } */
-
   loadColumns() {
-    /*     this.columns = this.firestore
-      .collection('boards')
-      .doc(this.currentBoardId)
-      .collection('columns'); */
-
     this.columnsRef = 'boards/' + this.currentBoardId + '/columns';
 
     this.columns = this.firestore.collection(
@@ -77,6 +59,7 @@ export class FirestoreService {
       this.columnFilter.bind(this)
     );
 
+    /*    this.firestore.collection('columns', ref => ref.where('boardId', '==', this.currentBoardId)) */
     this.columns_data = this.columns.snapshotChanges().pipe(
       map((columns: any) => {
         return columns.map((column: any) => {
@@ -125,6 +108,9 @@ export class FirestoreService {
   }
 
   addTicket(ticket: Ticket) {
+    /*     return this.firestore.doc('tickets/' + ticket.id)
+      .set({ ...ticket }); */
+
     return this.columns
       .doc(this.addTicketColumn)
       .collection('tickets')
@@ -133,11 +119,13 @@ export class FirestoreService {
   }
 
   addColumn() {
-    let order_max = Math.max(...this.colOrder);
+    let order_max = this.colOrder.length > 0 ? Math.max(...this.colOrder) : 0;
     let column = new Column(order_max);
-    this.firestore
-      .doc(this.columnsRef + '/' + column.id)
-      .set({ ...column });
+    /*   this.firestore
+      .doc('columns/' + column.id)
+      .set({ ...column });*/
+
+    this.firestore.doc(this.columnsRef + '/' + column.id).set({ ...column });
   }
 
   addBoard() {
@@ -156,22 +144,44 @@ export class FirestoreService {
       .catch((err) => console.log(err));
   }
 
-  deleteColumn(columnId: string) {
-    this.firestore
+  async deleteColumn(columnId: string) {
+    this.deleteAllColTickets(columnId);
+    /*  await firstValueFrom(this.deleteAllColTickets(columnId)); */
+    /*     this.firestore
       .doc(this.columnsRef + '/' + columnId)
       .delete()
       .then(() => console.log('column deleted'))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); */
+  }
+
+  deleteAllColTickets(columnId: string) {
+    this.firestore
+      .collection(this.columnsRef + '/' + columnId + '/tickets')
+      .valueChanges()
+      .subscribe((tickets) => {
+        console.log(tickets);
+        tickets.map(async (t: any) => {
+          /*           debugger; */
+          let result = await this.firestore
+            .doc('boards/board1/columns/' + columnId + '/tickets/' + t.id)
+            .delete()
+            .catch((error) => {
+              console.log(error);
+            })
+            .then(() => {
+              console.log(`Ticket ${t.id} deleted`);
+            });
+          console.log(result);
+        });
+      });
   }
 
   getColumnTitles() {
-    this.columns
-      .valueChanges()
-      .subscribe((columns: any) => {
-        this.columnTitles = columns.map((c: any) => {
-          return c['title'];
-        });
+    this.columns.valueChanges().subscribe((columns: any) => {
+      this.columnTitles = columns.map((c: any) => {
+        return c['title'];
       });
+    });
   }
   saveColumnTitle(columnId: string, newTitle: string) {
     console.log('saving new title');

@@ -4,8 +4,7 @@ import { BoardComponent } from './board/board.component';
 import { BoardsOverviewComponent } from './boards-overview/boards-overview.component';
 
 const routes: Routes = [
-  {path: '', component: BoardComponent},
-  {path: 'overview', component: BoardsOverviewComponent},
+  {path: '', component: BoardsOverviewComponent},
   {path: 'board/:id', component: BoardComponent}
 ];
 

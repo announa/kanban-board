@@ -7,6 +7,7 @@ export class Ticket{
  category?: string;
  priority?: string;
  id!: string;
+ columnId!: string;
  progress = ''
  /* creator = ''; */
  /* users = []; */

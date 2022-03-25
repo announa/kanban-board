@@ -15,13 +15,11 @@ export class AddTicketService {
   addTicket(id: string){
     this.ticket = new Ticket();
     this.isAddingTicket = true;
-    console.log(typeof id)
     this.fireService.addTicketColumn = id;
   }
 
   saveTicket() {
     this.isSavingTicket = true;
-    console.log(this.isSavingTicket)
     this.ticket.date = new Date()
     this.ticket.id = this.ticket.date.getTime().toString();
     this.ticket.title_transf = this.ticket.title.toLowerCase()
@@ -30,7 +28,6 @@ export class AddTicketService {
     .then(() => {
       this.closeModal();
       this.isSavingTicket = false;
-      console.log(this.isSavingTicket)
       });
   }
 

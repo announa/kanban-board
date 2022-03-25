@@ -4,13 +4,13 @@
  display: inline-block;
  width: 250px;
  height: 200px;
- border-radius: 5px;
+ border-radius: 2px;
  box-shadow: 3px 3px 10px rgba(var(--letter-color), .5);
  overflow: hidden;
  
  &:hover{
   filter: brightness(105%);
-  box-shadow: 5px 5px 14px rgba(var(--letter-color), .5);
+  box-shadow: 5px 5px 12px rgba(var(--letter-color), .5);
  }
 }
 
@@ -24,6 +24,7 @@
  width: 100%;
  height: 100%;
  object-fit: cover;
+ filter: opacity(.7);
 }
 
 .preview-title{
@@ -33,4 +34,5 @@
  width: 100%;
  height: 50px;
  color: rgb(var(--letter-color));
+ background: linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,.3));
 }

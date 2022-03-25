@@ -57,7 +57,6 @@ export class ColumnTitleComponent implements OnInit {
   }
 
   resetVariables(event: any) {
-    console.log('click')
     this.resetEditTitle(event);
     this.resetOpenMenu(event);
   }
@@ -74,7 +73,6 @@ export class ColumnTitleComponent implements OnInit {
 
   resetOpenMenu(event: any) {
     if (this.menuIsOpen && !event.target.classList.contains('menu')) {
-      console.log('xxxxxxxxxxxxxx');
       this.menuIsOpen = false;
     }
   }
@@ -90,5 +88,10 @@ export class ColumnTitleComponent implements OnInit {
       this.fireService.saveColumnTitle(columnId, this.title);
     }
     this.isEditingTitle = false;
+  }
+
+  deleteColumn(columnId: string){
+    this.menuIsOpen = false;
+    this.fireService.deleteColumn(columnId)
   }
 }
