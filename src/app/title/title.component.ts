@@ -10,18 +10,17 @@ import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
-  selector: 'app-column-title',
-  templateUrl: './column-title.component.html',
-  styleUrls: ['./column-title.component.scss'],
+  selector: 'app-title',
+  templateUrl: './title.component.html',
+  styleUrls: ['./title.component.scss'],
 })
-export class ColumnTitleComponent implements OnInit {
+export class TitleComponent implements OnInit {
   menuIsOpen = false;
   isEditingTitle = false;
   title!: string;
-  titles!: string[];
-  /*   newTitles!: string[]; */
 
-  @Input('column') column: any;
+  @Input('data') data: any;
+  @Input('collection') collection!: string;
   @ViewChild('input') input!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
@@ -31,20 +30,15 @@ export class ColumnTitleComponent implements OnInit {
   constructor(
     public fireService: FirestoreService,
     public dragService: DragNdropService
-  ) {
-    /*     this.newTitles = this.titles; */
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.title = this.column.title;
-    this.titles = this.fireService.columnTitles;
+    this.title = this.data.title;
   }
 
-  openMenu(event: any) {
-    if (!this.menuIsOpen) {
-      event.stopPropagation();
-      this.menuIsOpen = true;
-    }
+  toggleMenu(event: any) {
+    event.stopPropagation();
+      this.menuIsOpen = !this.menuIsOpen;
   }
 
   edit(event: any) {
@@ -67,7 +61,7 @@ export class ColumnTitleComponent implements OnInit {
       !event.target.classList.contains('menu-container')
     ) {
       this.isEditingTitle = false;
-      this.input.nativeElement.value = this.column.title;
+      this.input.nativeElement.value = this.data.title;
     }
   }
 
@@ -79,19 +73,20 @@ export class ColumnTitleComponent implements OnInit {
 
   checkKey(columnId: string, event: any) {
     if (event.keyCode === 13) {
-      this.saveTitle(columnId);
+      this.saveTitle(event, columnId);
     }
   }
 
-  saveTitle(columnId: string) {
-    if (this.title != this.column.title) {
+  saveTitle(event: any, columnId: string) {
+    event.stopPropagation();
+    if (this.title != this.data.title) {
       this.fireService.saveColumnTitle(columnId, this.title);
     }
     this.isEditingTitle = false;
   }
 
-  deleteColumn(columnId: string){
+  delete(id: string) {
     this.menuIsOpen = false;
-    this.fireService.deleteColumn(columnId)
+    this.fireService.deleteColumn(id);
   }
 }

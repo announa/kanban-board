@@ -1,6 +1,6 @@
-<a [routerLink]="['/board', board.id]" class="preview">
+<div class="preview" (click)="navigate(board.id)" >
   <div class="img-container">
     <img class="preview-img" src="assets/bg-img/bg-6.jpg" alt="preview image" />
   </div>
-  <p class="preview-title">{{ board.title }}</p>
-</a>
+  <app-title [data]="board" [collection]="'boards'"> </app-title>
+</div>

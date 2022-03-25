@@ -8,7 +8,7 @@
     (dragover)="dragService.allowDrop($event); highlightColumn(true)" (dragleave)="highlightColumn(false)"
     (drop)="dragService.dropElement(column); dragOver = false;"
     >
-  <app-column-title [column]="column"> </app-column-title>
+  <app-title [data]="column" [collection]="'columns'"> </app-title>
     <div class="column-tickets">
       <app-ticket [column]="column" *ngIf="column.tickets"></app-ticket>
     </div>

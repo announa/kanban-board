@@ -1,16 +1,16 @@
 <div class="column-title">
   <input
     type="text"
-    value="{{ column.title }}"
+    value="{{ data.title }}"
     [(ngModel)]="title"
     class="edit-title-input"
     [readonly]="!isEditingTitle && !dragService.isDragging"
-    (keyup)="checkKey(column.id, $event)"
+    (keyup)="checkKey(data.id, $event)"
     #input
   />
   <div class="menu-container" *ngIf="!isEditingTitle">
-    <div class="more-container" (click)="openMenu($event)">
-      <img class="column-menu" src="assets/img/more.svg" alt="column menu" />
+    <div class="more-container" (click)="toggleMenu($event)">
+      <img class="menu-img" src="assets/img/more.svg" alt="menu" />
     </div>
     <div class="edit-menu menu" *ngIf="menuIsOpen">
       <div class="edit-menu-item menu" (click)="edit($event)">
@@ -21,7 +21,7 @@
       </div>
       <div
         class="edit-menu-item menu"
-        (click)="deleteColumn(column.id)"
+        (click)="delete(data.id)"
       >
         <div class="menu-icon-container menu">
           <img
@@ -35,7 +35,7 @@
     </div>
   </div>
   <div class="menu-container" *ngIf="isEditingTitle">
-    <div class="more-container" (click)="saveTitle(column.id)">
+    <div class="more-container" (click)="saveTitle($event, data.id)">
       <img
         class=""
         src="assets/img/done.svg"

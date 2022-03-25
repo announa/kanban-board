@@ -13,9 +13,10 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreDocument, AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { ColumnTitleComponent } from './column-title/column-title.component';
+import { TitleComponent } from './title/title.component';
 import { BoardsOverviewComponent } from './boards-overview/boards-overview.component';
 import { BoardsPreviewComponent } from './boards-preview/boards-preview.component';
+import { EditMenuComponent } from './edit-menu/edit-menu.component';
 
 @NgModule({
   declarations: [
@@ -25,9 +26,10 @@ import { BoardsPreviewComponent } from './boards-preview/boards-preview.componen
     NavigationComponent,
     TicketComponent,
     TicketAddComponent,
-    ColumnTitleComponent,
+    TitleComponent,
     BoardsOverviewComponent,
     BoardsPreviewComponent,
+    EditMenuComponent,
   ],
   imports: [
     BrowserModule,

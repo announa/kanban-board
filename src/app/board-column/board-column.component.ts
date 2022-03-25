@@ -7,7 +7,7 @@ import {
   ElementRef,
   ViewChildren,
 } from '@angular/core';
-import { ColumnTitleComponent } from '../column-title/column-title.component';
+import { TitleComponent } from '../title/title.component';
 import { AddTicketService } from '../services/add-ticket.service';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -20,7 +20,7 @@ import { FirestoreService } from '../services/firestore.service';
 export class BoardColumnComponent implements OnInit {
   dragOver = false;
   @Input('column') column: any;
-  @ViewChildren(ColumnTitleComponent) titles!: ColumnTitleComponent;
+  @ViewChildren(TitleComponent) titles!: TitleComponent;
 
   constructor(
     public fireService: FirestoreService,

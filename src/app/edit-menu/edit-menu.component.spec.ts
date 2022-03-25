@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ColumnTitleComponent } from './column-title.component';
+import { EditMenuComponent } from './edit-menu.component';
 
-describe('ColumnTitleComponent', () => {
-  let component: ColumnTitleComponent;
-  let fixture: ComponentFixture<ColumnTitleComponent>;
+describe('EditMenuComponent', () => {
+  let component: EditMenuComponent;
+  let fixture: ComponentFixture<EditMenuComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ColumnTitleComponent ]
+      declarations: [ EditMenuComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ColumnTitleComponent);
+    fixture = TestBed.createComponent(EditMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

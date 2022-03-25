@@ -144,23 +144,25 @@ export class FirestoreService {
       .catch((err) => console.log(err));
   }
 
-  async deleteColumn(columnId: string) {
-    this.deleteAllColTickets(columnId);
+  deleteBoard(boardId: string){
+    
+  }
+
+  deleteColumn(columnId: string) {
+   this.deleteAllColTickets(columnId);
     /*  await firstValueFrom(this.deleteAllColTickets(columnId)); */
-    /*     this.firestore
+        this.firestore
       .doc(this.columnsRef + '/' + columnId)
       .delete()
       .then(() => console.log('column deleted'))
-      .catch((err) => console.log(err)); */
+      .catch((err) => console.log(err));
   }
 
   deleteAllColTickets(columnId: string) {
     this.firestore
       .collection(this.columnsRef + '/' + columnId + '/tickets')
       .valueChanges()
-      .subscribe((tickets) => {
-        console.log(tickets);
-        tickets.map(async (t: any) => {
+      .pipe(map(async (t: any) => {
           /*           debugger; */
           let result = await this.firestore
             .doc('boards/board1/columns/' + columnId + '/tickets/' + t.id)
@@ -172,9 +174,9 @@ export class FirestoreService {
               console.log(`Ticket ${t.id} deleted`);
             });
           console.log(result);
-        });
-      });
-  }
+        }));
+      }
+  
 
   getColumnTitles() {
     this.columns.valueChanges().subscribe((columns: any) => {
