@@ -6,6 +6,7 @@
   height: 200px;
   border-radius: 2px;
   box-shadow: 3px 3px 10px rgba(var(--letter-color), 0.5);
+  cursor: pointer;
 
   &:hover {
     filter: brightness(105%);
