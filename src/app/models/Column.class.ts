@@ -5,11 +5,12 @@ export class Column {
   tickets?: Ticket[];
   order: string;
   id: string;
-  /* boardId!: string; */
+  boardId: string;
+  
 
-  constructor(order: number) {
+  constructor(order: number, boardId: string) {
     this.id = Date.now().toString();
     this.order = (order + 1).toString();
-/*     this.boardId = boardId; */
+    this.boardId = boardId;
   }
 }

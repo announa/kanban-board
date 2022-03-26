@@ -21,6 +21,7 @@ export class BoardColumnComponent implements OnInit {
   dragOver = false;
   @Input('column') column: any;
   @ViewChildren(TitleComponent) titles!: TitleComponent;
+  tickets: any;
 
   constructor(
     public fireService: FirestoreService,
@@ -28,10 +29,13 @@ export class BoardColumnComponent implements OnInit {
     public dragService: DragNdropService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.tickets = this.fireService.loadTickets(this.column.id)
+    console.log(this.tickets)
+  }
 
   highlightColumn(status: boolean) {
-    if (this.column.id != this.dragService.dragData.col1.id) {
+    if (this.dragService.dragData.col1_id && this.column.id != this.dragService.dragData.col1_id || this.dragService.dragData.col1 && this.column.id != this.dragService.dragData.col1.id) {
       this.dragOver = status;
     }
   }

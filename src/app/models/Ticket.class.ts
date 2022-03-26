@@ -7,7 +7,7 @@ export class Ticket{
  category?: string;
  priority?: string;
  id!: string;
- columnId!: string;
+ columnId: string;
  progress = ''
  /* creator = ''; */
  /* users = []; */
@@ -16,7 +16,8 @@ export class Ticket{
  title_transf = '';
  description_transf = '';
 
- constructor(){
+ constructor(columnId: string){
+  this.columnId = columnId;
  }
 
 }

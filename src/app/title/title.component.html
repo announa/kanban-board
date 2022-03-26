@@ -21,7 +21,7 @@
       </div>
       <div
         class="edit-menu-item menu"
-        (click)="delete(data.id)"
+        (click)="delete($event, data.id)"
       >
         <div class="menu-icon-container menu">
           <img
@@ -30,7 +30,7 @@
             class="menu"
           />
         </div>
-        <span class="edit-menu-text menu">Delete column</span>
+        <span class="edit-menu-text menu">Delete</span>
       </div>
     </div>
   </div>

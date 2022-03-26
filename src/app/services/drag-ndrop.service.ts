@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Column } from '../models/Column.class';
+import { Ticket } from '../models/Ticket.class';
 import { FirestoreService } from './firestore.service';
 
 export class DragData {
-  ticket: any;
-  col1: any;
+  ticket: string | undefined;
+  col1_id!: string | undefined;
+  col1!: Column | undefined;
 }
 @Injectable({
   providedIn: 'root',
@@ -14,32 +17,48 @@ export class DragNdropService {
 
   constructor(private fireService: FirestoreService) {}
 
-  dragElem(event: any, column: any, ticket?: any) {
+  dragTicket(event: any, ticket: Ticket) {
     event.stopPropagation();
     this.isDragging = true;
-    if(event.target.classList.contains('column-title')){
+    this.dragData.col1_id = ticket.columnId;
+    this.dragData.ticket = ticket.id;
+    this.dragData.col1 = undefined;
+  }
+
+  dragColumn(event: any, column: Column) {
+    event.stopPropagation();
+    this.isDragging = true;
+    this.dragData.col1 = column;
+    this.dragData.ticket = undefined;
+    this.dragData.col1_id = undefined;
+  }
+
+  /*   dragElem(event: any, column: any, ticket?: any) {
+    event.stopPropagation();
+    this.isDragging = true;
+    if (event.target.classList.contains('column-title')) {
       this.dragData.col1 = column;
-    } else{
+    } else {
       this.dragData.col1 = column;
       this.dragData.ticket = ticket ? ticket : undefined;
     }
-  }
-    
-  toggleInputs(status: boolean){
-    this.isDragging = status;
-    }
+  } */
 
-  dropElement(col2: any) {
-    if (col2.id != this.dragData.col1.id) {
-      if (this.dragData.ticket) {
+  toggleInputs(status: boolean) {
+    this.isDragging = status;
+  }
+
+  dropElement(col2: Column) {
+    if (this.dragData.ticket) {
+      if (col2.id != this.dragData.col1_id) {
         this.fireService.moveTicket(
           this.dragData.ticket,
           this.dragData.col1,
-          col2
+          col2.id
         );
-      } else {
-        this.fireService.moveColumn(this.dragData.col1, col2);
       }
+    } else {
+      this.fireService.moveColumn(this.dragData.col1, col2);
     }
   }
 

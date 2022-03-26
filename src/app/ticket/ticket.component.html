@@ -6,8 +6,7 @@
 <div
   #ticketElem
   class="ticket"
-  *ngFor="let ticket of column.tickets | async; let i = index"
-  (click)="showTicket(i)" draggable="true" (dragstart)="dragService.dragElem($event, column, ticket)"
+  (click)="showTicket()" draggable="true" (dragstart)="dragService.dragTicket($event, ticket)"
 >
   <div class="ticket-title">
     <p>{{ ticket.title }}</p>
@@ -21,7 +20,7 @@
     <img
       class="delete-icon h-0"
       src="assets/img/delete_blue.svg"
-      alt="delete ticket" #icon (click)="fireService.deleteTicket(column.id, ticket.id.toString())"
+      alt="delete ticket" #icon (click)="fireService.deleteTicket(ticket.columdId, ticket.id.toString())"
     />
   </div>
 </div>

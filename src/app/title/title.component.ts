@@ -36,9 +36,9 @@ export class TitleComponent implements OnInit {
     this.title = this.data.title;
   }
 
-  toggleMenu(event: any) {
-    event.stopPropagation();
-      this.menuIsOpen = !this.menuIsOpen;
+  toggleMenu(event?: any) {
+    if (event) event.stopPropagation();
+    this.menuIsOpen = !this.menuIsOpen;
   }
 
   edit(event: any) {
@@ -77,16 +77,19 @@ export class TitleComponent implements OnInit {
     }
   }
 
-  saveTitle(event: any, columnId: string) {
+  saveTitle(event: any, id: string) {
     event.stopPropagation();
     if (this.title != this.data.title) {
-      this.fireService.saveColumnTitle(columnId, this.title);
+      this.fireService.saveTitle(this.collection, id, this.title);
     }
     this.isEditingTitle = false;
   }
 
-  delete(id: string) {
-    this.menuIsOpen = false;
-    this.fireService.deleteColumn(id);
+  delete(event: any, id: string) {
+    event.stopPropagation();
+    this.fireService.deleteDoc(this.collection, id);
+    setTimeout(() => {
+      this.toggleMenu();
+    }, 10);
   }
 }

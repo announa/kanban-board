@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -9,11 +9,12 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./ticket.component.scss'],
 })
 export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
-  @ViewChildren('descriptionElem') descriptionElem!: QueryList<ElementRef>;
-  @ViewChildren('descriptionTextElem') descriptionTextElem!: QueryList<ElementRef>;
-  @ViewChildren('ticketElem') ticketsElem!: QueryList<ElementRef>;
-  @ViewChildren('footer') footer!: QueryList<ElementRef>;
-  @ViewChildren('icon') icon!: QueryList<ElementRef>;
+  @ViewChild('descriptionElem') descriptionElem!: ElementRef;
+  @ViewChild('descriptionTextElem') descriptionTextElem!: ElementRef;
+  @ViewChild('ticketElem') ticketsElem!: ElementRef;
+  @ViewChild('footer') footer!: ElementRef;
+  @ViewChild('icon') icon!: ElementRef;
+  @Input('ticket') ticket!: any;
   @Input('column') column!: any;
 
   constructor(public fireService: FirestoreService, public dragService: DragNdropService) {}
@@ -31,10 +32,10 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   /* showTicket(i: number) { */
-  showTicket(i: number) {
-    [this.descriptionElem, this.footer, this.icon].forEach(e => e.toArray()[i].nativeElement.classList.toggle('h-0'));
+  showTicket() {
+    [this.descriptionElem, this.footer, this.icon].forEach(e => e.nativeElement.classList.toggle('h-0'));
     setTimeout(() => {
-      this.descriptionTextElem.toArray()[i].nativeElement.classList.toggle('d-none');
+      this.descriptionTextElem.nativeElement.classList.toggle('d-none');
     }, 150);
   }
 

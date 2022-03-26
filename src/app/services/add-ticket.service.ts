@@ -12,10 +12,10 @@ export class AddTicketService {
 
   constructor(private fireService: FirestoreService) { }
 
-  addTicket(id: string){
-    this.ticket = new Ticket();
+  addTicket(columnId: string){
+    this.ticket = new Ticket(columnId);
     this.isAddingTicket = true;
-    this.fireService.addTicketColumn = id;
+/*     this.fireService.addTicketColumn = columnId; */
   }
 
   saveTicket() {
