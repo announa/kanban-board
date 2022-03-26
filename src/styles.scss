@@ -8,11 +8,14 @@ body {
   margin: 0;
   min-height: 100vh;
   min-width: 100%;
-  color: rgb(var(--letter-color));
-  --theme-color: 50, 40, 30;
-  --letter-color: 70, 70, 70;
-  --letter-shadow: 200, 200, 200;
-  --bg-white: 255, 255, 255;
+  color: rgb(var(--letter-color-light));
+  --theme-color-dark: 50, 40, 30;
+  --theme-color-light: 255, 255, 255;
+  --letter-color-light: 255,255,255;
+  --letter-color-dark: 70,70,70;
+  --letter-shadow-light: 200, 200, 200;
+  --letter-shadow-dark: 70, 70, 70;
+  --box-shadow-color: 70,70,70;
   --bg-img: url("assets/bg-img/bg-5.jpg");
 }
 
@@ -23,7 +26,7 @@ body {
 
 h2 {
   font-weight: 500;
-  color: rgb(var(--letter-color));
+  color: rgb(var(--letter-color-light));
   margin-top: 10px;
   margin-bottom: 20px;
 }
@@ -31,11 +34,11 @@ h2 {
 a {
   text-decoration: none;
   text-transform: uppercase;
-  color: rgb(var(--letter-color));
+  color: rgb(var(--letter-color-light));
   font-weight: 500;
 
   &:hover {
-    color: rgba(var(--letter-color), 0.5);
+    color: rgba(var(--letter-color-light), 0.5);
   }
 }
 
@@ -55,37 +58,37 @@ a {
   padding: 15px;
   border: none;
   color: #fff;
-  background: rgba(var(--theme-color), 0.4);
+  background: rgba(var(--theme-color-dark), 0.4);
   border-radius: 40px;
   background-position: 30% 50%;
   cursor: pointer;
 
   &:hover {
-    background: rgba(var(--theme-color), 0.5);
+    background: rgba(var(--theme-color-dark), 0.5);
   }
 
   &:disabled,
   &[disabled] {
-    background: rgba(var(--theme-color), 0.2);
+    background: rgba(var(--theme-color-dark), 0.2);
     cursor: default;
 
     &:hover {
-      background: rgba(var(--theme-color), 0.2);
+      background: rgba(var(--theme-color-dark), 0.2);
     }
   }
 }
 
 .btn-light {
-  color: rgb(var(--theme-color)) !important;
+  color: rgb(var(--theme-color-dark)) !important;
   background: #fff;
 
   &:hover {
-    background: rgba(var(--theme-color), 0.2);
+    background: rgba(var(--theme-color-dark), 0.2);
   }
 
   &:disabled,
   &[disabled] {
-    color: rgba(var(--letter-color), 0.2) !important;
+    color: rgba(var(--letter-color-light), 0.2) !important;
     background: #fff;
     cursor: default;
 
@@ -105,7 +108,7 @@ a {
   cursor: pointer;
 
   &:hover {
-    background-color: rgba(var(--theme-color), 0.2);
+    background-color: rgba(var(--theme-color-dark), 0.2);
   }
 }
 

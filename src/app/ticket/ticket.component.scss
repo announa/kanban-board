@@ -5,26 +5,27 @@
   align-items: flex-start;
   width: 250px;
   background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 1px 1px 3px rgba(var(--letter-color), 0.1);
+  box-shadow: 1px 1px 3px rgba(var(--letter-color-light), 0.1);
   padding: 5px;
   border-radius: 2px;
   cursor: pointer;
   transition: box-shadow 50ms ease-in-out;
   margin-bottom: 10px;
-
+  
   &:last-child{
     margin-bottom: 0;
   }
   
   &:hover{
    background-color: rgba(255, 255, 255, 0.5);
-   box-shadow: 2px 2px 8px rgba(var(--letter-color), 0.1);
+   box-shadow: 2px 2px 8px rgba(var(--letter-color-light), 0.1);
   }
  }
  
 .ticket-title, .ticket-description{
  display: flex;
  align-items: center;
+ color: rgb(var(--letter-color-dark));
  background-color: #ffffff;
  border-radius: 2px;
  min-height: 40px;
@@ -48,9 +49,9 @@ p{
   transition: all 250ms ease-in-out;
 }
 
-.delete-icon{
-  width: 20px;
-  height: auto;
+.icon{
+  width: 15px;
+  height: 15px;
   transition: all 250ms ease-in-out;
 }
 

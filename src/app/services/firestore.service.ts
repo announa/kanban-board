@@ -94,8 +94,8 @@ export class FirestoreService {
     }); */
   }
 
-  getTickets(columnId: string) {
-    return this.columns.doc(columnId).collection('tickets').valueChanges();
+  getTicket(ticketId: string) {
+    console.log(this.firestore.collection('tickets').doc(ticketId));
   }
 
   loadTickets(columnId: string, ref?: string, dir?: string) {

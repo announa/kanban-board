@@ -18,9 +18,10 @@
   </div>
   <div class="ticket-footer h-0" #footer>
     <img
-      class="delete-icon h-0"
+      class="icon h-0"
       src="assets/img/delete_blue.svg"
-      alt="delete ticket" #icon (click)="fireService.deleteTicket(ticket.columdId, ticket.id.toString())"
+      alt="delete ticket" #icon (click)="fireService.deleteTicket(ticket.columdId, ticket.id)"
     />
+    <img class="icon h-0" src="assets/img/edit.svg" alt="Edit Ticket" #icon (click)="editTicket()">
   </div>
 </div>

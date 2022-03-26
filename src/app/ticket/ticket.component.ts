@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AddTicketService } from '../services/add-ticket.service';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
 
@@ -13,11 +14,11 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('descriptionTextElem') descriptionTextElem!: ElementRef;
   @ViewChild('ticketElem') ticketsElem!: ElementRef;
   @ViewChild('footer') footer!: ElementRef;
-  @ViewChild('icon') icon!: ElementRef;
+  @ViewChildren('icon') icon!: QueryList<ElementRef>;
   @Input('ticket') ticket!: any;
   @Input('column') column!: any;
 
-  constructor(public fireService: FirestoreService, public dragService: DragNdropService) {}
+  constructor(public fireService: FirestoreService, public dragService: DragNdropService, private addTicketServ: AddTicketService) {}
 
   ngOnInit(): void {
   }
@@ -33,11 +34,15 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   /* showTicket(i: number) { */
   showTicket() {
-    [this.descriptionElem, this.footer, this.icon].forEach(e => e.nativeElement.classList.toggle('h-0'));
+    [this.descriptionElem, this.footer].forEach(e => e.nativeElement.classList.toggle('h-0'));
+   this.icon.forEach(i => i.nativeElement.classList.toggle('h-0'));
     setTimeout(() => {
       this.descriptionTextElem.nativeElement.classList.toggle('d-none');
     }, 150);
   }
 
+  editTicket(){
+    this.addTicketServ.editTicket(this.ticket.id);
+  }
 
 }

@@ -18,6 +18,11 @@ export class AddTicketService {
 /*     this.fireService.addTicketColumn = columnId; */
   }
 
+  editTicket(ticketId: string){
+    this.fireService.getTicket(ticketId);
+    console.log(this.ticket)
+  }
+
   saveTicket() {
     this.isSavingTicket = true;
     this.ticket.date = new Date()

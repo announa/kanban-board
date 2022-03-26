@@ -31,6 +31,7 @@ export class BoardColumnComponent implements OnInit {
 
   ngOnInit(): void {
     this.tickets = this.fireService.loadTickets(this.column.id)
+    console.log(this.tickets)
   }
 
   highlightColumn(status: boolean) {
