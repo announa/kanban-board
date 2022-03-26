@@ -66,7 +66,6 @@ export class FirestoreService {
         columns.forEach((col: any) => {
           this.colOrder = [];
           this.colOrder.push(Number(col.order));
-          console.log(this.colOrder);
         });
       });
 
@@ -173,6 +172,7 @@ export class FirestoreService {
   deleteBoard(boardId: string) {}
 
   deleteDoc(collection: string, id: string) {
+    console.log('deleteDoc ' + collection + id)
     this.firestore
       .collection(collection)
       .doc(id)
@@ -180,8 +180,17 @@ export class FirestoreService {
       .then(() => console.log(collection + '-item deleted'))
       .catch((err) => console.log(err));
 
-    if (collection == 'boards')
-      this.deleteSubCollection('columns', 'boardId', id);
+    switch (collection) {
+      case 'boards':
+        this.getSubCollection('columns', 'boardId', id);
+        break;
+      case 'columns':
+        this.getSubCollection('tickets', 'columnId', id);
+        break;
+      /*       case 'columns':
+        this.deleteSubCollection('tickets', 'columnId', id);
+        break; */
+    }
     /*     this.deleteAllColTickets(columnId);
     this.firestore
       .doc(this.columnsRef + '/' + columnId)
@@ -190,22 +199,18 @@ export class FirestoreService {
       .catch((err) => console.log(err)); */
   }
 
-  deleteSubCollection(collection: string, field: string, id: string) {
-    console.log('delete subcollection')
+  getSubCollection(collection: string, field: string, id: string) {
+    console.log('delete subcollection ' + collection + field + id);
     this.firestore
       .collection(collection, (ref) => ref.where(field, '==', id))
       .valueChanges()
-      .pipe(
-        map((item: any) => {
-          this.deleteSubCollection('tickets', 'columnId', 'item.id');
-          this.firestore
-            .collection(collection)
-            .doc(item.id)
-            .delete()
-            .then(() => console.log(item.title + 'deleted'))
-            .catch((err) => console.log(err));
-        })
-      );
+      .subscribe((col) => {
+        col.forEach((item: any) => {
+          console.log(item.id);
+          this.deleteDoc(collection, item.id);
+        });
+      });
+
   }
 
   deleteAllColTickets(columnId: string) {
