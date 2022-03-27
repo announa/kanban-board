@@ -8,19 +8,24 @@ import { FirestoreService } from './firestore.service';
 export class AddTicketService {
   isAddingTicket = false;
   isSavingTicket = false;
-  ticket!: Ticket;
+  ticket!: any;
+  action!: string;
 
   constructor(private fireService: FirestoreService) { }
 
   addTicket(columnId: string){
+    this.action = 'add';
     this.ticket = new Ticket(columnId);
     this.isAddingTicket = true;
-/*     this.fireService.addTicketColumn = columnId; */
-  }
 
+    /*     this.fireService.addTicketColumn = columnId; */
+  }
+  
   editTicket(ticketId: string){
-    this.fireService.getTicket(ticketId);
-    console.log(this.ticket)
+    this.action = 'edit';
+    this.isAddingTicket = true;
+    const ticketsRef = this.fireService.getTicket(ticketId)
+    ticketsRef.subscribe(doc => this.ticket = doc.data())
   }
 
   saveTicket() {

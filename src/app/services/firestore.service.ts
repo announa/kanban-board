@@ -29,6 +29,7 @@ export class FirestoreService {
   /*  addTicketColumn!: string; */
   columnTitles!: any;
   colOrder!: number[];
+  ticket: any;
 
   constructor(private firestore: AngularFirestore) {}
 
@@ -95,7 +96,7 @@ export class FirestoreService {
   }
 
   getTicket(ticketId: string) {
-    console.log(this.firestore.collection('tickets').doc(ticketId));
+    return this.firestore.collection('tickets').doc(ticketId).get()
   }
 
   loadTickets(columnId: string, ref?: string, dir?: string) {

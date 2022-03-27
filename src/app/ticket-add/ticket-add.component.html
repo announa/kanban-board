@@ -1,6 +1,7 @@
-<div class="add-ticket-container" *ngIf="addTicketServ.isAddingTicket">
+<div class="add-ticket-container">
   <div class="add-ticket-modal">
-    <h2>Add a new Ticket to {{ fireService.currentBoard.title }}</h2>
+    <h2 *ngIf="addTicketServ.action == 'add'">Add a new Ticket to {{ fireService.currentBoard.title }}</h2>
+    <h2 *ngIf="addTicketServ.action == 'edit'">Edit Ticket</h2>
     <form (ngSubmit)="addTicketServ.saveTicket()">
       <div class="form-input">
         <label for="">Title</label>
@@ -80,7 +81,7 @@
         <input
           type="submit"
           class="btn"
-          value="Add Ticket"
+          [value]="addTicketServ.action == 'add' ? 'Add Ticket' : 'Save Changes'"
           [disabled]="addTicketServ.isSavingTicket"
         />
       </div>

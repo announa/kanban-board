@@ -7,9 +7,10 @@
     dragService.dragColumn($event, column); dragService.toggleInputs(true)
   "
   (dragend)="dragService.toggleInputs(false)"
-  (dragover)="dragService.allowDrop($event); highlightColumn(true)"
+  (dragover)="onDragOver($event)"
   (dragleave)="highlightColumn(false)"
   (drop)="dragService.dropElement(column); dragOver = false"
+  #columnElem
 >
   <app-title [data]="column" [collection]="'columns'"> </app-title>
   <div class="ticket-container">

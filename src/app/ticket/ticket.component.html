@@ -17,11 +17,11 @@
     <!-- <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p> -->
   </div>
   <div class="ticket-footer h-0" #footer>
+    <img class="icon h-0" src="assets/img/edit.svg" alt="Edit Ticket" #icon (click)="editTicket()">
     <img
       class="icon h-0"
       src="assets/img/delete_blue.svg"
       alt="delete ticket" #icon (click)="fireService.deleteTicket(ticket.columdId, ticket.id)"
     />
-    <img class="icon h-0" src="assets/img/edit.svg" alt="Edit Ticket" #icon (click)="editTicket()">
   </div>
 </div>
