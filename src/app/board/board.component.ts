@@ -20,7 +20,7 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      const id = params['id'];
+      const id = params['boardId'];
       this.fireService.loadCurrentBoard(id);
     });
   }

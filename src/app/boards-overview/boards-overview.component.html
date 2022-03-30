@@ -5,9 +5,9 @@
       <img src="assets/img/add.svg" alt="add a new column" />
     </div>
   </h2>
-  <div class="preview-container" *ngIf="this.fireService.boards">
+  <div class="preview-container" *ngIf="fireService.boards">
     <app-boards-preview
-      *ngFor="let board of this.fireService.boards"
+      *ngFor="let board of fireService.boards"
       [board]="board"
     ></app-boards-preview>
   </div>

@@ -14,7 +14,5 @@ export class AppComponent {
 
   constructor(public fireService: FirestoreService){}
   ngOnInit(): void {
-    this.fireService.loadBoards()
-    /* this.fireService.getTickets(); */
   }
 }

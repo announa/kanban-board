@@ -31,7 +31,8 @@ export class FirestoreService {
   colOrder!: number[];
   ticket: any;
   users!: any;
-  currentUser!: any;
+  matchingUser!: User;
+  currentUser!: User;
   isProcessing = false;
 
   constructor(
@@ -39,9 +40,9 @@ export class FirestoreService {
     private route: ActivatedRoute
   ) {}
 
-  loadBoards() {
+  loadBoards(userId: string) {
     this.boards = this.firestore
-      .collection('boards')
+      .collection('boards', (ref) => ref.where('userId', '==', userId))
       .valueChanges()
       .subscribe((boards) => {
         this.boards = boards;
@@ -121,10 +122,7 @@ export class FirestoreService {
 
   addBoard() {
     let newBoard = new Board();
-    this.route.params.subscribe((params) => {
-      const id = params['id'];
-      newBoard.userID = id;
-    });
+    newBoard.userId = this.currentUser.id;
 
     this.firestore
       .collection('boards')
@@ -140,8 +138,6 @@ export class FirestoreService {
       .catch((err) => console.log(err));
   }
 
-  deleteBoard(boardId: string) {}
-
   deleteDoc(collection: string, id: string) {
     switch (collection) {
       case 'boards':
@@ -149,11 +145,11 @@ export class FirestoreService {
         break;
       case 'columns':
         this.deleteSubCollection('tickets', 'columnId', id);
-        this.updateColOrder(id);
+        /*  this.updateColOrder(id); */
         break;
     }
 
-    console.log('deleteDoc ' + collection + id);
+    console.log(`deleteDoc ${collection} ${id}`);
     this.firestore
       .collection(collection)
       .doc(id)
@@ -163,7 +159,7 @@ export class FirestoreService {
   }
 
   async deleteSubCollection(collection: string, field: string, id: string) {
-    console.log('delete subcollection ' + collection + field + id);
+    console.log(`delete subcollection ${collection} ${field} ${id}`);
     let subCollection = await firstValueFrom(
       this.firestore
         .collection(collection, (ref) => ref.where(field, '==', id))
@@ -177,26 +173,14 @@ export class FirestoreService {
     }
   }
 
-  updateColOrder(id: string) {
+  /*   updateColOrder(id: string) {
     let currentOrder: number;
     let currentCol = this.firestore
       .collection('columns')
       .doc(id)
       .valueChanges();
-  }
+  } */
 
-  getTicketTitles() {
-    let titles = [];
-    this.firestore.collection('tickets');
-  }
-
-  getColumnTitles() {
-    this.columns.valueChanges().subscribe((columns: any) => {
-      this.columnTitles = columns.map((c: any) => {
-        return c['title'];
-      });
-    });
-  }
   saveTitle(collection: string, id: string, newTitle: string) {
     console.log('saving new title');
     this.firestore.collection(collection).doc(id).update({ title: newTitle });
@@ -222,6 +206,8 @@ export class FirestoreService {
       .update({ order: order_col2_new });
   }
 
+  // #############  Register and login  ##############
+
   async addUser(newUser: User) {
     newUser.id = Date.now().toString();
     this.isProcessing = true;
@@ -238,7 +224,24 @@ export class FirestoreService {
   }
 
   clearData() {
-    this.currentUser = '';
+    this.currentUser = {
+      username: '',
+      password: '',
+      id: '',
+    };
     this.currentBoardId = '';
+  }
+
+  checkUsers(username: string, password: string) {
+    return this.firestore
+      .collection('user', (ref) =>
+        ref.where('username', '==', username).where('password', '==', password)
+      )
+      .valueChanges()
+      
+  }
+
+  setCurrentUser() {
+    this.currentUser = this.matchingUser;
   }
 }

@@ -4,7 +4,7 @@ export class Board {
  title = 'New Board';
  categories?: string[];
  id: string;
- userID!: string;
+ userId!: string;
 
  constructor(){
   this.id = Date.now().toString();
