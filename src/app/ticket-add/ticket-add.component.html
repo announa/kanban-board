@@ -1,6 +1,8 @@
 <div class="add-ticket-container">
   <div class="add-ticket-modal">
-    <h2 *ngIf="addTicketServ.action == 'add'">Add a new Ticket to {{ fireService.currentBoard.title }}</h2>
+    <h2 *ngIf="addTicketServ.action == 'add'">
+      Add a new Ticket to {{ fireService.currentBoard.title }}
+    </h2>
     <h2 *ngIf="addTicketServ.action == 'edit'">Edit Ticket</h2>
     <form (ngSubmit)="addTicketServ.saveTicket()">
       <div class="form-input">
@@ -30,7 +32,7 @@
 
       <div class="form-input">
         <label for="">Category</label>
-<!--         <select
+        <!--         <select
           name="category"
           class="input"
           id=""
@@ -81,14 +83,14 @@
         <input
           type="submit"
           class="btn"
-          [value]="addTicketServ.action == 'add' ? 'Add Ticket' : 'Save Changes'"
+          [value]="
+            addTicketServ.action == 'add' ? 'Add Ticket' : 'Save Changes'
+          "
           [disabled]="addTicketServ.isSavingTicket"
         />
       </div>
     </form>
 
-    <div class="loading-bar" *ngIf="addTicketServ.isSavingTicket">
-      <div class="moving-bar"></div>
-    </div>
+<app-loading-bar></app-loading-bar>
   </div>
 </div>

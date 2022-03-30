@@ -16,7 +16,7 @@ export class BoardsPreviewComponent implements OnInit {
     console.log('board preview');
   }
 
-  navigate(boardId: string) {
-    this.router.navigateByUrl('/board/' + boardId);
+  navigate(userId: string, boardId: string) {
+    this.router.navigateByUrl('/' + userId + '/board/' + boardId);
   }
 }

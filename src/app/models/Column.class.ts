@@ -3,14 +3,14 @@ import { Ticket } from './Ticket.class';
 export class Column {
   title = 'New Column';
   tickets?: Ticket[];
-  order: string;
+  order: number;
   id: string;
   boardId: string;
   
 
   constructor(order: number, boardId: string) {
     this.id = Date.now().toString();
-    this.order = (order + 1).toString();
+    this.order = order + 1;
     this.boardId = boardId;
   }
 }

@@ -57,7 +57,7 @@ export class DragNdropService {
           col2.id
         );
       }
-    } else {
+    } else if(this.dragData.col1 && col2.id != this.dragData.col1.id) {
       this.fireService.moveColumn(this.dragData.col1, col2);
     }
   }

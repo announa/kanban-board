@@ -7,7 +7,8 @@
     dragService.dragColumn($event, column); dragService.toggleInputs(true)
   "
   (dragend)="dragService.toggleInputs(false)"
-  (dragover)="onDragOver($event)"
+  (dragover)="dragService.allowDrop($event);"
+  (dragenter)="triggerColumnAnim()"
   (dragleave)="highlightColumn(false)"
   (drop)="dragService.dropElement(column); dragOver = false"
   #columnElem

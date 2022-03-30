@@ -1,0 +1,37 @@
+<div class="main-background component-container">
+ <h1>Kanban Board</h1>
+ <div class="login-modal">
+   <h2>Please log in</h2>
+   <div content-container>
+     <form (ngSubmit)="register()" #form="ngForm">
+       <div class="form-input">
+         <label for="">Username</label>
+         <input
+           type="text"
+           class="input"
+           name="username"
+           placeholder="Please register"
+           [(ngModel)]="newUser.username"
+           required
+           />
+          </div>
+          <div class="form-input">
+           <label for="">Password</label>
+           <input
+           type="text"
+           class="input"
+           name="password"
+           placeholder="Please enter your password"
+           [(ngModel)]="newUser.password"
+           required
+         />
+       </div>
+       <button type="submit" class="btn" [disabled]="!form.valid">
+         Register
+       </button>
+     </form>
+     <p>Already registered? Log in <a routerLink="/">here</a></p>
+   </div>
+   <app-loading-bar></app-loading-bar>
+ </div>
+</div>

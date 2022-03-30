@@ -17,6 +17,9 @@ import { TitleComponent } from './title/title.component';
 import { BoardsOverviewComponent } from './boards-overview/boards-overview.component';
 import { BoardsPreviewComponent } from './boards-preview/boards-preview.component';
 import { EditMenuComponent } from './edit-menu/edit-menu.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { LoadingBarComponent } from './loading-bar/loading-bar.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { EditMenuComponent } from './edit-menu/edit-menu.component';
     BoardsOverviewComponent,
     BoardsPreviewComponent,
     EditMenuComponent,
+    LoginComponent,
+    RegisterComponent,
+    LoadingBarComponent,
   ],
   imports: [
     BrowserModule,

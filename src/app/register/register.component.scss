@@ -1,0 +1,55 @@
+.component-container{
+ display: flex;
+ flex-direction: column;
+ justify-content: space-evenly;
+ gap: 3vh;
+}
+
+.login-modal{
+ align-self: center;
+ background-color: rgb(var(--theme-color-light));
+ color: rgb(var(--letter-color-dark));
+ border-radius: 20px;
+ padding: 50px;
+ position: relative;
+}
+
+h2{
+ color: rgb(var(--letter-color-dark));
+ text-align: center;
+ margin-top: 0;
+}
+
+form{
+ display: flex;
+ flex-direction: column;
+ gap: 20px;
+}
+
+label{
+ display: inline-block;
+ width: 100px;
+}
+
+input{
+ padding: 5px;
+ border: none;
+ border-bottom: 1px solid rgba(var(--letter-color-dark), .6);
+}
+
+button{
+ margin: 20px 0 40px;
+}
+
+p{
+ font-size: 14px;
+
+ a{
+  color: rgb(var(--letter-color-dark));
+  text-transform: none;
+
+  &:hover{
+   color: rgba(0,0,0,.9);
+  }
+ }
+}

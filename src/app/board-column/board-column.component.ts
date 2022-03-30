@@ -26,7 +26,6 @@ export interface columnData {
   templateUrl: './board-column.component.html',
   styleUrls: ['./board-column.component.scss'],
 })
-
 export class BoardColumnComponent implements OnInit {
   dragOver = false;
   @Input('column') column!: Column;
@@ -42,14 +41,13 @@ export class BoardColumnComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('ngOnInit columns: load tickets');
     this.tickets = this.fireService.loadTickets(this.column.id);
     console.log(this.tickets);
   }
 
   onDragOver(event: any) {
     this.dragService.allowDrop(event);
-    if (this.dragService.dragData.ticket) this.highlightColumn(true);
-    else this.triggerColumnAnim();
   }
 
   highlightColumn(status: boolean) {
@@ -64,6 +62,7 @@ export class BoardColumnComponent implements OnInit {
   }
 
   triggerColumnAnim() {
-    this.triggerAnim.emit({ index: this.index, column: this.column });
+    if (this.dragService.dragData.ticket) this.highlightColumn(true);
+    else this.triggerAnim.emit({ index: this.index, column: this.column });
   }
 }
