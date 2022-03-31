@@ -10,8 +10,7 @@
   background-color: rgba(var(--theme-color-light), 0.3);
   border-radius: 2px;
   position: relative;
-  transition: transform 225ms ease-in-out;
-
+  transition: left 225ms ease-in-out;
 }
 
 .highlighted{
@@ -54,4 +53,9 @@
 
 .drag-animation-right{
   transform: translateX(80%);
+  transition: transform 225ms ease-in-out;
+}
+
+.switch-columns{
+  transform: translateX(calc(100% + 20px));
 }

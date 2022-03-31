@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Query, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, Query, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AddTicketService } from '../services/add-ticket.service';
 import { Board } from '../models/Board.class';
@@ -11,10 +11,8 @@ import { BoardColumnComponent } from '../board-column/board-column.component';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent implements OnInit {
-
+export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChildren('column' ,{read: ElementRef}) columns!: QueryList<ElementRef>;
-  colArr!: ElementRef[];
 
   constructor(
     public fireService: FirestoreService,
@@ -30,23 +28,11 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  startColumnAnim(columnData: any) {
-    console.log(columnData);
-    if (this.dragService.dragData.col1) {
-      console.log('condition 1 true');
-      console.log(this.dragService.dragData.col1.order);
-      if (this.dragService.dragData.col1_index && columnData < this.dragService.dragData.col1_index) {
-        console.log('condition 2 true');
-        this.moveColRight(columnData);
-      }
-    }
+  ngAfterViewInit(): void {
+    this.dragService.columns = this.columns
   }
-
-  moveColRight(columnData: number) {
-    console.log('moveColRight');
-    console.log(this.columns)
-    this.colArr = this.columns.toArray();
-    console.log(this.colArr)
-    this.colArr[columnData].nativeElement.firstChild.firstChild.classList.add('drag-animation-right')
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    this.dragService.columns = this.columns
   }
 }

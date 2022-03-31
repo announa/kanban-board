@@ -16,7 +16,7 @@
       class="column-component"
         *ngFor="let column of fireService.columns; let index = index"
         [column]="column" [index]="index"
-        (triggerAnim)="startColumnAnim($event)"
+        (triggerAnim)="dragService.startColumnAnim($event)"
         #column
       ></app-board-column>
     </div>
