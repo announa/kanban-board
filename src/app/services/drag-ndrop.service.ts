@@ -18,6 +18,8 @@ export class DragNdropService {
   isDragging = false;
   colArr!: ElementRef[];
   columns!: QueryList<ElementRef>;
+  colArrDragData: any;
+  colArrDropData: any;
 
   constructor(private fireService: FirestoreService) {}
 
@@ -78,40 +80,31 @@ export class DragNdropService {
 
   startColumnAnim(columnData: any) {
     this.dropData = columnData;
-    console.log(columnData);
     if (this.dragData.col1) {
-      console.log('condition 1 true');
-      console.log(this.dragData.col1.order);
       if (this.dragData.col1_index && columnData < this.dragData.col1_index) {
-        console.log('condition 2 true');
         this.moveColRight();
       }
     }
   }
 
   moveColRight() {
-    this.colArr = this.columns.toArray();
-    this.colArr[
-      this.dropData
-    ].nativeElement.firstChild.firstChild.classList.add('drag-animation-right');
+    if (this.dragData.col1_index)
+      this.colArrDragData =
+        this.columns.toArray()[
+          this.dragData.col1_index
+        ].nativeElement.firstChild.firstChild;
+
+    this.colArrDropData =
+      this.columns.toArray()[this.dropData].nativeElement.firstChild.firstChild;
+
+    this.colArrDropData.classList.add('drag-animation-right');
   }
 
   swithColumnAnim() {
-    const left =
-      this.colArr[this.dropData].nativeElement.firstChild.firstChild.offsetLeft;
-    /* const compStyle = window.getComputedStyle(this.colArr[this.dropData].nativeElement.firstChild.firstChild)
-    const left = compStyle.getPropertyValue('left') */
-    this.colArr[
-      this.dropData
-    ].nativeElement.firstChild.firstChild.classList.add('switch-columns');
-    if (this.dragData.col1_index) {
-      this.colArr[
-        this.dragData.col1_index
-      ].nativeElement.firstChild.firstChild.style.position = 'absolute';
-      this.colArr[
-        this.dragData.col1_index
-      ].nativeElement.firstChild.firstChild.style.left = left + 'px';
-    }
+    const left = this.colArrDropData.offsetLeft;
+    this.colArrDropData.classList.add('switch-columns');
+    this.colArrDragData.style.position = 'absolute';
+    this.colArrDragData.style.left = left + 'px';
   }
 
   switchColumns(col2: Column) {
@@ -120,21 +113,9 @@ export class DragNdropService {
   }
 
   resetStyles() {
-    if (this.dragData.col1_index) {
-      this.colArr[
-        this.dragData.col1_index
-      ].nativeElement.firstChild.firstChild.style.position = 'relative';
-      this.colArr[
-        this.dragData.col1_index
-      ].nativeElement.firstChild.firstChild.style.left = '';
-      this.colArr[
-        this.dropData
-      ].nativeElement.firstChild.firstChild.classList.remove('switch-columns');
-      this.colArr[
-        this.dropData
-      ].nativeElement.firstChild.firstChild.classList.remove(
-        'drag-animation-right'
-      );
-    }
+    this.colArrDragData.style.position = 'relative';
+    this.colArrDragData.style.left = '';
+    this.colArrDragData.classList.remove('switch-columns');
+    this.colArrDragData.classList.remove('drag-animation-right');
   }
 }
