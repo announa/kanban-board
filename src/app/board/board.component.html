@@ -13,9 +13,11 @@
     >
       <!--   <app-board-column (addingTicket)="addingTicket($event)"></app-board-column> -->
       <app-board-column
+      class="column-component"
         *ngFor="let column of fireService.columns; let index = index"
         [column]="column" [index]="index"
         (triggerAnim)="startColumnAnim($event)"
+        #column
       ></app-board-column>
     </div>
     <app-ticket-add  *ngIf="addTicketServ.isAddingTicket"></app-ticket-add>

@@ -15,10 +15,11 @@ import { AddTicketService } from '../services/add-ticket.service';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
 import { Column } from '../models/Column.class';
+import { Observable } from 'rxjs';
 
 export interface columnData {
   index: number;
-  column: Column;
+  column: any;
 }
 
 @Component({
@@ -29,10 +30,10 @@ export interface columnData {
 export class BoardColumnComponent implements OnInit {
   dragOver = false;
   @Input('column') column!: Column;
-  @Input('index') index: any;
-  @Output() triggerAnim = new EventEmitter<columnData>();
-  @ViewChildren(TitleComponent) titles!: TitleComponent;
-  tickets: any;
+  @Input('index') index!: number;
+  @Output() triggerAnim = new EventEmitter<number>();
+  /* @ViewChildren(TitleComponent) titles!: TitleComponent; */
+  tickets!: Observable<any>;
 
   constructor(
     public fireService: FirestoreService,
@@ -41,9 +42,7 @@ export class BoardColumnComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit columns: load tickets');
     this.tickets = this.fireService.loadTickets(this.column.id);
-    console.log(this.tickets);
   }
 
   onDragOver(event: any) {
@@ -63,6 +62,7 @@ export class BoardColumnComponent implements OnInit {
 
   triggerColumnAnim() {
     if (this.dragService.dragData.ticket) this.highlightColumn(true);
-    else this.triggerAnim.emit({ index: this.index, column: this.column });
+    else this.triggerAnim.emit(this.index);
+    /* else this.triggerAnim.emit({ index: this.index, column: this }); */
   }
 }

@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Query, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AddTicketService } from '../services/add-ticket.service';
 import { Board } from '../models/Board.class';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
+import { BoardColumnComponent } from '../board-column/board-column.component';
 
 @Component({
   selector: 'app-board',
@@ -11,6 +12,10 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
+
+  @ViewChildren('column' ,{read: ElementRef}) columns!: QueryList<ElementRef>;
+  colArr!: ElementRef[];
+
   constructor(
     public fireService: FirestoreService,
     public dragService: DragNdropService,
@@ -29,16 +34,19 @@ export class BoardComponent implements OnInit {
     console.log(columnData);
     if (this.dragService.dragData.col1) {
       console.log('condition 1 true');
-      console.log(columnData.column.order);
       console.log(this.dragService.dragData.col1.order);
-      if (columnData.column.order < this.dragService.dragData.col1.order) {
+      if (this.dragService.dragData.col1_index && columnData < this.dragService.dragData.col1_index) {
         console.log('condition 2 true');
         this.moveColRight(columnData);
       }
     }
   }
 
-  moveColRight(columnData: any) {
+  moveColRight(columnData: number) {
     console.log('moveColRight');
+    console.log(this.columns)
+    this.colArr = this.columns.toArray();
+    console.log(this.colArr)
+    this.colArr[columnData].nativeElement.firstChild.firstChild.classList.add('drag-animation-right')
   }
 }

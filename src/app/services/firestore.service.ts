@@ -12,7 +12,7 @@ import { User } from '../models/User.class';
 })
 export class FirestoreService {
   tickets!: Observable<any>;
-  boards!: any;
+  boards: Board[] = [];
   currentBoard!: any;
   currentBoardId!: string;
   columnsRef!: any;
@@ -41,10 +41,10 @@ export class FirestoreService {
   ) {}
 
   loadBoards(userId: string) {
-    this.boards = this.firestore
+   this.firestore
       .collection('boards', (ref) => ref.where('userId', '==', userId))
       .valueChanges()
-      .subscribe((boards) => {
+      .subscribe((boards: any) => {
         this.boards = boards;
       });
   }

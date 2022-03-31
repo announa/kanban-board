@@ -7,6 +7,7 @@ export class DragData {
   ticket: string | undefined;
   col1_id!: string | undefined;
   col1!: Column | undefined;
+  col1_index: number | undefined
 }
 @Injectable({
   providedIn: 'root',
@@ -23,14 +24,17 @@ export class DragNdropService {
     this.dragData.col1_id = ticket.columnId;
     this.dragData.ticket = ticket.id;
     this.dragData.col1 = undefined;
+    this.dragData.col1_index = undefined;
   }
 
-  dragColumn(event: any, column: Column) {
+  dragColumn(event: any, column: Column, index: number) {
     event.stopPropagation();
     this.isDragging = true;
     this.dragData.col1 = column;
     this.dragData.ticket = undefined;
     this.dragData.col1_id = undefined;
+    this.dragData.col1_index = index;
+    console.log(this.dragData.col1_index);
   }
 
   /*   dragElem(event: any, column: any, ticket?: any) {

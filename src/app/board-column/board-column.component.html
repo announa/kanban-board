@@ -1,32 +1,35 @@
 <!-- <div class="column-container"> -->
 <div
-  class="column"
+  class="column-container"
   [class.highlighted]="dragOver"
   draggable="true"
   (dragstart)="
-    dragService.dragColumn($event, column); dragService.toggleInputs(true)
+    dragService.dragColumn($event, column, index);
+    dragService.toggleInputs(true)
   "
   (dragend)="dragService.toggleInputs(false)"
-  (dragover)="dragService.allowDrop($event);"
+  (dragover)="dragService.allowDrop($event)"
   (dragenter)="triggerColumnAnim()"
   (dragleave)="highlightColumn(false)"
   (drop)="dragService.dropElement(column); dragOver = false"
   #columnElem
 >
-  <app-title [data]="column" [collection]="'columns'"> </app-title>
-  <div class="ticket-container">
-    <div class="column-tickets" *ngIf="tickets">
-      <app-ticket
-        [column]="column"
-        [ticket]="ticket"
-        *ngFor="let ticket of tickets | async"
-      ></app-ticket>
+  <div class="column">
+    <app-title [data]="column" [collection]="'columns'"> </app-title>
+    <div class="ticket-container">
+      <div class="column-tickets" *ngIf="tickets">
+        <app-ticket
+          [column]="column"
+          [ticket]="ticket"
+          *ngFor="let ticket of tickets | async"
+        ></app-ticket>
+      </div>
     </div>
-  </div>
     <div class="add-icon-container" (click)="addticket.addTicket(column.id)">
       <div class="add-icon">
         <img src="assets/img/add.svg" alt="add a new ticket" />
       </div>
     </div>
+  </div>
 </div>
 <!-- </div> -->
