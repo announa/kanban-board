@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { User } from '../models/User.class';
@@ -9,15 +16,27 @@ import { FirestoreService } from '../services/firestore.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   userInput = {
     username: '',
     password: '',
   };
 
-  constructor(private fireService: FirestoreService, private router: Router) {}
+  @ViewChild('modal') modal!: ElementRef;
+  width = 0;
+
+  constructor(
+    private fireService: FirestoreService,
+    private router: Router,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {}
+
+  ngAfterViewInit() {
+    this.width = this.modal.nativeElement.clientWidth;
+    this.cd.detectChanges();
+  }
 
   async logIn() {
     console.log('logging in ...');
@@ -35,7 +54,6 @@ export class LoginComponent implements OnInit {
     this.fireService.matchingUser = result[0] as User;
 
     if (this.fireService.matchingUser) {
-      console.log(this.fireService.matchingUser);
       this.fireService.setCurrentUser();
       this.loadUserBoards();
     }

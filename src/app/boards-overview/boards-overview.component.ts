@@ -16,7 +16,7 @@ export class BoardsOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const userId = params['userId'];
-      console.log(userId);
+      this.fireService.setCurrentUser(userId)
       this.fireService.loadBoards(userId);
     });
     console.log(this.fireService.boards)

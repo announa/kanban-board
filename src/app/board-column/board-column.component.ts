@@ -1,16 +1,8 @@
 import {
   Component,
   OnInit,
-  HostListener,
   Input,
-  ViewChild,
-  ElementRef,
-  ViewChildren,
-  QueryList,
-  Output,
-  EventEmitter,
 } from '@angular/core';
-import { TitleComponent } from '../title/title.component';
 import { AddTicketService } from '../services/add-ticket.service';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -32,8 +24,6 @@ export class BoardColumnComponent implements OnInit {
   childrenDisabled = false;
   @Input('column') column!: Column;
   @Input('index') index!: number;
-  /* @Output() triggerAnim = new EventEmitter<number>(); */
-  /* @ViewChildren(TitleComponent) titles!: TitleComponent; */
   tickets!: Observable<any>;
   dragCopy!: Node;
 
@@ -62,7 +52,6 @@ export class BoardColumnComponent implements OnInit {
       !this.childrenDisabled
     ) {
       this.dragService.allowDrop(event);
-      /* this.dragService.disableChildren(this.index); */
       this.highlightColumn(true);
       if (!this.dragService.dragData.ticket) {
         this.dragService.startColumnAnim(this.index, event);
@@ -72,7 +61,6 @@ export class BoardColumnComponent implements OnInit {
   }
 
   onDragleave(event: any) {
-    /* this.highlightColumn(false); */
     this.dragOver = false;
     if (!this.dragService.dragData.ticket) {
       this.dragService.resetStylesPerCol(this.index, event);

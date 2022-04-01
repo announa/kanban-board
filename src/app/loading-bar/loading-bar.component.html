@@ -1,4 +1,4 @@
 
-    <div class="loading-bar" *ngIf="addTicketServ.isSavingTicket || fireService.isProcessing">
+    <div class="loading-bar" *ngIf="addTicketServ.isSavingTicket || fireService.isProcessing" #loadingBar [style.width.px]="width">
      <div class="moving-bar"></div>
    </div>

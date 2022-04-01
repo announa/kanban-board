@@ -41,7 +41,7 @@ export class FirestoreService {
   ) {}
 
   loadBoards(userId: string) {
-   this.firestore
+    this.firestore
       .collection('boards', (ref) => ref.where('userId', '==', userId))
       .valueChanges()
       .subscribe((boards: any) => {
@@ -186,10 +186,7 @@ export class FirestoreService {
   }
 
   moveTicket(ticket: any, col2: any) {
-    this.firestore
-      .collection('tickets')
-      .doc(ticket)
-      .update({ columnId: col2 });
+    this.firestore.collection('tickets').doc(ticket).update({ columnId: col2 });
   }
 
   moveColumn(col1: any, col2: any) {
@@ -232,15 +229,28 @@ export class FirestoreService {
   }
 
   checkUsers(username: string, password: string) {
+    this.isProcessing = true;
     return this.firestore
       .collection('user', (ref) =>
         ref.where('username', '==', username).where('password', '==', password)
       )
-      .valueChanges()
-      
+      .valueChanges();
   }
 
-  setCurrentUser() {
+  setCurrentUser(id?: string) {
+    if (id) {
+      this.getUserById(id);
+    }
     this.currentUser = this.matchingUser;
+    this.isProcessing = false;
+  }
+
+  async getUserById(id: string) {
+    let result = await firstValueFrom(
+      this.firestore
+        .collection('user', (ref) => ref.where('id', '==', id))
+        .valueChanges()
+    );
+    this.currentUser = result[0] as User;
   }
 }
