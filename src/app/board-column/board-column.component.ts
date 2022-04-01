@@ -29,11 +29,13 @@ export interface columnData {
 })
 export class BoardColumnComponent implements OnInit {
   dragOver = false;
+  childrenDisabled = false;
   @Input('column') column!: Column;
   @Input('index') index!: number;
-  @Output() triggerAnim = new EventEmitter<number>();
+  /* @Output() triggerAnim = new EventEmitter<number>(); */
   /* @ViewChildren(TitleComponent) titles!: TitleComponent; */
   tickets!: Observable<any>;
+  dragCopy!: Node;
 
   constructor(
     public fireService: FirestoreService,
@@ -45,24 +47,73 @@ export class BoardColumnComponent implements OnInit {
     this.tickets = this.fireService.loadTickets(this.column.id);
   }
 
-  onDragOver(event: any) {
-    this.dragService.allowDrop(event);
+  onDragstart(event: any) {
+    this.dragService.dragColumn(event, this.column, this.index);
+    this.dragService.toggleInputs(true);
+    this.copyElem(event);
+  }
+
+  onDragover(event: any) {
+    if (
+      (this.childrenDisabled &&
+        event.target ==
+          this.dragService.columns.toArray()[this.dragService.indexCol2]
+            .nativeElement.firstChild) ||
+      !this.childrenDisabled
+    ) {
+      this.dragService.allowDrop(event);
+      /* this.dragService.disableChildren(this.index); */
+      this.highlightColumn(true);
+      if (!this.dragService.dragData.ticket) {
+        this.dragService.startColumnAnim(this.index, event);
+        this.childrenDisabled = true;
+      }
+    }
+  }
+
+  onDragleave(event: any) {
+    /* this.highlightColumn(false); */
+    this.dragOver = false;
+    if (!this.dragService.dragData.ticket) {
+      this.dragService.resetStylesPerCol(this.index, event);
+      setTimeout(() => {
+        this.childrenDisabled = false;
+      }, 500);
+    }
+  }
+
+  onDragend(event: any) {
+    this.dragService.toggleInputs(false);
+    this.dragService.resetDragColumn(event);
+  }
+
+  onDrop() {
+    this.dragService.dropElement(this.column);
+    this.dragOver = false;
+    document.body.removeChild(this.dragCopy)
+    document.body.style.overflowY='';
   }
 
   highlightColumn(status: boolean) {
-    if (
-      (this.dragService.dragData.col1_id &&
-        this.column.id != this.dragService.dragData.col1_id) ||
-      (this.dragService.dragData.col1 &&
-        this.column.id != this.dragService.dragData.col1.id)
-    ) {
+    if (this.dragColNotDropCol()) {
       this.dragOver = status;
     }
   }
 
-  triggerColumnAnim() {
-    if (this.dragService.dragData.ticket) this.highlightColumn(true);
-    else this.triggerAnim.emit(this.index);
-    /* else this.triggerAnim.emit({ index: this.index, column: this }); */
+  dragColNotDropCol() {
+    return (
+      (this.dragService.dragData.col1_id &&
+        this.column.id != this.dragService.dragData.col1_id) ||
+      (this.dragService.dragData.col1 &&
+        this.column.id != this.dragService.dragData.col1.id)
+    );
+  }
+
+  copyElem(event: any) {
+    this.dragCopy = event.target.firstChild.cloneNode(true);
+    document.body.style.overflowY='hidden';
+    document.body.appendChild(this.dragCopy);
+    event.dataTransfer.setDragImage(this.dragCopy, 50, 50);
+    event.target.firstChild.style.opacity = '0';
   }
 }

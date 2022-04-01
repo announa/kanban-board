@@ -182,14 +182,13 @@ export class FirestoreService {
   } */
 
   saveTitle(collection: string, id: string, newTitle: string) {
-    console.log('saving new title');
     this.firestore.collection(collection).doc(id).update({ title: newTitle });
   }
 
-  moveTicket(ticket: any, col1: any, col2: any) {
+  moveTicket(ticket: any, col2: any) {
     this.firestore
       .collection('tickets')
-      .doc(ticket.id)
+      .doc(ticket)
       .update({ columnId: col2 });
   }
 

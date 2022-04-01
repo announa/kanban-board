@@ -1,17 +1,14 @@
 <!-- <div class="column-container"> -->
-<div
+  <!-- [style.transform]="isDragging? 'translateX(-9999px)' : 'translateX(0)'" -->
+  <div
   class="column-container"
   [class.highlighted]="dragOver"
   draggable="true"
-  (dragstart)="
-    dragService.dragColumn($event, column, index);
-    dragService.toggleInputs(true)
-  "
-  (dragend)="dragService.toggleInputs(false)"
-  (dragover)="dragService.allowDrop($event)"
-  (dragenter)="triggerColumnAnim()"
-  (dragleave)="highlightColumn(false)"
-  (drop)="dragService.dropElement(column); dragOver = false"
+  (dragstart)="onDragstart($event)"
+  (dragover)="onDragover($event)"
+  (dragend)="onDragend($event)"
+  (dragleave)="onDragleave($event)"
+  (drop)="onDrop()"
   #columnElem
 >
   <div class="column">
