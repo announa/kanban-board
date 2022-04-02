@@ -10,6 +10,7 @@
  background-color: rgb(var(--theme-color-light));
  color: rgb(var(--letter-color-dark));
  border-radius: 20px;
+ width: 500px;
  padding: 50px;
  position: relative;
  overflow: hidden;
@@ -39,7 +40,7 @@ input{
 }
 
 button{
- margin: 20px 0 40px;
+ margin: 15px 0 30px;
 }
 
 p{
@@ -54,4 +55,9 @@ p{
    color: rgba(0,0,0,.9);
   }
  }
+}
+
+.alert{
+ font-size: 13px;
+ color: rgb(181, 13, 13);
 }

@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   @ViewChild('modal') modal!: ElementRef;
   width = 0;
+  alert = false;
 
   constructor(
     private fireService: FirestoreService,
@@ -40,12 +41,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   async logIn() {
     console.log('logging in ...');
-    this.fireService.checkUsers(
+    this.fireService.checkForMatchingUser(
       this.userInput.username,
       this.userInput.password
     );
     const result = await firstValueFrom(
-      this.fireService.checkUsers(
+      this.fireService.checkForMatchingUser(
         this.userInput.username,
         this.userInput.password
       )
@@ -56,6 +57,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (this.fireService.matchingUser) {
       this.fireService.setCurrentUser();
       this.loadUserBoards();
+    } else{
+      this.alert = true;
+      this.fireService.isProcessing = false;
     }
   }
 

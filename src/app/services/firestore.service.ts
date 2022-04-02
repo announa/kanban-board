@@ -49,15 +49,25 @@ export class FirestoreService {
       });
   }
 
-  loadCurrentBoard(id: string) {
-    this.currentBoardId = id;
+  loadCurrentBoard(boardId: string) {
+    this.currentBoardId = boardId;
     this.firestore
-      .doc('boards/' + id)
+      .doc('boards/' + boardId)
       .valueChanges()
       .subscribe((board) => {
         this.currentBoard = board;
         console.log(this.currentBoard);
         this.loadColumns();
+      });
+  }
+
+  loadCurrentUser(userId: string){
+    this.firestore
+      .doc('user/' + userId)
+      .valueChanges()
+      .subscribe((user: any) => {
+        this.currentUser = user;
+        console.log(this.currentUser);
       });
   }
 
@@ -228,7 +238,7 @@ export class FirestoreService {
     this.currentBoardId = '';
   }
 
-  checkUsers(username: string, password: string) {
+  checkForMatchingUser(username: string, password: string) {
     this.isProcessing = true;
     return this.firestore
       .collection('user', (ref) =>
@@ -237,11 +247,19 @@ export class FirestoreService {
       .valueChanges();
   }
 
-  setCurrentUser(id?: string) {
+  checkForExistingUser(username: string) {
+    this.isProcessing = true;
+    return this.firestore
+      .collection('user', (ref) => ref.where('username', '==', username))
+      .valueChanges();
+  }
+
+  async setCurrentUser(id?: string) {
     if (id) {
-      this.getUserById(id);
+      await this.getUserById(id);
+    } else{
+      this.currentUser = this.matchingUser;
     }
-    this.currentUser = this.matchingUser;
     this.isProcessing = false;
   }
 

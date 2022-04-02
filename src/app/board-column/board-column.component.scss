@@ -18,11 +18,21 @@
 
 }
 
+.title-container{
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(var(--theme-color-dark), 0.1);
+  border: 2px solid rgba(var(--theme-color-light), 0.3);
+}
+
 .highlighted{
   background-color: rgba(var(--theme-color-dark), 0.1);
 }
 
 .ticket-container{
+  padding: 15px 0 10px;
   width: 100%;
   flex: 1;
 }

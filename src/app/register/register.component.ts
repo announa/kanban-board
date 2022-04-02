@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { User } from '../models/User.class';
 import { FirestoreService } from '../services/firestore.service';
 
@@ -20,6 +21,7 @@ export class RegisterComponent implements OnInit {
 
   @ViewChild('modal') modal!: ElementRef;
   width = 0;
+  alert=false;
 
   constructor(
     private fireService: FirestoreService,
@@ -37,6 +39,11 @@ export class RegisterComponent implements OnInit {
     this.cd.detectChanges();
   }
 
+  hideAlert(){
+    console.log('alertfalse');
+    this.alert = false;
+  }
+
   /*  aync login(form){
    this.auth.signInWithEmailAndPassword(form.value.email), form.value.password.then().catch(error)
  } */
@@ -47,8 +54,24 @@ export class RegisterComponent implements OnInit {
       
     }) */
   async register() {
-    this.fireService.checkUsers(this.newUser.username, this.newUser.password);
+    let userCheck = await this.checkIfUserExists();
+    if(userCheck === false){
     let id = await this.fireService.addUser(this.newUser);
     this.router.navigateByUrl('/' + id + '/boards');
+    } else{
+      this.alert = true;
+      this.fireService.isProcessing = false;
+    }
+
+  }
+  
+  async checkIfUserExists(){
+    let response = await firstValueFrom(this.fireService.checkForExistingUser(this.newUser.username));
+    if(response.length == 0){
+      console.log('User doesn\'t exist yet')
+      return false;
+    } else
+    console.log('User already exists')
+    return true;
   }
 }

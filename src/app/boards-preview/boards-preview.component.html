@@ -1,6 +1,8 @@
-<div class="preview" (click)="navigate(fireService.currentUser.id, board.id)" >
+<div class="preview" (click)="navigate(fireService.currentUser.id, board.id)">
   <div class="img-container">
     <img class="preview-img" src="assets/bg-img/bg-5.jpg" alt="preview image" />
   </div>
-  <app-title [data]="board" [collection]="'boards'"> </app-title>
+  <div class="title-container">
+    <app-title [data]="board" [collection]="'boards'"> </app-title>
+  </div>
 </div>

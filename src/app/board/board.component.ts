@@ -21,8 +21,10 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      const id = params['boardId'];
-      this.fireService.loadCurrentBoard(id);
+      const boardId = params['boardId'];
+      const userId = params['userId'];
+      this.fireService.loadCurrentBoard(boardId);
+      this.fireService.loadCurrentUser(userId);
     });
   }
 

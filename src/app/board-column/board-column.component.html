@@ -1,6 +1,6 @@
 <!-- <div class="column-container"> -->
-  <!-- [style.transform]="isDragging? 'translateX(-9999px)' : 'translateX(0)'" -->
-  <div
+<!-- [style.transform]="isDragging? 'translateX(-9999px)' : 'translateX(0)'" -->
+<div
   class="column-container"
   [class.highlighted]="dragOver"
   draggable="true"
@@ -12,7 +12,9 @@
   #columnElem
 >
   <div class="column">
-    <app-title [data]="column" [collection]="'columns'"> </app-title>
+    <div class="title-container">
+      <app-title [data]="column" [collection]="'columns'"> </app-title>
+    </div>
     <div class="ticket-container">
       <div class="column-tickets" *ngIf="tickets">
         <app-ticket

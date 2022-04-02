@@ -1,3 +1,3 @@
-<app-navigation></app-navigation>
+<app-navigation *ngIf="fireService.currentUser"></app-navigation>
 <router-outlet></router-outlet>
 <!-- <app-board *ngIf="fireService.currentBoard"></app-board> -->

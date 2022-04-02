@@ -5,7 +5,7 @@
    <div content-container>
      <form (ngSubmit)="register()" #form="ngForm">
        <div class="form-input">
-         <label for="">Username</label>
+         <label for="username">Username</label>
          <input
            type="text"
            class="input"
@@ -13,19 +13,25 @@
            placeholder="Please register"
            [(ngModel)]="newUser.username"
            required
+           #username="ngModel"
+           (click)="alert = false;"
            />
           </div>
           <div class="form-input">
-           <label for="">Password</label>
-           <input
-           type="text"
-           class="input"
-           name="password"
-           placeholder="Please enter your password"
-           [(ngModel)]="newUser.password"
-           required
+            <label for="password">Password</label>
+            <input
+            type="text"
+            class="input"
+            name="password"
+            placeholder="Please enter your password"
+            [(ngModel)]="newUser.password"
+            required
+            #password="ngModel"
+            (click)="alert = false;"
          />
        </div>
+       <div class="alert" *ngIf="this.alert">Username already exists. Please choose another username
+      </div>
        <button type="submit" class="btn" [disabled]="!form.valid">
          Register
        </button>

@@ -13,6 +13,7 @@
             placeholder="Please enter your username"
             [(ngModel)]="userInput.username"
             required
+            (click)="alert=false;"
           />
         </div>
         <div class="form-input">
@@ -24,7 +25,10 @@
             placeholder="Please enter your password"
             [(ngModel)]="userInput.password"
             required
+            (click)="alert=false;"
           />
+        </div>
+        <div class="alert" *ngIf="this.alert">Username or password incorrect. Please try again.
         </div>
         <button type="submit" class="btn" [disabled]="!form.valid">
           Log in
