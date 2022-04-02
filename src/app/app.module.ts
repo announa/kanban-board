@@ -20,6 +20,7 @@ import { EditMenuComponent } from './edit-menu/edit-menu.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { LoadingBarComponent } from './loading-bar/loading-bar.component';
+import { BacklogComponent } from './backlog/backlog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { LoadingBarComponent } from './loading-bar/loading-bar.component';
     LoginComponent,
     RegisterComponent,
     LoadingBarComponent,
+    BacklogComponent,
   ],
   imports: [
     BrowserModule,

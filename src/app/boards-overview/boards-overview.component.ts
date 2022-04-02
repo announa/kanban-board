@@ -14,11 +14,14 @@ export class BoardsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+ /*    this.route.params.subscribe((params) => {
       const userId = params['userId'];
       this.fireService.setCurrentUser(userId)
       this.fireService.loadBoards(userId);
-    });
+    }); */
+    this.fireService.getUserIdFromLocalStorage();
+    this.fireService.getUserById();
+    this.fireService.loadBoards();
     console.log(this.fireService.boards)
   }
 }

@@ -27,12 +27,14 @@ export class FirestoreService {
     dir: 'desc',
   };
   currentTickets!: any;
+  backlogTickets!: any;
   columnTitles!: any;
   colOrder!: number[];
   ticket: any;
   users!: any;
   matchingUser!: User;
   currentUser!: User;
+  currentUserId: string = '';
   isProcessing = false;
 
   constructor(
@@ -40,9 +42,11 @@ export class FirestoreService {
     private route: ActivatedRoute
   ) {}
 
-  loadBoards(userId: string) {
+  loadBoards() {
     this.firestore
-      .collection('boards', (ref) => ref.where('userId', '==', userId))
+      .collection('boards', (ref) =>
+        ref.where('userId', '==', this.currentUserId)
+      )
       .valueChanges()
       .subscribe((boards: any) => {
         this.boards = boards;
@@ -61,7 +65,7 @@ export class FirestoreService {
       });
   }
 
-  loadCurrentUser(userId: string){
+  loadCurrentUser(userId: string) {
     this.firestore
       .doc('user/' + userId)
       .valueChanges()
@@ -99,6 +103,15 @@ export class FirestoreService {
     return this.firestore
       .collection('tickets', (ref) => ref.where('columnId', '==', columnId))
       .valueChanges();
+  }
+
+  loadBacklogTickets() {
+    this.firestore
+      .collection('tickets', (ref) => ref.where('columnId', '==', 'backlog'))
+      .valueChanges()
+      .subscribe((tickets) => {
+        this.backlogTickets = tickets;
+      });
   }
 
   ticketFilter(ref: any) {
@@ -224,25 +237,29 @@ export class FirestoreService {
       .then(() => console.log(`new user with id ${newUser.id} added`))
       .catch((err) => console.log(err));
     this.currentUser = newUser;
+    this.currentUserId = this.currentUser.id;
     this.isProcessing = false;
 
     return newUser.id;
   }
 
-  clearData() {
+    clearData() {
     this.currentUser = {
       username: '',
       password: '',
       id: '',
     };
+    this.currentUserId = '';
     this.currentBoardId = '';
   }
 
-  checkForMatchingUser(username: string, password: string) {
+  checkForMatchingUser(userinput: { username: string; password: string }) {
     this.isProcessing = true;
     return this.firestore
       .collection('user', (ref) =>
-        ref.where('username', '==', username).where('password', '==', password)
+        ref
+          .where('username', '==', userinput.username)
+          .where('password', '==', userinput.password)
       )
       .valueChanges();
   }
@@ -256,19 +273,36 @@ export class FirestoreService {
 
   async setCurrentUser(id?: string) {
     if (id) {
-      await this.getUserById(id);
-    } else{
+      this.currentUserId = id;
+      await this.getUserById();
+      this.saveUserIdToLocalStorage();
+    } else {
       this.currentUser = this.matchingUser;
+      this.currentUserId = this.currentUser.id;
+      this.saveUserIdToLocalStorage();
     }
     this.isProcessing = false;
   }
 
-  async getUserById(id: string) {
+  async getUserById() {
     let result = await firstValueFrom(
       this.firestore
-        .collection('user', (ref) => ref.where('id', '==', id))
+        .collection('user', (ref) => ref.where('id', '==', this.currentUserId))
         .valueChanges()
     );
     this.currentUser = result[0] as User;
+  }
+
+  saveUserIdToLocalStorage() {
+    localStorage.setItem('userId', this.currentUserId);
+  }
+
+  getUserIdFromLocalStorage() {
+    const storage = localStorage.getItem('userId');
+    this.currentUserId = storage ? storage : '0';
+  }
+
+  removeUserIdFromLocalStorage() {
+    localStorage.removeItem('userId');
   }
 }

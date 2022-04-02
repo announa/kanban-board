@@ -1,4 +1,4 @@
-<div class="board component-container" *ngIf="fireService.currentBoard">
+<div class="board component-container" *ngIf="fireService.currentBoard && showBoard">
   <h2>
     {{ fireService.currentBoard.title }}
     <div class="add-icon" (click)="fireService.addColumn()">
@@ -21,4 +21,7 @@
     </div>
     <app-ticket-add  *ngIf="addTicketServ.isAddingTicket"></app-ticket-add>
   </div>
+</div>
+<div class="prohibited component-container main-background" *ngIf="!showBoard">
+  <div class="prohibited-modal">Sorry, you don't have access to this board</div>
 </div>

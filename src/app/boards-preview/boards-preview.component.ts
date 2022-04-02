@@ -13,12 +13,12 @@ export class BoardsPreviewComponent implements OnInit {
   constructor(public fireService: FirestoreService, private router: Router) {}
 
   ngOnInit(): void {
-    console.log('board preview');
   }
 
-  navigate(userId: string, boardId: string) {
-    console.log(userId)
+  navigate(boardId: string) {
+/*     console.log(userId) */
     console.log(boardId)
-    this.router.navigateByUrl('/' + userId + '/board/' + boardId);
+    this.router.navigateByUrl('/board/' + boardId);
+    /* this.router.navigateByUrl('/' + userId + '/board/' + boardId); */
   }
 }

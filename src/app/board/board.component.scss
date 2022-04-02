@@ -38,3 +38,21 @@ h2{
   }
 }
 
+.prohibited{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 3vh;
+ }
+ 
+ .prohibited-modal{
+  align-self: center;
+  background-color: rgb(var(--theme-color-light));
+  color: rgb(var(--letter-color-dark));
+  border-radius: 20px;
+  width: 500px;
+  padding: 50px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+ }

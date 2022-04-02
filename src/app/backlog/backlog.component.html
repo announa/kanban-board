@@ -1,0 +1,12 @@
+<div class="backlog component-container">
+  <h2>
+    Backlog
+    <div class="add-icon" (click)="addTicketServ.addTicket('backlog')">
+      <img src="assets/img/add.svg" alt="add a new column" />
+    </div>
+  </h2>
+  <div class="ticket-container" *ngIf="fireService.backlogTickets.length > 0">
+    <app-ticket *ngFor="let ticket of fireService.backlogTickets"></app-ticket>
+  </div>
+  <app-ticket-add  *ngIf="addTicketServ.isAddingTicket"></app-ticket-add>
+</div>

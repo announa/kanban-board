@@ -40,7 +40,6 @@ export class RegisterComponent implements OnInit {
   }
 
   hideAlert(){
-    console.log('alertfalse');
     this.alert = false;
   }
 
@@ -56,8 +55,8 @@ export class RegisterComponent implements OnInit {
   async register() {
     let userCheck = await this.checkIfUserExists();
     if(userCheck === false){
-    let id = await this.fireService.addUser(this.newUser);
-    this.router.navigateByUrl('/' + id + '/boards');
+    await this.fireService.addUser(this.newUser);
+    this.router.navigateByUrl('/boards');
     } else{
       this.alert = true;
       this.fireService.isProcessing = false;
@@ -66,12 +65,10 @@ export class RegisterComponent implements OnInit {
   }
   
   async checkIfUserExists(){
-    let response = await firstValueFrom(this.fireService.checkForExistingUser(this.newUser.username));
-    if(response.length == 0){
-      console.log('User doesn\'t exist yet')
+    let existingUser = await firstValueFrom(this.fireService.checkForExistingUser(this.newUser.username));
+    if(existingUser.length == 0){
       return false;
     } else
-    console.log('User already exists')
     return true;
   }
 }

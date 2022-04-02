@@ -1,4 +1,15 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, Query, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  Query,
+  QueryList,
+  SimpleChanges,
+  ViewChildren,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AddTicketService } from '../services/add-ticket.service';
 import { DragNdropService } from '../services/drag-ndrop.service';
@@ -10,7 +21,8 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
-  @ViewChildren('column' ,{read: ElementRef}) columns!: QueryList<ElementRef>;
+  @ViewChildren('column', { read: ElementRef }) columns!: QueryList<ElementRef>;
+  showBoard = true;
 
   constructor(
     public fireService: FirestoreService,
@@ -20,19 +32,35 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      const boardId = params['boardId'];
-      const userId = params['userId'];
-      this.fireService.loadCurrentBoard(boardId);
-      this.fireService.loadCurrentUser(userId);
-    });
+    /* console.log(this.fireService.currentUser) */
+    /* this.fireService.loadCurrentUser(userId); */
+    this.fireService.getUserIdFromLocalStorage();
+    if (this.fireService.currentUserId != '') {
+      this.loadBoard();
+    } else {
+      this.showBoard = false;
+    }
   }
 
   ngAfterViewInit(): void {
-    this.dragService.columns = this.columns
+    this.dragService.columns = this.columns;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.dragService.columns = this.columns;
+  }
+
+  loadBoard(){
+    this.showBoard = true;
+    this.fireService.getUserById();
+    this.getBoardIdFromURL();
   }
   
-  ngOnChanges(changes: SimpleChanges): void {
-    this.dragService.columns = this.columns
+  getBoardIdFromURL(){
+    this.route.params.subscribe((params) => {
+      const boardId = params['boardId'];
+      /* const userId = params['userId']; */
+      this.fireService.loadCurrentBoard(boardId);
+    });
   }
 }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { Board } from './models/Board.class';
+import { Router } from '@angular/router';
 import { FirestoreService } from './services/firestore.service';
 
 @Component({
@@ -12,7 +11,7 @@ export class AppComponent {
   title = 'kanban-board';
   /* board = new Board('Board 1', ['Category 1', 'Category 2', 'Category 3']) */
 
-  constructor(public fireService: FirestoreService){}
+  constructor(public fireService: FirestoreService, public router:Router){}
   ngOnInit(): void {
   }
 }

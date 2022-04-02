@@ -3,7 +3,7 @@
   <div class="login-modal" #modal>
     <h2>Please log in</h2>
     <div content-container>
-      <form (ngSubmit)="logIn()" #form="ngForm">
+      <form (ngSubmit)="checkLoginData()" #form="ngForm">
         <div class="form-input">
           <label for="">Username</label>
           <input
@@ -19,7 +19,7 @@
         <div class="form-input">
           <label for="">Password</label>
           <input
-            type="text"
+            type="password"
             class="input"
             name="password"
             placeholder="Please enter your password"

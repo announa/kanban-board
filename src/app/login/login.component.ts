@@ -39,33 +39,35 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
 
-  async logIn() {
+  async checkLoginData() {
     console.log('logging in ...');
-    this.fireService.checkForMatchingUser(
-      this.userInput.username,
-      this.userInput.password
-    );
-    const result = await firstValueFrom(
+    const matchingUser = await firstValueFrom(
       this.fireService.checkForMatchingUser(
-        this.userInput.username,
-        this.userInput.password
+        this.userInput
       )
     );
 
-    this.fireService.matchingUser = result[0] as User;
+    this.fireService.matchingUser = matchingUser[0] as User;
 
     if (this.fireService.matchingUser) {
-      this.fireService.setCurrentUser();
-      this.loadUserBoards();
+      this.login();
     } else{
-      this.alert = true;
-      this.fireService.isProcessing = false;
+      this.rejectLogin();
     }
   }
 
+  login(){
+    this.fireService.setCurrentUser();
+    this.loadUserBoards();
+  }
+
   loadUserBoards() {
-    this.router.navigateByUrl(
-      '/' + this.fireService.currentUser.id + '/boards'
-    );
+    console.log(this.fireService.currentUser)
+    this.router.navigateByUrl('/boards');
+  }
+
+  rejectLogin(){
+    this.alert = true;
+    this.fireService.isProcessing = false;
   }
 }
