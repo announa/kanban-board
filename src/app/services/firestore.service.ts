@@ -94,7 +94,8 @@ export class FirestoreService {
   }
 
   getTicket(ticketId: string) {
-    return this.firestore.collection('tickets').doc(ticketId).get();
+    return this.firestore.collection('tickets', ref => ref.where('id', '==', ticketId)).valueChanges();
+    /* return this.firestore.collection('tickets').doc(ticketId).get(); */
   }
 
   loadTickets(columnId: string, ref?: string, dir?: string) {
@@ -135,6 +136,13 @@ export class FirestoreService {
       .collection('tickets')
       .doc(ticket.id)
       .set({ ...ticket });
+  }
+
+  updateTicket(ticket: Ticket) {
+    return this.firestore
+      .collection('tickets')
+      .doc(ticket.id)
+      .update({ ...ticket });
   }
 
   addColumn() {

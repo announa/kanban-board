@@ -5,12 +5,12 @@
   width: 250px;
   height: 200px;
   border-radius: 2px;
-  box-shadow: 3px 3px 10px rgba(var(--box-shadow-color), 0.5);
+  box-shadow: 3px 3px 10px rgba(var(--box-shadow-dark), 0.5);
   cursor: pointer;
 
   &:hover {
     filter: brightness(105%);
-    box-shadow: 5px 5px 12px rgba(var(--box-shadow-color), 0.5);
+    box-shadow: 5px 5px 12px rgba(var(--box-shadow-dark), 0.5);
   }
 }
 

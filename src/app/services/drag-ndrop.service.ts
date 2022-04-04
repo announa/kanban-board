@@ -21,6 +21,8 @@ export class DragNdropService {
   draggedColumn: any;
   dropColumn: any;
   dropColumnArr: any;
+  dragCopy!: any;
+  dragStart!: number;
 
   constructor(private fireService: FirestoreService) {}
 
@@ -43,13 +45,26 @@ export class DragNdropService {
     this.isDragging = status;
   }
 
+  copyElem(event: any) {
+    this.dragCopy = event.target.firstChild.cloneNode(true);
+    console.log(this.dragCopy);
+    document.body.style.overflowY = 'hidden';
+    document.body.appendChild(this.dragCopy);
+    event.dataTransfer.setDragImage(this.dragCopy, 50, 50);
+    event.target.firstChild.style.opacity = '0';
+  }
+
+  removeCloneNode() {
+    if (this.dragCopy) {
+      document.body.removeChild(this.dragCopy);
+      this.dragCopy = null;
+    }
+  }
+
   dropElement(col2: Column) {
     if (this.dragData.ticket) {
       if (col2.id != this.dragData.col1_id) {
-        this.fireService.moveTicket(
-          this.dragData.ticket,
-          col2.id
-        );
+        this.fireService.moveTicket(this.dragData.ticket, col2.id);
       }
     } else if (this.dragData.col1 && col2.id != this.dragData.col1.id) {
       this.switchColumnsInDB(col2);
@@ -81,6 +96,7 @@ export class DragNdropService {
         this.columns.toArray()[
           this.dragData.col1_index
         ].nativeElement.firstChild.firstChild;
+    this.dragStart = Date.now();
     if (indexCol2 < this.dragData.col1_index) {
       this.moveColRight();
     } else if (indexCol2 > this.dragData.col1_index) {
@@ -110,13 +126,14 @@ export class DragNdropService {
     this.fireService.moveColumn(this.dragData.col1, col2);
   }
 
-/*   resetStyles() {
+  /*   resetStyles() {
     for (let i = this.indexCol2; i < this.dragData.col1_index; i++) {
       this.resetStylesPerCol(i);
     }
   } */
 
   resetDragColumn(event: any) {
+    console.log('reset drag col');
     setTimeout(() => {
       event.target.firstChild.style.opacity = '';
     }, 250);
@@ -126,17 +143,23 @@ export class DragNdropService {
     if ((event && this.targetIsDropCol(event)) || !event) {
       const dropCol =
         this.columns.toArray()[i].nativeElement.firstChild.firstChild;
-      setTimeout(() => {
-        dropCol.classList.remove('drag-animation-left');
-        dropCol.classList.remove('drag-animation-right');
-      }, 100);
+      /*       setTimeout(() => {
+        if (Date.now() - this.dragStart > 200) { */
+      dropCol.classList.remove('drag-animation-left');
+      dropCol.classList.remove('drag-animation-right');
+      /*         }
+      }, 200); */
     }
   }
 
-  enableChildren(dropCol: any) {
-    dropCol.querySelectorAll('*').forEach((e: any) => {
-      e.classList.remove('events-disabled');
-    });
+  enableChildren(i: number) {
+    console.log('enable children');
+    this.columns
+      .toArray()
+      [i].nativeElement.firstChild.querySelectorAll('*')
+      .forEach((e: any) => {
+        e.classList.remove('events-disabled');
+      });
   }
 
   targetIsDropCol(event: any) {

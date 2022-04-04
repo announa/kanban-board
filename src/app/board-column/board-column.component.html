@@ -3,6 +3,7 @@
 <div
   class="column-container"
   [class.highlighted]="dragOver"
+  [class.highlighted-drag]="dragStart"
   draggable="true"
   (dragstart)="onDragstart($event)"
   (dragover)="onDragover($event)"

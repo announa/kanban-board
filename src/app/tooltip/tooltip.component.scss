@@ -1,0 +1,18 @@
+.tooltip{
+ padding: 5px 10px;
+ background-color: rgba(var(--theme-color-dark), .2);
+ color: rgba(var(--theme-color-light));
+ font-size: 14px;
+ font-weight: 400;
+ border-radius: 8px;
+ position: absolute;
+ top: -32px;
+ right: -102px;
+ white-space: nowrap;
+}
+
+.left{
+ right: unset;
+ left: -90px;
+ background-color: rgba(var(--theme-color-dark), .6);
+}

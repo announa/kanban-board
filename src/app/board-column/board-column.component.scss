@@ -31,6 +31,10 @@
   background-color: rgba(var(--theme-color-dark), 0.1);
 }
 
+.highlighted-drag{
+  box-shadow: inset 0 0 4px rgba(var(--theme-color-light), 0.8);
+}
+
 .ticket-container{
   padding: 15px 0 10px;
   width: 100%;
@@ -73,13 +77,6 @@
 .drag-animation-left{
   transform: translateX(calc(-100% - 20px));
 }
-
-/* .shift-columns-right{
-  transform: translateX(calc(100% + 20px));
-}
-.shift-columns-left{
-  transform: translateX(calc(-100% - 20px));
-} */
 
 .events-disabled{
   pointer-events: none;

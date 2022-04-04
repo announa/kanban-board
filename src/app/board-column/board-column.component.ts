@@ -21,11 +21,10 @@ export interface columnData {
 })
 export class BoardColumnComponent implements OnInit {
   dragOver = false;
-  childrenDisabled = false;
+  dragStart = false;
   @Input('column') column!: Column;
   @Input('index') index!: number;
   tickets!: Observable<any>;
-  dragCopy!: Node;
 
   constructor(
     public fireService: FirestoreService,
@@ -40,53 +39,54 @@ export class BoardColumnComponent implements OnInit {
   onDragstart(event: any) {
     this.dragService.dragColumn(event, this.column, this.index);
     this.dragService.toggleInputs(true);
-    this.copyElem(event);
+    this.dragService.copyElem(event);
+    this.highlightDrogColumn(true);
   }
-
+  
   onDragover(event: any) {
-    if (
-      (this.childrenDisabled &&
-        event.target ==
-          this.dragService.columns.toArray()[this.dragService.indexCol2]
-            .nativeElement.firstChild) ||
-      !this.childrenDisabled
-    ) {
       this.dragService.allowDrop(event);
-      this.highlightColumn(true);
+      this.highlightDrogOverColumn(true);
       if (!this.dragService.dragData.ticket) {
+        this.dragService.disableChildren(this.index)
         this.dragService.startColumnAnim(this.index, event);
-        this.childrenDisabled = true;
       }
     }
-  }
-
-  onDragleave(event: any) {
-    this.dragOver = false;
-    if (!this.dragService.dragData.ticket) {
-      this.dragService.resetStylesPerCol(this.index, event);
-      setTimeout(() => {
-        this.childrenDisabled = false;
-      }, 500);
+    
+    onDragleave(event: any) {
+      this.dragOver = false;
+      if (!this.dragService.dragData.ticket) {
+        this.dragService.resetStylesPerCol(this.index, event);
+        setTimeout(() => {
+          this.dragService.enableChildren(this.index);
+        }, 500);
+      }
     }
+    
+    onDragend(event: any) {
+      console.log('dragend')
+      this.dragService.toggleInputs(false);
+      this.dragService.resetDragColumn(event);
+      this.highlightDrogColumn(false);
+    }
+    
+    onDrop() {
+      this.dragService.dropElement(this.column);
+      this.dragOver = false;
+      this.dragService.removeCloneNode()
+      document.body.style.overflowY='';
+      this.dragService.enableChildren(this.index);
   }
 
-  onDragend(event: any) {
-    this.dragService.toggleInputs(false);
-    this.dragService.resetDragColumn(event);
-  }
-
-  onDrop() {
-    this.dragService.dropElement(this.column);
-    this.dragOver = false;
-    document.body.removeChild(this.dragCopy)
-    document.body.style.overflowY='';
-  }
-
-  highlightColumn(status: boolean) {
+  highlightDrogOverColumn(status: boolean) {
     if (this.dragColNotDropCol()) {
       this.dragOver = status;
     }
   }
+
+  highlightDrogColumn(status: boolean) {
+      this.dragStart = status;
+    }
+  
 
   dragColNotDropCol() {
     return (
@@ -95,13 +95,5 @@ export class BoardColumnComponent implements OnInit {
       (this.dragService.dragData.col1 &&
         this.column.id != this.dragService.dragData.col1.id)
     );
-  }
-
-  copyElem(event: any) {
-    this.dragCopy = event.target.firstChild.cloneNode(true);
-    document.body.style.overflowY='hidden';
-    document.body.appendChild(this.dragCopy);
-    event.dataTransfer.setDragImage(this.dragCopy, 50, 50);
-    event.target.firstChild.style.opacity = '0';
   }
 }
