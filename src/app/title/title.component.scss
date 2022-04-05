@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
   flex: 1;
   height: 100%;
   width: 100%;
@@ -26,10 +26,15 @@
   margin-bottom: 0.8em; */
   background-color: transparent;
   border: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
   cursor: pointer;
+  
+  span{
+    max-width: 218px;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 
   &:focus {
     outline: none;

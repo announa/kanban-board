@@ -15,7 +15,9 @@
     (click)="noDefault($event)"
     #inputTitle
   >
+  <span>
     {{ hostObject.title }}
+  </span>
   </div>
   <div class="menu-container" *ngIf="!isEditingTitle">
     <div class="more-container" (click)="toggleMenu($event)">

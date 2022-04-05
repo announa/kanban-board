@@ -100,8 +100,7 @@ export class TitleComponent implements OnInit {
   }
 
   noDefault(event: any){
-    if(this.isEditingTitle){
       event.stopPropagation();
-    }
+    
   }
 }
