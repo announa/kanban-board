@@ -21,7 +21,8 @@ export class TitleComponent implements OnInit {
 
   @Input('hostObject') hostObject: any;
   @Input('collection') collection!: string;
-  @ViewChild('input') input!: ElementRef;
+  /* @ViewChild('input') input!: ElementRef; */
+  @ViewChild('inputTitle') inputTitle!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
     this.resetVariables(event);
@@ -44,9 +45,10 @@ export class TitleComponent implements OnInit {
   edit(event: any) {
     event.stopPropagation();
     this.isEditingTitle = true;
+    this.dragService.isEditingTitle = true;
     this.menuIsOpen = false;
     setTimeout(() => {
-      this.input.nativeElement.focus();
+      this.inputTitle.nativeElement.focus();
     }, 50);
   }
 
@@ -61,7 +63,8 @@ export class TitleComponent implements OnInit {
       !event.target.classList.contains('menu-container')
     ) {
       this.isEditingTitle = false;
-      this.input.nativeElement.value = this.hostObject.title;
+      this.dragService.isEditingTitle = false;
+      this.inputTitle.nativeElement.value = this.hostObject.title;
     }
   }
 
@@ -76,13 +79,16 @@ export class TitleComponent implements OnInit {
       this.saveTitle(event, columnId);
     }
   }
-
+  
   saveTitle(event: any, id: string) {
     event.stopPropagation();
-    if (this.title != this.hostObject.title) {
-      this.fireService.saveTitle(this.collection, id, this.title);
+    const inputTitle = this.inputTitle.nativeElement.textContent
+    console.log(inputTitle)
+    if (inputTitle != this.hostObject.title) {
+      this.fireService.saveTitle(this.collection, id, inputTitle);
     }
     this.isEditingTitle = false;
+    this.dragService.isEditingTitle = false;
   }
 
   delete(event: any, id: string) {
@@ -91,5 +97,11 @@ export class TitleComponent implements OnInit {
     setTimeout(() => {
       this.toggleMenu();
     }, 10);
+  }
+
+  noDefault(event: any){
+    if(this.isEditingTitle){
+      event.stopPropagation();
+    }
   }
 }

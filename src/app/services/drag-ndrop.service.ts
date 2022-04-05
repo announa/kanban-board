@@ -23,6 +23,7 @@ export class DragNdropService {
   dropColumnArr: any;
   dragCopy!: any;
   dragStart!: number;
+  isEditingTitle = false;
 
   constructor(private fireService: FirestoreService) {}
 

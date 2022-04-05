@@ -25,6 +25,7 @@ export class BoardColumnComponent implements OnInit {
   @Input('column') column!: Column;
   @Input('index') index!: number;
   tickets!: Observable<any>;
+  showTooltip = false;
 
   constructor(
     public fireService: FirestoreService,
@@ -37,10 +38,12 @@ export class BoardColumnComponent implements OnInit {
   }
 
   onDragstart(event: any) {
+    if(!this.dragService.isEditingTitle){
     this.dragService.dragColumn(event, this.column, this.index);
     this.dragService.toggleInputs(true);
     this.dragService.copyElem(event);
     this.highlightDrogColumn(true);
+    }
   }
   
   onDragover(event: any) {
@@ -95,5 +98,9 @@ export class BoardColumnComponent implements OnInit {
       (this.dragService.dragData.col1 &&
         this.column.id != this.dragService.dragData.col1.id)
     );
+  }
+
+  toggleTooltip(){
+    this.showTooltip = !this.showTooltip
   }
 }

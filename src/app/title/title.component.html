@@ -12,6 +12,8 @@
     class="edit-title-input"
     [contentEditable]="isEditingTitle"
     (keyup)="checkKey(hostObject.id, $event)"
+    (click)="noDefault($event)"
+    #inputTitle
   >
     {{ hostObject.title }}
   </div>

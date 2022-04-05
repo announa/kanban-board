@@ -7,7 +7,6 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 })
 export class TooltipComponent implements OnInit, OnChanges {
   @Input ('text') text!: string;
-  @Input ('visible') visible = false;
   @Input ('left') left = false;
 
   constructor() { }
@@ -16,7 +15,6 @@ export class TooltipComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.visible)
   }
 
 }

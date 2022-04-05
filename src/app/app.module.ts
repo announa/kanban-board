@@ -9,10 +9,13 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { TicketComponent } from './ticket/ticket.component';
 import { TicketAddComponent } from './ticket-add/ticket-add.component';
 import { FormsModule } from '@angular/forms';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreDocument, AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import {
+  AngularFirestoreDocument,
+  AngularFirestoreModule,
+} from '@angular/fire/compat/firestore';
 import { TitleComponent } from './title/title.component';
 import { BoardsOverviewComponent } from './boards-overview/boards-overview.component';
 import { BoardsPreviewComponent } from './boards-preview/boards-preview.component';
@@ -21,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { LoadingBarComponent } from './loading-bar/loading-bar.component';
 import { BacklogComponent } from './backlog/backlog.component';
+import { TooltipComponent } from './tooltip/tooltip.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +42,7 @@ import { BacklogComponent } from './backlog/backlog.component';
     RegisterComponent,
     LoadingBarComponent,
     BacklogComponent,
+    TooltipComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +53,6 @@ import { BacklogComponent } from './backlog/backlog.component';
     /* AngularFirestoreDocument */
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
