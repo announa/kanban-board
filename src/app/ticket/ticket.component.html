@@ -12,14 +12,21 @@
     <p>{{ ticket.title }}</p>
     <!-- <p>{{ ticket.description }}</p> -->
   </div>
-  <div class="ticket-description h-0" #descriptionElem>
+  <div class="ticket-description" [class.h-0]="!isVisible" #descriptionElem>
     <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p>
     <!-- <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p> -->
   </div>
-  <div class="ticket-footer h-0" #footer>
+  <div class="ticket-info" [class.h-0]="!isVisible" #info>
+    <p class="d-none" #category> <span>Category: </span> {{ ticket.category }}</p>
+    <p class="d-none" #deadline> <span>Deadline: </span>{{ ticket.deadline }}</p>
+    <p class="d-none" #priority> <span>Priority: </span>{{ ticket.priority }}</p>
+    <p class="d-none" #date> <span>Created: </span> {{ ticket.date }}</p>
+    <!-- <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p> -->
+  </div>
+  <div class="ticket-footer" [class.h-0]="!isVisible" #footer>
     <img class="icon h-0" src="assets/img/edit.svg" alt="Edit Ticket" #icon (click)="editTicket()">
     <img
-      class="icon h-0"
+      class="icon" [class.h-0]="!isVisible"
       src="assets/img/delete.svg"
       alt="delete ticket" #icon (click)="fireService.deleteTicket(ticket.columdId, ticket.id)"
     />

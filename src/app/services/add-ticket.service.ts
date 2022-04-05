@@ -42,8 +42,9 @@ export class AddTicketService {
 
   setTicketData() {
     if (this.action === 'add') {
-      this.ticket.date = new Date();
-      this.ticket.id = this.ticket.date.getTime().toString();
+      const date = new Date()
+      this.ticket.date = date.toDateString();
+      this.ticket.id = date.getTime().toString();
     }
     this.ticket.title_transf = this.ticket.title.toLowerCase();
     this.ticket.description_transf = this.ticket.description.toLowerCase();

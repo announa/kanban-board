@@ -94,7 +94,9 @@ export class FirestoreService {
   }
 
   getTicket(ticketId: string) {
-    return this.firestore.collection('tickets', ref => ref.where('id', '==', ticketId)).valueChanges();
+    return this.firestore
+      .collection('tickets', (ref) => ref.where('id', '==', ticketId))
+      .valueChanges();
     /* return this.firestore.collection('tickets').doc(ticketId).get(); */
   }
 
@@ -251,7 +253,7 @@ export class FirestoreService {
     return newUser.id;
   }
 
-    clearData() {
+  clearData() {
     this.currentUser = {
       username: '',
       password: '',
