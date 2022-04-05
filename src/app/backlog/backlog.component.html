@@ -5,8 +5,11 @@
       <img src="assets/img/add.svg" alt="add a new column" />
     </div>
   </h2>
-  <div class="ticket-container" *ngIf="fireService.backlogTickets.length > 0">
-    <app-ticket *ngFor="let ticket of fireService.backlogTickets"></app-ticket>
+  <div class="ticket-container" *ngIf="fireService.backlogTickets">
+    <app-ticket
+      *ngFor="let ticket of fireService.backlogTickets"
+      [ticket]="ticket"
+    ></app-ticket>
   </div>
-  <app-ticket-add  *ngIf="addTicketServ.isAddingTicket"></app-ticket-add>
+  <app-ticket-add *ngIf="addTicketServ.isAddingTicket"></app-ticket-add>
 </div>

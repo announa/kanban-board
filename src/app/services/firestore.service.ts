@@ -109,11 +109,13 @@ export class FirestoreService {
   }
 
   loadBacklogTickets() {
+    console.log(this.currentUserId)
     this.firestore
-      .collection('tickets', (ref) => ref.where('columnId', '==', 'backlog'))
+      .collection('tickets', (ref) => ref.where('columnId', '==', 'backlog').where('userId', '==', this.currentUserId))
       .valueChanges()
       .subscribe((tickets) => {
         this.backlogTickets = tickets;
+        console.log(this.backlogTickets)
       });
   }
 
