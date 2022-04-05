@@ -1,5 +1,5 @@
 :host{
-  width: 90%;
+  width: 100%;
 }
 
 .column-title {
@@ -10,7 +10,18 @@
   flex: 1;
   height: 100%;
   width: 100%;
+}
+
+.cursor-p{
   cursor: pointer;
+}
+
+.board-title{
+  width: unset;
+
+  .title-span{
+    max-width: calc(100vw - 130px);
+  }
 }
 
 .edit-title-input {
@@ -26,7 +37,6 @@
   margin-bottom: 0.8em; */
   background-color: transparent;
   border: none;
-  cursor: pointer;
   
   span{
     max-width: 218px;
@@ -79,6 +89,7 @@
   border-radius: 5px;
   color: rgb(var(--letter-color-dark));
   background-color: white;
+  cursor: pointer;
 }
 
 .edit-menu-item {

@@ -1,4 +1,4 @@
-<div class="column-title">
+<div class="column-title" [class.board-title]="hostObject == fireService.currentBoard" [class.cursor-p]="hostObject!= fireService.currentBoard && !this.isEditingTitle">
 <!--   <input
     type="text"
     value="{{ hostObject.title }}"
@@ -15,7 +15,7 @@
     (click)="noDefault($event)"
     #inputTitle
   >
-  <span>
+  <span class="title-span">
     {{ hostObject.title }}
   </span>
   </div>
