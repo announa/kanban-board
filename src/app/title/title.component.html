@@ -1,13 +1,20 @@
 <div class="column-title">
-  <input
+<!--   <input
     type="text"
-    value="{{ data.title }}"
+    value="{{ hostObject.title }}"
     [(ngModel)]="title"
     class="edit-title-input"
     [readonly]="!isEditingTitle && !dragService.isDragging"
-    (keyup)="checkKey(data.id, $event)"
+    (keyup)="checkKey(hostObject.id, $event)"
     #input
-  />
+  /> -->
+  <div
+    class="edit-title-input"
+    [contentEditable]="isEditingTitle"
+    (keyup)="checkKey(hostObject.id, $event)"
+  >
+    {{ hostObject.title }}
+  </div>
   <div class="menu-container" *ngIf="!isEditingTitle">
     <div class="more-container" (click)="toggleMenu($event)">
       <img class="menu-img" src="assets/img/more.svg" alt="menu" />
@@ -19,23 +26,16 @@
         </div>
         <span class="edit-menu-text menu">Edit title</span>
       </div>
-      <div
-        class="edit-menu-item menu"
-        (click)="delete($event, data.id)"
-      >
+      <div class="edit-menu-item menu" (click)="delete($event, hostObject.id)">
         <div class="menu-icon-container menu">
-          <img
-            src="assets/img/delete.svg"
-            alt="delete column"
-            class="menu"
-          />
+          <img src="assets/img/delete.svg" alt="delete column" class="menu" />
         </div>
         <span class="edit-menu-text menu">Delete</span>
       </div>
     </div>
   </div>
   <div class="menu-container" *ngIf="isEditingTitle">
-    <div class="more-container" (click)="saveTitle($event, data.id)">
+    <div class="more-container" (click)="saveTitle($event, hostObject.id)">
       <img
         class=""
         src="assets/img/done.svg"

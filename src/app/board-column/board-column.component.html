@@ -14,7 +14,7 @@
 >
   <div class="column">
     <div class="title-container">
-      <app-title [data]="column" [collection]="'columns'"> </app-title>
+      <app-title [hostObject]="column" [collection]="'columns'"> </app-title>
     </div>
     <div class="ticket-container">
       <div class="column-tickets" *ngIf="tickets">

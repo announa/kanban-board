@@ -1,16 +1,21 @@
+:host{
+  width: 90%;
+}
+
 .column-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 5px;
   flex: 1;
   height: 100%;
-  width: 80%;
+  width: 100%;
   cursor: pointer;
 }
 
-input {
+.edit-title-input {
   text-align: center;
-  width: 220px;
+  width: 100%;
   font-size: 1em;
   font-weight: 500;
   color: rgb(var(--letter-color-light));
@@ -20,6 +25,8 @@ input {
   background-color: transparent;
   border: none;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   cursor: pointer;
 
   &:focus {

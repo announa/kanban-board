@@ -19,7 +19,7 @@ export class TitleComponent implements OnInit {
   isEditingTitle = false;
   title!: string;
 
-  @Input('data') data: any;
+  @Input('hostObject') hostObject: any;
   @Input('collection') collection!: string;
   @ViewChild('input') input!: ElementRef;
   @HostListener('document:click', ['$event'])
@@ -33,7 +33,7 @@ export class TitleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.title = this.data.title;
+    this.title = this.hostObject.title;
   }
 
   toggleMenu(event?: any) {
@@ -61,7 +61,7 @@ export class TitleComponent implements OnInit {
       !event.target.classList.contains('menu-container')
     ) {
       this.isEditingTitle = false;
-      this.input.nativeElement.value = this.data.title;
+      this.input.nativeElement.value = this.hostObject.title;
     }
   }
 
@@ -79,7 +79,7 @@ export class TitleComponent implements OnInit {
 
   saveTitle(event: any, id: string) {
     event.stopPropagation();
-    if (this.title != this.data.title) {
+    if (this.title != this.hostObject.title) {
       this.fireService.saveTitle(this.collection, id, this.title);
     }
     this.isEditingTitle = false;
