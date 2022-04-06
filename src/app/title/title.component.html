@@ -19,7 +19,7 @@
     {{ hostObject.title }}
   </span>
   </div>
-  <div class="menu-container" *ngIf="!isEditingTitle" (click)="toggleMenu($event)" [style.zIndex]="hostObject == fireService.currentBoard ? 2 : 1">
+  <div class="menu-container" *ngIf="!isEditingTitle" (click)="toggleMenu($event)" [style.zIndex]="hostObject == fireService.currentBoard ? 2 : 1" #menu>
     <div class="more-container" >
       <img class="menu-img" src="assets/img/more.svg" alt="menu" />
     </div>

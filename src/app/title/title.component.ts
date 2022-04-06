@@ -29,7 +29,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
   @Output() showCatModal = new EventEmitter();
   @Output() addTicket = new EventEmitter();
   @ViewChild('inputTitle') inputTitle!: ElementRef;
-  @ViewChild('titleContainer') titleContainer!: ElementRef;
+  @ViewChild('menu') menu!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
     this.resetVariables(event);
@@ -45,19 +45,19 @@ export class TitleComponent implements OnInit, AfterViewInit {
     this.title = this.hostObject.title;
   }
 
-  ngAfterViewInit(): void {
-    if (
-      this.titleContainer.nativeElement.offsetLeft +
-        this.titleContainer.nativeElement.clientWidth >
-      window.innerWidth
-    ) {
-      this.left = true;
-    }
-  }
+  ngAfterViewInit(): void {}
 
   toggleMenu(event?: any) {
     if (event) event.stopPropagation();
+    this.checkOpeningPosition();
     this.menuIsOpen = !this.menuIsOpen;
+  }
+
+  checkOpeningPosition() {
+    const elem = this.menu.nativeElement.getBoundingClientRect();
+    if (elem.x + 200 > window.innerWidth) {
+      this.left = true;
+    }
   }
 
   edit(event: any) {
@@ -115,16 +115,16 @@ export class TitleComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.toggleMenu();
     }, 10);
-    this.redirect()
+    this.redirect();
   }
 
-  redirect(){
-    if(this.router.url == '/board/' + this.fireService.currentBoardId)
-    this.router.navigateByUrl('/boards')
+  redirect() {
+    if (this.router.url == '/board/' + this.fireService.currentBoardId)
+      this.router.navigateByUrl('/boards');
   }
 
-  addNewTicket(){
-    this.addTicket.emit(true)
+  addNewTicket() {
+    this.addTicket.emit(true);
   }
 
   noDefault(event: any) {
@@ -132,6 +132,6 @@ export class TitleComponent implements OnInit, AfterViewInit {
   }
 
   showCategoryModal() {
-    this.showCatModal.emit(true)
+    this.showCatModal.emit(true);
   }
 }
