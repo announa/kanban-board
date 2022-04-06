@@ -1,16 +1,13 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
-  OnChanges,
   OnInit,
   QueryList,
-  SimpleChanges,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { AddTicketService } from '../services/add-ticket.service';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -20,7 +17,7 @@ import { FirestoreService } from '../services/firestore.service';
   templateUrl: './ticket.component.html',
   styleUrls: ['./ticket.component.scss'],
 })
-export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
+export class TicketComponent implements OnInit {
   @ViewChild('descriptionElem') descriptionElem!: ElementRef;
   @ViewChild('descriptionTextElem') descriptionTextElem!: ElementRef;
   @ViewChild('ticketElem') ticketElem!: ElementRef;
@@ -37,21 +34,12 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(
     public fireService: FirestoreService,
     public dragService: DragNdropService,
-    private addTicketServ: AddTicketService
+    private addTicketServ: AddTicketService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
 
-  ngAfterViewInit(): void {
-    /*     this.fireService.countTickets(this.tickets);
-    this.tickets.changes.subscribe(() => this.fireService.countTickets(this.tickets)) */
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    /*     this.fireService.countTickets(this.tickets); */
-  }
-
-  /* showTicket(i: number) { */
   showTicket() {
     this.isVisible = !this.isVisible;
     [this.descriptionElem, this.footer].forEach((e) =>
@@ -73,7 +61,16 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     this.addTicketServ.editTicket(this.ticket.id);
   }
 
-  moveToBoard(){
-    this.fireService.moveTicketToBoard(this.ticket.id)
+  deleteTicket(){
+    this.fireService.deleteTicket(this.ticket.id)
+  }
+
+  moveToBoard() {
+    this.fireService.moveTicketToBoard(this.ticket.id);
+    this.navigate();
+  }
+
+  navigate() {
+    this.router.navigateByUrl('/board/' + this.fireService.currentBoardId);
   }
 }

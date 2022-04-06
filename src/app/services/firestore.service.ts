@@ -170,11 +170,10 @@ export class FirestoreService {
       .set({ ...newBoard });
   }
 
-  deleteTicket(columnId: string, ticketId: string) {
-    this.firestore
-      .doc(this.columnsRef + '/' + columnId + '/tickets/' + ticketId)
+  deleteTicket(ticketId: string) {
+    this.firestore.collection('tickets').doc(ticketId)
       .delete()
-      .then(() => console.log('ticket deleted'))
+      .then(() => console.log(`ticket ${ticketId} deleted`))
       .catch((err) => console.log(err));
   }
 
@@ -189,7 +188,6 @@ export class FirestoreService {
         break;
     }
 
-    console.log(`deleteDoc ${collection} ${id}`);
     this.firestore
       .collection(collection)
       .doc(id)
@@ -345,6 +343,11 @@ export class FirestoreService {
   }
 
   moveTicketToBoard(ticketId: string) {
-    console.log('move ticket to board');
+    this.firestore.collection('columns', (ref => ref.where('boardId', '==', this.currentBoardId))).valueChanges().subscribe((cols: any[]) => {
+      let colOrders = cols.map(col => col.order)
+      const min = Math.min(...colOrders)
+      const matchingCol = cols.find(col => col.order == min)
+      this.firestore.collection('tickets').doc(ticketId).update({columnId: matchingCol.id})
+    })
   }
 }

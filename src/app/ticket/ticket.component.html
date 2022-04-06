@@ -19,7 +19,7 @@
   </div>
   <div class="ticket-footer" [class.h-0]="!isVisible" #footer>
     <div class="footer-left">
-      <div class="ticket-footer-icon" (click)="moveToBoard()">
+      <div *ngIf="ticket.columnId == 'backlog'" class="ticket-footer-icon" (click)="moveToBoard()">
         <img class="icon h-0" src="assets/img/arrow-up.svg" alt="Move ticket to board" #icon />
       </div>
     </div>
@@ -29,7 +29,7 @@
     </div>
     <div
       class="ticket-footer-icon"
-      (click)="fireService.deleteTicket(ticket.columdId, ticket.id)"
+      (click)="deleteTicket()"
     >
       <img
         class="icon"
