@@ -14,7 +14,7 @@
 >
   <div class="column">
     <div class="title-container">
-      <app-title [hostObject]="column" [collection]="'columns'"> </app-title>
+      <app-title [hostObject]="column" [collection]="'columns'" (addTicket)="addNewTicket()"> </app-title>
     </div>
     <div class="ticket-container">
       <div class="column-tickets" *ngIf="tickets">
@@ -25,12 +25,12 @@
         ></app-ticket>
       </div>
     </div>
-    <div class="add-icon-container" (click)="addticket.addTicket(column.id)">
+<!--     <div class="add-icon-container" (click)="addticket.addTicket(column.id)">
       <div class="add-icon" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
         <app-tooltip [text]="'Add ticket'" [left]="true" *ngIf="showTooltip"></app-tooltip>
         <img src="assets/img/add_blue.svg" alt="add a new ticket" />
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 <!-- </div> -->

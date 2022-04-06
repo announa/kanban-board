@@ -104,4 +104,8 @@ export class BoardColumnComponent implements OnInit {
   toggleTooltip(){
     this.showTooltip = !this.showTooltip
   }
+
+  addNewTicket(){
+    this.addticket.addTicket(this.column.id)
+  }
 }

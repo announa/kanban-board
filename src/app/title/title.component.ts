@@ -27,6 +27,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
   @Input('hostObject') hostObject: any;
   @Input('collection') collection!: string;
   @Output() showCatModal = new EventEmitter();
+  @Output() addTicket = new EventEmitter();
   @ViewChild('inputTitle') inputTitle!: ElementRef;
   @ViewChild('titleContainer') titleContainer!: ElementRef;
   @HostListener('document:click', ['$event'])
@@ -120,6 +121,10 @@ export class TitleComponent implements OnInit, AfterViewInit {
   redirect(){
     if(this.router.url == '/board/' + this.fireService.currentBoardId)
     this.router.navigateByUrl('/boards')
+  }
+
+  addNewTicket(){
+    this.addTicket.emit(true)
   }
 
   noDefault(event: any) {

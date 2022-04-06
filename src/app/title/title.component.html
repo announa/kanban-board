@@ -30,6 +30,12 @@
         </div>
         <span class="edit-menu-text menu">Edit title</span>
       </div>
+      <div *ngIf="collection == 'columns'" class="edit-menu-item menu" (click)="addNewTicket()">
+        <div class="menu-icon-container menu">
+          <img src="assets/img/add.svg" alt="add ticket" class="menu" />
+        </div>
+        <span class="edit-menu-text menu">Add ticket</span>
+      </div>
       <div *ngIf="hostObject == fireService.currentBoard" class="edit-menu-item menu" (click)="fireService.addColumn()">
         <div class="menu-icon-container menu">
           <img src="assets/img/add.svg" alt="add column" class="menu" />

@@ -47,8 +47,10 @@
 
   li{
    width: 100%;
-   padding: 0 5px;
+   padding: 0 10px;
    list-style: none;
+   background-color: rgba(var(--theme-color-dark), 0.7);
+
 
    a{
     width: 100%;
@@ -59,8 +61,4 @@
 
 a{
  cursor: pointer;
-}
-
-.list-item{
- background-color: rgba(var(--theme-color-dark), 0.5);
 }
