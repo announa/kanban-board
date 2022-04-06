@@ -8,20 +8,21 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./boards-overview.component.scss'],
 })
 export class BoardsOverviewComponent implements OnInit {
+  showTooltip = false;
+
   constructor(
     public fireService: FirestoreService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
- /*    this.route.params.subscribe((params) => {
-      const userId = params['userId'];
-      this.fireService.setCurrentUser(userId)
-      this.fireService.loadBoards(userId);
-    }); */
+    this.fireService.resetBoardId();
     this.fireService.getUserIdFromLocalStorage();
     this.fireService.getUserById();
     this.fireService.loadBoards();
-    console.log(this.fireService.boards)
+  }
+
+  toggleTooltip(){
+    this.showTooltip = !this.showTooltip
   }
 }

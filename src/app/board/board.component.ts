@@ -60,7 +60,6 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
   getBoardIdFromURL(){
     this.route.params.subscribe((params) => {
       const boardId = params['boardId'];
-      /* const userId = params['userId']; */
       this.fireService.loadCurrentBoard(boardId);
     });
   }

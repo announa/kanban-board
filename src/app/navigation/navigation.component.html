@@ -1,5 +1,22 @@
 <div class="navigation">
-  <a [routerLink]="'/boards'">Boards</a>
-  <a [routerLink]="'/backlog'">Backlog</a>
-  <a (click)="logout()">Log out</a>
+  <div class="nav-right nav-section">
+    <a [routerLink]="'/boards'">Boards Overview</a>
+    <!--   <a [routerLink]="'/backlog'">Backlog</a> -->
+    <a (click)="logout()">Log out</a>
+  </div>
+
+  <div *ngIf="fireService.currentBoardId" class="nav-left nav-section"> {{ fireService.currentBoard.title | uppercase }}
+    <ul >
+      <li class="list-item">
+        <a [routerLink]="'/board/' + fireService.currentBoardId"
+          >Board</a
+        >
+      </li>
+      <li class="list-item">
+        <a [routerLink]="'/board/' + fireService.currentBoardId + '/backlog'"
+          >Backlog</a
+        >
+      </li>
+    </ul>
+  </div>
 </div>

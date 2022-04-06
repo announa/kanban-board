@@ -72,4 +72,8 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   editTicket() {
     this.addTicketServ.editTicket(this.ticket.id);
   }
+
+  moveToBoard(){
+    this.fireService.moveTicketToBoard(this.ticket.id)
+  }
 }

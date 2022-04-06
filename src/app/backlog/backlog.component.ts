@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirestoreService } from '../services/firestore.service';
 import { AddTicketService } from '../services/add-ticket.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -12,7 +13,7 @@ export class BacklogComponent implements OnInit {
   showBacklog = true;
   showTooltip = false;
 
-  constructor(public fireService: FirestoreService, public addTicketServ: AddTicketService) { }
+  constructor(public fireService: FirestoreService, public addTicketServ: AddTicketService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.fireService.getUserIdFromLocalStorage();
@@ -24,11 +25,18 @@ export class BacklogComponent implements OnInit {
   }
   
   loadBacklog(){
+    this.getBoardIdFromURL();
     this.showBacklog = true;
     this.fireService.getUserById();
     this.fireService.loadBacklogTickets()
   }
 
+  getBoardIdFromURL(){
+    this.route.params.subscribe((params) => {
+      const boardId = params['boardId'];
+      this.fireService.loadCurrentBoard(boardId);
+    });
+  }
 
   toggleTooltip(){
     this.showTooltip = !this.showTooltip

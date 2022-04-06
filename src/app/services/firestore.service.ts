@@ -65,6 +65,10 @@ export class FirestoreService {
       });
   }
 
+  resetBoardId() {
+    this.currentBoardId = '';
+  }
+
   loadCurrentUser(userId: string) {
     this.firestore
       .doc('user/' + userId)
@@ -97,7 +101,6 @@ export class FirestoreService {
     return this.firestore
       .collection('tickets', (ref) => ref.where('id', '==', ticketId))
       .valueChanges();
-    /* return this.firestore.collection('tickets').doc(ticketId).get(); */
   }
 
   loadTickets(columnId: string, ref?: string, dir?: string) {
@@ -109,13 +112,15 @@ export class FirestoreService {
   }
 
   loadBacklogTickets() {
-    console.log(this.currentUserId)
     this.firestore
-      .collection('tickets', (ref) => ref.where('columnId', '==', 'backlog').where('userId', '==', this.currentUserId))
+      .collection('tickets', (ref) =>
+        ref
+          .where('columnId', '==', 'backlog')
+          .where('boardId', '==', this.currentBoardId)
+      )
       .valueChanges()
       .subscribe((tickets) => {
         this.backlogTickets = tickets;
-        console.log(this.backlogTickets)
       });
   }
 
@@ -207,14 +212,6 @@ export class FirestoreService {
       await this.firestore.collection(collection).doc(item.ref).delete();
     }
   }
-
-  /*   updateColOrder(id: string) {
-    let currentOrder: number;
-    let currentCol = this.firestore
-      .collection('columns')
-      .doc(id)
-      .valueChanges();
-  } */
 
   saveTitle(collection: string, id: string, newTitle: string) {
     this.firestore.collection(collection).doc(id).update({ title: newTitle });
@@ -318,21 +315,36 @@ export class FirestoreService {
     localStorage.removeItem('userId');
   }
 
-  addNewCategory(newCategory: string){
-    let categories = this.currentBoard.categories
-    categories.push(newCategory)
-    this.firestore.collection('boards').doc(this.currentBoardId).update({categories: categories})
+  // #############  Edit current board categories  ##############
+
+  addNewCategory(newCategory: string) {
+    let categories = this.currentBoard.categories;
+    categories.push(newCategory);
+    this.firestore
+      .collection('boards')
+      .doc(this.currentBoardId)
+      .update({ categories: categories });
   }
 
-  updateCategories(editedCategory: string, index: number){
-    let newCategoryArr = this.currentBoard.categories
-    newCategoryArr[index] = editedCategory
-    this.firestore.collection('boards').doc(this.currentBoardId).update({categories: newCategoryArr})
+  updateCategories(editedCategory: string, index: number) {
+    let newCategoryArr = this.currentBoard.categories;
+    newCategoryArr[index] = editedCategory;
+    this.firestore
+      .collection('boards')
+      .doc(this.currentBoardId)
+      .update({ categories: newCategoryArr });
   }
 
-  deleteCategory(index: number){
-    let newCategoryArr = this.currentBoard.categories
-    newCategoryArr.splice(index, 1)
-    this.firestore.collection('boards').doc(this.currentBoardId).update({categories: newCategoryArr})
+  deleteCategory(index: number) {
+    let newCategoryArr = this.currentBoard.categories;
+    newCategoryArr.splice(index, 1);
+    this.firestore
+      .collection('boards')
+      .doc(this.currentBoardId)
+      .update({ categories: newCategoryArr });
+  }
+
+  moveTicketToBoard(ticketId: string) {
+    console.log('move ticket to board');
   }
 }

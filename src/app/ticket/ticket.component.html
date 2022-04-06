@@ -1,34 +1,44 @@
-<!-- <div
-  #ticket
-  class="ticket"
-  (click)="showTicket(0)"
-> -->
 <div
   #ticketElem
   class="ticket"
-  (click)="showTicket()" draggable="true" (dragstart)="dragService.dragTicket($event, ticket)"
+  (click)="showTicket()"
+  draggable="true"
+  (dragstart)="dragService.dragTicket($event, ticket)"
 >
   <div class="ticket-title">
     <p>{{ ticket.title }}</p>
-    <!-- <p>{{ ticket.description }}</p> -->
   </div>
   <div class="ticket-description" [class.h-0]="!isVisible" #descriptionElem>
     <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p>
-    <!-- <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p> -->
   </div>
   <div class="ticket-info" [class.h-0]="!isVisible" #info>
-    <p class="d-none" #category> <span>Category: </span> {{ ticket.category }}</p>
-    <p class="d-none" #deadline> <span>Deadline: </span>{{ ticket.deadline }}</p>
-    <p class="d-none" #priority> <span>Priority: </span>{{ ticket.priority }}</p>
-    <p class="d-none" #date> <span>Created: </span> {{ ticket.date }}</p>
-    <!-- <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p> -->
+    <p class="d-none" #category><span>Category: </span>{{ ticket.category }}</p>
+    <p class="d-none" #deadline><span>Deadline: </span>{{ ticket.deadline }}</p>
+    <p class="d-none" #priority><span>Priority: </span>{{ ticket.priority }}</p>
+    <p class="d-none" #date><span>Created: </span>{{ ticket.date }}</p>
   </div>
   <div class="ticket-footer" [class.h-0]="!isVisible" #footer>
-    <img class="icon h-0" src="assets/img/edit.svg" alt="Edit Ticket" #icon (click)="editTicket()">
-    <img
-      class="icon" [class.h-0]="!isVisible"
-      src="assets/img/delete.svg"
-      alt="delete ticket" #icon (click)="fireService.deleteTicket(ticket.columdId, ticket.id)"
-    />
+    <div class="footer-left">
+      <div class="ticket-footer-icon" (click)="moveToBoard()">
+        <img class="icon h-0" src="assets/img/arrow-up.svg" alt="Move ticket to board" #icon />
+      </div>
+    </div>
+    <div class="footer-right">
+    <div class="ticket-footer-icon" (click)="editTicket()">
+      <img class="icon h-0" src="assets/img/edit.svg" alt="Edit Ticket" #icon />
+    </div>
+    <div
+      class="ticket-footer-icon"
+      (click)="fireService.deleteTicket(ticket.columdId, ticket.id)"
+    >
+      <img
+        class="icon"
+        [class.h-0]="!isVisible"
+        src="assets/img/delete.svg"
+        alt="delete ticket"
+        #icon
+      />
+    </div>
+  </div>
   </div>
 </div>

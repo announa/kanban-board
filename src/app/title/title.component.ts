@@ -9,6 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
 
@@ -26,7 +27,6 @@ export class TitleComponent implements OnInit, AfterViewInit {
   @Input('hostObject') hostObject: any;
   @Input('collection') collection!: string;
   @Output() showCatModal = new EventEmitter();
-  /* @ViewChild('input') input!: ElementRef; */
   @ViewChild('inputTitle') inputTitle!: ElementRef;
   @ViewChild('titleContainer') titleContainer!: ElementRef;
   @HostListener('document:click', ['$event'])
@@ -36,7 +36,8 @@ export class TitleComponent implements OnInit, AfterViewInit {
 
   constructor(
     public fireService: FirestoreService,
-    public dragService: DragNdropService
+    public dragService: DragNdropService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -113,6 +114,12 @@ export class TitleComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.toggleMenu();
     }, 10);
+    this.redirect()
+  }
+
+  redirect(){
+    if(this.router.url == '/board/' + this.fireService.currentBoardId)
+    this.router.navigateByUrl('/boards')
   }
 
   noDefault(event: any) {

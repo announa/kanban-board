@@ -1,8 +1,9 @@
 <div class="main-background component-container">
   <h2>
     Your Boards
-    <div class="add-icon" (click)="fireService.addBoard()">
-      <img src="assets/img/add.svg" alt="add a new column" />
+    <div class="add-icon" (click)="fireService.addBoard()" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
+      <img src="assets/img/add_blue.svg" alt="add a new column" />
+      <app-tooltip *ngIf="showTooltip" [text]="'Add a board'"></app-tooltip>
     </div>
   </h2>
   <div class="preview-container" *ngIf="fireService.boards.length > 0">

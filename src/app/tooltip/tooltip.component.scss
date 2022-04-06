@@ -7,11 +7,12 @@
  border-radius: 8px;
  position: absolute;
  top: -32px;
- right: -90px;
- white-space: nowrap;
+left: 10px; 
+white-space: nowrap;
 }
 
 .left{
+ left: unset;
  right: 10px;
  top: -35px;
  background-color: rgba(var(--theme-color-dark), .6);

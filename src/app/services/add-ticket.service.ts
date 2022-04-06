@@ -15,7 +15,7 @@ export class AddTicketService {
 
   addTicket(columnId: string) {
     this.action = 'add';
-    this.ticket = new Ticket(columnId);
+    this.ticket = new Ticket(columnId, this.fireService.currentBoardId);
     this.isAddingTicket = true;
 
     /*     this.fireService.addTicketColumn = columnId; */

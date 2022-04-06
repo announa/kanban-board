@@ -8,6 +8,7 @@ export class Ticket{
  priority?: string;
  id!: string;
  columnId: string;
+ boardId: string;
  progress = ''
  /* creator = ''; */
  /* users = []; */
@@ -16,8 +17,9 @@ export class Ticket{
  title_transf = '';
  description_transf = '';
 
- constructor(columnId: string){
+ constructor(columnId: string, boardId: string){
   this.columnId = columnId;
+  this.boardId = boardId;
  }
 
 }
