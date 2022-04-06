@@ -5,7 +5,7 @@
     <a (click)="logout()">Log out</a>
   </div>
 
-  <div *ngIf="fireService.currentBoardId && fireService.currentBoard" class="nav-left nav-section"> {{ fireService.currentBoard.title | uppercase }}
+  <div *ngIf="fireService.currentBoard" class="nav-left nav-section"> {{ fireService.currentBoard?.title | uppercase }}
     <ul >
       <li class="list-item">
         <a [routerLink]="'/board/' + fireService.currentBoardId"

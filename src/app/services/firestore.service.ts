@@ -65,8 +65,9 @@ export class FirestoreService {
       });
   }
 
-  resetBoardId() {
+  resetBoard() {
     this.currentBoardId = '';
+    this.currentBoard = undefined;
   }
 
   loadCurrentUser(userId: string) {

@@ -1,27 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+  styleUrls: ['./navigation.component.scss'],
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, AfterViewInit {
+  constructor(
+    public fireService: FirestoreService,
+    public router: Router,
+    private cd: ChangeDetectorRef
+  ) {}
 
-  constructor(public fireService: FirestoreService, private router: Router) { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.cd.detectChanges();
   }
 
-  logout(){
-    console.log('log out')
-    this.fireService.clearData()
+  logout() {
+    console.log('log out');
+    this.fireService.clearData();
     this.fireService.removeUserIdFromLocalStorage();
-    this.goToLogin()
+    this.goToLogin();
   }
 
-  goToLogin(){
-    this.router.navigateByUrl('/')
+  goToLogin() {
+    this.router.navigateByUrl('/');
   }
 }

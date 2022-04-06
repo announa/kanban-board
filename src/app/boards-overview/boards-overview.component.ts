@@ -16,7 +16,7 @@ export class BoardsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fireService.resetBoardId();
+    this.fireService.resetBoard();
     this.fireService.getUserIdFromLocalStorage();
     this.fireService.getUserById();
     this.fireService.loadBoards();
