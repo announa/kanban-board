@@ -28,7 +28,7 @@
   display: flex;
   justify-content: center;
   text-align: center;
-  width: 100%;
+  width: calc(100% - 30px);
   font-size: 1em;
   font-weight: 500;
   color: rgb(var(--letter-color-light));
@@ -39,11 +39,11 @@
   border: none;
   
   span{
-    max-width: 218px;
     display: inline-block;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    width: 100%;
   }
 
   &:focus {
@@ -56,6 +56,7 @@
   border-radius: 50%;
   position: relative;
   z-index: 1;
+  font-weight: 400;
 }
 
 .more-container {
@@ -91,6 +92,9 @@
   background-color: white;
   cursor: pointer;
 }
+.left{
+  right: 180px;
+}
 
 .edit-menu-item {
   display: flex;
@@ -105,17 +109,5 @@
 
   &:hover {
     background-color: rgba(var(--theme-color-dark), 0.1);
-  }
-}
-
-.menu-icon-container {
-  width: 15px;
-  height: 15px;
-  margin-right: 10px;
-
-  > img {
-    display: block;
-    width: 100%;
-    height: 100%;
   }
 }

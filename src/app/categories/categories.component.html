@@ -1,0 +1,55 @@
+<div class="component-container">
+  <div class="modal" #modal>
+    <div class="content">
+    <h3>Edit Board Cateories</h3>
+    <div class="category-container">
+      <form (ngSubmit)="addCategory()" #form="ngForm">
+        <label for="add-catgory">Add a new category:</label>
+        <input
+          type="text"
+          name="add-catgory"
+          [(ngModel)]="newCategory"
+          placeholder="Category name"
+          required
+        />
+        <button type="submit" class="btn btn-add-cat" [disabled]="form.invalid">Add Category</button>
+      </form>
+      <div class="catgories">
+        <h4>Board Categories:</h4>
+       <ul *ngIf="fireService.currentBoard">
+        <li *ngFor="let category of fireService.currentBoard.categories; let i = index">
+          <div
+          class="edit-category"
+          [contentEditable]="isEditingCategory"
+          (keyup)="checkKey(i, $event)"
+          #categories
+        >
+        <span class="category-span">
+          {{ category }}
+        </span>
+        </div>
+          <div class="edit-container">
+            <div *ngIf="!isEditingCategory" class="menu-icon-container" (click)="editCategory(i)" (mouseenter)="toggleTooltip(1)" (mouseleave)="toggleTooltip(1)">
+              <img src="assets/img/edit.svg" alt="edit category"/>
+              <app-tooltip *ngIf="showTooltip1" [text]="'Edit category'"></app-tooltip>
+            </div>
+            <div *ngIf="isEditingCategory" class="menu-icon-container" (click)="saveCategory(i)">
+              <img
+                src="assets/img/done.svg"
+                alt="save catgory"
+                id="save-title"
+              />
+            </div>
+            <div class="menu-icon-container" (click)="deleteCategory(i)" (mouseenter)="toggleTooltip(2)" (mouseleave)="toggleTooltip(2)">
+              <img src="assets/img/delete.svg" alt="delete category"/>
+              <app-tooltip *ngIf="showTooltip2" [text]="'Delete category'"></app-tooltip>
+            </div>
+          </div>
+        </li>
+       </ul>
+      </div>
+    </div>
+    <button class="btn btn-close">Close</button>
+  </div>
+  </div>
+</div>

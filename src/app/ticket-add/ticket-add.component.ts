@@ -11,7 +11,6 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class TicketAddComponent implements OnInit {
   action!: string;
-  @Output() isAddingTicketChange = new EventEmitter();
 
   constructor(public fireService: FirestoreService, public addTicketServ: AddTicketService) {}
 

@@ -23,6 +23,7 @@ import { FirestoreService } from '../services/firestore.service';
 export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChildren('column', { read: ElementRef }) columns!: QueryList<ElementRef>;
   showBoard = true;
+  showCategoriesModal = true;
 
   constructor(
     public fireService: FirestoreService,
@@ -62,5 +63,9 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
       /* const userId = params['userId']; */
       this.fireService.loadCurrentBoard(boardId);
     });
+  }
+
+  openCatModal(){
+    this.showCategoriesModal = true;
   }
 }

@@ -14,3 +14,16 @@ align-items: center;
  width: 100%;
  max-width: 800px;
 }
+
+.add-icon {
+ background-color: rgba(var(--theme-color-dark), 0.2);
+ margin-left: 20px;
+
+ &:hover {
+   background-color: rgba(var(--theme-color-dark), 0.3);
+ }
+
+ img {
+   filter: brightness(200%);
+ }
+}

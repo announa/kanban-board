@@ -317,4 +317,22 @@ export class FirestoreService {
   removeUserIdFromLocalStorage() {
     localStorage.removeItem('userId');
   }
+
+  addNewCategory(newCategory: string){
+    let categories = this.currentBoard.categories
+    categories.push(newCategory)
+    this.firestore.collection('boards').doc(this.currentBoardId).update({categories: categories})
+  }
+
+  updateCategories(editedCategory: string, index: number){
+    let newCategoryArr = this.currentBoard.categories
+    newCategoryArr[index] = editedCategory
+    this.firestore.collection('boards').doc(this.currentBoardId).update({categories: newCategoryArr})
+  }
+
+  deleteCategory(index: number){
+    let newCategoryArr = this.currentBoard.categories
+    newCategoryArr.splice(index, 1)
+    this.firestore.collection('boards').doc(this.currentBoardId).update({categories: newCategoryArr})
+  }
 }

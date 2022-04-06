@@ -66,7 +66,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.priority,
         this.date,
       ].forEach((e) => e.nativeElement.classList.toggle('d-none'));
-    }, 150);
+    }, 175);
   }
 
   editTicket() {

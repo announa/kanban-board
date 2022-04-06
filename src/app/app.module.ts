@@ -25,6 +25,7 @@ import { RegisterComponent } from './register/register.component';
 import { LoadingBarComponent } from './loading-bar/loading-bar.component';
 import { BacklogComponent } from './backlog/backlog.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { TooltipComponent } from './tooltip/tooltip.component';
     LoadingBarComponent,
     BacklogComponent,
     TooltipComponent,
+    CategoriesComponent,
   ],
   imports: [
     BrowserModule,

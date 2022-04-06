@@ -2,7 +2,7 @@ import { Column } from "./Column.class";
 
 export class Board {
  title = 'New Board';
- categories?: string[];
+ categories: string[] = [];
  id: string = '';
  userId: string = '';
 

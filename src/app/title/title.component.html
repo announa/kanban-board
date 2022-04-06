@@ -1,4 +1,4 @@
-<div class="column-title" [class.board-title]="hostObject == fireService.currentBoard" [class.cursor-p]="hostObject!= fireService.currentBoard && !this.isEditingTitle">
+<div class="column-title" [class.board-title]="hostObject == fireService.currentBoard" [class.cursor-p]="hostObject!= fireService.currentBoard && !this.isEditingTitle" #titleContainer >
 <!--   <input
     type="text"
     value="{{ hostObject.title }}"
@@ -19,16 +19,28 @@
     {{ hostObject.title }}
   </span>
   </div>
-  <div class="menu-container" *ngIf="!isEditingTitle">
-    <div class="more-container" (click)="toggleMenu($event)">
+  <div class="menu-container" *ngIf="!isEditingTitle" (click)="toggleMenu($event)" [style.zIndex]="hostObject == fireService.currentBoard ? 2 : 1">
+    <div class="more-container" >
       <img class="menu-img" src="assets/img/more.svg" alt="menu" />
     </div>
-    <div class="edit-menu menu" *ngIf="menuIsOpen">
+    <div class="edit-menu menu" [class.left]="left" *ngIf="menuIsOpen">
       <div class="edit-menu-item menu" (click)="edit($event)">
         <div class="menu-icon-container menu">
           <img src="assets/img/edit.svg" alt="edit title" class="menu" />
         </div>
         <span class="edit-menu-text menu">Edit title</span>
+      </div>
+      <div *ngIf="hostObject == fireService.currentBoard" class="edit-menu-item menu" (click)="fireService.addColumn()">
+        <div class="menu-icon-container menu">
+          <img src="assets/img/add.svg" alt="add column" class="menu" />
+        </div>
+        <span class="edit-menu-text menu">Add column</span>
+      </div>
+      <div *ngIf="hostObject == fireService.currentBoard" class="edit-menu-item menu" (click)="showCategoryModal()">
+        <div class="menu-icon-container menu">
+          <img src="assets/img/folder.svg" alt="add category" class="menu" />
+        </div>
+        <span class="edit-menu-text menu">Edit categories</span>
       </div>
       <div class="edit-menu-item menu" (click)="delete($event, hostObject.id)">
         <div class="menu-icon-container menu">

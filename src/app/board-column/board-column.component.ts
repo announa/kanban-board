@@ -69,6 +69,7 @@ export class BoardColumnComponent implements OnInit {
       console.log('dragend')
       this.dragService.toggleInputs(false);
       this.dragService.resetDragColumn(event);
+      this.dragService.removeCloneNode()
       this.highlightDrogColumn(false);
     }
     

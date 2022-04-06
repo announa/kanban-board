@@ -1,7 +1,8 @@
 <div class="backlog component-container">
   <h2>
     Backlog
-    <div class="add-icon" (click)="addTicketServ.addTicket('backlog')">
+    <div class="add-icon" (click)="addTicketServ.addTicket('backlog')" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
+      <app-tooltip  *ngIf="showTooltip" [text]="'Add ticket'"></app-tooltip>
       <img src="assets/img/add.svg" alt="add a new column" />
     </div>
   </h2>

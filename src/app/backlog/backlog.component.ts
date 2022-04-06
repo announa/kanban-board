@@ -10,6 +10,7 @@ import { AddTicketService } from '../services/add-ticket.service';
 })
 export class BacklogComponent implements OnInit {
   showBacklog = true;
+  showTooltip = false;
 
   constructor(public fireService: FirestoreService, public addTicketServ: AddTicketService) { }
 
@@ -26,5 +27,10 @@ export class BacklogComponent implements OnInit {
     this.showBacklog = true;
     this.fireService.getUserById();
     this.fireService.loadBacklogTickets()
+  }
+
+
+  toggleTooltip(){
+    this.showTooltip = !this.showTooltip
   }
 }
