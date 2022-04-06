@@ -1,7 +1,9 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   OnInit,
+  Output,
   QueryList,
   ViewChildren,
 } from '@angular/core';
@@ -14,10 +16,9 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class CategoriesComponent implements OnInit {
   newCategory = '';
-  showTooltip1 = false;
-  showTooltip2 = false;
   isEditingCategory = false;
   @ViewChildren('categories') categories!: QueryList<ElementRef>;
+  @Output() closeCatModal = new EventEmitter();
 
   constructor(public fireService: FirestoreService) {}
 
@@ -29,12 +30,7 @@ export class CategoriesComponent implements OnInit {
     this.newCategory = '';
   }
 
-  toggleTooltip(number: number) {
-    if (number === 1) this.showTooltip1 = !this.showTooltip1;
-    else this.showTooltip2 = !this.showTooltip2;
-  }
-
-  editCategory(index: number) {
+  editCategory(index: number){
     this.isEditingCategory = true;
     setTimeout(() => {
       this.categories.toArray()[index].nativeElement.focus();
@@ -57,7 +53,12 @@ export class CategoriesComponent implements OnInit {
     this.isEditingCategory = false;
   }
 
-  deleteCategory(index: number) {
+  deleteCategory(index: number){
     this.fireService.deleteCategory(index);
+
+  }
+
+  closeCategoryModal(){
+    this.closeCatModal.emit(true)
   }
 }

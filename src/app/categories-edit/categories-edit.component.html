@@ -1,0 +1,17 @@
+<div class="edit-container">
+ <div *ngIf="!isEditingCategory" class="menu-icon-container" (click)="editCategory()" (mouseenter)="toggleTooltip(1)" (mouseleave)="toggleTooltip(1)">
+   <img src="assets/img/edit.svg" alt="edit category"/>
+   <app-tooltip *ngIf="showTooltip1" [text]="'Edit category'" [left]="true"></app-tooltip>
+ </div>
+ <div *ngIf="isEditingCategory" class="menu-icon-container" (click)="saveCategory()">
+   <img
+     src="assets/img/done.svg"
+     alt="save catgory"
+     id="save-title"
+   />
+ </div>
+ <div class="menu-icon-container" (click)="deleteCategory()" (mouseenter)="toggleTooltip(2)" (mouseleave)="toggleTooltip(2)">
+   <img src="assets/img/delete.svg" alt="delete category"/>
+   <app-tooltip *ngIf="showTooltip2" [text]="'Delete category'" [left]="true"></app-tooltip>
+ </div>
+</div>

@@ -1,5 +1,5 @@
-<div class="component-container">
-  <div class="modal" #modal>
+<div class="modal-transp-container">
+  <div class="modal-transp" #modal>
     <div class="content">
     <h3>Edit Board Cateories</h3>
     <div class="category-container">
@@ -28,28 +28,12 @@
           {{ category }}
         </span>
         </div>
-          <div class="edit-container">
-            <div *ngIf="!isEditingCategory" class="menu-icon-container" (click)="editCategory(i)" (mouseenter)="toggleTooltip(1)" (mouseleave)="toggleTooltip(1)">
-              <img src="assets/img/edit.svg" alt="edit category"/>
-              <app-tooltip *ngIf="showTooltip1" [text]="'Edit category'"></app-tooltip>
-            </div>
-            <div *ngIf="isEditingCategory" class="menu-icon-container" (click)="saveCategory(i)">
-              <img
-                src="assets/img/done.svg"
-                alt="save catgory"
-                id="save-title"
-              />
-            </div>
-            <div class="menu-icon-container" (click)="deleteCategory(i)" (mouseenter)="toggleTooltip(2)" (mouseleave)="toggleTooltip(2)">
-              <img src="assets/img/delete.svg" alt="delete category"/>
-              <app-tooltip *ngIf="showTooltip2" [text]="'Delete category'"></app-tooltip>
-            </div>
-          </div>
+        <app-categories-edit [index]="i" [categories]="categories" (saveCat)="saveCategory(i)" (editCat)="editCategory(i)" (deleteCat)="deleteCategory(i)"></app-categories-edit>
         </li>
        </ul>
       </div>
     </div>
-    <button class="btn btn-close">Close</button>
+    <button class="btn btn-close" (click)="closeCategoryModal()">Close</button>
   </div>
   </div>
 </div>

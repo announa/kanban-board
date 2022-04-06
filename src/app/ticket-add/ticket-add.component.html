@@ -1,5 +1,5 @@
-<div class="add-ticket-container">
-  <div class="add-ticket-modal">
+<div class="modal-transp-container">
+  <div class="modal-transp">
     <h2 *ngIf="addTicketServ.action == 'add'">
       Add a new Ticket to {{ fireService.currentBoard.title }}
     </h2>
@@ -32,7 +32,7 @@
 
       <div class="form-input">
         <label for="">Category</label>
-        <!--         <select
+                <select *ngIf="fireService.currentBoard.categories.length > 0"
           name="category"
           class="input"
           id=""
@@ -44,7 +44,8 @@
           >
             {{ category }}
           </option>
-        </select> -->
+        </select>
+        <span style="font-size: 13px;" *ngIf="fireService.currentBoard.categories.length == 0">You did not add any categories to this board yet</span>
       </div>
       <div class="form-input">
         <label for="">Priority</label>

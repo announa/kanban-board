@@ -26,6 +26,7 @@ import { LoadingBarComponent } from './loading-bar/loading-bar.component';
 import { BacklogComponent } from './backlog/backlog.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { CategoriesComponent } from './categories/categories.component';
+import { CategoriesEditComponent } from './categories-edit/categories-edit.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { CategoriesComponent } from './categories/categories.component';
     BacklogComponent,
     TooltipComponent,
     CategoriesComponent,
+    CategoriesEditComponent,
   ],
   imports: [
     BrowserModule,

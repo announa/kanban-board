@@ -23,7 +23,7 @@ import { FirestoreService } from '../services/firestore.service';
 export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChildren('column', { read: ElementRef }) columns!: QueryList<ElementRef>;
   showBoard = true;
-  showCategoriesModal = true;
+  showCategoriesModal = false;
 
   constructor(
     public fireService: FirestoreService,

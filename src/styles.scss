@@ -167,6 +167,20 @@ img {
   position: relative;
 }
 
+.modal-transp-container{
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 50px 0;
+  background-color: rgba(var(--theme-color-dark), 0.3);
+  overflow-y: auto;
+  z-index: 2;
+}
+
 .modal{
   align-self: center;
   background-color: rgb(var(--theme-color-light));
@@ -177,6 +191,13 @@ img {
   padding: 50px;
   position: relative;
   overflow: hidden;
+}
+
+.modal-transp{
+  display: flex;
+  flex-direction: column;
+  color: rgb(var(--letter-color-dark));
+  background-color: rgba(var(--theme-color-light), 0.8);
 }
 
 .menu-icon-container {

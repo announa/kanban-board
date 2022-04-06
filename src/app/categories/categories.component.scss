@@ -1,21 +1,8 @@
-.component-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: rgba(var(--theme-color-dark), 0.3);
-  position: fixed;
-  inset: 0;
-  z-index: 3;
-  padding: 50px;
-}
-
-.modal {
+.modal-transp {
   align-self: center;
-  background-color: rgb(var(--theme-color-light));
-  color: rgb(var(--letter-color-dark));
-  border-radius: 20px;
   width: 600px;
   min-height: 400px;
+  margin-top: 50px;
   padding: 50px 40px;
   position: relative;
 }
@@ -44,13 +31,21 @@ form {
   padding: 20px;
 }
 
+label{
+ display: block;
+}
+
 input {
-  padding: 5px;
+  padding: 10px;
   margin-top: 20px;
   border: none;
-  background-color: transparent;
-  border-bottom: 1px solid rgba(var(--letter-color-dark), 0.6);
+  background-color: white;
+  border: 1px solid rgba(var(--letter-color-dark), .5);
   width: 60%;
+
+  &:focus {
+   outline: none;
+ }
 }
 
 .btn-add-cat {
@@ -75,16 +70,7 @@ li {
   justify-content: space-between;
   padding: 5px;
   margin-bottom: 5px;
-  background-color: rgba(var(--theme-color-dark), 0.05);
-}
-
-.edit-container {
-  display: flex;
-  align-items: center;
-}
-
-.menu-icon-container {
-  cursor: pointer;
+  background-color: white;
 }
 
 .edit-catgory {
@@ -95,9 +81,6 @@ li {
   font-size: 1em;
   font-weight: 500;
   color: rgb(var(--letter-color-light));
-  /* text-shadow: 0 0 8px rgba(var(--letter-shadow-dark), .5); */
-  /*   margin-top: 1em;
- margin-bottom: 0.8em; */
   background-color: transparent;
   border: none;
 
@@ -107,9 +90,5 @@ li {
     white-space: nowrap;
     overflow: hidden;
     width: 100%;
-  }
-
-  &:focus {
-    outline: none;
   }
 }
