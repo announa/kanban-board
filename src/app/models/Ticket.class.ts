@@ -9,7 +9,6 @@ export class Ticket{
  id!: string;
  columnId: string;
  boardId: string;
- progress = ''
  /* creator = ''; */
  /* users = []; */
 

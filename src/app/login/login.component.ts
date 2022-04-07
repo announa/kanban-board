@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { User } from '../models/User.class';
 import { FirestoreService } from '../services/firestore.service';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-login',
@@ -25,11 +27,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChild('modal') modal!: ElementRef;
   width = 0;
   alert = false;
+  guestData: any;
 
   constructor(
     private fireService: FirestoreService,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {}
@@ -62,12 +66,20 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   loadUserBoards() {
-    console.log(this.fireService.currentUser)
     this.router.navigateByUrl('/boards');
   }
 
   rejectLogin(){
     this.alert = true;
     this.fireService.isProcessing = false;
+  }
+
+  loginAsGuest(){
+    this.guestData = this.http.get('assets/json/guest.json')
+    this.guestData.subscribe((guest: any) => {
+      this.fireService.setGuestAccount(guest)
+      this.fireService.setGuestAccountInDb(guest)
+      this.loadUserBoards();
+    })
   }
 }

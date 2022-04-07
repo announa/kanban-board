@@ -10,6 +10,8 @@
     <app-boards-preview
       *ngFor="let board of fireService.boards"
       [board]="board"
+      (setBackground)="setBackgroundImage($event)"
     ></app-boards-preview>
   </div>
+  <app-set-bg *ngIf="setBgImage" [imageBoard]="imageBoard" (imageSet)="setBgImage = false;"></app-set-bg>
 </div>

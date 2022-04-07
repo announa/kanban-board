@@ -2,7 +2,6 @@ import { Ticket } from './Ticket.class';
 
 export class Column {
   title = 'New Column';
-  tickets?: Ticket[];
   order: number;
   id: string;
   boardId: string;

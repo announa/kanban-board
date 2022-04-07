@@ -1,0 +1,10 @@
+<div class="modal-transp-container">
+ <div class="modal-transp" #modal>
+   <div class="content">
+   <h3>Change Background Image</h3>
+   <div class="images-container">
+    <img *ngFor="let image of images" src="assets/bg-img/{{image}}" alt="" (click)="selectImage(image)">
+   </div>
+   </div>
+ </div>
+</div>

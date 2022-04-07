@@ -27,6 +27,8 @@ import { BacklogComponent } from './backlog/backlog.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoriesEditComponent } from './categories-edit/categories-edit.component';
+import { SetBgComponent } from './set-bg/set-bg.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { CategoriesEditComponent } from './categories-edit/categories-edit.compo
     TooltipComponent,
     CategoriesComponent,
     CategoriesEditComponent,
+    SetBgComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { CategoriesEditComponent } from './categories-edit/categories-edit.compo
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    HttpClientModule
     /* AngularFirestoreDocument */
   ],
   providers: [],

@@ -351,4 +351,28 @@ export class FirestoreService {
       this.firestore.collection('tickets').doc(ticketId).update({columnId: matchingCol.id})
     })
   }
+
+  setBgImage(image: string, boardId: string){
+    this.firestore.collection('boards').doc(boardId).update({bgImg: image})
+  }
+
+  setGuestAccount(guest: any){
+    this.currentUser = guest.guest;
+    this.currentUserId = guest.guest.id;
+    this.currentBoard = guest.guestBoard;
+    this.currentBoardId = guest.guestBoard.id;
+    this.columns = guest.guestColumns
+    this.saveUserIdToLocalStorage()
+  }
+
+  setGuestAccountInDb(guest: any){
+    this.firestore.collection('user').doc('1').set({...guest.guest})
+    this.firestore.collection('boards').doc('1').set({...guest.guestBoard})
+    guest.guestColumns.forEach((col: any) => {
+      this.firestore.collection('columns').doc(col.id).set({...col})
+    });
+    guest.guestTickets.forEach((ticket: any) => {
+      this.firestore.collection('tickets').doc(ticket.id).set({...ticket})
+    });
+  }
 }

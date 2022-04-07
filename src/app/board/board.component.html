@@ -1,6 +1,7 @@
 <div
   class="board component-container"
   *ngIf="fireService.currentBoard && showBoard"
+  style.backgroundImage="url('assets/bg-img/{{fireService.currentBoard.bgImg}}')"
 >
   <h2>
     <app-title
@@ -8,15 +9,10 @@
       [collection]="'boards'"
       (showCatModal)="showCategoriesModal = true"
     ></app-title>
-    <!--     {{ fireService.currentBoard.title }}
-    <div class="add-icon" (click)="fireService.addColumn()">
-      <img src="assets/img/add.svg" alt="add a new column" />
-    </div> -->
   </h2>
 
   <div class="board-columns">
     <div class="column-container" *ngIf="fireService.columns">
-      <!--   <app-board-column (addingTicket)="addingTicket($event)"></app-board-column> -->
       <app-board-column
         class="column-component"
         *ngFor="let column of fireService.columns; let index = index"

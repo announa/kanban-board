@@ -1,13 +1,4 @@
 <div class="column-title" [class.board-title]="hostObject == fireService.currentBoard" [class.cursor-p]="hostObject!= fireService.currentBoard && !this.isEditingTitle" #titleContainer >
-<!--   <input
-    type="text"
-    value="{{ hostObject.title }}"
-    [(ngModel)]="title"
-    class="edit-title-input"
-    [readonly]="!isEditingTitle && !dragService.isDragging"
-    (keyup)="checkKey(hostObject.id, $event)"
-    #input
-  /> -->
   <div
     class="edit-title-input"
     [contentEditable]="isEditingTitle"
@@ -15,7 +6,7 @@
     (click)="noDefault($event)"
     #inputTitle
   >
-  <span class="title-span">
+  <span class="title-span" [class.board-span]="hostObject == fireService.currentBoard">
     {{ hostObject.title }}
   </span>
   </div>
@@ -35,6 +26,12 @@
           <img src="assets/img/add.svg" alt="add ticket" class="menu" />
         </div>
         <span class="edit-menu-text menu">Add ticket</span>
+      </div>
+      <div *ngIf="collection == 'boards'" class="edit-menu-item menu" (click)="setBackgroundImage()">
+        <div class="menu-icon-container menu">
+          <img src="assets/img/image.svg" alt="Background image" class="menu" />
+        </div>
+        <span class="edit-menu-text menu">Background image</span>
       </div>
       <div *ngIf="hostObject == fireService.currentBoard" class="edit-menu-item menu" (click)="fireService.addColumn()">
         <div class="menu-icon-container menu">

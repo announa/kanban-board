@@ -28,6 +28,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
   @Input('collection') collection!: string;
   @Output() showCatModal = new EventEmitter();
   @Output() addTicket = new EventEmitter();
+  @Output() setBackground = new EventEmitter();
   @ViewChild('inputTitle') inputTitle!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
   @HostListener('document:click', ['$event'])
@@ -133,5 +134,9 @@ export class TitleComponent implements OnInit, AfterViewInit {
 
   showCategoryModal() {
     this.showCatModal.emit(true);
+  }
+
+  setBackgroundImage(){
+    this.setBackground.emit(true)
   }
 }

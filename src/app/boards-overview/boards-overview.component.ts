@@ -9,6 +9,8 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class BoardsOverviewComponent implements OnInit {
   showTooltip = false;
+  setBgImage = false;
+  imageBoard = '';
 
   constructor(
     public fireService: FirestoreService,
@@ -24,5 +26,11 @@ export class BoardsOverviewComponent implements OnInit {
 
   toggleTooltip(){
     this.showTooltip = !this.showTooltip
+  }
+
+  setBackgroundImage(boardId: string){
+    console.log(boardId)
+    this.setBgImage = true;
+    this.imageBoard = boardId
   }
 }

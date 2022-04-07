@@ -33,8 +33,6 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    /* console.log(this.fireService.currentUser) */
-    /* this.fireService.loadCurrentUser(userId); */
     this.fireService.getUserIdFromLocalStorage();
     if (this.fireService.currentUserId != '') {
       this.loadBoard();

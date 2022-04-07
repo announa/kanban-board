@@ -2,14 +2,14 @@
   height: 100vh;
   background-image: var(--bg-img);
   background-size: cover;
-
   overflow-y: hidden;
 }
 
-h2{
- display: flex;
- align-items: center;
- display: inline-block;
+h2 {
+  margin-left: -10px;
+  display: flex;
+  align-items: center;
+  display: inline-block;
 }
 
 .board-columns {
@@ -37,14 +37,14 @@ h2{
   }
 }
 
-.prohibited{
+.prohibited {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   gap: 3vh;
- }
- 
- .prohibited-modal{
+}
+
+.prohibited-modal {
   align-self: center;
   background-color: rgb(var(--theme-color-light));
   color: rgb(var(--letter-color-dark));
@@ -54,4 +54,4 @@ h2{
   position: relative;
   overflow: hidden;
   text-align: center;
- }
+}

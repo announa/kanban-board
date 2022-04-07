@@ -107,7 +107,14 @@
     font-size: 14px;
   }
 
+  
   &:hover {
     background-color: rgba(var(--theme-color-dark), 0.1);
   }
+}
+
+.board-span{
+  padding: 0 10px;
+  text-shadow: 0 0 12px rgba(var(--theme-color-dark), 0.8);
+
 }

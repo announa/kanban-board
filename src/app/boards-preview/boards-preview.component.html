@@ -1,8 +1,8 @@
 <div class="preview" (click)="navigate(board.id)">
   <div class="img-container">
-    <img class="preview-img" src="assets/bg-img/bg-5.jpg" alt="preview image" />
+    <img class="preview-img" src="assets/bg-img/{{board.bgImg}}" alt="preview image" />
   </div>
   <div class="title-container">
-    <app-title [hostObject]="board" [collection]="'boards'"> </app-title>
+    <app-title [hostObject]="board" [collection]="'boards'" (setBackground)="setBackgroundImage()"> </app-title>
   </div>
 </div>
