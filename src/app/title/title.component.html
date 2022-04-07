@@ -14,7 +14,7 @@
     <div class="more-container" >
       <img class="menu-img" src="assets/img/more.svg" alt="menu" />
     </div>
-    <div class="edit-menu menu" [class.left]="left" *ngIf="menuIsOpen">
+    <div class="edit-menu menu" [class.left]="left" [class.top]="top" *ngIf="menuIsOpen">
       <div class="edit-menu-item menu" (click)="edit($event)">
         <div class="menu-icon-container menu">
           <img src="assets/img/edit.svg" alt="edit title" class="menu" />

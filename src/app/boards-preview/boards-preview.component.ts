@@ -10,6 +10,7 @@ import { FirestoreService } from '../services/firestore.service';
 export class BoardsPreviewComponent implements OnInit {
   @Input('board') board: any;
   @Output() setBackground = new EventEmitter();
+  zIndex = false;
 
   constructor(public fireService: FirestoreService, private router: Router) {}
 
@@ -21,7 +22,10 @@ export class BoardsPreviewComponent implements OnInit {
   }
 
   setBackgroundImage(){
-    console.log(this.board.id)
     this.setBackground.emit(this.board.id)
+  }
+
+  setZindex(menuIsOpen: boolean){
+    this.zIndex = menuIsOpen;
   }
 }

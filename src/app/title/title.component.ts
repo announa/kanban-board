@@ -23,12 +23,14 @@ export class TitleComponent implements OnInit, AfterViewInit {
   isEditingTitle = false;
   title!: string;
   left = false;
+  top = false;
 
   @Input('hostObject') hostObject: any;
   @Input('collection') collection!: string;
   @Output() showCatModal = new EventEmitter();
   @Output() addTicket = new EventEmitter();
   @Output() setBackground = new EventEmitter();
+  @Output() boardOverviewEvent = new EventEmitter();
   @ViewChild('inputTitle') inputTitle!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
   @HostListener('document:click', ['$event'])
@@ -52,12 +54,26 @@ export class TitleComponent implements OnInit, AfterViewInit {
     if (event) event.stopPropagation();
     this.checkOpeningPosition();
     this.menuIsOpen = !this.menuIsOpen;
+    this.emitBoardOverviewEvent()
   }
 
+  emitBoardOverviewEvent(){
+    this.boardOverviewEvent.emit(this.menuIsOpen)
+  }
+
+
   checkOpeningPosition() {
+    console.log('checkopeningposition')
     const elem = this.menu.nativeElement.getBoundingClientRect();
     if (elem.x + 200 > window.innerWidth) {
       this.left = true;
+    } else{
+      this.left = false;
+    }
+    if(elem.y + 200 > window.innerHeight) {
+      this.top = true;
+    } else{
+      this.top = false;
     }
   }
 
