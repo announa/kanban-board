@@ -38,6 +38,7 @@ p{
  a{
   color: rgb(var(--letter-color-dark));
   text-transform: none;
+  text-decoration: underline;
   cursor: pointer;
 
   &:hover{

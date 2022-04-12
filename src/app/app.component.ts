@@ -52,15 +52,20 @@ export class AppComponent {
     order: 4,
     id: '4',
     boardId: '1',
+    date: new Date().toDateString()
    }
 
   constructor(public fireService: FirestoreService, public router:Router){}
   ngOnInit(): void {
-    console.log(JSON.stringify(this.guest))
-    console.log(JSON.stringify(this.board_guest))
-    console.log(JSON.stringify(this.column1_guest))
-    console.log(JSON.stringify(this.column2_guest))
-    console.log(JSON.stringify(this.column3_guest))
     console.log(JSON.stringify(this.column4_guest))
+  }
+  
+  ngOnDestroy(){
+      this.deleteData()
+  }
+  
+  deleteData(){
+    console.log('ngOnDestroy delete data')
+    this.fireService.clearData();
   }
 }

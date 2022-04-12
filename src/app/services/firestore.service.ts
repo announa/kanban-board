@@ -172,29 +172,25 @@ export class FirestoreService {
   }
 
   deleteTicket(ticketId: string) {
-    this.firestore.collection('tickets').doc(ticketId)
+    this.firestore
+      .collection('tickets')
+      .doc(ticketId)
       .delete()
       .then(() => console.log(`ticket ${ticketId} deleted`))
       .catch((err) => console.log(err));
   }
 
-  deleteDoc(collection: string, id: string) {
+  async deleteFromDb(collection: string, id: string) {
     switch (collection) {
       case 'boards':
-        this.deleteSubCollection('columns', 'boardId', id);
+        await this.deleteSubCollection('columns', 'boardId', id);
         break;
       case 'columns':
-        this.deleteSubCollection('tickets', 'columnId', id);
+        await this.deleteSubCollection('tickets', 'columnId', id);
         /*  this.updateColOrder(id); */
         break;
     }
-
-    this.firestore
-      .collection(collection)
-      .doc(id)
-      .delete()
-      .then(() => console.log(collection + '-item deleted'))
-      .catch((err) => console.log(err));
+    this.deleteDoc(collection, id);
   }
 
   async deleteSubCollection(collection: string, field: string, id: string) {
@@ -204,12 +200,23 @@ export class FirestoreService {
         .collection(collection, (ref) => ref.where(field, '==', id))
         .valueChanges({ idField: 'ref' })
     );
-
     for (let index = 0; index < subCollection.length; index++) {
       const item = subCollection[index];
-      console.log(item);
-      await this.firestore.collection(collection).doc(item.ref).delete();
+      if (collection == 'columns') {
+        await this.deleteFromDb('columns', item.ref);
+      } else {
+        await this.deleteDoc(collection, item.ref);
+      }
     }
+  }
+
+  async deleteDoc(collection: string, id: string) {
+    await this.firestore
+      .collection(collection)
+      .doc(id)
+      .delete()
+      .then(() => console.log(collection + '-item deleted'))
+      .catch((err) => console.log(err));
   }
 
   saveTitle(collection: string, id: string, newTitle: string) {
@@ -249,16 +256,6 @@ export class FirestoreService {
     this.isProcessing = false;
 
     return newUser.id;
-  }
-
-  clearData() {
-    this.currentUser = {
-      username: '',
-      password: '',
-      id: '',
-    };
-    this.currentUserId = '';
-    this.currentBoardId = '';
   }
 
   checkForMatchingUser(userinput: { username: string; password: string }) {
@@ -301,6 +298,38 @@ export class FirestoreService {
     this.currentUser = result[0] as User;
   }
 
+  setGuestAccount(guest: any) {
+    this.currentUser = guest.guest;
+    this.currentUserId = guest.guest.id;
+    this.currentBoard = guest.guestBoard;
+    this.currentBoardId = guest.guestBoard.id;
+    this.columns = guest.guestColumns;
+    this.saveUserIdToLocalStorage();
+  }
+
+  async setGuestAccountInDb(guest: any) {
+    await this.firestore
+      .collection('user')
+      .doc('1')
+      .set({ ...guest.guest });
+    await this.firestore
+      .collection('boards')
+      .doc('1')
+      .set({ ...guest.guestBoard });
+    guest.guestColumns.forEach(async (col: any) => {
+      await this.firestore
+        .collection('columns')
+        .doc(col.id)
+        .set({ ...col });
+    });
+    guest.guestTickets.forEach(async (ticket: any) => {
+      await this.firestore
+        .collection('tickets')
+        .doc(ticket.id)
+        .set({ ...ticket });
+    });
+  }
+
   saveUserIdToLocalStorage() {
     localStorage.setItem('userId', this.currentUserId);
   }
@@ -312,6 +341,34 @@ export class FirestoreService {
 
   removeUserIdFromLocalStorage() {
     localStorage.removeItem('userId');
+  }
+
+  // #############  Logout  ###############
+
+  clearData() {
+    if (this.currentUserId == 'guest') {
+      this.clearGuestData();
+    }
+    this.clearTemp();
+    this.removeUserIdFromLocalStorage();
+  }
+
+  clearGuestData() {
+    console.log(this.boards);
+    this.boards.forEach(async (board) => {
+      console.log('delete board ' + board.id);
+      await this.deleteFromDb('boards', board.id);
+    });
+  }
+
+  clearTemp() {
+    this.currentUser = {
+      username: '',
+      password: '',
+      id: '',
+    };
+    this.currentUserId = '';
+    this.currentBoardId = '';
   }
 
   // #############  Edit current board categories  ##############
@@ -344,35 +401,23 @@ export class FirestoreService {
   }
 
   moveTicketToBoard(ticketId: string) {
-    this.firestore.collection('columns', (ref => ref.where('boardId', '==', this.currentBoardId))).valueChanges().subscribe((cols: any[]) => {
-      let colOrders = cols.map(col => col.order)
-      const min = Math.min(...colOrders)
-      const matchingCol = cols.find(col => col.order == min)
-      this.firestore.collection('tickets').doc(ticketId).update({columnId: matchingCol.id})
-    })
+    this.firestore
+      .collection('columns', (ref) =>
+        ref.where('boardId', '==', this.currentBoardId)
+      )
+      .valueChanges()
+      .subscribe((cols: any[]) => {
+        let colOrders = cols.map((col) => col.order);
+        const min = Math.min(...colOrders);
+        const matchingCol = cols.find((col) => col.order == min);
+        this.firestore
+          .collection('tickets')
+          .doc(ticketId)
+          .update({ columnId: matchingCol.id });
+      });
   }
 
-  setBgImage(image: string, boardId: string){
-    this.firestore.collection('boards').doc(boardId).update({bgImg: image})
-  }
-
-  setGuestAccount(guest: any){
-    this.currentUser = guest.guest;
-    this.currentUserId = guest.guest.id;
-    this.currentBoard = guest.guestBoard;
-    this.currentBoardId = guest.guestBoard.id;
-    this.columns = guest.guestColumns
-    this.saveUserIdToLocalStorage()
-  }
-
-  setGuestAccountInDb(guest: any){
-    this.firestore.collection('user').doc('1').set({...guest.guest})
-    this.firestore.collection('boards').doc('1').set({...guest.guestBoard})
-    guest.guestColumns.forEach((col: any) => {
-      this.firestore.collection('columns').doc(col.id).set({...col})
-    });
-    guest.guestTickets.forEach((ticket: any) => {
-      this.firestore.collection('tickets').doc(ticket.id).set({...ticket})
-    });
+  setBgImage(image: string, boardId: string) {
+    this.firestore.collection('boards').doc(boardId).update({ bgImg: image });
   }
 }

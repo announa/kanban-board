@@ -6,10 +6,11 @@
   (dragstart)="dragService.dragTicket($event, ticket)"
 >
   <div class="ticket-title">
+    <div class="priority-color"></div>
     <p>{{ ticket.title }}</p>
   </div>
   <div class="ticket-description" [class.h-0]="!isVisible" #descriptionElem>
-    <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p>
+    <p class="d-none" #descriptionTextElem>{{ ticket.description}}</p>
   </div>
   <div class="ticket-info" [class.h-0]="!isVisible" #info>
     <p class="d-none" #category><span>Category: </span>{{ ticket.category }}</p>

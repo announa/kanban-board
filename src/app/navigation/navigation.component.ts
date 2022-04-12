@@ -23,7 +23,6 @@ export class NavigationComponent implements OnInit, AfterViewInit {
   logout() {
     console.log('log out');
     this.fireService.clearData();
-    this.fireService.removeUserIdFromLocalStorage();
     this.goToLogin();
   }
 

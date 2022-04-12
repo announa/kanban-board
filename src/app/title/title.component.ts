@@ -128,7 +128,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
 
   delete(event: any, id: string) {
     event.stopPropagation();
-    this.fireService.deleteDoc(this.collection, id);
+    this.fireService.deleteFromDb(this.collection, id);
     setTimeout(() => {
       this.toggleMenu();
     }, 10);

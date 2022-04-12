@@ -48,6 +48,10 @@ label {
   border-radius: 2px;
  }
 
+ .textarea{
+   resize: none;
+ }
+
 .btn-container {
   margin-top: 20px;
   justify-self: flex-end;

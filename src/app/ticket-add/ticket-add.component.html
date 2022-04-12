@@ -19,20 +19,23 @@
       </div>
       <div class="form-input">
         <label for="">Description</label>
-        <input
+        <textarea
           type="text"
           name="description"
-          class="input"
+          class="input textarea"
           [(ngModel)]="addTicketServ.ticket.description"
           required
           minlength="1"
           placeholder="Ticket Description"
-        />
+          cols="30"
+          rows="10"
+        ></textarea>
       </div>
 
       <div class="form-input">
         <label for="">Category</label>
-                <select *ngIf="fireService.currentBoard.categories.length > 0"
+        <select
+          *ngIf="fireService.currentBoard.categories.length > 0"
           name="category"
           class="input"
           id=""
@@ -45,7 +48,11 @@
             {{ category }}
           </option>
         </select>
-        <span style="font-size: 13px;" *ngIf="fireService.currentBoard.categories.length == 0">You did not add any categories to this board yet</span>
+        <span
+          style="font-size: 13px"
+          *ngIf="fireService.currentBoard.categories.length == 0"
+          >You did not add any categories to this board yet</span
+        >
       </div>
       <div class="form-input">
         <label for="">Priority</label>
@@ -92,6 +99,6 @@
       </div>
     </form>
 
-<app-loading-bar></app-loading-bar>
+    <app-loading-bar></app-loading-bar>
   </div>
 </div>

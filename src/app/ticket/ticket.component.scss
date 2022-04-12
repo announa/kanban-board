@@ -41,17 +41,33 @@
   align-items: center;
 }
 
- .ticket-description{
-  margin-top:4px;
-  max-height: 200px;
-  transition: all 250ms ease-in-out;
+.ticket-title{
+  padding-left: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
+.priority-color{
+  width: 3px;
+  height: 40px;
+  margin-right: 7px;
+  background-color: rgba(var(--priority-high), 1);
+}
+
+ .ticket-description{
+   display: flex;
+   align-items: center;
+  margin-top:4px;
+  min-height: 40px;
+  transition: all 250ms ease-in-out;
+  
   p{
-    display: flex;
-    align-items: center;
+    max-height: 200px;
+    padding: 10px 0;
     width: 100%;
-    height: 40px;
     border-bottom: 1px solid rgba(var(--theme-color-dark), .2);
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 

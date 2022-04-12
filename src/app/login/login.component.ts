@@ -36,7 +36,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private http: HttpClient
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   ngAfterViewInit() {
     this.width = this.modal.nativeElement.clientWidth;
@@ -76,9 +77,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   loginAsGuest(){
     this.guestData = this.http.get('assets/json/guest.json')
-    this.guestData.subscribe((guest: any) => {
+    this.guestData.subscribe(async (guest: any) => {
       this.fireService.setGuestAccount(guest)
-      this.fireService.setGuestAccountInDb(guest)
+      await this.fireService.setGuestAccountInDb(guest)
       this.loadUserBoards();
     })
   }
