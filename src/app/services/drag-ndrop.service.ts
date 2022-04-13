@@ -65,7 +65,7 @@ export class DragNdropService {
   dropElement(col2: Column) {
     if (this.dragData.ticket) {
       if (col2.id != this.dragData.col1_id) {
-        this.fireService.moveTicket(this.dragData.ticket, col2.id);
+        this.fireService.updateDoc('tickets', this.dragData.ticket, {columnId: col2.id});
       }
     } else if (this.dragData.col1 && col2.id != this.dragData.col1.id) {
       this.switchColumnsInDB(col2);

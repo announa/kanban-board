@@ -120,7 +120,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
     const inputTitle = this.inputTitle.nativeElement.textContent;
     console.log(inputTitle);
     if (inputTitle != this.hostObject.title) {
-      this.fireService.saveTitle(this.collection, id, inputTitle);
+      this.fireService.updateDoc(this.collection, id, {title: inputTitle});
     }
     this.isEditingTitle = false;
     this.dragService.isEditingTitle = false;

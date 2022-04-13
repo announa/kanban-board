@@ -62,7 +62,7 @@ export class TicketComponent implements OnInit {
   }
 
   deleteTicket(){
-    this.fireService.deleteTicket(this.ticket.id)
+    this.fireService.deleteDoc('tickets', this.ticket.id)
   }
 
   moveToBoard() {

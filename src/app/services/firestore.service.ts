@@ -141,43 +141,33 @@ export class FirestoreService {
     this.sort.dir = dir;
   }
 
-  addTicket(ticket: Ticket) {
+  addDoc(collection: string, id: string, object: any){
     return this.firestore
-      .collection('tickets')
-      .doc(ticket.id)
-      .set({ ...ticket });
+      .collection(collection)
+      .doc(id)
+      .set({ ...object })
+      .then(() => console.log(`new ${collection}-object with id ${id} added`))
+      .catch((err) => console.log(err));
   }
 
-  updateTicket(ticket: Ticket) {
+  updateDoc(collection: string, id: string, update: any){
+    console.log(update)
     return this.firestore
-      .collection('tickets')
-      .doc(ticket.id)
-      .update({ ...ticket });
+      .collection(collection)
+      .doc(id)
+      .update(update);
   }
 
   addColumn() {
     let order_max = this.colOrder.length > 0 ? Math.max(...this.colOrder) : 0;
     let column = new Column(order_max, this.currentBoardId);
-    this.firestore.doc('columns/' + column.id).set({ ...column });
+    this.addDoc('columns', column.id, column)
   }
 
   addBoard() {
     let newBoard = new Board();
     newBoard.userId = this.currentUser.id;
-
-    this.firestore
-      .collection('boards')
-      .doc(newBoard.id)
-      .set({ ...newBoard });
-  }
-
-  deleteTicket(ticketId: string) {
-    this.firestore
-      .collection('tickets')
-      .doc(ticketId)
-      .delete()
-      .then(() => console.log(`ticket ${ticketId} deleted`))
-      .catch((err) => console.log(err));
+    this.addDoc('boards', newBoard.id, newBoard)
   }
 
   async deleteFromDb(collection: string, id: string) {
@@ -219,25 +209,11 @@ export class FirestoreService {
       .catch((err) => console.log(err));
   }
 
-  saveTitle(collection: string, id: string, newTitle: string) {
-    this.firestore.collection(collection).doc(id).update({ title: newTitle });
-  }
-
-  moveTicket(ticket: any, col2: any) {
-    this.firestore.collection('tickets').doc(ticket).update({ columnId: col2 });
-  }
-
   moveColumn(col1: any, col2: any) {
     let order_col2_new =
       col1.order < col2.order ? Number(col2.order) - 1 : Number(col2.order) + 1;
-    this.firestore
-      .collection('columns')
-      .doc(col1.id)
-      .update({ order: col2.order });
-    this.firestore
-      .collection('columns')
-      .doc(col2.id)
-      .update({ order: order_col2_new });
+      this.updateDoc('columns', col1.id, { order: col2.order })
+      this.updateDoc('columns', col2.id, { order: order_col2_new })
   }
 
   // #############  Register and login  ##############
@@ -245,16 +221,10 @@ export class FirestoreService {
   async addUser(newUser: User) {
     newUser.id = Date.now().toString();
     this.isProcessing = true;
-    await this.firestore
-      .collection('user')
-      .doc(newUser.id)
-      .set({ ...newUser })
-      .then(() => console.log(`new user with id ${newUser.id} added`))
-      .catch((err) => console.log(err));
+    await this.addDoc('user', newUser.id, newUser)
     this.currentUser = newUser;
     this.currentUserId = this.currentUser.id;
     this.isProcessing = false;
-
     return newUser.id;
   }
 
@@ -290,9 +260,10 @@ export class FirestoreService {
   }
 
   async getUserById() {
+    const collection = this.currentUserId.includes('guest') ? 'guest' : 'user'
     let result = await firstValueFrom(
       this.firestore
-        .collection('user', (ref) => ref.where('id', '==', this.currentUserId))
+        .collection(collection, (ref) => ref.where('id', '==', this.currentUserId))
         .valueChanges()
     );
     this.currentUser = result[0] as User;
@@ -300,9 +271,7 @@ export class FirestoreService {
 
   async setGuestAccount(guest: any) {
     new Promise(async (resolve, reject) => {
-      console.log(guest);
       const guestNew = await this.setIds(guest);
-      console.log(guestNew);
       this.setTemp(guestNew);
       this.saveUserIdToLocalStorage();
       resolve('guest account set');
@@ -335,25 +304,13 @@ export class FirestoreService {
   }
 
   async setGuestAccountInDb(guest: any) {
-    await this.firestore
-      .collection('guest')
-      .doc(guest.guest.id)
-      .set({ ...guest.guest });
-    await this.firestore
-      .collection('boards')
-      .doc(guest.guestBoard.id)
-      .set({ ...guest.guestBoard });
+    await this.addDoc('guest', guest.guest.id, guest.guest)
+    await this.addDoc('boards', guest.guestBoard.id, guest.guestBoard)
     guest.guestColumns.forEach(async (col: any) => {
-      await this.firestore
-        .collection('columns')
-        .doc(col.id)
-        .set({ ...col });
+      await this.addDoc('columns', col.id, col)
     });
     guest.guestTickets.forEach(async (ticket: any) => {
-      await this.firestore
-        .collection('tickets')
-        .doc(ticket.id)
-        .set({ ...ticket });
+      await this.addDoc('coticketslumns', ticket.id, ticket)
     });
   }
 
@@ -405,48 +362,32 @@ export class FirestoreService {
   addNewCategory(newCategory: string) {
     let categories = this.currentBoard.categories;
     categories.push(newCategory);
-    this.firestore
-      .collection('boards')
-      .doc(this.currentBoardId)
-      .update({ categories: categories });
+    this.updateDoc('boards', this.currentBoardId, { categories: categories })
   }
-
+  
   updateCategories(editedCategory: string, index: number) {
     let newCategoryArr = this.currentBoard.categories;
     newCategoryArr[index] = editedCategory;
-    this.firestore
-      .collection('boards')
-      .doc(this.currentBoardId)
-      .update({ categories: newCategoryArr });
+    this.updateDoc('boards', this.currentBoardId, { categories: newCategoryArr })
   }
-
+  
   deleteCategory(index: number) {
     let newCategoryArr = this.currentBoard.categories;
     newCategoryArr.splice(index, 1);
-    this.firestore
-      .collection('boards')
-      .doc(this.currentBoardId)
-      .update({ categories: newCategoryArr });
+    this.updateDoc('boards', this.currentBoardId, { categories: newCategoryArr })
   }
-
+  
   moveTicketToBoard(ticketId: string) {
     this.firestore
-      .collection('columns', (ref) =>
-        ref.where('boardId', '==', this.currentBoardId)
-      )
-      .valueChanges()
-      .subscribe((cols: any[]) => {
-        let colOrders = cols.map((col) => col.order);
-        const min = Math.min(...colOrders);
-        const matchingCol = cols.find((col) => col.order == min);
-        this.firestore
-          .collection('tickets')
-          .doc(ticketId)
-          .update({ columnId: matchingCol.id });
+    .collection('columns', (ref) =>
+    ref.where('boardId', '==', this.currentBoardId)
+    )
+    .valueChanges()
+    .subscribe((cols: any[]) => {
+      let colOrders = cols.map((col) => col.order);
+      const min = Math.min(...colOrders);
+      const matchingCol = cols.find((col) => col.order == min);
+      this.updateDoc('tickets', ticketId, { columnId: matchingCol.id })
       });
-  }
-
-  setBgImage(image: string, boardId: string) {
-    this.firestore.collection('boards').doc(boardId).update({ bgImg: image });
   }
 }

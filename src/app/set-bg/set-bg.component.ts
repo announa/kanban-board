@@ -20,7 +20,7 @@ export class SetBgComponent implements OnInit {
   ngOnInit(): void {}
 
   selectImage(image: string){
-    this.fireService.setBgImage(image, this.boardId)
+    this.fireService.updateDoc('boards', this.boardId, { bgImg: image })
     this.imageSet.emit(true);
   }
 }
