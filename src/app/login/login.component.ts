@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    
   }
 
   ngAfterViewInit() {
@@ -76,11 +77,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   loginAsGuest(){
+    this.fireService.isProcessing = true;
     this.guestData = this.http.get('assets/json/guest.json')
     this.guestData.subscribe(async (guest: any) => {
-      this.fireService.setGuestAccount(guest)
+      await this.fireService.setGuestAccount(guest)
       await this.fireService.setGuestAccountInDb(guest)
       this.loadUserBoards();
+      this.fireService.isProcessing = false;
     })
   }
 }

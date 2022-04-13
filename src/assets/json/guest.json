@@ -1,21 +1,21 @@
 {
-  "guest": { "username": "guest", "password": "", "id": "guest" },
+  "guest": { "username": "guest", "password": "", "id": "" },
   "guestBoard": {
     "title": "Testboard 1",
     "categories": ["Management", "Product", "Sale"],
     "id": "1",
-    "userId": "guest",
+    "userId": "",
     "bgImg": "bg-1.jpg"
   },
   "guestColumns": [
-    { "title": "To do", "order": 1, "id": "1", "boardId": "1" },
-    { "title": "Im Progress", "order": 2, "id": "2", "boardId": "1" },
-    { "title": "Testing", "order": 3, "id": "3", "boardId": "1" },
-    { "title": "Done", "order": 4, "id": "4", "boardId": "1" }
+    { "title": "To do", "order": 1, "id": "", "boardId": "" },
+    { "title": "Im Progress", "order": 2, "id": "", "boardId": "" },
+    { "title": "Testing", "order": 3, "id": "", "boardId": "" },
+    { "title": "Done", "order": 4, "id": "", "boardId": "" }
   ],
   "guestTickets": [
-    { "title": "Ticket 1", "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, sunt!", "deadline": "2022-05-03", "id": "1", "date": "Mon Apr 11 2022", "category": "Management", "priority": "high", "columnId": "1", "boardId": "1", "title_transf": "ticket 1", "description_transf": "lorem ipsum dolor sit amet consectetur adipisicing elit. soluta, sunt!" },
-    { "title": "Ticket 2", "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, sunt!", "deadline": "2022-06-12", "id": "2", "date": "Tue Jan 22 2022", "category": "Sale", "priority": "middle", "columnId": "2", "boardId": "1", "title_transf": "ticket 2", "description_transf": "lorem ipsum dolor sit amet consectetur adipisicing elit. soluta, sunt!" },
-    { "title": "Ticket 3", "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, sunt!", "deadline": "2022-06-22", "id": "3", "date": "Fri Feb 15 2022", "category": "Sale", "priority": "low", "columnId": "2", "boardId": "1", "title_transf": "ticket 3", "description_transf": "lorem ipsum dolor sit amet consectetur adipisicing elit. soluta, sunt!" }
+    { "title": "Ticket 1", "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, sunt!", "deadline": "2022-05-03", "id": "", "date": "Mon Apr 11 2022", "category": "Management", "priority": "high", "columnId": "1", "boardId": "1", "title_transf": "ticket 1", "description_transf": "lorem ipsum dolor sit amet consectetur adipisicing elit. soluta, sunt!" },
+    { "title": "Ticket 2", "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, sunt!", "deadline": "2022-06-12", "id": "", "date": "Tue Jan 22 2022", "category": "Sale", "priority": "middle", "columnId": "2", "boardId": "1", "title_transf": "ticket 2", "description_transf": "lorem ipsum dolor sit amet consectetur adipisicing elit. soluta, sunt!" },
+    { "title": "Ticket 3", "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, sunt!", "deadline": "2022-06-22", "id": "", "date": "Fri Feb 15 2022", "category": "Sale", "priority": "low", "columnId": "2", "boardId": "1", "title_transf": "ticket 3", "description_transf": "lorem ipsum dolor sit amet consectetur adipisicing elit. soluta, sunt!" }
   ]
 }

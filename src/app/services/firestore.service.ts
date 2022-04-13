@@ -298,23 +298,50 @@ export class FirestoreService {
     this.currentUser = result[0] as User;
   }
 
-  setGuestAccount(guest: any) {
+  async setGuestAccount(guest: any) {
+    new Promise(async (resolve, reject) => {
+      console.log(guest);
+      const guestNew = await this.setIds(guest);
+      console.log(guestNew);
+      this.setTemp(guestNew);
+      this.saveUserIdToLocalStorage();
+      resolve('guest account set');
+    });
+  }
+
+  setIds(guest: any) {
+    [guest.guest.id, guest.guestBoard.userId, guest.guestBoard.id] = Array(
+      3
+    ).fill('guest' + Date.now().toString());
+    guest.guestColumns.forEach((c: any, i: number) => {
+      c.id = Date.now().toString() + i.toString();
+      c.boardId = guest.guestBoard.id;
+    });
+    guest.guestTickets.forEach((t: any, i: number) => {
+      t.id = Date.now().toString() + i.toString();
+      t.columnId = guest.guestColumns[0].id;
+      if (i == 1) t.columnId = guest.guestColumns[1].id;
+      t.boardId = guest.guestBoard.id;
+    });
+    return guest;
+  }
+
+  setTemp(guest: any) {
     this.currentUser = guest.guest;
     this.currentUserId = guest.guest.id;
     this.currentBoard = guest.guestBoard;
     this.currentBoardId = guest.guestBoard.id;
     this.columns = guest.guestColumns;
-    this.saveUserIdToLocalStorage();
   }
 
   async setGuestAccountInDb(guest: any) {
     await this.firestore
-      .collection('user')
-      .doc('1')
+      .collection('guest')
+      .doc(guest.guest.id)
       .set({ ...guest.guest });
     await this.firestore
       .collection('boards')
-      .doc('1')
+      .doc(guest.guestBoard.id)
       .set({ ...guest.guestBoard });
     guest.guestColumns.forEach(async (col: any) => {
       await this.firestore
@@ -346,7 +373,8 @@ export class FirestoreService {
   // #############  Logout  ###############
 
   clearData() {
-    if (this.currentUserId == 'guest') {
+    if (this.currentUserId.includes('guest')) {
+      console.log('delete guest data')
       this.clearGuestData();
     }
     this.clearTemp();
@@ -359,6 +387,7 @@ export class FirestoreService {
       console.log('delete board ' + board.id);
       await this.deleteFromDb('boards', board.id);
     });
+    this.deleteDoc('guest', this.currentUserId);
   }
 
   clearTemp() {
