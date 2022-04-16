@@ -6,7 +6,7 @@
   (dragstart)="dragService.dragTicket($event, ticket)"
 >
   <div class="ticket-title">
-    <div class="priority-color"></div>
+    <div [ngStyle]="{'background-color': getPriorityColor()}" class="priority-color"></div>
     <p>{{ ticket.title }}</p>
   </div>
   <div class="ticket-description" [class.h-0]="!isVisible" #descriptionElem>

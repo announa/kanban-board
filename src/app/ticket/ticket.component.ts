@@ -61,8 +61,8 @@ export class TicketComponent implements OnInit {
     this.addTicketServ.editTicket(this.ticket.id);
   }
 
-  deleteTicket(){
-    this.fireService.deleteDoc('tickets', this.ticket.id)
+  deleteTicket() {
+    this.fireService.deleteDoc('tickets', this.ticket.id);
   }
 
   moveToBoard() {
@@ -72,5 +72,25 @@ export class TicketComponent implements OnInit {
 
   navigate() {
     this.router.navigateByUrl('/board/' + this.fireService.currentBoardId);
+  }
+
+  getPriorityColor() {
+    switch (this.ticket.priority) {
+      case 'Low':
+        return 'rgb(var(--priority-low))';
+        break;
+
+      case 'Middle':
+        return 'rgb(var(--priority-middle))';
+        break;
+
+      case 'High':
+        return 'rgb(var(--priority-high))';
+        break;
+
+        default:
+          return 'transparent';
+          break;
+    }
   }
 }

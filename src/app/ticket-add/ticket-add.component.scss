@@ -5,6 +5,7 @@
   width: 60vw;
   min-width: 400px;
   padding: 50px;
+  padding-bottom: calc(50px - 2vw);
   height: min-content;
   position: relative;
 
@@ -21,7 +22,7 @@ form {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 6fr;
-  gap: 1.5vw;
+  gap: 2vw;
   width: 100%;
   max-width: 450px;
   
@@ -36,9 +37,11 @@ form {
 .form-input {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 label {
   margin-bottom: 0.5vw;
+  width: 100%;
 }
 
 .input{
@@ -46,6 +49,7 @@ label {
   background-color: white;
   border: 1px solid rgba(var(--letter-color-dark), .5);
   border-radius: 2px;
+  width: 100%;
  }
 
  .textarea{
