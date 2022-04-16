@@ -24,7 +24,7 @@ export class AddTicketService {
   editTicket(ticketId: string) {
     this.action = 'edit';
     this.isAddingTicket = true;
-    const ticketRef = this.fireService.getTicket(ticketId);
+    const ticketRef = this.fireService.getFilteredCollection('tickets', 'id', '==', ticketId);
     ticketRef.subscribe((doc) => {
       this.ticket = doc[0];
       console.log(this.ticket);

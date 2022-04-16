@@ -18,7 +18,7 @@ export class BoardsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fireService.resetBoard();
+    this.fireService.clearTemp(false);
     this.fireService.getUserIdFromLocalStorage();
     this.fireService.getUserById();
     this.fireService.loadBoards();
@@ -29,7 +29,6 @@ export class BoardsOverviewComponent implements OnInit {
   }
 
   setBackgroundImage(boardId: string){
-    console.log(boardId)
     this.setBgImage = true;
     this.imageBoard = boardId
   }

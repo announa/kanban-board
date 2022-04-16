@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    
+    this.fireService.checkForOldGuestData()
   }
 
   ngAfterViewInit() {

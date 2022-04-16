@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { ElementRef, Injectable, QueryList } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
@@ -13,12 +14,12 @@ import { User } from '../models/User.class';
 export class FirestoreService {
   tickets!: Observable<any>;
   boards: Board[] = [];
-  currentBoard!: any;
+  currentBoard!: Board | undefined;
   currentBoardId!: string;
-  columnsRef!: any;
-  columns!: any;
-  count!: number;
-  sortCol = {
+  /*   columnsRef!: any;
+   */ columns: Column[] = [];
+  /*   count!: number;
+   */ sortCol = {
     ref: 'order',
     dir: 'asc',
   };
@@ -26,12 +27,12 @@ export class FirestoreService {
     ref: 'id',
     dir: 'desc',
   };
-  currentTickets!: any;
-  backlogTickets!: any;
-  columnTitles!: any;
-  colOrder!: number[];
-  ticket: any;
-  users!: any;
+  /*  currentTickets!: any; */
+  backlogTickets: Ticket[] = [];
+  /*   columnTitles!: any;
+   */ colOrder!: number[];
+  /*   ticket: any;
+  users!: any; */
   matchingUser!: User;
   currentUser!: User;
   currentUserId: string = '';
@@ -42,41 +43,58 @@ export class FirestoreService {
     private route: ActivatedRoute
   ) {}
 
+  getDocRef(collection: string, doc: string) {
+    return this.firestore.collection(collection).doc(doc);
+  }
+
+  getFilteredCollection(
+    collection: string,
+    field: string,
+    operator: any,
+    value: any,
+    field2?: string,
+    operator2?: any,
+    value2?: any
+  ) {
+    if (!field2) {
+      return this.firestore
+        .collection(collection, (ref) => ref.where(field, operator, value))
+        .valueChanges();
+    } else {
+      return this.firestore
+        .collection(collection, (ref) =>
+          ref.where(field, operator, value).where(field2, operator2, value2)
+        )
+        .valueChanges();
+    }
+  }
+
   loadBoards() {
-    this.firestore
-      .collection('boards', (ref) =>
-        ref.where('userId', '==', this.currentUserId)
-      )
-      .valueChanges()
-      .subscribe((boards: any) => {
-        this.boards = boards;
-      });
+    this.getFilteredCollection(
+      'boards',
+      'userId',
+      '==',
+      this.currentUserId
+    ).subscribe((boards: any) => {
+      this.boards = boards;
+    });
   }
 
   loadCurrentBoard(boardId: string) {
     this.currentBoardId = boardId;
-    this.firestore
-      .doc('boards/' + boardId)
+    this.getDocRef('boards', boardId)
       .valueChanges()
       .subscribe((board) => {
-        this.currentBoard = board;
-        console.log(this.currentBoard);
+        this.currentBoard = board as Board;
         this.loadColumns();
       });
   }
 
-  resetBoard() {
-    this.currentBoardId = '';
-    this.currentBoard = undefined;
-  }
-
   loadCurrentUser(userId: string) {
-    this.firestore
-      .doc('user/' + userId)
+    this.getDocRef('user', userId)
       .valueChanges()
       .subscribe((user: any) => {
         this.currentUser = user;
-        console.log(this.currentUser);
       });
   }
 
@@ -89,7 +107,7 @@ export class FirestoreService {
           .orderBy(this.sortCol.ref, 'asc')
       )
       .valueChanges()
-      .subscribe((columns) => {
+      .subscribe((columns: any) => {
         this.columns = columns;
         columns.forEach((col: any) => {
           this.colOrder = [];
@@ -98,31 +116,24 @@ export class FirestoreService {
       });
   }
 
-  getTicket(ticketId: string) {
-    return this.firestore
-      .collection('tickets', (ref) => ref.where('id', '==', ticketId))
-      .valueChanges();
-  }
-
   loadTickets(columnId: string, ref?: string, dir?: string) {
     if (ref) this.sort.ref = ref;
     if (dir) this.sort.dir = dir;
-    return this.firestore
-      .collection('tickets', (ref) => ref.where('columnId', '==', columnId))
-      .valueChanges();
+    return this.getFilteredCollection('tickets', 'columnId', '==', columnId);
   }
 
   loadBacklogTickets() {
-    this.firestore
-      .collection('tickets', (ref) =>
-        ref
-          .where('columnId', '==', 'backlog')
-          .where('boardId', '==', this.currentBoardId)
-      )
-      .valueChanges()
-      .subscribe((tickets) => {
-        this.backlogTickets = tickets;
-      });
+    this.getFilteredCollection(
+      'tickets',
+      'columnId',
+      '==',
+      'backlog',
+      'boardId',
+      '==',
+      this.currentBoardId
+    ).subscribe((tickets: any) => {
+      this.backlogTickets = tickets;
+    });
   }
 
   ticketFilter(ref: any) {
@@ -141,8 +152,8 @@ export class FirestoreService {
     this.sort.dir = dir;
   }
 
-  addDoc(collection: string, id: string, object: any){
-    return this.firestore
+  async addDoc(collection: string, id: string, object: any) {
+    return await this.firestore
       .collection(collection)
       .doc(id)
       .set({ ...object })
@@ -150,25 +161,23 @@ export class FirestoreService {
       .catch((err) => console.log(err));
   }
 
-  updateDoc(collection: string, id: string, update: any){
-    console.log(update)
-    return this.firestore
-      .collection(collection)
-      .doc(id)
-      .update(update);
+  async updateDoc(collection: string, id: string, update: any) {
+    return await this.firestore.collection(collection).doc(id).update(update);
   }
 
   addColumn() {
     let order_max = this.colOrder.length > 0 ? Math.max(...this.colOrder) : 0;
     let column = new Column(order_max, this.currentBoardId);
-    this.addDoc('columns', column.id, column)
+    this.addDoc('columns', column.id, column);
   }
 
   addBoard() {
     let newBoard = new Board();
     newBoard.userId = this.currentUser.id;
-    this.addDoc('boards', newBoard.id, newBoard)
+    this.addDoc('boards', newBoard.id, newBoard);
   }
+
+  // ##############  Delete  ##############
 
   async deleteFromDb(collection: string, id: string) {
     switch (collection) {
@@ -209,19 +218,12 @@ export class FirestoreService {
       .catch((err) => console.log(err));
   }
 
-  moveColumn(col1: any, col2: any) {
-    let order_col2_new =
-      col1.order < col2.order ? Number(col2.order) - 1 : Number(col2.order) + 1;
-      this.updateDoc('columns', col1.id, { order: col2.order })
-      this.updateDoc('columns', col2.id, { order: order_col2_new })
-  }
-
   // #############  Register and login  ##############
 
   async addUser(newUser: User) {
     newUser.id = Date.now().toString();
     this.isProcessing = true;
-    await this.addDoc('user', newUser.id, newUser)
+    await this.addDoc('user', newUser.id, newUser);
     this.currentUser = newUser;
     this.currentUserId = this.currentUser.id;
     this.isProcessing = false;
@@ -230,20 +232,20 @@ export class FirestoreService {
 
   checkForMatchingUser(userinput: { username: string; password: string }) {
     this.isProcessing = true;
-    return this.firestore
-      .collection('user', (ref) =>
-        ref
-          .where('username', '==', userinput.username)
-          .where('password', '==', userinput.password)
-      )
-      .valueChanges();
+    return this.getFilteredCollection(
+      'user',
+      'username',
+      '==',
+      userinput.username,
+      'password',
+      '==',
+      userinput.password
+    );
   }
 
   checkForExistingUser(username: string) {
     this.isProcessing = true;
-    return this.firestore
-      .collection('user', (ref) => ref.where('username', '==', username))
-      .valueChanges();
+    return this.getFilteredCollection('user', 'username', '==', username);
   }
 
   async setCurrentUser(id?: string) {
@@ -260,14 +262,26 @@ export class FirestoreService {
   }
 
   async getUserById() {
-    const collection = this.currentUserId.includes('guest') ? 'guest' : 'user'
-    let result = await firstValueFrom(
-      this.firestore
-        .collection(collection, (ref) => ref.where('id', '==', this.currentUserId))
-        .valueChanges()
-    );
-    this.currentUser = result[0] as User;
+    const collection = this.currentUserId.includes('guest') ? 'guest' : 'user';
+    this.getDocRef(collection, this.currentUserId)
+      .valueChanges()
+      .subscribe((user) => (this.currentUser = user as User));
   }
+
+  saveUserIdToLocalStorage() {
+    localStorage.setItem('userId', this.currentUserId);
+  }
+
+  getUserIdFromLocalStorage() {
+    const storage = localStorage.getItem('userId');
+    this.currentUserId = storage ? storage : '0';
+  }
+
+  removeUserIdFromLocalStorage() {
+    localStorage.removeItem('userId');
+  }
+
+  // #############  Guest Account  #############
 
   async setGuestAccount(guest: any) {
     new Promise(async (resolve, reject) => {
@@ -304,37 +318,25 @@ export class FirestoreService {
   }
 
   async setGuestAccountInDb(guest: any) {
-    await this.addDoc('guest', guest.guest.id, guest.guest)
-    await this.addDoc('boards', guest.guestBoard.id, guest.guestBoard)
+    await this.addDoc('guest', guest.guest.id, guest.guest);
+    await this.addDoc('boards', guest.guestBoard.id, guest.guestBoard);
     guest.guestColumns.forEach(async (col: any) => {
-      await this.addDoc('columns', col.id, col)
+      await this.addDoc('columns', col.id, col);
     });
     guest.guestTickets.forEach(async (ticket: any) => {
-      await this.addDoc('coticketslumns', ticket.id, ticket)
+      await this.addDoc('coticketslumns', ticket.id, ticket);
     });
   }
 
-  saveUserIdToLocalStorage() {
-    localStorage.setItem('userId', this.currentUserId);
-  }
-
-  getUserIdFromLocalStorage() {
-    const storage = localStorage.getItem('userId');
-    this.currentUserId = storage ? storage : '0';
-  }
-
-  removeUserIdFromLocalStorage() {
-    localStorage.removeItem('userId');
-  }
-
+  checkForOldGuestData() {}
   // #############  Logout  ###############
 
   clearData() {
     if (this.currentUserId.includes('guest')) {
-      console.log('delete guest data')
+      console.log('delete guest data');
       this.clearGuestData();
     }
-    this.clearTemp();
+    this.clearTemp(true);
     this.removeUserIdFromLocalStorage();
   }
 
@@ -347,47 +349,71 @@ export class FirestoreService {
     this.deleteDoc('guest', this.currentUserId);
   }
 
-  clearTemp() {
-    this.currentUser = {
-      username: '',
-      password: '',
-      id: '',
-    };
-    this.currentUserId = '';
+  clearTemp(clearUser: boolean) {
+    if (clearUser) {
+      this.currentUser = {
+        username: '',
+        password: '',
+        id: '',
+      };
+      this.currentUserId = '';
+    }
     this.currentBoardId = '';
+    this.currentBoard = undefined;
+    this.backlogTickets = [];
+    this.columns = [];
   }
 
   // #############  Edit current board categories  ##############
 
   addNewCategory(newCategory: string) {
-    let categories = this.currentBoard.categories;
-    categories.push(newCategory);
-    this.updateDoc('boards', this.currentBoardId, { categories: categories })
+    if (this.currentBoard) {
+      let categories = this.currentBoard.categories;
+      categories.push(newCategory);
+      this.updateDoc('boards', this.currentBoardId, { categories: categories });
+    }
   }
-  
+
   updateCategories(editedCategory: string, index: number) {
-    let newCategoryArr = this.currentBoard.categories;
-    newCategoryArr[index] = editedCategory;
-    this.updateDoc('boards', this.currentBoardId, { categories: newCategoryArr })
+    if (this.currentBoard) {
+      let newCategoryArr = this.currentBoard.categories;
+      newCategoryArr[index] = editedCategory;
+      this.updateDoc('boards', this.currentBoardId, {
+        categories: newCategoryArr,
+      });
+    }
   }
-  
+
   deleteCategory(index: number) {
-    let newCategoryArr = this.currentBoard.categories;
-    newCategoryArr.splice(index, 1);
-    this.updateDoc('boards', this.currentBoardId, { categories: newCategoryArr })
+    if (this.currentBoard) {
+      let newCategoryArr = this.currentBoard.categories;
+      newCategoryArr.splice(index, 1);
+      this.updateDoc('boards', this.currentBoardId, {
+        categories: newCategoryArr,
+      });
+    }
   }
-  
+
+  // ##############  Move tickets and columns  ##############
+
   moveTicketToBoard(ticketId: string) {
-    this.firestore
-    .collection('columns', (ref) =>
-    ref.where('boardId', '==', this.currentBoardId)
-    )
-    .valueChanges()
-    .subscribe((cols: any[]) => {
+    this.getFilteredCollection(
+      'columns',
+      'boardId',
+      '==',
+      this.currentBoardId
+    ).subscribe((cols: any[]) => {
       let colOrders = cols.map((col) => col.order);
       const min = Math.min(...colOrders);
       const matchingCol = cols.find((col) => col.order == min);
-      this.updateDoc('tickets', ticketId, { columnId: matchingCol.id })
-      });
+      this.updateDoc('tickets', ticketId, { columnId: matchingCol.id });
+    });
+  }
+
+  moveColumn(col1: any, col2: any) {
+    let order_col2_new =
+      col1.order < col2.order ? Number(col2.order) - 1 : Number(col2.order) + 1;
+    this.updateDoc('columns', col1.id, { order: col2.order });
+    this.updateDoc('columns', col2.id, { order: order_col2_new });
   }
 }

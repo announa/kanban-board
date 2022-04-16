@@ -47,7 +47,7 @@ export class CategoriesComponent implements OnInit {
   saveCategory(index: number) {
     const editedCategory =
       this.categories.toArray()[index].nativeElement.textContent;
-    if (editedCategory != this.fireService.currentBoard.categories[index]) {
+    if (editedCategory != this.fireService.currentBoard?.categories[index]) {
       this.fireService.updateCategories(editedCategory, index);
     }
     this.isEditingCategory = false;
