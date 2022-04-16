@@ -1,5 +1,4 @@
- 
- .modal-transp {
+.modal-transp {
   align-items: center;
   gap: 20px;
   width: 60vw;
@@ -9,12 +8,12 @@
   height: min-content;
   position: relative;
 
-  @media (min-width: 1000px) {
-  width: 80%;
+  @media (min-width: 1200px) {
+    width: 80%;
   }
 }
 
-h2{
+h2 {
   color: rgb(var(--letter-color-dark));
 }
 
@@ -24,13 +23,19 @@ form {
   grid-template-rows: 6fr;
   gap: 2vw;
   width: 100%;
-  max-width: 450px;
   
-  
-  @media (min-width: 1000px) {
-   grid-template-columns: 1fr 1fr;
-   grid-template-rows: 1fr 1fr 1fr 1fr;
-   max-width: 950px;
+  @media (min-width: 1200px) {
+    column-gap: 4vw;
+    grid-template-areas: 
+    "title category"
+    "description priority"
+    "description deadline"
+    "description users"
+    ". buttons";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    grid-auto-flow: column;
+    max-width: 950px;
   }
 }
 
@@ -38,32 +43,66 @@ form {
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  &:nth-child(2) {
+    @media (min-width: 1200px) {
+      grid-row-start: 2;
+      grid-row-end: 5;
+
+      .textarea{
+        height: 100%;
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px){
+  .form-input{
+    &:first-child{
+      grid-area: title;
+    }
+    &:nth-child(2){
+      grid-area: description;
+    }
+    &:nth-child(3){
+      grid-area: category;
+    }
+    &:nth-child(4){
+      grid-area: priority;
+    }
+    &:nth-child(5){
+      grid-area: deadline;
+    }
+    &:nth-child(6){
+      grid-area: users;
+    }
+  }
+  .btn-container{
+    grid-area: buttons;
+  }
 }
 label {
   margin-bottom: 0.5vw;
   width: 100%;
 }
 
-.input{
+.input {
   padding: 10px;
   background-color: white;
-  border: 1px solid rgba(var(--letter-color-dark), .5);
+  border: 1px solid rgba(var(--letter-color-dark), 0.5);
   border-radius: 2px;
   width: 100%;
- }
+}
 
- .textarea{
-   resize: none;
- }
+.textarea {
+  resize: none;
+}
 
 .btn-container {
   margin-top: 20px;
   justify-self: flex-end;
-  @media (min-width:1000px) {
-   grid-column-start: 2;
-   grid-column-end: 3;
   }
-}
+
 .btn {
   display: inline-block;
   width: 150px;
