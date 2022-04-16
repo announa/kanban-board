@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  background-color: rgba(var(--theme-color-dark), .2);
+  background-color: rgba(var(--theme-color-dark), .4);
   box-shadow: 1px 1px 3px rgba(var(--letter-color-light), 0.1);
   padding: 5px;
   border-radius: 2px;
@@ -91,29 +91,33 @@ p{
   margin-top: 10px;
   transition: all 250ms ease-in-out;
   display: flex;
+  padding-right: 2px;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5px;
 }
 
 .footer-right{
   display: flex;
-  gap: 10px;
+  gap: 5px;
 }
 
 .ticket-footer-icon{
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  &:hover{
+    background-color: rgba(var(--theme-color-light), .2);
+  }
 }
 
 .icon{
   width: 15px;
   height: 15px;
   transition: all 250ms ease-in-out, filter 0ms;
-
-  &:hover{
-    filter: brightness(140%);
-  }
+  filter: brightness(500%);
 }
 
 .hidden-content{
