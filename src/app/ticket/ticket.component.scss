@@ -100,25 +100,34 @@ p{
   gap: 5px;
 }
 
-.ticket-footer-icon{
-  width: 28px;
-  height: 28px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  &:hover{
-    background-color: rgba(var(--theme-color-light), .2);
-  }
-}
-
-.icon{
-  width: 15px;
-  height: 15px;
-  transition: all 250ms ease-in-out, filter 0ms;
-  filter: brightness(500%);
-}
-
 .hidden-content{
   transition: all 250ms ease-in-out;
+}
+
+.moveTicket-menu{
+  position: absolute;
+  top: 30px;
+  right: -40px;
+  width: 160px;
+  color: rgb(var(--letter-color-dark));
+  font-size: 13px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+
+  div{
+    padding-top: 5px;
+    
+    span{
+      display: inline-block;
+      width: 10px;
+    }
+    
+    &:first-child{
+      border-bottom: 1px solid rgba(var(--letter-color-dark), 0.5);
+      font-weight: 500;
+      padding-bottom: 5px;
+      margin-bottom: 5px;
+    }
+  }
 }

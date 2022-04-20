@@ -161,7 +161,7 @@ export class FirestoreService {
       .catch((err) => console.log(err));
   }
 
-  async updateDoc(collection: string, id: string, update: any) {
+  async updateDoc(collection: string, id: string, update: object) {
     return await this.firestore.collection(collection).doc(id).update(update);
   }
 
@@ -329,6 +329,7 @@ export class FirestoreService {
   }
 
   checkForOldGuestData() {}
+  
   // #############  Logout  ###############
 
   clearData() {

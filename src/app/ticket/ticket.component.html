@@ -6,11 +6,14 @@
   (dragstart)="dragService.dragTicket($event, ticket)"
 >
   <div class="ticket-title">
-    <div [ngStyle]="{'background-color': getPriorityColor()}" class="priority-color"></div>
+    <div
+      [ngStyle]="{ 'background-color': getPriorityColor() }"
+      class="priority-color"
+    ></div>
     <p>{{ ticket.title }}</p>
   </div>
   <div class="ticket-description" [class.h-0]="!isVisible" #descriptionElem>
-    <p class="d-none" #descriptionTextElem>{{ ticket.description}}</p>
+    <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p>
   </div>
   <div class="ticket-info" [class.h-0]="!isVisible" #info>
     <p class="d-none" #category><span>Category: </span>{{ ticket.category }}</p>
@@ -20,26 +23,50 @@
   </div>
   <div class="ticket-footer" [class.h-0]="!isVisible" #footer>
     <div class="footer-left">
-      <div *ngIf="ticket.columnId == 'backlog'" class="ticket-footer-icon" (click)="moveToBoard()">
-        <img class="icon h-0" src="assets/img/arrow-up.svg" alt="Move ticket to board" #icon />
+      <div
+        *ngIf="ticket.columnId == 'backlog'"
+        class="ticket-footer-icon"
+        (click)="moveToBoard()"
+      >
+        <img
+          class="icon h-0"
+          src="assets/img/arrow-up.svg"
+          alt="Move ticket to board"
+          #icon
+        />
       </div>
     </div>
     <div class="footer-right">
-    <div class="ticket-footer-icon" (click)="editTicket()">
-      <img class="icon h-0" src="assets/img/edit.svg" alt="Edit Ticket" #icon />
+      <div class="footer-icon" (click)="editTicket()">
+        <img
+          class="icon h-0"
+          src="assets/img/edit.svg"
+          alt="Edit Ticket"
+          #icon
+        />
+      </div>
+      <div class="footer-icon" (click)="toggleMoveTicketMenu($event)" id="move-ticket">
+        <img
+        id="move-ticket-icon"
+          class="icon h-0"
+          src="assets/img/arrow-right-left.svg"
+          alt="Move Ticket"
+          #icon
+        />
+        <div *ngIf="showMoveTicketMenu" class="moveTicket-menu">
+          <div>Move to column...</div>
+          <div *ngFor="let column of fireService.columns; let i = index" (click)="moveToColumn(i)" [id]="fireService.columns[i].id == ticket.columnId ? 'current-column' : ''" [style.color]="fireService.columns[i].id == ticket.columnId ? 'rgba(var(--letter-color-dark), 0.5)' : '' "><span>{{ i }}</span> - {{ column.title }}</div>
+        </div>
+      </div>
+      <div class="footer-icon" (click)="deleteTicket()">
+        <img
+          class="icon"
+          [class.h-0]="!isVisible"
+          src="assets/img/delete.svg"
+          alt="delete ticket"
+          #icon
+        />
+      </div>
     </div>
-    <div
-      class="ticket-footer-icon"
-      (click)="deleteTicket()"
-    >
-      <img
-        class="icon"
-        [class.h-0]="!isVisible"
-        src="assets/img/delete.svg"
-        alt="delete ticket"
-        #icon
-      />
-    </div>
-  </div>
   </div>
 </div>

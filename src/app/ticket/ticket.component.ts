@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  HostListener,
   Input,
   OnInit,
   QueryList,
@@ -29,7 +30,12 @@ export class TicketComponent implements OnInit {
   @ViewChildren('icon') icon!: QueryList<ElementRef>;
   @Input('ticket') ticket!: any;
   @Input('column') column!: any;
+  @HostListener('document:click', ['$event'])
+  clickListener(event: any) {
+    this.toggleMoveTicketMenu(event);
+  }
   isVisible = false;
+  showMoveTicketMenu = false;
 
   constructor(
     public fireService: FirestoreService,
@@ -88,9 +94,35 @@ export class TicketComponent implements OnInit {
         return 'rgb(var(--priority-high))';
         break;
 
-        default:
-          return 'transparent';
-          break;
+      default:
+        return 'transparent';
+        break;
+    }
+  }
+
+  toggleMoveTicketMenu(event: any) {
+    event.stopPropagation();
+    if (event.target.id != 'current-column') {
+      if (
+        event.target.id != 'move-ticket' &&
+        event.target.id != 'move-ticket-icon'
+      ) {
+        this.showMoveTicketMenu = false;
+      } else {
+        this.showMoveTicketMenu = !this.showMoveTicketMenu;
+      }
+    }
+  }
+
+  moveToColumn(index: number) {
+    console.log(this.ticket.id);
+    console.log(this.fireService.columns[index].id);
+    if (this.fireService.columns[index].id != this.ticket.columnId) {
+      this.fireService.updateDoc(
+        'tickets',
+        this.ticket.id,
+        {columnId: this.fireService.columns[index].id}
+      );
     }
   }
 }

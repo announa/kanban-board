@@ -14,7 +14,12 @@
 >
   <div class="column">
     <div class="title-container">
-      <app-title [hostObject]="column" [collection]="'columns'" (addTicket)="addNewTicket()"> </app-title>
+      <app-title
+        [hostObject]="column"
+        [collection]="'columns'"
+        (addTicket)="addNewTicket()"
+      >
+      </app-title>
     </div>
     <div class="ticket-container">
       <div class="column-tickets" *ngIf="tickets">
@@ -25,7 +30,33 @@
         ></app-ticket>
       </div>
     </div>
-<!--     <div class="add-icon-container" (click)="addticket.addTicket(column.id)">
+    <div class="mobile-arrows">
+      <div footer-icon-container>
+        <div *ngIf="index > 0" class="footer-icon" (click)="moveLeft()">
+          <img
+            class="icon"
+            src="assets/img/angles-left.svg"
+            alt="Move column to the left"
+            #icon
+          />
+        </div>
+      </div>
+      <div footer-icon-container>
+        <div
+          *ngIf="index < fireService.columns.length - 1"
+          class="footer-icon"
+          (click)="moveRight()"
+        >
+          <img
+            class="icon"
+            src="assets/img/angles-right.svg"
+            alt="Move column to the right"
+            #icon
+          />
+        </div>
+      </div>
+    </div>
+    <!--     <div class="add-icon-container" (click)="addticket.addTicket(column.id)">
       <div class="add-icon" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
         <app-tooltip [text]="'Add ticket'" [left]="true" *ngIf="showTooltip"></app-tooltip>
         <img src="assets/img/add_blue.svg" alt="add a new ticket" />

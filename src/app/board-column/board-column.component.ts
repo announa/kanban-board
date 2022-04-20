@@ -108,4 +108,16 @@ export class BoardColumnComponent implements OnInit {
   addNewTicket(){
     this.addticket.addTicket(this.column.id)
   }
+
+  moveLeft(){
+    if(this.index > 0){
+      this.fireService.moveColumn(this.column, this.fireService.columns[this.index - 1])
+    }
+  }
+  
+  moveRight(){
+    if(this.index < this.fireService.columns.length - 1){
+      this.fireService.moveColumn(this.column, this.fireService.columns[this.index + 1])
+    }
+  }
 }

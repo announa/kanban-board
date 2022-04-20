@@ -46,9 +46,9 @@ export class DragNdropService {
     this.isDragging = status;
   }
 
+  // copy the column to be dragged and hide the original column
   copyElem(event: any) {
     this.dragCopy = event.target.firstChild.cloneNode(true);
-    console.log(this.dragCopy);
     document.body.style.overflowY = 'hidden';
     document.body.appendChild(this.dragCopy);
     event.dataTransfer.setDragImage(this.dragCopy, 50, 50);
@@ -65,7 +65,9 @@ export class DragNdropService {
   dropElement(col2: Column) {
     if (this.dragData.ticket) {
       if (col2.id != this.dragData.col1_id) {
-        this.fireService.updateDoc('tickets', this.dragData.ticket, {columnId: col2.id});
+        this.fireService.updateDoc('tickets', this.dragData.ticket, {
+          columnId: col2.id,
+        });
       }
     } else if (this.dragData.col1 && col2.id != this.dragData.col1.id) {
       this.switchColumnsInDB(col2);
@@ -127,14 +129,7 @@ export class DragNdropService {
     this.fireService.moveColumn(this.dragData.col1, col2);
   }
 
-  /*   resetStyles() {
-    for (let i = this.indexCol2; i < this.dragData.col1_index; i++) {
-      this.resetStylesPerCol(i);
-    }
-  } */
-
   resetDragColumn(event: any) {
-    console.log('reset drag col');
     setTimeout(() => {
       event.target.firstChild.style.opacity = '';
     }, 250);
@@ -144,17 +139,12 @@ export class DragNdropService {
     if ((event && this.targetIsDropCol(event)) || !event) {
       const dropCol =
         this.columns.toArray()[i].nativeElement.firstChild.firstChild;
-      /*       setTimeout(() => {
-        if (Date.now() - this.dragStart > 200) { */
       dropCol.classList.remove('drag-animation-left');
       dropCol.classList.remove('drag-animation-right');
-      /*         }
-      }, 200); */
     }
   }
 
   enableChildren(i: number) {
-    console.log('enable children');
     this.columns
       .toArray()
       [i].nativeElement.firstChild.querySelectorAll('*')
