@@ -1,7 +1,9 @@
+@import "../../vars.scss";
+
 .tooltip{
  padding: 5px 10px;
- background-color: rgba(var(--theme-color-dark), .2);
- color: rgba(var(--theme-color-light));
+ background-color: rgba($theme-color-dark, .2);
+ color: $theme-color-light;
  font-size: 14px;
  font-weight: 400;
  border-radius: 8px;
@@ -15,5 +17,5 @@ white-space: nowrap;
  left: unset;
  right: 10px;
  top: -35px;
- background-color: rgba(var(--theme-color-dark), .6);
+ background-color: rgba($theme-color-dark, .6);
 }

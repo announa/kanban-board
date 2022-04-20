@@ -1,0 +1,16 @@
+$theme-color-dark: #32281e;
+$theme-color-light: #ffffff;
+$letter-color-light: #ffffff;
+$letter-color-dark: #464646;
+$letter-shadow-light: #c8c8c8;
+$letter-shadow-dark: #464646;
+$box-shadow-dark: #464646;
+$priority-high: #fa7878;
+$priority-middle: #fafa50;
+$priority-low: #8cfa64;
+
+@mixin flex($justify: flex-start, $align: flex-start){
+ display: flex;
+ justify-content: $justify;
+ align-items: $align;
+}

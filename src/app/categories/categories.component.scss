@@ -1,3 +1,5 @@
+@import "../../vars.scss";
+
 .modal-transp {
   align-self: center;
   width: 600px;
@@ -27,7 +29,7 @@ h4 {
 
 form {
   margin-bottom: 30px;
-  background-color: rgba(var(--theme-color-dark), 0.05);
+  background-color: rgba($theme-color-dark, 0.05);
   padding: 20px;
 }
 
@@ -40,7 +42,7 @@ input {
   margin-top: 20px;
   border: none;
   background-color: white;
-  border: 1px solid rgba(var(--letter-color-dark), .5);
+  border: 1px solid rgba($letter-color-dark, .5);
   width: 60%;
 
   &:focus {
@@ -74,13 +76,12 @@ li {
 }
 
 .edit-catgory {
-  display: flex;
-  justify-content: center;
+  @include flex($justify: center);
   text-align: center;
   width: calc(100% - 30px);
   font-size: 1em;
   font-weight: 500;
-  color: rgb(var(--letter-color-light));
+  color: $letter-color-light;
   background-color: transparent;
   border: none;
 

@@ -16,6 +16,7 @@
     <div class="title-container">
       <app-title
         [hostObject]="column"
+        [index]="index"
         [collection]="'columns'"
         (addTicket)="addNewTicket()"
       >
@@ -30,7 +31,7 @@
         ></app-ticket>
       </div>
     </div>
-    <div class="mobile-arrows">
+<!--     <div class="mobile-arrows">
       <div footer-icon-container>
         <div *ngIf="index > 0" class="footer-icon" (click)="moveLeft()">
           <img
@@ -55,7 +56,7 @@
           />
         </div>
       </div>
-    </div>
+    </div> -->
     <!--     <div class="add-icon-container" (click)="addticket.addTicket(column.id)">
       <div class="add-icon" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
         <app-tooltip [text]="'Add ticket'" [left]="true" *ngIf="showTooltip"></app-tooltip>

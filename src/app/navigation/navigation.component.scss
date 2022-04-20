@@ -1,8 +1,8 @@
+@import "../../vars.scss";
+
 .navigation{
- display: flex;
+  @include flex(space-between, center);
  flex-direction: row-reverse;
- align-items: center;
- justify-content: space-between;
  font-weight: 500;
  height: 60px;
  width: 100%;
@@ -10,7 +10,7 @@
  position: fixed;
  top: 0;
  left: 0;
- background-color: rgba(var(--theme-color-dark), 0.2);
+ background-color: rgba($theme-color-dark, 0.4);
  z-index: 3;
 }
 
@@ -19,6 +19,7 @@
   margin-left: 30px;
  }
 }
+
 .nav-left{
  margin-left: -10px;
  padding: 5px 10px;
@@ -28,9 +29,9 @@
  cursor: pointer;
  
  &:hover{
-  color: rgba(var(--letter-color-light), 0.5);
-  background-color: rgba(var(--theme-color-dark), 0.7);
-   border-bottom: 1px solid rgba(var(--letter-color-light), 0.5);
+  color: rgba($letter-color-light, 0.5);
+  background-color: rgba($theme-color-dark, 0.7);
+   border-bottom: 1px solid rgba($letter-color-light, 0.5);
    margin-bottom: -1px;
  }
  
@@ -49,7 +50,7 @@
   left: 0;
   padding: 10px 0;
   transform: translateY(101%);
-  background-color: rgba(var(--theme-color-dark), 0.7);
+  background-color: rgba($theme-color-dark, 0.7);
 
   li{
    width: 100%;

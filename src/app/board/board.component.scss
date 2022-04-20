@@ -1,3 +1,5 @@
+@import "../../vars.scss";
+
 .board {
   height: 100vh;
   background-image: var(--bg-img);
@@ -7,15 +9,11 @@
 
 h2 {
   margin-left: -10px;
-  display: flex;
-  align-items: center;
   display: inline-block;
 }
 
 .board-columns {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  @include flex();
   height: calc(100vh - 210px);
 }
 
@@ -38,9 +36,8 @@ h2 {
 }
 
 .prohibited {
-  display: flex;
+  @include flex($justify: space-evenly);
   flex-direction: column;
-  justify-content: space-evenly;
   gap: 3vh;
 }
 

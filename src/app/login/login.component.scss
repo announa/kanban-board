@@ -1,12 +1,12 @@
+@import "../../vars.scss";
+
 .component-container{
- display: flex;
- flex-direction: column;
- justify-content: space-evenly;
+ @include flex(space-evenly, center);
  gap: 3vh;
 }
 
 h2{
- color: rgb(var(--letter-color-dark));
+ color: $letter-color-dark;
  text-align: center;
  margin-top: 0;
 }
@@ -25,7 +25,7 @@ label{
 input{
  padding: 5px;
  border: none;
- border-bottom: 1px solid rgba(var(--letter-color-dark), .6);
+ border-bottom: 1px solid rgba($letter-color-dark, .6);
 }
 
 button{
@@ -36,7 +36,7 @@ p{
  font-size: 14px;
 
  a{
-  color: rgb(var(--letter-color-dark));
+  color: $letter-color-dark;
   text-transform: none;
   text-decoration: underline;
   cursor: pointer;

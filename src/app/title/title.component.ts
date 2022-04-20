@@ -21,11 +21,13 @@ import { FirestoreService } from '../services/firestore.service';
 export class TitleComponent implements OnInit, AfterViewInit {
   menuIsOpen = false;
   isEditingTitle = false;
+  showMoveColumnMenu = false;
   title!: string;
   left = false;
   top = false;
 
   @Input('hostObject') hostObject: any;
+  @Input('index') index?: number;
   @Input('collection') collection!: string;
   @Output() showCatModal = new EventEmitter();
   @Output() addTicket = new EventEmitter();
@@ -89,6 +91,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
   resetVariables(event: any) {
     this.resetEditTitle(event);
     this.resetOpenMenu(event);
+    this.toggleMoveColumnMenu(event);
   }
 
   resetEditTitle(event: any) {
@@ -155,4 +158,20 @@ export class TitleComponent implements OnInit, AfterViewInit {
   setBackgroundImage(){
     this.setBackground.emit(true)
   }
+
+  toggleMoveColumnMenu(event: any){
+    event.stopPropagation();
+    if (event.target.id != 'current-column') {
+      if (
+        !event.target.id.includes('move-column')      ) {
+        this.showMoveColumnMenu = false;
+        console.log('click')
+      } else {
+        this.showMoveColumnMenu = !this.showMoveColumnMenu;
+      }
+    }
+    console.log(this.showMoveColumnMenu)
+  }
+
+  moveColumn(index:number){}
 }

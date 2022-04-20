@@ -1,29 +1,31 @@
+@import "../../vars.scss";
+
 .backlog {
- height: 100vh;
- background-image: var(--bg-img);
- background-size: cover;
- background-attachment: fixed;
+  height: 100vh;
+  background-image: var(--bg-img);
+  background-size: cover;
+  background-attachment: fixed;
 }
 
-h2{
-display: flex;
-align-items: center;
+h2 {
+  @include flex($align: center);
+  align-items: center;
 }
 
-.ticket-container{
- width: 100%;
- max-width: 800px;
+.ticket-container {
+  width: 100%;
+  max-width: 800px;
 }
 
 .add-icon {
- background-color: rgba(var(--theme-color-dark), 0.2);
- margin-left: 20px;
+  background-color: rgba(var(--theme-color-dark), 0.2);
+  margin-left: 20px;
 
- &:hover {
-   background-color: rgba(var(--theme-color-dark), 0.3);
- }
+  &:hover {
+    background-color: rgba(var(--theme-color-dark), 0.3);
+  }
 
- img {
-   filter: brightness(200%);
- }
+  img {
+    filter: brightness(200%);
+  }
 }

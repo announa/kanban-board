@@ -1,6 +1,5 @@
 .edit-container {
- display: flex;
- align-items: center;
+ @include flex($align: center);
 }
 
 .menu-icon-container {

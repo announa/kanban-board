@@ -1,25 +1,25 @@
+@import "../../vars.scss";
+
 h2 {
-  display: flex;
-  align-items: center;
+  @include flex($align: center);
   margin-bottom: 30px;
 }
 
 .preview-container {
-  display: flex;
-  justify-content: center;
+  @include flex($justify: center);
   flex-wrap: wrap;
   gap: 40px;
   min-height: calc(100vh - 210px);
   padding: 20px;
-  background-color: rgba(var(--theme-color-dark), 0.2);
+  background-color: rgba($theme-color-dark, 0.2);
 }
 
 .add-icon {
-  background-color: rgba(var(--theme-color-dark), 0.2);
+  background-color: rgba($theme-color-dark, 0.2);
   margin-left: 20px;
 
   &:hover {
-    background-color: rgba(var(--theme-color-dark), 0.3);
+    background-color: rgba($theme-color-dark, 0.3);
   }
 
   img {

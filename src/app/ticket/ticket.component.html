@@ -53,7 +53,7 @@
           alt="Move Ticket"
           #icon
         />
-        <div *ngIf="showMoveTicketMenu" class="moveTicket-menu">
+        <div *ngIf="showMoveTicketMenu" class="submenu">
           <div>Move to column...</div>
           <div *ngFor="let column of fireService.columns; let i = index" (click)="moveToColumn(i)" [id]="fireService.columns[i].id == ticket.columnId ? 'current-column' : ''" [style.color]="fireService.columns[i].id == ticket.columnId ? 'rgba(var(--letter-color-dark), 0.5)' : '' "><span>{{ i }}</span> - {{ column.title }}</div>
         </div>
