@@ -120,4 +120,10 @@ export class BoardColumnComponent implements OnInit {
       this.fireService.moveColumn(this.column, this.fireService.columns[this.index + 1])
     }
   }
+
+  switchColumns(columsToSwitch: {col1: number, col2: number}){
+    const col1 = this.fireService.columns[columsToSwitch.col1]
+    const col2 = this.fireService.columns[columsToSwitch.col2]
+    this.fireService.moveColumn(col1, col2)
+  }
 }

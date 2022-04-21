@@ -33,6 +33,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
   @Output() addTicket = new EventEmitter();
   @Output() setBackground = new EventEmitter();
   @Output() boardOverviewEvent = new EventEmitter();
+  @Output() moveColumnEvent = new EventEmitter();
   @ViewChild('inputTitle') inputTitle!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
   @HostListener('document:click', ['$event'])
@@ -56,25 +57,24 @@ export class TitleComponent implements OnInit, AfterViewInit {
     if (event) event.stopPropagation();
     this.checkOpeningPosition();
     this.menuIsOpen = !this.menuIsOpen;
-    this.emitBoardOverviewEvent()
+    this.emitBoardOverviewEvent();
   }
 
-  emitBoardOverviewEvent(){
-    this.boardOverviewEvent.emit(this.menuIsOpen)
+  emitBoardOverviewEvent() {
+    this.boardOverviewEvent.emit(this.menuIsOpen);
   }
-
 
   checkOpeningPosition() {
-    console.log('checkopeningposition')
+    console.log('checkopeningposition');
     const elem = this.menu.nativeElement.getBoundingClientRect();
     if (elem.x + 200 > window.innerWidth) {
       this.left = true;
-    } else{
+    } else {
       this.left = false;
     }
-    if(elem.y + 200 > window.innerHeight) {
+    if (elem.y + 200 > window.innerHeight) {
       this.top = true;
-    } else{
+    } else {
       this.top = false;
     }
   }
@@ -123,7 +123,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
     const inputTitle = this.inputTitle.nativeElement.textContent;
     console.log(inputTitle);
     if (inputTitle != this.hostObject.title) {
-      this.fireService.updateDoc(this.collection, id, {title: inputTitle});
+      this.fireService.updateDoc(this.collection, id, { title: inputTitle });
     }
     this.isEditingTitle = false;
     this.dragService.isEditingTitle = false;
@@ -155,23 +155,25 @@ export class TitleComponent implements OnInit, AfterViewInit {
     this.showCatModal.emit(true);
   }
 
-  setBackgroundImage(){
-    this.setBackground.emit(true)
+  setBackgroundImage() {
+    this.setBackground.emit(true);
   }
 
-  toggleMoveColumnMenu(event: any){
+  toggleMoveColumnMenu(event: any) {
     event.stopPropagation();
     if (event.target.id != 'current-column') {
-      if (
-        !event.target.id.includes('move-column')      ) {
+      if (!event.target.id.includes('move-column')) {
         this.showMoveColumnMenu = false;
-        console.log('click')
+        console.log('click');
       } else {
         this.showMoveColumnMenu = !this.showMoveColumnMenu;
       }
     }
-    console.log(this.showMoveColumnMenu)
+    console.log(this.showMoveColumnMenu);
   }
 
-  moveColumn(index:number){}
+  moveColumn(index: number) {
+    if (index != this.index)
+      this.moveColumnEvent.emit({ col1: this.index, col2: index });
+  }
 }

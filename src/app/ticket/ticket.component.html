@@ -8,7 +8,7 @@
   <div class="ticket-title">
     <div
       [ngStyle]="{ 'background-color': getPriorityColor() }"
-      class="priority-color"
+      class="priority-border"
     ></div>
     <p>{{ ticket.title }}</p>
   </div>
@@ -16,10 +16,21 @@
     <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p>
   </div>
   <div class="ticket-info" [class.h-0]="!isVisible" #info>
-    <p class="d-none" #category><span>Category: </span>{{ ticket.category }}</p>
-    <p class="d-none" #deadline><span>Deadline: </span>{{ ticket.deadline }}</p>
-    <p class="d-none" #priority><span>Priority: </span>{{ ticket.priority }}</p>
-    <p class="d-none" #date><span>Created: </span>{{ ticket.date }}</p>
+    <p class="d-none" #deadline>
+      <img src="assets/img/clock.svg" class="h-0" #icon />
+      {{ ticket.deadline || "No deadline" }}
+    </p>
+    <p class="d-none" #priority >
+      <img src="assets/img/priority.svg" class="h-0" #icon />
+      <span [ngStyle]="{ 'background-color': getPriorityColor() }">{{ ticket.priority || "No priority" }}</span>
+    </p>
+    <p class="d-none" #category>
+      <img src="assets/img/folder.svg" class="h-0" #icon />
+      {{ ticket.category || "No category" }}
+    </p>
+    <p class="d-none" #date>
+      <img src="assets/img/date.svg" class="h-0" #icon /> {{ ticket.date }}
+    </p>
   </div>
   <div class="ticket-footer" [class.h-0]="!isVisible" #footer>
     <div class="footer-left">
@@ -45,9 +56,13 @@
           #icon
         />
       </div>
-      <div class="footer-icon" (click)="toggleMoveTicketMenu($event)" id="move-ticket">
+      <div
+        class="footer-icon"
+        (click)="toggleMoveTicketMenu($event)"
+        id="move-ticket"
+      >
         <img
-        id="move-ticket-icon"
+          id="move-ticket-icon"
           class="icon h-0"
           src="assets/img/arrow-right-left.svg"
           alt="Move Ticket"
@@ -55,7 +70,22 @@
         />
         <div *ngIf="showMoveTicketMenu" class="submenu">
           <div>Move to column...</div>
-          <div *ngFor="let column of fireService.columns; let i = index" (click)="moveToColumn(i)" [id]="fireService.columns[i].id == ticket.columnId ? 'current-column' : ''" [style.color]="fireService.columns[i].id == ticket.columnId ? 'rgba(var(--letter-color-dark), 0.5)' : '' "><span>{{ i }}</span> - {{ column.title }}</div>
+          <div
+            *ngFor="let column of fireService.columns; let i = index"
+            (click)="moveToColumn(i)"
+            [id]="
+              fireService.columns[i].id == ticket.columnId
+                ? 'current-column'
+                : ''
+            "
+            [style.color]="
+              fireService.columns[i].id == ticket.columnId
+                ? 'rgba(var(--letter-color-dark), 0.5)'
+                : ''
+            "
+          >
+            <span>{{ i }}</span> - {{ column.title }}
+          </div>
         </div>
       </div>
       <div class="footer-icon" (click)="deleteTicket()">

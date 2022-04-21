@@ -25,13 +25,13 @@ export class AddTicketService {
     const ticketRef = this.fireService.getFilteredCollection('tickets', 'id', '==', ticketId);
     ticketRef.subscribe((doc) => {
       this.ticket = doc[0];
-      console.log(this.ticket);
     });
   }
 
   saveTicket() {
     this.isSavingTicket = true;
     this.setTicketData();
+    console.log(this.ticket.category)
     this.fireService.addDoc('tickets', this.ticket.id, this.ticket).then(() => {
       this.closeModal();
       this.isSavingTicket = false;
@@ -41,7 +41,7 @@ export class AddTicketService {
   setTicketData() {
     if (this.action === 'add') {
       const date = new Date()
-      this.ticket.date = date.toDateString();
+      this.ticket.date = date.toLocaleDateString();
       this.ticket.id = date.getTime().toString();
     }
     this.ticket.title_transf = this.ticket.title.toLowerCase();

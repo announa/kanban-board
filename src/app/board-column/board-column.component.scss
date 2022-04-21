@@ -39,10 +39,11 @@
 }
 
 .ticket-container {
-  padding: 15px 0 10px;
+  padding: 15px 3px 10px 13px;
   width: 100%;
   flex: 1;
   overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .column-tickets {

@@ -43,7 +43,7 @@
         >
           <option
             *ngFor="let category of fireService.currentBoard.categories"
-            value="category"
+            value="{{category}}"
           >
             {{ category }}
           </option>
@@ -76,10 +76,10 @@
           [(ngModel)]="addTicketServ.ticket.deadline"
         />
       </div>
-      <div class="form-input">
+<!--       <div class="form-input">
         <label for="">Add responsibles</label>
         <input type="text" class="input" placeholder="Add users" />
-      </div>
+      </div> -->
       <div class="btn-container">
         <button
           class="btn btn-light"

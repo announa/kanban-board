@@ -1,5 +1,8 @@
+@import "../../vars.scss";
+
 .edit-container {
  @include flex($align: center);
+ height: 100%;
 }
 
 .menu-icon-container {
