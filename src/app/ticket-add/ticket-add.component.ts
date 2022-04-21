@@ -12,8 +12,23 @@ import { FirestoreService } from '../services/firestore.service';
 export class TicketAddComponent implements OnInit {
   action!: string;
 
-  constructor(public fireService: FirestoreService, public addTicketServ: AddTicketService) {}
+  constructor(
+    public fireService: FirestoreService,
+    public addTicketServ: AddTicketService
+  ) {}
 
   ngOnInit(): void {}
 
+  getMinDate() {
+    let date: Date | string = new Date();
+    console.log(date);
+    let mm =
+      date.getMonth() + 1 >= 10
+        ? date.getMonth() + 1
+        : '0' + (date.getMonth() + 1);
+    let dd = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
+    date = date.getFullYear() + '-' + mm + '-' + dd;
+    console.log(date);
+    return date;
+  }
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Board } from '../models/Board.class';
 import { Column } from '../models/Column.class';
 import { Ticket } from '../models/Ticket.class';
@@ -14,10 +13,8 @@ export class FirestoreService {
   tickets!: Observable<any>;
   boards: Board[] = [];
   currentBoard!: Board | undefined;
-  /*   columnsRef!: any;
-   */ columns: Column[] = [];
-  /*   count!: number;
-   */ sortCol = {
+  columns: Column[] = [];
+  sortCol = {
     ref: 'order',
     dir: 'asc',
   };
@@ -25,19 +22,14 @@ export class FirestoreService {
     ref: 'id',
     dir: 'desc',
   };
-  /*  currentTickets!: any; */
   backlogTickets: Ticket[] = [];
-  /*   columnTitles!: any;
-   */ colOrder!: number[];
-  /*   ticket: any;
-  users!: any; */
+  colOrder!: number[];
   matchingUser!: User;
   currentUser!: User;
   isProcessing = false;
 
   constructor(
     private firestore: AngularFirestore,
-    private route: ActivatedRoute
   ) {}
 
   getDocRef(collection: string, doc: string) {
@@ -78,12 +70,15 @@ export class FirestoreService {
   }
 
   loadCurrentBoard(boardId: string) {
-    this.getDocRef('boards', boardId)
-      .valueChanges()
-      .subscribe((board) => {
-        this.currentBoard = board as Board;
-        console.log(this.currentBoard);
-      });
+    return new Promise((resolve, reject) => {
+      this.getDocRef('boards', boardId)
+        .valueChanges()
+        .subscribe((board) => {
+          this.currentBoard = board as Board;
+          resolve(board);
+        }),
+        (err: any) => reject(err);
+    });
   }
 
   loadCurrentUser(userId: string) {
@@ -205,10 +200,7 @@ export class FirestoreService {
   }
 
   async deleteDoc(collection: string, id: string) {
-    await this.firestore
-      .collection(collection)
-      .doc(id)
-      .delete()
+    await this.firestore.collection(collection).doc(id).delete();
   }
 
   // #############  Register and login  ##############

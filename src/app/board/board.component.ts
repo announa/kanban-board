@@ -49,9 +49,9 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
     this.dragService.columns = this.columns;
   }
 
-  loadBoard(){
+  async loadBoard(){
     let boardId = this.getBoardIdFromURL();
-    this.fireService.loadCurrentBoard(boardId);
+    await this.fireService.loadCurrentBoard(boardId);
     if(this.userHasAccess()){
       this.showBoard = true;
       this.fireService.loadColumns();

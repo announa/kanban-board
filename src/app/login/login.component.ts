@@ -82,8 +82,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.guestData.subscribe(async (guest: any) => {
       await this.fireService.setGuestAccount(guest)
       await this.fireService.setGuestAccountInDb(guest)
-      this.loadUserBoards();
       this.fireService.isProcessing = false;
+      this.loadUserBoards();
     })
   }
 }

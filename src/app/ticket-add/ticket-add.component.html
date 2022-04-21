@@ -73,7 +73,8 @@
           type="date"
           name="deadline"
           class="input"
-          [(ngModel)]="addTicketServ.ticket.deadline"
+          [min]="getMinDate()"
+          [(ngModel)]="addTicketServ.deadline"
         />
       </div>
 <!--       <div class="form-input">

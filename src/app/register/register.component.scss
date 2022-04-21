@@ -4,6 +4,7 @@
  @include flex($justify: space-evenly);
  flex-direction: column;
  gap: 3vh;
+ padding-top: 50px;
 }
 
 h2{
@@ -38,6 +39,7 @@ p{
 
  a{
   color: $letter-color-dark;
+  text-decoration: underline;
   text-transform: none;
 
   &:hover{
