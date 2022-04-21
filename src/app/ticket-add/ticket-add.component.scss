@@ -90,17 +90,6 @@ label {
 .textarea {
   resize: none;
 }
-
-.btn-container {
-  margin-top: 20px;
+.btn-container{
   justify-self: flex-end;
-}
-
-.btn {
-  display: inline-block;
-  width: 150px;
-
-  &:first-child {
-    margin-right: 10px;
-  }
 }

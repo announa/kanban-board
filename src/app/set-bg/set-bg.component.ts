@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Board } from '../models/Board.class';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -7,8 +8,11 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./set-bg.component.scss'],
 })
 export class SetBgComponent implements OnInit {
-  @Input('imageBoard') boardId!: string;
+  @Input('selectedBoard') boardId!: string | undefined;
   @Output() imageSet = new EventEmitter();
+  @Output() selectedImage = new EventEmitter();
+  currentImage = '';
+  newImage = '';
   images: string[] = [];
 
   constructor(private fireService: FirestoreService) {
@@ -17,10 +21,39 @@ export class SetBgComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getCurrentImage();
+  }
 
-  selectImage(image: string){
-    this.fireService.updateDoc('boards', this.boardId, { bgImg: image })
+  getCurrentImage() {
+    const board = this.fireService.getFilteredCollection(
+      'boards',
+      'id',
+      '==',
+      this.boardId
+    );
+    board.subscribe((b: any) => {
+      this.currentImage = b[0].bgImg;
+    });
+  }
+
+  selectImage(image: string) {
+    this.newImage = image;
+    this.selectedImage.emit(this.newImage)
+  }
+
+  closeModal() {
+    this.newImage = '';
+    this.imageSet.emit(true);
+  }
+  
+  saveImage() {
+    if (this.newImage != this.currentImage && this.boardId) {
+      this.fireService.updateDoc('boards', this.boardId, {
+        bgImg: this.newImage,
+      });
+    }
+    this.newImage = '';
     this.imageSet.emit(true);
   }
 }

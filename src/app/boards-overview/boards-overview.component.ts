@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -10,11 +9,10 @@ import { FirestoreService } from '../services/firestore.service';
 export class BoardsOverviewComponent implements OnInit {
   showTooltip = false;
   setBgImage = false;
-  imageBoard = '';
+  selectedBoard = '';
 
   constructor(
     public fireService: FirestoreService,
-    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +27,6 @@ export class BoardsOverviewComponent implements OnInit {
 
   setBackgroundImage(boardId: string){
     this.setBgImage = true;
-    this.imageBoard = boardId
+    this.selectedBoard = boardId
   }
 }

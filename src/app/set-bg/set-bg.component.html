@@ -1,10 +1,20 @@
 <div class="modal-transp-container">
- <div class="modal-transp" #modal>
-   <div class="content">
-   <h3>Change Background Image</h3>
-   <div class="images-container">
-    <img *ngFor="let image of images" src="assets/bg-img/{{image}}" alt="" (click)="selectImage(image)">
-   </div>
-   </div>
- </div>
+  <div class="modal-transp" #modal>
+    <div class="content">
+      <h3>Change Background Image</h3>
+      <div class="images-container">
+        <img
+          *ngFor="let image of images"
+          src="assets/bg-img/{{ image }}"
+          alt=""
+          (click)="selectImage(image)"
+          [class.selected]="newImage == image"
+        />
+      </div>
+      <div class="btn-container">
+        <button class="btn btn-light" (click)="closeModal()">Cancel</button>
+        <button class="btn" (click)="saveImage()">Save</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -24,6 +24,8 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChildren('column', { read: ElementRef }) columns!: QueryList<ElementRef>;
   showBoard = true;
   showCategoriesModal = false;
+  setBgImage = false;
+  previewImage = '';
 
   constructor(
     public fireService: FirestoreService,
@@ -49,18 +51,26 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
     this.dragService.columns = this.columns;
   }
 
-  async loadBoard(){
+  getBackgroundImage() {
+    if (this.previewImage != '') {
+      return `url('assets/bg-img/${this.previewImage}')`;
+    } else {
+      return `url('assets/bg-img/${this.fireService.currentBoard?.bgImg}')`;
+    }
+  }
+
+  async loadBoard() {
     let boardId = this.getBoardIdFromURL();
     await this.fireService.loadCurrentBoard(boardId);
-    if(this.userHasAccess()){
+    if (this.userHasAccess()) {
       this.showBoard = true;
       this.fireService.loadColumns();
-    } else{
+    } else {
       this.showBoard = false;
     }
   }
-  
-  getBoardIdFromURL(){
+
+  getBoardIdFromURL() {
     let boardId!: string;
     this.route.params.subscribe((params) => {
       boardId = params['boardId'];
@@ -68,11 +78,17 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
     return boardId;
   }
 
-  userHasAccess(){
-    return this.fireService.currentBoard?.userId === this.fireService.currentUser.id;
+  userHasAccess() {
+    return (
+      this.fireService.currentBoard?.userId === this.fireService.currentUser.id
+    );
   }
 
-  openCatModal(){
+  openCatModal() {
     this.showCategoriesModal = true;
+  }
+
+  setPreviewImage(selectedImage: string) {
+    this.previewImage = selectedImage;
   }
 }

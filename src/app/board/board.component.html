@@ -1,13 +1,15 @@
 <div
   class="board component-container"
   *ngIf="fireService.currentBoard && showBoard"
-  style.backgroundImage="url('assets/bg-img/{{fireService.currentBoard.bgImg}}')"
->
+  [ngStyle]="{'background-image': getBackgroundImage()}"
+  >
+  <!-- style.backgroundImage="url('assets/bg-img/{{fireService.currentBoard.bgImg}}')" -->
   <h2>
     <app-title
       [hostObject]="fireService.currentBoard"
       [collection]="'boards'"
       (showCatModal)="showCategoriesModal = true"
+      (setBackground)="setBgImage = true"
     ></app-title>
   </h2>
 
@@ -31,3 +33,5 @@
 <div class="prohibited component-container main-background" *ngIf="!showBoard">
   <div class="prohibited-modal">Sorry, you don't have access to this board</div>
 </div>
+<app-set-bg *ngIf="setBgImage" [selectedBoard]="fireService.currentBoard?.id" (imageSet)="setBgImage = false; previewImage = ''" (selectedImage)="setPreviewImage($event)"></app-set-bg>
+
