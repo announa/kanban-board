@@ -65,7 +65,6 @@ export class TitleComponent implements OnInit, AfterViewInit {
   }
 
   checkOpeningPosition() {
-    console.log('checkopeningposition');
     const elem = this.menu.nativeElement.getBoundingClientRect();
     if (elem.x + 200 > window.innerWidth) {
       this.left = true;
@@ -121,7 +120,6 @@ export class TitleComponent implements OnInit, AfterViewInit {
   saveTitle(event: any, id: string) {
     event.stopPropagation();
     const inputTitle = this.inputTitle.nativeElement.textContent;
-    console.log(inputTitle);
     if (inputTitle != this.hostObject.title) {
       this.fireService.updateDoc(this.collection, id, { title: inputTitle });
     }
@@ -164,12 +162,10 @@ export class TitleComponent implements OnInit, AfterViewInit {
     if (event.target.id != 'current-column') {
       if (!event.target.id.includes('move-column')) {
         this.showMoveColumnMenu = false;
-        console.log('click');
       } else {
         this.showMoveColumnMenu = !this.showMoveColumnMenu;
       }
     }
-    console.log(this.showMoveColumnMenu);
   }
 
   moveColumn(index: number) {

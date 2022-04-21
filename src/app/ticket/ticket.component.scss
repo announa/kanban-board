@@ -13,7 +13,7 @@
   background-color: rgba($theme-color-dark, 0.4);
   box-shadow: 1px 1px 3px rgba($letter-color-light, 0.1);
   padding: 5px;
-  border-radius: 2px;
+  border-radius: 3px;
   cursor: pointer;
   transition: box-shadow 50ms ease-in-out;
   margin-bottom: 10px;
@@ -32,7 +32,7 @@
 .ticket-info {
   color: $letter-color-dark;
   background-color: #ffffff;
-  border-radius: 2px;
+  border-radius: 3px;
   min-height: 40px;
   padding: 0 10px;
   width: 100%;
@@ -51,24 +51,33 @@
   text-overflow: ellipsis;
 }
 
+.border-r-0{
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .priority-border {
   width: 4px;
   height: 40px;
   margin-right: 7px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
   background-color: rgba($priority-high, 1);
 }
 
 .ticket-description {
   @include flex($align: center);
-  margin-top: 4px;
+  margin-bottom: 4px;
   min-height: 40px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
   transition: all 250ms ease-in-out;
 
   p {
-    max-height: 200px;
+    max-height: 300px;
     padding: 10px 0;
     width: 100%;
-    border-bottom: 1px solid rgba($theme-color-dark, 0.2);
+    border-top: 1px solid rgba($theme-color-dark, 0.2);
     text-overflow: ellipsis;
     overflow: hidden;
   }
@@ -77,6 +86,7 @@
 .ticket-info {
   display: flex;
   flex-wrap: wrap;
+  row-gap: 2px;
   padding: 10px;
   font-size: 13px;
 }
@@ -87,7 +97,6 @@ p {
 
   span{
     border-radius: 8px;
-    padding: 0 5px
   }
 
   &:nth-child(odd){
