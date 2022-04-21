@@ -8,12 +8,12 @@
   <div *ngIf="fireService.currentBoard" class="nav-left nav-section"> {{ fireService.currentBoard.title | uppercase }}
     <ul >
       <li class="list-item">
-        <a [routerLink]="'/board/' + fireService.currentBoardId"
+        <a [routerLink]="'/board/' + fireService.currentBoard.id"
           >Board</a
         >
       </li>
       <li class="list-item">
-        <a [routerLink]="'/board/' + fireService.currentBoardId + '/backlog'"
+        <a [routerLink]="'/board/' + fireService.currentBoard.id + '/backlog'"
           >Backlog</a
         >
       </li>

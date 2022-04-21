@@ -19,8 +19,7 @@ export class BoardsOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.fireService.clearTemp(false);
-    this.fireService.getUserIdFromLocalStorage();
-    this.fireService.getUserById();
+    this.fireService.getUserFromLocalStorage();
     this.fireService.loadBoards();
   }
 

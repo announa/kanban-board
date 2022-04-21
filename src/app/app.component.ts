@@ -57,7 +57,6 @@ export class AppComponent {
 
   constructor(public fireService: FirestoreService, public router:Router){}
   ngOnInit(): void {
-    console.log(JSON.stringify(this.column4_guest))
   }
   
   ngOnDestroy(){
@@ -65,7 +64,6 @@ export class AppComponent {
   }
   
   deleteData(){
-    console.log('ngOnDestroy delete data')
     this.fireService.clearData();
   }
 }

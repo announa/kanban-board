@@ -33,8 +33,8 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.fireService.getUserIdFromLocalStorage();
-    if (this.fireService.currentUserId != '') {
+    this.fireService.getUserFromLocalStorage();
+    if (this.fireService.currentUser.id != '') {
       this.loadBoard();
     } else {
       this.showBoard = false;
@@ -50,16 +50,26 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   loadBoard(){
-    this.showBoard = true;
-    this.fireService.getUserById();
-    this.getBoardIdFromURL();
+    let boardId = this.getBoardIdFromURL();
+    this.fireService.loadCurrentBoard(boardId);
+    if(this.userHasAccess()){
+      this.showBoard = true;
+      this.fireService.loadColumns();
+    } else{
+      this.showBoard = false;
+    }
   }
   
   getBoardIdFromURL(){
+    let boardId!: string;
     this.route.params.subscribe((params) => {
-      const boardId = params['boardId'];
-      this.fireService.loadCurrentBoard(boardId);
+      boardId = params['boardId'];
     });
+    return boardId;
+  }
+
+  userHasAccess(){
+    return this.fireService.currentBoard?.userId === this.fireService.currentUser.id;
   }
 
   openCatModal(){

@@ -77,7 +77,7 @@ export class TicketComponent implements OnInit {
   }
 
   navigate() {
-    this.router.navigateByUrl('/board/' + this.fireService.currentBoardId);
+    this.router.navigateByUrl('/board/' + this.fireService.currentBoard?.id);
   }
 
   getPriorityColor() {

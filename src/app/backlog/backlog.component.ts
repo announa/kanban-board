@@ -16,8 +16,8 @@ export class BacklogComponent implements OnInit {
   constructor(public fireService: FirestoreService, public addTicketServ: AddTicketService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.fireService.getUserIdFromLocalStorage();
-    if (this.fireService.currentUserId != '') {
+    this.fireService.getUserFromLocalStorage();
+    if (this.fireService.currentUser.id != '') {
       this.loadBacklog();
     } else {
       this.showBacklog = false;
@@ -27,7 +27,6 @@ export class BacklogComponent implements OnInit {
   loadBacklog(){
     this.getBoardIdFromURL();
     this.showBacklog = true;
-    this.fireService.getUserById();
     this.fireService.loadBacklogTickets()
   }
 

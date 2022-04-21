@@ -139,7 +139,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
   }
 
   redirect() {
-    if (this.router.url == '/board/' + this.fireService.currentBoardId)
+    if (this.router.url == '/board/' + this.fireService.currentBoard?.id)
       this.router.navigateByUrl('/boards');
   }
 
