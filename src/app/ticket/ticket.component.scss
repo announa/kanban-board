@@ -49,6 +49,7 @@
   padding-left: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 500;
 }
 
 .border-r-0{
@@ -72,6 +73,7 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   transition: all 250ms ease-in-out;
+  font-size: 13px;
 
   p {
     max-height: 300px;

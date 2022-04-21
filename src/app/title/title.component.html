@@ -9,9 +9,10 @@
   <div
     class="edit-title-input"
     [contentEditable]="isEditingTitle"
+    [style.cursor]="isEditingTitle ? 'text' : ''"
     (keyup)="checkKey(hostObject.id, $event)"
     (click)="noDefault($event)"
-    #inputTitle
+    #titleInput
   >
     <span
       class="title-span"
@@ -75,6 +76,7 @@
             [style.color]="
               i == index ? 'rgba(var(--letter-color-dark), 0.5)' : ''
             "
+            [class.submenu-hover]="i != index"
           >
             {{ i }}
           </div>

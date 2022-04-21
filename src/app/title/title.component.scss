@@ -63,7 +63,7 @@
   cursor: pointer;
 
   &:hover{
-   box-shadow: 2px 2px 4px rgba($letter-color-light, 0.2);
+   box-shadow: 2px 2px 6px rgba($box-shadow-dark, 0.5);
    background-color: rgba($theme-color-dark, 0.1);
   }
 
@@ -84,6 +84,7 @@
   border-radius: 5px;
   color: $letter-color-dark;
   background-color: white;
+  box-shadow: 2px 2px 6px rgba($box-shadow-dark, 0.5);
   cursor: pointer;
 }
 .left{
@@ -124,5 +125,12 @@
     display: inline-block;
     width: 20px;
     text-align: center;
+
+  }
+}
+
+.submenu-hover{
+  &:hover{
+    background-color: rgba($theme-color-dark, 0.1);
   }
 }

@@ -2,12 +2,8 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  Input,
-  OnChanges,
   OnInit,
-  Query,
   QueryList,
-  SimpleChanges,
   ViewChildren,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -20,7 +16,7 @@ import { FirestoreService } from '../services/firestore.service';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
+export class BoardComponent implements OnInit, AfterViewInit {
   @ViewChildren('column', { read: ElementRef }) columns!: QueryList<ElementRef>;
   showBoard = true;
   showCategoriesModal = false;
@@ -47,9 +43,9 @@ export class BoardComponent implements OnInit, AfterViewInit, OnChanges {
     this.dragService.columns = this.columns;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+/*   ngOnChanges(changes: SimpleChanges): void {
     this.dragService.columns = this.columns;
-  }
+  } */
 
   getBackgroundImage() {
     if (this.previewImage != '') {

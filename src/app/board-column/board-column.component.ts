@@ -1,8 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AddTicketService } from '../services/add-ticket.service';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -38,47 +34,45 @@ export class BoardColumnComponent implements OnInit {
   }
 
   onDragstart(event: any) {
-    if(!this.dragService.isEditingTitle){
     this.dragService.dragColumn(event, this.column, this.index);
     this.dragService.toggleInputs(true);
     this.dragService.copyElem(event);
     this.highlightDrogColumn(true);
+  }
+
+  onDragover(event: any) {
+    this.dragService.allowDrop(event);
+    this.highlightDrogOverColumn(true);
+    if (!this.dragService.dragData.ticket) {
+      this.dragService.disableChildren(this.index);
+      this.dragService.startColumnAnim(this.index, event);
     }
   }
-  
-  onDragover(event: any) {
-      this.dragService.allowDrop(event);
-      this.highlightDrogOverColumn(true);
-      if (!this.dragService.dragData.ticket) {
-        this.dragService.disableChildren(this.index)
-        this.dragService.startColumnAnim(this.index, event);
-      }
+
+  onDragleave(event: any) {
+    this.dragOver = false;
+    if (!this.dragService.dragData.ticket) {
+      this.dragService.resetStylesPerCol(this.index, event);
+      setTimeout(() => {
+        this.dragService.enableChildren(this.index);
+      }, 500);
     }
-    
-    onDragleave(event: any) {
-      this.dragOver = false;
-      if (!this.dragService.dragData.ticket) {
-        this.dragService.resetStylesPerCol(this.index, event);
-        setTimeout(() => {
-          this.dragService.enableChildren(this.index);
-        }, 500);
-      }
-    }
-    
-    onDragend(event: any) {
-      console.log('dragend')
-      this.dragService.toggleInputs(false);
-      this.dragService.resetDragColumn(event);
-      this.dragService.removeCloneNode()
-      this.highlightDrogColumn(false);
-    }
-    
-    onDrop() {
-      this.dragService.dropElement(this.column);
-      this.dragOver = false;
-      this.dragService.removeCloneNode()
-      document.body.style.overflowY='';
-      this.dragService.enableChildren(this.index);
+  }
+
+  onDragend(event: any) {
+    console.log('dragend');
+    this.dragService.toggleInputs(false);
+    this.dragService.resetDragColumn(event);
+    this.dragService.removeCloneNode();
+    this.highlightDrogColumn(false);
+  }
+
+  onDrop() {
+    this.dragService.dropElement(this.column);
+    this.dragOver = false;
+    this.dragService.removeCloneNode();
+    document.body.style.overflowY = '';
+    this.dragService.enableChildren(this.index);
   }
 
   highlightDrogOverColumn(status: boolean) {
@@ -88,9 +82,8 @@ export class BoardColumnComponent implements OnInit {
   }
 
   highlightDrogColumn(status: boolean) {
-      this.dragStart = status;
-    }
-  
+    this.dragStart = status;
+  }
 
   dragColNotDropCol() {
     return (
@@ -101,29 +94,35 @@ export class BoardColumnComponent implements OnInit {
     );
   }
 
-  toggleTooltip(){
-    this.showTooltip = !this.showTooltip
+  toggleTooltip() {
+    this.showTooltip = !this.showTooltip;
   }
 
-  addNewTicket(){
-    this.addticket.addTicket(this.column.id)
+  addNewTicket() {
+    this.addticket.addTicket(this.column.id);
   }
 
-  moveLeft(){
-    if(this.index > 0){
-      this.fireService.moveColumn(this.column, this.fireService.columns[this.index - 1])
-    }
-  }
-  
-  moveRight(){
-    if(this.index < this.fireService.columns.length - 1){
-      this.fireService.moveColumn(this.column, this.fireService.columns[this.index + 1])
+  moveLeft() {
+    if (this.index > 0) {
+      this.fireService.moveColumn(
+        this.column,
+        this.fireService.columns[this.index - 1]
+      );
     }
   }
 
-  switchColumns(columsToSwitch: {col1: number, col2: number}){
-    const col1 = this.fireService.columns[columsToSwitch.col1]
-    const col2 = this.fireService.columns[columsToSwitch.col2]
-    this.fireService.moveColumn(col1, col2)
+  moveRight() {
+    if (this.index < this.fireService.columns.length - 1) {
+      this.fireService.moveColumn(
+        this.column,
+        this.fireService.columns[this.index + 1]
+      );
+    }
+  }
+
+  switchColumns(columsToSwitch: { col1: number; col2: number }) {
+    const col1 = this.fireService.columns[columsToSwitch.col1];
+    const col2 = this.fireService.columns[columsToSwitch.col2];
+    this.fireService.moveColumn(col1, col2);
   }
 }

@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Board } from '../models/Board.class';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({

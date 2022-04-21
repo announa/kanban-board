@@ -4,14 +4,14 @@
   class="column-container"
   [class.highlighted]="dragOver"
   [class.highlighted-drag]="dragStart"
-  draggable="true"
+  [draggable]="!dragService.isEditingTitle"
   (dragstart)="onDragstart($event)"
   (dragover)="onDragover($event)"
   (dragend)="onDragend($event)"
   (dragleave)="onDragleave($event)"
   (drop)="onDrop()"
   #columnElem
->
+  >
   <div class="column">
     <div class="title-container">
       <app-title

@@ -34,7 +34,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
   @Output() setBackground = new EventEmitter();
   @Output() boardOverviewEvent = new EventEmitter();
   @Output() moveColumnEvent = new EventEmitter();
-  @ViewChild('inputTitle') inputTitle!: ElementRef;
+  @ViewChild('titleInput') titleInput!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
@@ -83,7 +83,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
     this.isEditingTitle = true;
     this.dragService.isEditingTitle = true;
     setTimeout(() => {
-      this.inputTitle.nativeElement.focus();
+      this.titleInput.nativeElement.focus();
     }, 50);
   }
 
@@ -94,14 +94,14 @@ export class TitleComponent implements OnInit, AfterViewInit {
   }
 
   resetEditTitle(event: any) {
-    if (
+/*     if (
       !event.target.classList.contains('edit-title-input') &&
-      !event.target.classList.contains('menu-container')
-    ) {
+      event.target.id !='save-title'
+    ) { */
       this.isEditingTitle = false;
       this.dragService.isEditingTitle = false;
-      this.inputTitle.nativeElement.value = this.hostObject.title;
-    }
+      this.titleInput.nativeElement.value = this.hostObject.title;
+    /* } */
   }
 
   resetOpenMenu(event: any) {
@@ -119,9 +119,9 @@ export class TitleComponent implements OnInit, AfterViewInit {
 
   saveTitle(event: any, id: string) {
     event.stopPropagation();
-    const inputTitle = this.inputTitle.nativeElement.textContent;
-    if (inputTitle != this.hostObject.title) {
-      this.fireService.updateDoc(this.collection, id, { title: inputTitle });
+    const titleInput = this.titleInput.nativeElement.textContent;
+    if (titleInput != this.hostObject.title) {
+      this.fireService.updateDoc(this.collection, id, { title: titleInput });
     }
     this.isEditingTitle = false;
     this.dragService.isEditingTitle = false;
@@ -133,7 +133,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.toggleMenu();
     }, 10);
-    this.redirect();
+    if (this.collection == 'boards') this.redirect();
   }
 
   redirect() {
