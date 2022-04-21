@@ -1,8 +1,18 @@
-<div class="backlog component-container">
+ß<div
+  class="backlog component-container"
+  style.backgroundImage="url('assets/bg-img/{{
+    fireService.currentBoard?.bgImg
+  }}')"
+>
   <h2>
     Backlog
-    <div class="add-icon" (click)="addTicketServ.addTicket('backlog')" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
-      <app-tooltip  *ngIf="showTooltip" [text]="'Add ticket'"></app-tooltip>
+    <div
+      class="add-icon"
+      (click)="addTicketServ.addTicket('backlog')"
+      (mouseenter)="toggleTooltip()"
+      (mouseleave)="toggleTooltip()"
+    >
+      <app-tooltip *ngIf="showTooltip" [text]="'Add ticket'"></app-tooltip>
       <img src="assets/img/add_blue.svg" alt="add a new ticket" />
     </div>
   </h2>

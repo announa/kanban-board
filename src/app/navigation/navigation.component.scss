@@ -1,70 +1,70 @@
 @import "../../vars.scss";
 
-.navigation{
+.navigation {
   @include flex(space-between, center);
- flex-direction: row-reverse;
- font-weight: 500;
- height: 60px;
- width: 100%;
- padding: 0 50px;
- position: fixed;
- top: 0;
- left: 0;
- background-color: rgba($theme-color-dark, 0.4);
- z-index: 3;
-}
-
-.nav-right{
- a{
-  margin-left: 30px;
- }
-}
-
-.nav-left{
- margin-left: -10px;
- padding: 5px 10px;
- min-width: 150px;
- position: relative;
- line-height: 2rem;
- cursor: pointer;
- 
- &:hover{
-  color: rgba($letter-color-light, 0.5);
-  background-color: rgba($theme-color-dark, 0.7);
-   border-bottom: 1px solid rgba($letter-color-light, 0.5);
-   margin-bottom: -1px;
- }
- 
- &:hover ul{
-  display: unset;
- }
- a{
-  margin-right: 30px;
- }
- 
- ul{
+  flex-direction: row-reverse;
+  font-weight: 500;
+  height: 60px;
   width: 100%;
-  display: none;
-  position: absolute;
-  bottom: 0;
+  padding: 0 50px;
+  position: fixed;
+  top: 0;
   left: 0;
-  padding: 10px 0;
-  transform: translateY(101%);
-  background-color: rgba($theme-color-dark, 0.7);
-
-  li{
-   width: 100%;
-   padding: 3px 10px;
-   list-style: none;
-
-
-   a{
-    width: 100%;
-   }
-  }
- }
+  background-color: rgba($theme-color-dark, 0.4);
+  z-index: 3;
 }
 
-a{
- cursor: pointer;
+.nav-right {
+  a {
+    margin-left: 30px;
+  }
+}
+
+.nav-left {
+  @include flex($align: center);
+  margin-left: -10px;
+  padding: 5px 10px;
+  min-width: 150px;
+  height: 100%;
+  position: relative;
+  line-height: 2rem;
+  cursor: pointer;
+
+  &:hover {
+    color: rgba($letter-color-light, 0.5);
+    background-color: rgba($theme-color-dark, 0.9);
+    margin-bottom: -1px;
+  }
+
+  &:hover ul {
+    display: unset;
+  }
+  a {
+    margin-right: 30px;
+  }
+
+  ul {
+    width: 100%;
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px 0;
+    transform: translateY(100%);
+    background-color: rgba($theme-color-dark, 0.9);
+
+    li {
+      width: 100%;
+      padding: 3px 10px;
+      list-style: none;
+
+      a {
+        width: 100%;
+      }
+    }
+  }
+}
+
+a {
+  cursor: pointer;
 }
