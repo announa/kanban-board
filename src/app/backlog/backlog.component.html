@@ -5,11 +5,13 @@
   }}')"
 >
   <h2>Backlog</h2>
-  <div class="ticket-container" *ngIf="fireService.backlogTickets">
-    <app-ticket
-      *ngFor="let ticket of fireService.backlogTickets"
-      [ticket]="ticket"
-    ></app-ticket>
+  <div class="outer-ticket-container" *ngIf="fireService.backlogTickets">
+    <div class="inner-ticket-container" *ngIf="fireService.backlogTickets">
+      <app-ticket
+        *ngFor="let ticket of fireService.backlogTickets"
+        [ticket]="ticket"
+      ></app-ticket>
+    </div>
   </div>
 </div>
 <app-ticket-add *ngIf="addTicketServ.isAddingTicket"></app-ticket-add>

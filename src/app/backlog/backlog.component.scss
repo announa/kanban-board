@@ -4,7 +4,8 @@
   height: 100vh;
   background-image: var(--bg-img);
   background-size: cover;
-  background-attachment: fixed;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 h2 {
@@ -12,7 +13,15 @@ h2 {
   align-items: center;
 }
 
-.ticket-container {
+.outer-ticket-container {
+  @include flex($justify: center);
+  width: 100%;
+}
+
+.inner-ticket-container {
   width: 100%;
   max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

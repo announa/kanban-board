@@ -43,10 +43,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.dragService.columns = this.columns;
   }
 
-/*   ngOnChanges(changes: SimpleChanges): void {
-    this.dragService.columns = this.columns;
-  } */
-
   getBackgroundImage() {
     if (this.previewImage != '') {
       return `url('assets/bg-img/${this.previewImage}')`;

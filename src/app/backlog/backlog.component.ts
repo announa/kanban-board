@@ -24,17 +24,30 @@ export class BacklogComponent implements OnInit {
     }
   }
   
-  loadBacklog(){
-    this.getBoardIdFromURL();
+  async loadBacklog(){
+    let boardId = this.getBoardIdFromURL();
+    await this.fireService.loadCurrentBoard(boardId);
+    if (this.userHasAccess()) {
+      this.showBacklog = true;
+      this.fireService.loadBacklogTickets()
+    } else {
+      this.showBacklog = false;
+    }
     this.showBacklog = true;
-    this.fireService.loadBacklogTickets()
   }
 
-  getBoardIdFromURL(){
+  userHasAccess() {
+    return (
+      this.fireService.currentBoard?.userId === this.fireService.currentUser.id
+    );
+  }
+
+  getBoardIdFromURL() {
+    let boardId!: string;
     this.route.params.subscribe((params) => {
-      const boardId = params['boardId'];
-      this.fireService.loadCurrentBoard(boardId);
+      boardId = params['boardId'];
     });
+    return boardId;
   }
 
   toggleTooltip(){

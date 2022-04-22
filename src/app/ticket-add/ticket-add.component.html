@@ -4,7 +4,7 @@
       Add a new Ticket to {{ fireService.currentBoard?.title }}
     </h2>
     <h2 *ngIf="addTicketServ.action == 'edit'">Edit Ticket</h2>
-    <form (ngSubmit)="addTicketServ.saveTicket()">
+    <form (ngSubmit)="addTicketServ.saveTicket()" #ticketForm="ngForm">
       <div class="form-input">
         <label for="">Title</label>
         <input
@@ -95,7 +95,7 @@
           [value]="
             addTicketServ.action == 'add' ? 'Add Ticket' : 'Save Changes'
           "
-          [disabled]="addTicketServ.isSavingTicket"
+          [disabled]="!ticketForm.valid || addTicketServ.isSavingTicket"
         />
       </div>
     </form>

@@ -80,30 +80,6 @@ export class TicketComponent implements OnInit {
     this.router.navigateByUrl('/board/' + this.fireService.currentBoard?.id);
   }
 
-  getPriorityColor() {
-    switch (this.ticket.priority) {
-      case 'Low':
-        console.log(this.ticket.priority)
-        return 'var(--priority-low)';
-        break;
-        
-        case 'Middle':
-        console.log(this.ticket.priority)
-        return '$priority-middle';
-        break;
-        
-        case 'High':
-        console.log(this.ticket.priority)
-        return '$priority-high';
-        break;
-        
-        default:
-        console.log(this.ticket.priority)
-        return '';
-        break;
-    }
-  }
-
   toggleMoveTicketMenu(event: any) {
     event.stopPropagation();
     if (event.target.id != 'current-column') {
