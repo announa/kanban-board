@@ -4,52 +4,9 @@
  @include flex($justify: space-evenly);
  flex-direction: column;
  gap: 3vh;
- padding-top: 50px
+ padding-top: 50px;
+
+ @media (max-width: 400px) {
+  padding: 100px 10vw 50px;
 }
-
-h2{
- color: $letter-color-dark;
- text-align: center;
- margin-top: 0;
-}
-
-form{
- display: flex;
- flex-direction: column;
- gap: 20px;
-}
-
-label{
- display: inline-block;
- width: 100px;
-}
-
-input{
- padding: 5px;
- border: none;
- border-bottom: 1px solid rgba($letter-color-dark, .6);
-}
-
-button{
- margin: 15px 0 30px;
-}
-
-p{
- font-size: 14px;
-
- a{
-  color: $letter-color-dark;
-  text-transform: none;
-  text-decoration: underline;
-  cursor: pointer;
-
-  &:hover{
-   color: rgba(0,0,0,.9);
-  }
- }
-}
-
-.alert{
- font-size: 13px;
- color: rgb(181, 13, 13);
 }
