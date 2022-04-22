@@ -18,7 +18,7 @@
   <div class="ticket-info" [class.h-0]="!isVisible" #info>
     <p class="d-none" #deadline>
       <img src="assets/img/clock.svg" class="h-0" #icon />
-      {{ ticket.deadline || "No deadline" }}
+      {{ getDeadline() || "No deadline" }}
     </p>
     <p class="d-none" #priority >
       <img src="assets/img/priority.svg" class="h-0" #icon />

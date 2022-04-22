@@ -1,6 +1,6 @@
 <nav class="navigation" [style.right]="navIsOpen ? '0' : ''">
   <div class="nav-right nav-section">
-    <a [routerLink]="'/boards'">Boards Overview</a>
+    <a (click)="navigate('/boards')" >Boards Overview</a>
     <!--   <a [routerLink]="'/backlog'">Backlog</a> -->
     <a (click)="logout()">Log out</a>
   </div>
@@ -8,12 +8,12 @@
   <div *ngIf="fireService.currentBoard" class="nav-left nav-section"> {{ fireService.currentBoard.title | uppercase }}
     <ul >
       <li class="list-item">
-        <a [routerLink]="'/board/' + fireService.currentBoard.id"
-          >Board</a
+        <a (click)="navigate('/board/' + fireService.currentBoard.id)"
+        >Board</a
         >
       </li>
       <li class="list-item">
-        <a [routerLink]="'/board/' + fireService.currentBoard.id + '/backlog'"
+        <a (click)="navigate('/board/' + fireService.currentBoard.id + '/backlog')"
           >Backlog</a
         >
       </li>

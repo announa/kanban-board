@@ -48,24 +48,13 @@ export class AddTicketService {
     if (this.action === 'add') {
       const date = new Date();
       this.ticket.date =
-        date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
-      const deadline = new Date(this.deadline);
-      this.ticket.deadline = this.getDeadlineFormat(deadline);
+        date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+/*       const deadline = new Date(this.deadline);
+      this.ticket.deadline = this.getDeadlineFormat(deadline); */
       this.ticket.id = date.getTime().toString();
     }
     this.ticket.title_transf = this.ticket.title.toLowerCase();
     this.ticket.description_transf = this.ticket.description.toLowerCase();
-  }
-
-  getDeadlineFormat(deadline: Date) {
-    return (
-      deadline.getDate() +
-      '/' +
-      (deadline.getMonth() +
-      1) +
-      '/' +
-      deadline.getFullYear()
-    );
   }
 
   closeModal() {

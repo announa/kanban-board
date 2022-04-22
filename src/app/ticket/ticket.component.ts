@@ -125,4 +125,20 @@ export class TicketComponent implements OnInit {
       );
     }
   }
+
+  getDeadline(){
+    if(this.ticket.deadline){
+      const deadline = new Date(this.ticket.deadline)
+      deadline.setMinutes( deadline.getMinutes() + deadline.getTimezoneOffset() );
+      return (
+        deadline.getDate() +
+        '/' +
+        (deadline.getMonth() + 1) +
+        '/' +
+        deadline.getFullYear()
+      );
+    } else{
+      return null;
+    }
+  }
 }

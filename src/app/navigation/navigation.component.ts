@@ -1,4 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestoreService } from '../services/firestore.service';
 
@@ -19,8 +25,7 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     public fireService: FirestoreService,
     public router: Router,
     private cd: ChangeDetectorRef
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {}
 
@@ -28,10 +33,15 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
 
+  navigate(url: string){
+    this.toggleMenu();
+    this.router.navigateByUrl(url);
+  }
+
   logout() {
     console.log('log out');
     this.fireService.clearData();
-    this.goToLogin();
+    this.navigate('/');
   }
 
   goToLogin() {
@@ -41,7 +51,7 @@ export class NavigationComponent implements OnInit, AfterViewInit {
   toggleMenu() {
     this.navIsOpen = !this.navIsOpen;
     setTimeout(() => {
-      this.navIconClose = ! this.navIconClose
+      this.navIconClose = !this.navIconClose;
     }, 200);
   }
 
@@ -49,5 +59,6 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     if (window.innerWidth >= 700) {
       this.navIsOpen = false;
       this.navIconClose = false;
-  }}
+    }
+  }
 }

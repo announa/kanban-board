@@ -4,23 +4,25 @@
     fireService.currentBoard?.bgImg
   }}')"
 >
-  <h2>
-    Backlog
-    <div
-      class="add-icon"
-      (click)="addTicketServ.addTicket('backlog')"
-      (mouseenter)="toggleTooltip()"
-      (mouseleave)="toggleTooltip()"
-    >
-      <app-tooltip *ngIf="showTooltip" [text]="'Add ticket'"></app-tooltip>
-      <img src="assets/img/add_blue.svg" alt="add a new ticket" />
-    </div>
-  </h2>
+  <h2>Backlog</h2>
   <div class="ticket-container" *ngIf="fireService.backlogTickets">
     <app-ticket
       *ngFor="let ticket of fireService.backlogTickets"
       [ticket]="ticket"
     ></app-ticket>
   </div>
-  <app-ticket-add *ngIf="addTicketServ.isAddingTicket"></app-ticket-add>
+</div>
+<app-ticket-add *ngIf="addTicketServ.isAddingTicket"></app-ticket-add>
+<div
+  class="add-icon"
+  (click)="addTicketServ.addTicket('backlog')"
+  (mouseenter)="toggleTooltip()"
+  (mouseleave)="toggleTooltip()"
+>
+  <app-tooltip
+    *ngIf="showTooltip"
+    [text]="'Add ticket'"
+    [left]="true"
+  ></app-tooltip>
+  <img src="assets/img/add.svg" alt="add a new ticket" />
 </div>

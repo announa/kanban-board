@@ -15,7 +15,7 @@ export class SetBgComponent implements OnInit {
   images: string[] = [];
 
   constructor(private fireService: FirestoreService) {
-    for (let i = 1; i < 8; i++) {
+    for (let i = 1; i < 9; i++) {
       this.images.push(`bg-${i}.jpg`);
     }
   }
