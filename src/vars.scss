@@ -6,9 +6,9 @@ $letter-shadow-light: #c8c8c8;
 $letter-shadow-dark: #464646;
 $box-shadow-dark: #464646;
 $white-hover-color: #ddd;
-$priority-high: #fa7878;
-$priority-middle: #fafa50;
-$priority-low: #8cfa64;
+$priority-high: #ff9898;
+$priority-middle: #ffff82;
+$priority-low: #afff92;
 
 @mixin flex($justify: flex-start, $align: flex-start){
  display: flex;
