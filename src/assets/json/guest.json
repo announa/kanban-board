@@ -9,7 +9,7 @@
   },
   "guestColumns": [
     { "title": "To do", "order": 1, "id": "", "boardId": "" },
-    { "title": "Im Progress", "order": 2, "id": "", "boardId": "" },
+    { "title": "In Progress", "order": 2, "id": "", "boardId": "" },
     { "title": "Testing", "order": 3, "id": "", "boardId": "" },
     { "title": "Done", "order": 4, "id": "", "boardId": "" }
   ],

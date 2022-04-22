@@ -27,6 +27,16 @@
   }
 }
 
+.priority-high{
+  background-color: $priority-high;
+}
+.priority-middle{
+  background-color: $priority-middle;
+}
+.priority-low{
+  background-color: $priority-low;
+}
+
 .ticket-title,
 .ticket-description,
 .ticket-info {

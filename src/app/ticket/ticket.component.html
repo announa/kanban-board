@@ -7,7 +7,7 @@
 >
   <div class="ticket-title" [class.border-r-0]="isVisible">
     <div
-      [ngStyle]="{ 'background-color': getPriorityColor() }"
+    [ngClass]="ticket.priority != '' ? 'priority-' + ticket.priority.toLowerCase() : ''"
       class="priority-border"
     ></div>
     <p>{{ ticket.title }}</p>
@@ -22,7 +22,7 @@
     </p>
     <p class="d-none" #priority >
       <img src="assets/img/priority.svg" class="h-0" #icon />
-      <span [ngStyle]="{ 'background': getPriorityColor(), 'padding': ticket.priority == ''? '0' : '0 5px' }">{{ ticket.priority || "No priority" }}</span>
+      <span [ngClass]="ticket.priority != '' ? 'priority-' + ticket.priority.toLowerCase() : ''" [ngStyle]="{'padding': ticket.priority == ''? '0' : '0 5px' }">{{ ticket.priority || "No priority" }}</span>
     </p>
     <p class="d-none" #category>
       <img src="assets/img/folder.svg" class="h-0" #icon />
