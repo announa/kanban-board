@@ -83,19 +83,23 @@ export class TicketComponent implements OnInit {
   getPriorityColor() {
     switch (this.ticket.priority) {
       case 'Low':
-        return 'rgb(var(--priority-low))';
+        console.log(this.ticket.priority)
+        return 'var(--priority-low)';
         break;
-
-      case 'Middle':
-        return 'rgb(var(--priority-middle))';
+        
+        case 'Middle':
+        console.log(this.ticket.priority)
+        return '$priority-middle';
         break;
-
-      case 'High':
-        return 'rgb(var(--priority-high))';
+        
+        case 'High':
+        console.log(this.ticket.priority)
+        return '$priority-high';
         break;
-
-      default:
-        return 'transparent';
+        
+        default:
+        console.log(this.ticket.priority)
+        return '';
         break;
     }
   }

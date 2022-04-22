@@ -12,6 +12,6 @@
   <app-set-bg *ngIf="setBgImage" [selectedBoard]="selectedBoard" (imageSet)="setBgImage = false;"></app-set-bg>
 </div>
 <div class="add-icon" (click)="fireService.addBoard()" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
-  <img src="assets/img/add.svg" alt="add a new column" />
+  <img src="assets/img/add.svg" alt="add a board" />
   <app-tooltip *ngIf="showTooltip" [text]="'Add a board'" [left]="true"></app-tooltip>
 </div>

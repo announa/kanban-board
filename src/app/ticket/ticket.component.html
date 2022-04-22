@@ -22,7 +22,7 @@
     </p>
     <p class="d-none" #priority >
       <img src="assets/img/priority.svg" class="h-0" #icon />
-      <span [ngStyle]="{ 'background-color': getPriorityColor(), 'padding': ticket.priority == ''? '0' : '0 5px' }">{{ ticket.priority || "No priority" }}</span>
+      <span [ngStyle]="{ 'background': getPriorityColor(), 'padding': ticket.priority == ''? '0' : '0 5px' }">{{ ticket.priority || "No priority" }}</span>
     </p>
     <p class="d-none" #category>
       <img src="assets/img/folder.svg" class="h-0" #icon />
