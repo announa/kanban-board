@@ -1,4 +1,4 @@
-<nav class="navigation">
+<nav class="navigation" [style.right]="navIsOpen ? '0' : ''">
   <div class="nav-right nav-section">
     <a [routerLink]="'/boards'">Boards Overview</a>
     <!--   <a [routerLink]="'/backlog'">Backlog</a> -->
@@ -20,3 +20,7 @@
     </ul>
   </div>
 </nav>
+<div class="menu" (click)="toggleMenu()">
+  <img src="assets/img/menu.svg" alt="toggle navigation" [class.d-none]="navIconClose">
+  <img src="assets/img/close.svg" alt="toggle navigation" [class.d-none]="!navIconClose">
+</div>
