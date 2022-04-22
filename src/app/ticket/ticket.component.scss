@@ -84,13 +84,14 @@
   transition: all 250ms ease-in-out;
   font-size: 13px;
 
-  p {
+  span {
     max-height: 300px;
+    vertical-align: top;
     padding: 10px 0;
     width: 100%;
     border-top: 1px solid rgba($theme-color-dark, 0.2);
-    text-overflow: ellipsis;
-    overflow: hidden;
+    white-space: pre-wrap;
+    overflow: auto;
   }
 }
 

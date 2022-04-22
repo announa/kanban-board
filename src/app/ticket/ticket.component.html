@@ -13,7 +13,7 @@
     <p>{{ ticket.title }}</p>
   </div>
   <div class="ticket-description" [class.h-0]="!isVisible" #descriptionElem>
-    <p class="d-none" #descriptionTextElem>{{ ticket.description }}</p>
+    <span class="d-none" #descriptionTextElem>{{ ticket.description }}</span>
   </div>
   <div class="ticket-info" [class.h-0]="!isVisible" #info>
     <p class="d-none" #deadline>
