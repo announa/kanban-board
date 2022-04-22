@@ -5,8 +5,8 @@
     <a (click)="logout()">Log out</a>
   </div>
 
-  <div *ngIf="fireService.currentBoard" class="nav-left nav-section"> {{ fireService.currentBoard.title | uppercase }}
-    <ul >
+  <div *ngIf="fireService.currentBoard" class="nav-left nav-section" (click)="toggleSubmenu()" #currentBoard> {{ fireService.currentBoard.title | uppercase }}
+    <ul #submenu>
       <li class="list-item">
         <a (click)="navigate('/board/' + fireService.currentBoard.id)"
         >Board</a

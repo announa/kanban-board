@@ -1,8 +1,0 @@
-@import "../../vars.scss";
-
-.component-container{
- @include flex($justify: space-evenly);
- flex-direction: column;
- gap: 3vh;
- padding-top: 50px;
-}

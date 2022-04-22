@@ -2,8 +2,10 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostListener,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestoreService } from '../services/firestore.service';
@@ -16,6 +18,12 @@ import { FirestoreService } from '../services/firestore.service';
 export class NavigationComponent implements OnInit, AfterViewInit {
   navIsOpen = false;
   navIconClose = false;
+  @ViewChild('submenu') submenu!: ElementRef;
+  @ViewChild('currentBoard') currentBoard!: ElementRef;
+  @HostListener('document:click', ['$event'])
+  clickEvent(event: any) {
+    this.checkIfToggleSubmenu(event);
+  }
   @HostListener('window:resize', ['$event'])
   resize() {
     this.resetNav();
@@ -33,7 +41,7 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
 
-  navigate(url: string){
+  navigate(url: string) {
     this.toggleMenu();
     this.router.navigateByUrl(url);
   }
@@ -59,6 +67,29 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     if (window.innerWidth >= 700) {
       this.navIsOpen = false;
       this.navIconClose = false;
+      this.submenu.nativeElement.classList.remove('d-unset');
+      this.currentBoard.nativeElement.classList.remove('nav-left-open-submenu');
+    }
+  }
+
+  toggleSubmenu() {
+    if (navigator.maxTouchPoints > 0 && window.innerWidth > 700) {
+      this.submenu.nativeElement.classList.toggle('d-unset');
+      this.currentBoard.nativeElement.classList.toggle('nav-left-open-submenu');
+    }
+  }
+
+  checkIfToggleSubmenu(event: any) {
+    if (
+      event.target != this.currentBoard.nativeElement &&
+      event.target.parentElement != this.currentBoard.nativeElement &&
+      event.target.parentElement.parentElement !=
+        this.currentBoard.nativeElement &&
+      event.target.parentElement.parentElement.parentElement !=
+        this.currentBoard.nativeElement &&
+      this.submenu.nativeElement.classList.contains('d-unset')
+    ) {
+      this.toggleSubmenu();
     }
   }
 }
