@@ -75,13 +75,12 @@ li {
   background-color: white;
 }
 
-.edit-catgory {
-  @include flex($justify: center);
-  text-align: center;
-  width: calc(100% - 30px);
+.edit-category {
+  @include flex($align: center);
+  flex: 1;
   font-size: 1em;
   font-weight: 500;
-  color: $letter-color-light;
+  color: $letter-color-dark;
   background-color: transparent;
   border: none;
 

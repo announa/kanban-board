@@ -100,7 +100,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
     ) { */
       this.isEditingTitle = false;
       this.dragService.isEditingTitle = false;
-      this.titleInput.nativeElement.value = this.hostObject.title;
+      this.titleInput.nativeElement.textContent = this.hostObject.title;
     /* } */
   }
 
