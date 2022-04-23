@@ -58,8 +58,8 @@
 
 .more-container {
   @include flex(center, center);
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   cursor: pointer;
 
@@ -71,14 +71,10 @@
      filter: none;
    }
   }
-/* 
-  &:hover img{
-   filter: brightness(70%);
-  } */
 
   > img {
-    width: 60%;
-    height: 60%;
+    width: 70%;
+    height: 70%;
     filter: invert(150%) brightness(500%);
   }
 }

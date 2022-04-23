@@ -1,26 +1,46 @@
 <nav class="navigation" [style.right]="navIsOpen ? '0' : ''">
   <div class="nav-right nav-section">
-    <a (click)="navigate('/boards')" >Boards Overview</a>
+    <a (click)="navigate('/boards')">Boards Overview</a>
     <!--   <a [routerLink]="'/backlog'">Backlog</a> -->
     <a (click)="logout()">Log out</a>
   </div>
 
-  <div *ngIf="fireService.currentBoard" class="nav-left nav-section" (click)="toggleSubmenu()" #currentBoard> {{ fireService.currentBoard.title | uppercase }}
-    <ul #submenu>
-      <li class="list-item">
-        <a (click)="navigate('/board/' + fireService.currentBoard.id)"
-        >Board</a
-        >
-      </li>
-      <li class="list-item">
-        <a (click)="navigate('/board/' + fireService.currentBoard.id + '/backlog')"
-          >Backlog</a
-        >
-      </li>
-    </ul>
+  <div class="nav-left">
+    <img src="assets/img/logo_1_white.svg" alt="">
+    <div
+      *ngIf="fireService.currentBoard"
+      class="nav-board"
+      (click)="toggleSubmenu()"
+      #currentBoard
+    >
+      {{ fireService.currentBoard.title | uppercase }}
+      <ul #submenu>
+        <li class="list-item">
+          <a (click)="navigate('/board/' + fireService.currentBoard.id)"
+            >Board</a
+          >
+        </li>
+        <li class="list-item">
+          <a
+            (click)="
+              navigate('/board/' + fireService.currentBoard.id + '/backlog')
+            "
+            >Backlog</a
+          >
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
 <div class="menu" (click)="toggleMenu()">
-  <img src="assets/img/menu.svg" alt="toggle navigation" [class.d-none]="navIconClose">
-  <img src="assets/img/close.svg" alt="toggle navigation" [class.d-none]="!navIconClose">
+  <img
+    src="assets/img/menu.svg"
+    alt="toggle navigation"
+    [class.d-none]="navIconClose"
+  />
+  <img
+    src="assets/img/close.svg"
+    alt="toggle navigation"
+    [class.d-none]="!navIconClose"
+  />
 </div>

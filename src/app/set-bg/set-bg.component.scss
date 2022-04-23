@@ -46,3 +46,32 @@ h3 {
 .btn-container{
  @include flex($justify: flex-end)
 }
+
+@media (max-width: 400px){
+  .modal-transp {
+    padding: 50px 30px 30px;
+  }
+  
+  .content {
+    padding: 0;
+  }
+  
+  h3 {
+    padding-left: 10px;
+  }
+  
+  .images-container {
+    padding-top: 15px;
+    scrollbar-gutter: stable;
+    padding: 10px;
+ 
+    img {
+     width: 100%;
+   }
+  }
+  
+  .btn-container {
+    padding: 0 10px;
+  }
+  
+}

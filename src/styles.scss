@@ -200,6 +200,11 @@ img {
     radial-gradient(circle at 20% 30%, #b987ce, rgb(69, 128, 216));
 }
 
+.logo-main{
+  width: 300px;
+  margin-bottom: 5vh;
+}
+
 .auth-container{
   @include flex(center, center);
   flex-direction: column;
