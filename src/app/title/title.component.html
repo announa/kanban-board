@@ -15,14 +15,14 @@
     (click)="noDefault($event)"
     (keydown)="checkWidth()"
     (keyup)="checkKey(hostObject.id, $event)"
-    placeholder="New Titel"
+    placeholder="Add a Titel"
     #titleInput
   />
 
   <div
     class="menu-container"
     *ngIf="!isEditingTitle"
-    (click)="toggleMenu($event)"
+    (click)="toggleMenu()"
     [style.zIndex]="hostObject == fireService.currentBoard ? 2 : 1"
     #menu
   >
@@ -34,6 +34,7 @@
       [class.left]="left"
       [class.top]="top"
       *ngIf="menuIsOpen"
+      #editMenu
     >
       <div class="edit-menu-item menu" (click)="edit($event)">
         <div class="menu-icon-container menu">
@@ -55,9 +56,9 @@
         *ngIf="collection == 'columns'"
         class="edit-menu-item menu"
         (click)="toggleMoveColumnMenu($event)"
-        id="move-column"
+        #moveColumnMenu
       >
-        <div class="menu-icon-container menu" id="move-column-icon-container">
+        <div class="menu-icon-container menu">
           <img
             src="assets/img/arrow-right-left.svg"
             alt="move column"
@@ -65,7 +66,7 @@
             id="move-column-icon"
           />
         </div>
-        <span class="edit-menu-text menu" id="move-column-span"
+        <span class="edit-menu-text menu"
           >Move column to position...</span
         >
         <div *ngIf="showMoveColumnMenu" class="submenu">
@@ -73,8 +74,8 @@
             *ngFor="let column of fireService.columns; let i = index"
             (click)="moveColumn(i)"
             [id]="i == index ? 'current-column' : ''"
-            [style.color]="
-              i == index ? 'rgba(var(--letter-color-dark), 0.5)' : ''
+            [ngStyle]="{'color':
+              i == index ? 'rgba(var(--letter-color-dark), 0.5)' : '', 'cursor': i == index ? 'default' : ''}
             "
             [class.submenu-hover]="i != index"
           >
@@ -126,11 +127,11 @@
         class=""
         src="assets/img/done.svg"
         alt="save new title"
-        id="save-title"
+        #saveTitleMenu
       />
     </div>
   </div>
-  <span class="hidden-span" #hiddenSpan id="hiddenSpan">
+  <span class="hidden-span" #hiddenSpan>
     {{ title || 'Add a title'}}
   </span>
 </div>

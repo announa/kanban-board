@@ -6,7 +6,8 @@ export class Board {
   bgImg: string;
   placeholder: string = 'New Board';
 
-  constructor() {
+  constructor(title: string) {
+    this.title = title;
     this.id = Date.now().toString();
     this.bgImg = `bg-${Math.round(Math.random() * 7) + 1}.jpg`;
     console.log(this.bgImg);

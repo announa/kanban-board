@@ -1,0 +1,27 @@
+<div class="modal-transp-container">
+  <div class="modal-transp" #modal>
+    <div class="content">
+      <h3>Add a title to your {{ newObject }}</h3>
+      <div class="category-container">
+        <input
+        class="input"
+          type="text"
+          name="add-title"
+          [(ngModel)]="newTitle"
+          placeholder="Add a title"
+          required
+        />
+        <div class="btn-container">
+          <button class="btn btn-light" (click)="$event.stopPropagation(); closeModal()">Cancel</button>
+          <button
+            class="btn btn-add-cat"
+            [disabled]="newTitle == ''"
+            (click)="$event.stopPropagation(); saveTitle()"
+          >
+            Save Title
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

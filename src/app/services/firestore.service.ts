@@ -164,8 +164,8 @@ export class FirestoreService {
     }
   }
 
-  addBoard() {
-    let newBoard = new Board();
+  addBoard(title: string) {
+    let newBoard = new Board(title);
     newBoard.userId = this.currentUser.id;
     this.addDoc('boards', newBoard.id, newBoard);
   }

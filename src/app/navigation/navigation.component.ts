@@ -72,15 +72,9 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleSubmenu() {
-    if (navigator.maxTouchPoints > 0 && window.innerWidth > 700) {
-      this.submenu.nativeElement.classList.toggle('d-unset');
-      this.currentBoard.nativeElement.classList.toggle('nav-left-open-submenu');
-    }
-  }
-
   checkIfToggleSubmenu(event: any) {
     if (
+      this.currentBoard &&
       event.target != this.currentBoard.nativeElement &&
       event.target.parentElement != this.currentBoard.nativeElement &&
       event.target.parentElement.parentElement !=
@@ -90,6 +84,13 @@ export class NavigationComponent implements OnInit, AfterViewInit {
       this.submenu.nativeElement.classList.contains('d-unset')
     ) {
       this.toggleSubmenu();
+    }
+  }
+
+  toggleSubmenu() {
+    if (navigator.maxTouchPoints > 0 && window.innerWidth > 700) {
+      this.submenu.nativeElement.classList.toggle('d-unset');
+      this.currentBoard.nativeElement.classList.toggle('nav-left-open-submenu');
     }
   }
 }

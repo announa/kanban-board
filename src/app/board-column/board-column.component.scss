@@ -29,7 +29,7 @@
   @include flex($align: center);
   width: 100%;
   height: 50px;
-  padding: 0 5%;
+  padding: 0 5px 0 15px;
   background-color: rgba($theme-color-dark, 0.6);
   border: 2px solid rgba($theme-color-light, 0.3);
 }

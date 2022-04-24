@@ -34,4 +34,3 @@
   <div class="prohibited-modal">Sorry, you don't have access to this board</div>
 </div>
 <app-set-bg *ngIf="setBgImage" [selectedBoard]="fireService.currentBoard?.id" (imageSet)="setBgImage = false; previewImage = ''" (selectedImage)="setPreviewImage($event)"></app-set-bg>
-

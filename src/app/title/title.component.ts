@@ -38,6 +38,9 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   @Output() moveColumnEvent = new EventEmitter();
   @ViewChild('titleInput') titleInput!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
+  @ViewChild('editMenu') editMenu!: ElementRef;
+  @ViewChild('moveColumnMenu') moveColumnMenu!: ElementRef;
+  @ViewChild('saveTitleMenu') saveTitleMenu!: ElementRef;
   @ViewChild('hiddenSpan') hiddenSpan!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
@@ -49,8 +52,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
     public dragService: DragNdropService,
     private cd: ChangeDetectorRef,
     private router: Router
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.title = this.hostObject.title;
@@ -61,8 +63,11 @@ export class TitleComponent implements OnInit, AfterViewChecked {
     this.cd.detectChanges();
   }
 
-  toggleMenu(event?: any) {
-    if (event) event.stopPropagation();
+  checkWidth() {
+    this.spanWidth = this.hiddenSpan.nativeElement.clientWidth;
+  }
+
+  toggleMenu() {
     this.checkOpeningPosition();
     this.menuIsOpen = !this.menuIsOpen;
     this.emitBoardPreviewEvent();
@@ -103,24 +108,24 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   }
 
   resetEditTitle(event: any) {
-        if (
-      !event.target.classList.contains('edit-title-input') &&
-      event.target.id !='save-title'
+    if (
+      event.target != this.titleInput.nativeElement &&
+      event.target != this.saveTitleMenu?.nativeElement
     ) {
-    this.isEditingTitle = false;
-    this.dragService.isEditingTitle = false;
-    this.title = this.hostObject.title;
+      this.isEditingTitle = false;
+      this.dragService.isEditingTitle = false;
+      this.title = this.hostObject.title;
     }
   }
 
   resetOpenMenu(event: any) {
-    if (this.menuIsOpen && !event.target.classList.contains('menu')) {
+    if (
+      this.menuIsOpen &&
+      event.target != this.editMenu.nativeElement &&
+      event.target.parentElement.parentElement != this.menu.nativeElement
+    ) {
       this.menuIsOpen = false;
     }
-  }
-
-  checkWidth(){
-    this.spanWidth = this.hiddenSpan.nativeElement.clientWidth;
   }
 
   checkKey(columnId: string, event: any) {
@@ -131,7 +136,9 @@ export class TitleComponent implements OnInit, AfterViewChecked {
 
   saveTitle(event: any, id: string) {
     event.stopPropagation();
-    if (this.title && this.title != this.hostObject.title) {
+    if (!this.title) {
+      this.title = this.hostObject.title;
+    } else if (this.title != this.hostObject.title) {
       this.fireService.updateDoc(this.collection, id, { title: this.title });
     }
     this.isEditingTitle = false;
@@ -171,7 +178,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   toggleMoveColumnMenu(event: any) {
     event.stopPropagation();
     if (event.target.id != 'current-column') {
-      if (!event.target.id.includes('move-column')) {
+      if (!event.target != this.moveColumnMenu?.nativeElement) {
         this.showMoveColumnMenu = false;
       } else {
         this.showMoveColumnMenu = !this.showMoveColumnMenu;

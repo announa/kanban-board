@@ -9,9 +9,11 @@
       (setBackground)="setBackgroundImage($event)"
     ></app-boards-preview>
   </div>
-  <app-set-bg *ngIf="setBgImage" [selectedBoard]="selectedBoard" (imageSet)="setBgImage = false;"></app-set-bg>
+  <app-set-bg *ngIf="setBgImage" [selectedBoard]="selectedBoard" (onCloseModal)="setBgImage = false;"></app-set-bg>
 </div>
-<div class="add-icon" (click)="fireService.addBoard()" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
+<div class="add-icon" (click)="isAddingBoard = true;" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
   <img src="assets/img/add.svg" alt="add a board" />
-  <app-tooltip *ngIf="showTooltip" [text]="'Add a board'" [left]="true"></app-tooltip>
+  <app-add-title *ngIf="isAddingBoard" [newObject]="'new board'" (onCloseModal)="closeAddBoardModal($event)"></app-add-title>
+  <app-tooltip *ngIf="showTooltip" [text]="'Add a board'" [left]="true">
+  </app-tooltip>
 </div>

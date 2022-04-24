@@ -8,7 +8,7 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class SetBgComponent implements OnInit {
   @Input('selectedBoard') boardId!: string | undefined;
-  @Output() imageSet = new EventEmitter();
+  @Output() onCloseModal = new EventEmitter();
   @Output() selectedImage = new EventEmitter();
   currentImage = '';
   newImage = '';
@@ -43,7 +43,7 @@ export class SetBgComponent implements OnInit {
 
   closeModal() {
     this.newImage = '';
-    this.imageSet.emit(true);
+    this.onCloseModal.emit(true);
   }
   
   saveImage() {
@@ -52,7 +52,6 @@ export class SetBgComponent implements OnInit {
         bgImg: this.newImage,
       });
     }
-    this.newImage = '';
-    this.imageSet.emit(true);
+    this.closeModal()
   }
 }

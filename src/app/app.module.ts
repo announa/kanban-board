@@ -29,6 +29,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { CategoriesEditComponent } from './categories-edit/categories-edit.component';
 import { SetBgComponent } from './set-bg/set-bg.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AddTitleComponent } from './add-title/add-title.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { HttpClientModule } from '@angular/common/http';
     CategoriesComponent,
     CategoriesEditComponent,
     SetBgComponent,
+    AddTitleComponent,
   ],
   imports: [
     BrowserModule,

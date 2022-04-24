@@ -10,6 +10,7 @@ export class BoardsOverviewComponent implements OnInit {
   showTooltip = false;
   setBgImage = false;
   selectedBoard = '';
+  isAddingBoard = false;
 
   constructor(
     public fireService: FirestoreService,
@@ -28,5 +29,11 @@ export class BoardsOverviewComponent implements OnInit {
   setBackgroundImage(boardId: string){
     this.setBgImage = true;
     this.selectedBoard = boardId
+  }
+
+  closeAddBoardModal(event: boolean){
+    console.log('overview close modal')
+    this.isAddingBoard = false;
+    console.log(this.isAddingBoard)
   }
 }
