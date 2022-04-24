@@ -2,19 +2,22 @@
   class="title-container"
   [class.board-title]="hostObject == fireService.currentBoard"
   #titleContainer
-  >
-  
+>
   <input
-  type="text"
-  [ngStyle]="{'cursor': isEditingTitle ? 'text' : '', 'width': hostObject == fireService.currentBoard ? spanWidth + 30 + 'px' : ''}"
-  [(ngModel)]="title"
-  class="edit-title-input"
-[readonly]="!isEditingTitle && !dragService.isDragging"
-(click)="noDefault($event)"
-(keydown)="checkWidth()"
-(keyup)="checkKey(hostObject.id, $event)"
-#titleInput
-/>
+    type="text"
+    [ngStyle]="{
+      cursor: isEditingTitle ? 'text' : '',
+      width: hostObject == fireService.currentBoard ? spanWidth + 30 + 'px' : ''
+    }"
+    [(ngModel)]="title"
+    class="edit-title-input"
+    [readonly]="!isEditingTitle && !dragService.isDragging"
+    (click)="noDefault($event)"
+    (keydown)="checkWidth()"
+    (keyup)="checkKey(hostObject.id, $event)"
+    placeholder="New Titel"
+    #titleInput
+  />
 
   <div
     class="menu-container"
@@ -62,7 +65,9 @@
             id="move-column-icon"
           />
         </div>
-        <span class="edit-menu-text menu" id="move-column-span">Move column to position...</span>
+        <span class="edit-menu-text menu" id="move-column-span"
+          >Move column to position...</span
+        >
         <div *ngIf="showMoveColumnMenu" class="submenu">
           <div
             *ngFor="let column of fireService.columns; let i = index"
@@ -126,6 +131,6 @@
     </div>
   </div>
   <span class="hidden-span" #hiddenSpan id="hiddenSpan">
-    {{title}}
-    </span>
+    {{ title || 'Add a title'}}
+  </span>
 </div>

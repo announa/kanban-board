@@ -34,7 +34,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   @Output() showCatModal = new EventEmitter();
   @Output() addTicket = new EventEmitter();
   @Output() setBackground = new EventEmitter();
-  @Output() boardOverviewEvent = new EventEmitter();
+  @Output() boardPreviewEvent = new EventEmitter();
   @Output() moveColumnEvent = new EventEmitter();
   @ViewChild('titleInput') titleInput!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
@@ -53,7 +53,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.title = this.hostObject.title ? this.hostObject.title : this.hostObject.placeholder
+    this.title = this.hostObject.title;
   }
 
   ngAfterViewChecked(): void {
@@ -65,11 +65,11 @@ export class TitleComponent implements OnInit, AfterViewChecked {
     if (event) event.stopPropagation();
     this.checkOpeningPosition();
     this.menuIsOpen = !this.menuIsOpen;
-    this.emitBoardOverviewEvent();
+    this.emitBoardPreviewEvent();
   }
 
-  emitBoardOverviewEvent() {
-    this.boardOverviewEvent.emit(this.menuIsOpen);
+  emitBoardPreviewEvent() {
+    this.boardPreviewEvent.emit(this.menuIsOpen);
   }
 
   checkOpeningPosition() {
@@ -89,11 +89,10 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   edit(event: any) {
     event.stopPropagation();
     this.isEditingTitle = true;
+    this.toggleMenu();
     this.dragService.isEditingTitle = true;
     setTimeout(() => {
       this.titleInput.nativeElement.focus();
-      if (this.title == this.hostObject.placeholder)
-        this.titleInput.nativeElement.value = '';
     }, 50);
   }
 
@@ -110,9 +109,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
     ) {
     this.isEditingTitle = false;
     this.dragService.isEditingTitle = false;
-    this.titleInput.nativeElement.textContent = this.hostObject.title
-      ? this.hostObject.title
-      : this.hostObject.placeholder;
+    this.title = this.hostObject.title;
     }
   }
 
@@ -128,16 +125,13 @@ export class TitleComponent implements OnInit, AfterViewChecked {
 
   checkKey(columnId: string, event: any) {
     if (event.keyCode === 13) {
-      /* event.preventDefault(); */
       this.saveTitle(event, columnId);
     }
   }
 
   saveTitle(event: any, id: string) {
     event.stopPropagation();
-    console.log('saving title')
-    /* const titleInput = this.titleInput.nativeElement.textContent; */
-    if (this.title && this.title != this.hostObject.placeholder) {
+    if (this.title && this.title != this.hostObject.title) {
       this.fireService.updateDoc(this.collection, id, { title: this.title });
     }
     this.isEditingTitle = false;

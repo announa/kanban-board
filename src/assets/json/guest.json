@@ -1,12 +1,12 @@
 {
   "guest": { "username": "guest", "password": "", "id": "" },
   "guestBoard": {
-    "title": "Guestboard",
+    "title": "",
     "categories": ["Management", "Product", "Sale"],
     "id": "1",
     "userId": "",
     "bgImg": "bg-1.jpg",
-    "placeholder": "New Board"
+    "placeholder": "Guestboard"
 
   },
   "guestColumns": [

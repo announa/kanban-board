@@ -3,6 +3,6 @@
     <img class="preview-img" src="assets/bg-img/{{board.bgImg}}" alt="preview image" />
   </div>
   <div class="title-container">
-    <app-title [hostObject]="board" [collection]="'boards'" (setBackground)="setBackgroundImage()" (boardOverviewEvent)="setZindex($event)"> </app-title>
+    <app-title [hostObject]="board" [collection]="'boards'" (setBackground)="setBackgroundImage()" (boardPreviewEvent)="setZindex($event)"> </app-title>
   </div>
 </div>
