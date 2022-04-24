@@ -1,5 +1,6 @@
 import {
-  AfterViewInit,
+  AfterViewChecked,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -18,13 +19,14 @@ import { FirestoreService } from '../services/firestore.service';
   templateUrl: './title.component.html',
   styleUrls: ['./title.component.scss'],
 })
-export class TitleComponent implements OnInit, AfterViewInit {
+export class TitleComponent implements OnInit, AfterViewChecked {
   menuIsOpen = false;
   isEditingTitle = false;
   showMoveColumnMenu = false;
   title!: string;
   left = false;
   top = false;
+  spanWidth: number = 0;
 
   @Input('hostObject') hostObject: any;
   @Input('index') index?: number;
@@ -36,6 +38,7 @@ export class TitleComponent implements OnInit, AfterViewInit {
   @Output() moveColumnEvent = new EventEmitter();
   @ViewChild('titleInput') titleInput!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
+  @ViewChild('hiddenSpan') hiddenSpan!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
     this.resetVariables(event);
@@ -44,14 +47,19 @@ export class TitleComponent implements OnInit, AfterViewInit {
   constructor(
     public fireService: FirestoreService,
     public dragService: DragNdropService,
+    private cd: ChangeDetectorRef,
     private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.title = this.hostObject.title;
+  ) {
   }
 
-  ngAfterViewInit(): void {}
+  ngOnInit(): void {
+    this.title = this.hostObject.title ? this.hostObject.title : this.hostObject.placeholder
+  }
+
+  ngAfterViewChecked(): void {
+    this.checkWidth();
+    this.cd.detectChanges();
+  }
 
   toggleMenu(event?: any) {
     if (event) event.stopPropagation();
@@ -84,6 +92,8 @@ export class TitleComponent implements OnInit, AfterViewInit {
     this.dragService.isEditingTitle = true;
     setTimeout(() => {
       this.titleInput.nativeElement.focus();
+      if (this.title == this.hostObject.placeholder)
+        this.titleInput.nativeElement.value = '';
     }, 50);
   }
 
@@ -94,14 +104,16 @@ export class TitleComponent implements OnInit, AfterViewInit {
   }
 
   resetEditTitle(event: any) {
-/*     if (
+        if (
       !event.target.classList.contains('edit-title-input') &&
       event.target.id !='save-title'
-    ) { */
-      this.isEditingTitle = false;
-      this.dragService.isEditingTitle = false;
-      this.titleInput.nativeElement.textContent = this.hostObject.title;
-    /* } */
+    ) {
+    this.isEditingTitle = false;
+    this.dragService.isEditingTitle = false;
+    this.titleInput.nativeElement.textContent = this.hostObject.title
+      ? this.hostObject.title
+      : this.hostObject.placeholder;
+    }
   }
 
   resetOpenMenu(event: any) {
@@ -110,18 +122,23 @@ export class TitleComponent implements OnInit, AfterViewInit {
     }
   }
 
+  checkWidth(){
+    this.spanWidth = this.hiddenSpan.nativeElement.clientWidth;
+  }
+
   checkKey(columnId: string, event: any) {
     if (event.keyCode === 13) {
-      event.preventDefault();
+      /* event.preventDefault(); */
       this.saveTitle(event, columnId);
     }
   }
 
   saveTitle(event: any, id: string) {
     event.stopPropagation();
-    const titleInput = this.titleInput.nativeElement.textContent;
-    if (titleInput != this.hostObject.title) {
-      this.fireService.updateDoc(this.collection, id, { title: titleInput });
+    console.log('saving title')
+    /* const titleInput = this.titleInput.nativeElement.textContent; */
+    if (this.title && this.title != this.hostObject.placeholder) {
+      this.fireService.updateDoc(this.collection, id, { title: this.title });
     }
     this.isEditingTitle = false;
     this.dragService.isEditingTitle = false;

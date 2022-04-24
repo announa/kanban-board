@@ -1,26 +1,21 @@
 <div
-  class="column-title"
+  class="title-container"
   [class.board-title]="hostObject == fireService.currentBoard"
-  [class.cursor-p]="
-    hostObject != fireService.currentBoard && !this.isEditingTitle
-  "
   #titleContainer
->
-  <div
-    class="edit-title-input"
-    [contentEditable]="isEditingTitle"
-    [style.cursor]="isEditingTitle ? 'text' : ''"
-    (keyup)="checkKey(hostObject.id, $event)"
-    (click)="noDefault($event)"
-    #titleInput
   >
-    <span
-      class="title-span"
-      [class.board-span]="hostObject == fireService.currentBoard"
-    >
-      {{ hostObject.title }}
-    </span>
-  </div>
+  
+  <input
+  type="text"
+  [ngStyle]="{'cursor': isEditingTitle ? 'text' : '', 'width': hostObject == fireService.currentBoard ? spanWidth + 30 + 'px' : ''}"
+  [(ngModel)]="title"
+  class="edit-title-input"
+[readonly]="!isEditingTitle && !dragService.isDragging"
+(click)="noDefault($event)"
+(keydown)="checkWidth()"
+(keyup)="checkKey(hostObject.id, $event)"
+#titleInput
+/>
+
   <div
     class="menu-container"
     *ngIf="!isEditingTitle"
@@ -130,4 +125,7 @@
       />
     </div>
   </div>
+  <span class="hidden-span" #hiddenSpan id="hiddenSpan">
+    {{title}}
+    </span>
 </div>

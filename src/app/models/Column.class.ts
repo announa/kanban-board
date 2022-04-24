@@ -1,10 +1,10 @@
-import { Ticket } from './Ticket.class';
-
 export class Column {
-  title = 'New Column';
+  title = '';
   order: number;
   id: string;
   boardId: string;
+  placeholder: string = 'New Column';
+
   
 
   constructor(order: number, boardId: string) {

@@ -13,7 +13,9 @@
       (click)="toggleSubmenu()"
       #currentBoard
     >
+    <span>
       {{ fireService.currentBoard.title | uppercase }}
+    </span>
       <ul #submenu>
         <li class="list-item">
           <a (click)="navigate('/board/' + fireService.currentBoard.id)"

@@ -5,13 +5,15 @@
     "categories": ["Management", "Product", "Sale"],
     "id": "1",
     "userId": "",
-    "bgImg": "bg-1.jpg"
+    "bgImg": "bg-1.jpg",
+    "placeholder": "New Board"
+
   },
   "guestColumns": [
-    { "title": "To do", "order": 1, "id": "", "boardId": "" },
-    { "title": "In Progress", "order": 2, "id": "", "boardId": "" },
-    { "title": "Testing", "order": 3, "id": "", "boardId": "" },
-    { "title": "Done", "order": 4, "id": "", "boardId": "" }
+    { "title": "To do", "order": 1, "id": "", "boardId": "", "placeholder": "New Column" },
+    { "title": "In Progress", "order": 2, "id": "", "boardId": "", "placeholder": "New Column" },
+    { "title": "Testing", "order": 3, "id": "", "boardId": "", "placeholder": "New Column" },
+    { "title": "Done", "order": 4, "id": "", "boardId": "", "placeholder": "New Column" }
   ],
   "guestTickets": [
     { "title": "Ticket 1", "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, sunt!", "deadline": "05/03/2022", "id": "", "date": "4/11/2022", "category": "Management", "priority": "High", "columnId": "1", "boardId": "1", "title_transf": "ticket 1", "description_transf": "lorem ipsum dolor sit amet consectetur adipisicing elit. soluta, sunt!" },

@@ -1,9 +1,10 @@
 export class Board {
-  title = 'New Board';
+  title = '';
   categories: string[] = [];
   id: string = '';
   userId: string = '';
   bgImg: string;
+  placeholder: string = 'New Board';
 
   constructor() {
     this.id = Date.now().toString();
