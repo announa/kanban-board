@@ -33,10 +33,10 @@ export class BacklogComponent implements OnInit {
     } else {
       this.showBacklog = false;
     }
-    this.showBacklog = true;
   }
 
   userHasAccess() {
+    console.log(this.fireService.currentBoard?.userId === this.fireService.currentUser.id)
     return (
       this.fireService.currentBoard?.userId === this.fireService.currentUser.id
     );

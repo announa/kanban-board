@@ -416,3 +416,29 @@ img {
     }
   }
 }
+
+
+.prohibited {
+  @include flex($justify: space-evenly);
+  flex-direction: column;
+  gap: 3vh;
+}
+
+.prohibited-modal {
+  align-self: center;
+  background-color: $theme-color-light;
+  color: $letter-color-dark;
+  border-radius: 20px;
+  padding: 50px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  
+  @media (max-width: 450px) {
+    padding: 0;
+    background-color: unset;
+    color: $letter-color-light;
+    font-weight: 500;
+    
+  }
+}

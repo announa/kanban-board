@@ -1,6 +1,6 @@
 <nav class="navigation" [style.right]="navIsOpen ? '0' : ''">
   <div class="nav-right nav-section">
-    <a (click)="navigate('/boards')" [class.a-active]="router.isActive('/boards', false)">Boards Overview</a>
+    <a (click)="navigate('/boards')" [class.a-active]="router.isActive('/boards', false)">All Boards</a>
     <!--   <a [routerLink]="'/backlog'">Backlog</a> -->
     <a (click)="logout()">Log out</a>
   </div>
