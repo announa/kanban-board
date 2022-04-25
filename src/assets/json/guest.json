@@ -1,7 +1,7 @@
 {
   "guest": { "username": "guest", "password": "", "id": "" },
   "guestBoard": {
-    "title": "",
+    "title": "Guestboard",
     "categories": ["Management", "Product", "Sale"],
     "id": "1",
     "userId": "",

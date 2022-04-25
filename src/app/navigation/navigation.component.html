@@ -12,24 +12,15 @@
       *ngIf="fireService.currentBoard"
       #navLeft
     >
- <!--   <span>
-      {{ fireService.currentBoard.title | uppercase }}
-    </span>
-      <ul #submenu>
-        <li class="list-item"> -->
           <a (click)="navigate('/board/' + fireService.currentBoard.id)"
           [class.a-active]="isActive('/board/', '')">Board</a
           >
-<!--         </li>
-        <li class="list-item"> -->
           <a
             (click)="
               navigate('/board/' + fireService.currentBoard.id + '/backlog')
             "
             [class.a-active]="isActive('/board/', '/backlog')" >Backlog</a
           >
-<!--         </li>
-      </ul> -->
     </div>
   </div>
 </nav>

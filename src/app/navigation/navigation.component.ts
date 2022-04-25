@@ -20,10 +20,6 @@ export class NavigationComponent implements OnInit, AfterViewInit {
   navIconClose = false;
   @ViewChild('submenu') submenu!: ElementRef;
   @ViewChild('navLeft') navLeft!: ElementRef;
-/*   @HostListener('document:click', ['$event'])
-  clickEvent(event: any) {
-    this.checkIfToggleSubmenu(event);
-  } */
   @HostListener('window:resize', ['$event'])
   resize() {
     this.resetNav();
@@ -67,32 +63,8 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     if (window.innerWidth >= 700) {
       this.navIsOpen = false;
       this.navIconClose = false;
-      /* this.submenu.nativeElement.classList.remove('d-unset'); */
-      /* this.navLeft.nativeElement.classList.remove('nav-left-open-submenu'); */
     }
   }
-/* 
-  checkIfToggleSubmenu(event: any) {
-    if (
-      this.navLeft &&
-      event.target != this.navLeft.nativeElement &&
-      event.target.parentElement != this.navLeft.nativeElement &&
-      event.target.parentElement.parentElement !=
-        this.navLeft.nativeElement &&
-      event.target.parentElement.parentElement.parentElement !=
-        this.navLeft.nativeElement &&
-      this.submenu.nativeElement.classList.contains('d-unset')
-    ) {
-      this.toggleSubmenu();
-    }
-  }
-
-  toggleSubmenu() {
-    if (navigator.maxTouchPoints > 0 && window.innerWidth > 700) {
-      this.submenu.nativeElement.classList.toggle('d-unset');
-      this.navLeft.nativeElement.classList.toggle('nav-left-open-submenu');
-    }
-  } */
 
   isActive(link1: string, link2: string){
     setTimeout(() => {
