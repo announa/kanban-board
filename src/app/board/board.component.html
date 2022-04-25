@@ -8,6 +8,7 @@
     <app-title
       [hostObject]="fireService.currentBoard"
       [collection]="'boards'"
+      [boardTitle] = true
       (showCatModal)="showCategoriesModal = true"
       (setBackground)="setBgImage = true"
     ></app-title>

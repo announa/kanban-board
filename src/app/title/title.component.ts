@@ -31,6 +31,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   @Input('hostObject') hostObject: any;
   @Input('index') index?: number;
   @Input('collection') collection!: string;
+  @Input('boardTitle') boardTitle: boolean = false;
   @Output() showCatModal = new EventEmitter();
   @Output() addTicket = new EventEmitter();
   @Output() setBackground = new EventEmitter();

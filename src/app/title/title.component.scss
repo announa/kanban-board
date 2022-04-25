@@ -10,7 +10,7 @@
   flex: 1;
   height: 100%;
   width: 100%;
-  position: relative;
+/*   position: relative; */
   padding-right: 10px;
 }
 
@@ -51,12 +51,24 @@
   left: -1000vw;
 }
 .menu-container {
-  /*   background-color: #ffffff;
-  background-color: rgba($theme-color-light, .3); */
   border-radius: 50%;
   position: relative;
   z-index: 1;
   font-weight: 400;
+}
+
+.menu-container-boardTitle{
+  position: absolute;
+  right: 40px;
+
+  @media (max-width: 450px) {
+    right: 20px;
+  }
+
+  .more-container{
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .more-container {
@@ -64,7 +76,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background-color: rgba($theme-color-light, 0.1);
+  /* background-color: rgba($theme-color-light, 0.1); */
   cursor: pointer;
 
   &:hover {

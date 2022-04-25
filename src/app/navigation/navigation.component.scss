@@ -38,12 +38,12 @@ a {
   cursor: pointer;
 
   &:hover {
-    color: rgb(0, 195, 255);
+    color: $nav-hover-color;
   }
 }
 
 .a-active{
-  color: rgb(0, 195, 255);
+  color: $nav-hover-color;
   font-weight: 600;
   text-decoration: underline 3px;
   text-underline-offset: 21px;
@@ -59,6 +59,14 @@ a {
   z-index: 5;
   display: none;
   filter: invert(100%) drop-shadow(0 0 10px rgba($box-shadow-dark, 0.7));
+  
+  &:hover{
+    filter: invert(100%) drop-shadow(0 0 10px rgba($nav-hover-color, .8))
+  }
+  &:hover img{
+    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(150%) contrast(200%);
+
+  }
 
   img {
     width: 100%;
