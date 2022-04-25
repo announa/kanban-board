@@ -13,13 +13,13 @@
       #navLeft
     >
           <a (click)="navigate('/board/' + fireService.currentBoard.id)"
-          [class.a-active]="isActive('/board/', '')">Board</a
+          [class.a-active]="router.url.endsWith('/board/' + fireService.currentBoard.id)">Board</a
           >
           <a
             (click)="
               navigate('/board/' + fireService.currentBoard.id + '/backlog')
             "
-            [class.a-active]="isActive('/board/', '/backlog')" >Backlog</a
+            [class.a-active]="router.url.endsWith('/board/' + fireService.currentBoard.id + '/backlog')" >Backlog</a
           >
     </div>
   </div>

@@ -1,0 +1,17 @@
+@import "../../vars.scss";
+
+.form-input{
+ @include flex($align: flex-end);
+ @media (max-width: 500px) {
+  flex-direction: column;
+  align-items: flex-start;
+ }
+}
+
+label{
+ width: 120px;
+}
+
+input{
+ flex: 1;
+}

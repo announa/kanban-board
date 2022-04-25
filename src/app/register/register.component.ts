@@ -18,10 +18,11 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class RegisterComponent implements OnInit {
   newUser = new User();
+  passwordConfirmation!: string;
+  width = 0;
+  alert='';
 
   @ViewChild('modal') modal!: ElementRef;
-  width = 0;
-  alert=false;
 
   constructor(
     private fireService: FirestoreService,
@@ -40,7 +41,7 @@ export class RegisterComponent implements OnInit {
   }
 
   hideAlert(){
-    this.alert = false;
+    this.alert = '';
   }
 
   /*  aync login(form){
@@ -55,13 +56,22 @@ export class RegisterComponent implements OnInit {
   async register() {
     let userCheck = await this.checkIfUserExists();
     if(userCheck === false){
-    await this.fireService.addUser(this.newUser);
-    this.router.navigateByUrl('/boards');
+      if(this.passwordCheck() === true){
+        await this.fireService.addUser(this.newUser);
+        this.router.navigateByUrl('/boards');
+      } else{
+        this.alert = 'You typed in two different passwords. The password and the password confirmation must be the same combination of characters.';
+        this.fireService.isProcessing = false;
+      }
     } else{
-      this.alert = true;
+      this.alert = 'Username already exists. Please choose another username.';
       this.fireService.isProcessing = false;
     }
+  }
 
+  passwordCheck(){
+    console.log(this.newUser.password === this.passwordConfirmation)
+    return this.newUser.password === this.passwordConfirmation
   }
   
   async checkIfUserExists(){
