@@ -5,7 +5,7 @@
   background-size: cover;
   overflow-y: hidden;
 
-  @media (max-width: 400px){
+  @media (max-width: 450px){
     scroll-snap-type: x mandatory;
   }
 }

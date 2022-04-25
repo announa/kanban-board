@@ -3,7 +3,7 @@
 .column-container {
   transition: background-color 225ms ease-in-out;
   
-  @media (max-width: 400px) {
+  @media (max-width: 450px) {
     scroll-snap-align: center;
     scroll-snap-stop: always;
   }

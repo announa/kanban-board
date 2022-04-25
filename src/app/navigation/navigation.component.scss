@@ -14,85 +14,39 @@
   z-index: 3;
 }
 
-.nav-right {
-  a {
-    margin-left: 30px;
-  }
+.nav-section{
+  @include flex($align: center);
+  display: flex;
+  height: 100%;
 }
 
 .nav-left {
-  @include flex($align: center);
-  line-height: 2rem;
-  height: 100%;
-  
-  cursor: pointer;
-  
   img {
     height: 80%;
     width: auto;
-    margin-right: 20px;
   }
 }
 
-.nav-board {
-  @include flex($align: center);
-  position: relative;
-  padding: 5px 10px;
-  height: 100%;
-  max-width: 250px;
-
-  span{
-    display: inline-block;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &:hover {
-    color: rgba($letter-color-light, 0.5);
-    background-color: rgba($theme-color-dark, 0.9);
-    @media (min-width: 700px) {
-      margin-bottom: -1px;
-    }
-  }
-
-  &:hover ul {
-    display: unset !important;
-  }
-  a {
-    margin-right: 30px;
-  }
-
-  ul {
-    width: 100%;
-    display: none;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: 10px 0;
-    transform: translateY(100%);
-    background-color: rgba($theme-color-dark, 0.9);
-
-    li {
-      width: 100%;
-      padding: 3px 10px;
-      list-style: none;
-
-      a {
-        width: 100%;
-      }
-    }
-  }
-}
-
-.nav-left-open-submenu {
-  color: rgba($letter-color-light, 0.5);
-  background-color: rgba($theme-color-dark, 0.9);
+.nav-left-links{
+  display: flex;
 }
 
 a {
+  @include flex($align: center);
+  margin-left: 30px;
+  height: 100%;
   cursor: pointer;
+
+  &:hover {
+    color: rgb(0, 195, 255);
+  }
+}
+
+.a-active{
+  color: rgb(0, 195, 255);
+  font-weight: 600;
+  text-decoration: underline 3px;
+  text-underline-offset: 21px;
 }
 
 .menu {
@@ -111,7 +65,7 @@ a {
     height: 100%;
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 450px) {
     right: 30px;
   }
 }
@@ -133,9 +87,8 @@ a {
   }
 
   .nav-left {
-    margin-bottom: 120px;
-    height: 50px;
     width: 100%;
+    height: unset;
     img {
       position: absolute;
       bottom: 50px;
@@ -146,37 +99,13 @@ a {
     }
   }
 
-  .nav-board {
-    width: 100%;
-    max-width: unset;
+  a {
+    display: block;
     margin-left: 0;
-    padding-left: 40px;
-    background-color: rgba($theme-color-light, 0.3);
-
-    &:hover {
-      color: inherit;
-      background-color: rgba($theme-color-light, 0.3);
-    }
-
-    ul {
-      display: block;
-      padding-left: 40px;
-      background-color: rgba($theme-color-light, 0.2);
-
-      li {
-        padding-left: 0;
-      }
-    }
+    margin-top: 15px;
   }
-
-  .nav-right {
+  .nav-section {
     padding-left: 40px;
-
-    a {
-      display: block;
-      margin-left: 0;
-      margin-top: 10px;
-    }
   }
 
   .menu {
@@ -184,7 +113,7 @@ a {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   .navigation {
     width: 100%;
   }

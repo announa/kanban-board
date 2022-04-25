@@ -29,7 +29,7 @@ body {
   padding: 100px 50px 50px;
   min-height: 100vh;
 
-  @media (max-width: 400px) {
+  @media (max-width: 450px) {
     padding: 100px 10vw 50px;
   }
 }
@@ -107,11 +107,11 @@ a {
 
   &:disabled,
   &[disabled] {
-    background: rgba($theme-color-dark, 0.2);
+    background: rgba($theme-color-dark, 0.1);
     cursor: default;
 
     &:hover {
-      background: rgba($theme-color-dark, 0.2);
+      background: rgba($theme-color-dark, 0.1);
     }
   }
 }
@@ -281,7 +281,7 @@ img {
       color: $letter-color-light;
     margin-bottom: 30px;
     }
-    @media (max-width: 400px) {
+    @media (max-width: 450px) {
       padding-left: 0;
     }
   }

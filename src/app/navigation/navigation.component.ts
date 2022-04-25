@@ -19,11 +19,11 @@ export class NavigationComponent implements OnInit, AfterViewInit {
   navIsOpen = false;
   navIconClose = false;
   @ViewChild('submenu') submenu!: ElementRef;
-  @ViewChild('currentBoard') currentBoard!: ElementRef;
-  @HostListener('document:click', ['$event'])
+  @ViewChild('navLeft') navLeft!: ElementRef;
+/*   @HostListener('document:click', ['$event'])
   clickEvent(event: any) {
     this.checkIfToggleSubmenu(event);
-  }
+  } */
   @HostListener('window:resize', ['$event'])
   resize() {
     this.resetNav();
@@ -67,20 +67,20 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     if (window.innerWidth >= 700) {
       this.navIsOpen = false;
       this.navIconClose = false;
-      this.submenu.nativeElement.classList.remove('d-unset');
-      this.currentBoard.nativeElement.classList.remove('nav-left-open-submenu');
+      /* this.submenu.nativeElement.classList.remove('d-unset'); */
+      /* this.navLeft.nativeElement.classList.remove('nav-left-open-submenu'); */
     }
   }
-
+/* 
   checkIfToggleSubmenu(event: any) {
     if (
-      this.currentBoard &&
-      event.target != this.currentBoard.nativeElement &&
-      event.target.parentElement != this.currentBoard.nativeElement &&
+      this.navLeft &&
+      event.target != this.navLeft.nativeElement &&
+      event.target.parentElement != this.navLeft.nativeElement &&
       event.target.parentElement.parentElement !=
-        this.currentBoard.nativeElement &&
+        this.navLeft.nativeElement &&
       event.target.parentElement.parentElement.parentElement !=
-        this.currentBoard.nativeElement &&
+        this.navLeft.nativeElement &&
       this.submenu.nativeElement.classList.contains('d-unset')
     ) {
       this.toggleSubmenu();
@@ -90,7 +90,13 @@ export class NavigationComponent implements OnInit, AfterViewInit {
   toggleSubmenu() {
     if (navigator.maxTouchPoints > 0 && window.innerWidth > 700) {
       this.submenu.nativeElement.classList.toggle('d-unset');
-      this.currentBoard.nativeElement.classList.toggle('nav-left-open-submenu');
+      this.navLeft.nativeElement.classList.toggle('nav-left-open-submenu');
     }
+  } */
+
+  isActive(link1: string, link2: string){
+    setTimeout(() => {
+     return (this.router.isActive(link1 + this.fireService.currentBoard?.id + link2, true))
+    }, 5000);
   }
 }

@@ -1,6 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestoreService } from '../services/firestore.service';
+import { TitleComponent } from '../title/title.component';
 
 @Component({
   selector: 'app-boards-preview',
@@ -10,22 +18,24 @@ import { FirestoreService } from '../services/firestore.service';
 export class BoardsPreviewComponent implements OnInit {
   @Input('board') board: any;
   @Output() setBackground = new EventEmitter();
+  @ViewChild(TitleComponent) title!: TitleComponent;
   zIndex = false;
 
   constructor(public fireService: FirestoreService, private router: Router) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  navigate(boardId: string, event: any) {
+    if (event.target.parentElement.parentElement != this.title.menu.nativeElement) {
+      this.router.navigateByUrl('/board/' + boardId);
+    }
   }
 
-  navigate(boardId: string) {
-    this.router.navigateByUrl('/board/' + boardId);
+  setBackgroundImage() {
+    this.setBackground.emit(this.board.id);
   }
 
-  setBackgroundImage(){
-    this.setBackground.emit(this.board.id)
-  }
-
-  setZindex(menuIsOpen: boolean){
+  setZindex(menuIsOpen: boolean) {
     this.zIndex = menuIsOpen;
   }
 }

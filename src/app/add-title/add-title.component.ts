@@ -22,7 +22,6 @@ export class AddTitleComponent implements OnInit {
   }
   
   closeModal(){
-    console.log('close')
     this.onCloseModal.emit(true)
     this.newTitle = '';
   }

@@ -42,7 +42,7 @@
  @include flex($justify: flex-end)
 }
 
-@media (max-width: 400px){
+@media (max-width: 450px){
   .modal-transp {
     padding: 50px 30px 30px;
   }

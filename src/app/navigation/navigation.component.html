@@ -1,36 +1,35 @@
 <nav class="navigation" [style.right]="navIsOpen ? '0' : ''">
   <div class="nav-right nav-section">
-    <a (click)="navigate('/boards')">Boards Overview</a>
+    <a (click)="navigate('/boards')" [class.a-active]="router.isActive('/boards', false)">Boards Overview</a>
     <!--   <a [routerLink]="'/backlog'">Backlog</a> -->
     <a (click)="logout()">Log out</a>
   </div>
 
-  <div class="nav-left">
+  <div class="nav-left nav-section">
     <img src="assets/img/logo_1_white.svg" alt="">
     <div
+    class="nav-left-links"
       *ngIf="fireService.currentBoard"
-      class="nav-board"
-      (click)="toggleSubmenu()"
-      #currentBoard
+      #navLeft
     >
-    <span>
+ <!--   <span>
       {{ fireService.currentBoard.title | uppercase }}
     </span>
       <ul #submenu>
-        <li class="list-item">
+        <li class="list-item"> -->
           <a (click)="navigate('/board/' + fireService.currentBoard.id)"
-            >Board</a
+          [class.a-active]="isActive('/board/', '')">Board</a
           >
-        </li>
-        <li class="list-item">
+<!--         </li>
+        <li class="list-item"> -->
           <a
             (click)="
               navigate('/board/' + fireService.currentBoard.id + '/backlog')
             "
-            >Backlog</a
+            [class.a-active]="isActive('/board/', '/backlog')" >Backlog</a
           >
-        </li>
-      </ul>
+<!--         </li>
+      </ul> -->
     </div>
   </div>
 </nav>

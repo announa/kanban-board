@@ -30,10 +30,4 @@ export class BoardsOverviewComponent implements OnInit {
     this.setBgImage = true;
     this.selectedBoard = boardId
   }
-
-  closeAddBoardModal(event: boolean){
-    console.log('overview close modal')
-    this.isAddingBoard = false;
-    console.log(this.isAddingBoard)
-  }
 }
