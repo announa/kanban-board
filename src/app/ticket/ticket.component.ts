@@ -36,6 +36,10 @@ export class TicketComponent implements OnInit {
   }
   isVisible = false;
   showMoveTicketMenu = false;
+  showTooltipEdit = false;
+  showTooltipMove = false;
+  showTooltipMoveBoard = false;
+  showTooltipDelete = false;
 
   constructor(
     public fireService: FirestoreService,

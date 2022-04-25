@@ -2,7 +2,7 @@
 
 .tooltip{
  padding: 5px 10px;
- background-color: rgba($theme-color-dark, .2);
+ background-color: rgba($theme-color-dark, .6);
  color: $theme-color-light;
  font-size: 14px;
  font-weight: 400;
@@ -17,5 +17,4 @@ white-space: nowrap;
  left: unset;
  right: 0px;
  top: -35px;
- background-color: rgba($theme-color-dark, .6);
 }

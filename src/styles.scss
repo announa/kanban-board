@@ -233,12 +233,13 @@ img {
 }
 
 .modal-transp-container {
-  @include flex(center, center);
+  /* @include flex(center, center); */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
+  padding: 50px 0;
   background-color: rgba($theme-color-dark, 0.3);
   overflow-y: auto;
   z-index: 3;
@@ -251,6 +252,7 @@ img {
   padding: 40px 40px 30px;
   color: $letter-color-dark;
   background-color: rgba($theme-color-light, 0.85);
+  transform: translateX(50vw) translateX(-50%);
 }
 
 

@@ -83,3 +83,8 @@ label {
 .btn-container{
   justify-self: flex-end;
 }
+
+.btn{
+  position: relative;
+  overflow: hidden;
+}
