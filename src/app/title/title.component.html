@@ -22,7 +22,7 @@
   <div
     class="menu-container"
     [class.menu-container-boardTitle]="boardTitle"
-    *ngIf="!isEditingTitle"
+    *ngIf="boardTitle || !isEditingTitle"
     (click)="toggleMenu()"
     [style.zIndex]="hostObject == fireService.currentBoard ? 2 : 1"
     #menu

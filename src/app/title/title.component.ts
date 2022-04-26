@@ -45,7 +45,11 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   @ViewChild('hiddenSpan') hiddenSpan!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
-    this.resetVariables(event);
+      this.resetVariables(event);
+  }
+  @HostListener('window:resize', ['$event'])
+  resizeListener(event: any) {
+    this.checkMenu();
   }
 
   constructor(
@@ -57,6 +61,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.title = this.hostObject.title;
+    this.checkMenu()
   }
 
   ngAfterViewChecked(): void {
@@ -69,9 +74,12 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   }
 
   toggleMenu() {
+    if(!(this.boardTitle && window.innerWidth > 700)){
+      console.log('toggle')
     this.checkOpeningPosition();
     this.menuIsOpen = !this.menuIsOpen;
     this.emitBoardPreviewEvent();
+    }
   }
 
   emitBoardPreviewEvent() {
@@ -104,8 +112,9 @@ export class TitleComponent implements OnInit, AfterViewChecked {
 
   resetVariables(event: any) {
     this.resetEditTitle(event);
-    this.resetOpenMenu(event);
     this.toggleMoveColumnMenu(event);
+    if(!(this.boardTitle && window.innerWidth > 700))
+    this.resetOpenMenu(event);
   }
 
   resetEditTitle(event: any) {
@@ -175,7 +184,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   setBackgroundImage(event: any) {
     event.stopPropagation();
     this.setBackground.emit(true);
-    this.menuIsOpen = false;
+    this.toggleMenu()
   }
 
   toggleMoveColumnMenu(event: any) {
@@ -193,4 +202,13 @@ export class TitleComponent implements OnInit, AfterViewChecked {
     if (index != this.index)
       this.moveColumnEvent.emit({ col1: this.index, col2: index });
   }
+
+  checkMenu(){
+    if(this.boardTitle == true && window.innerWidth > 700){
+    console.log('if')
+    this.menuIsOpen = true;}
+    else if(this.boardTitle == true && window.innerWidth < 700){
+      console.log('else')
+    this.menuIsOpen = false;
+  }}
 }

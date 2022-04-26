@@ -74,6 +74,60 @@
     width: 30px;
     height: 30px;
   }
+
+  @media (min-width: 700px){
+    right: 0;
+    top: 50vh;
+    transform: translateY(-50%);
+
+    .more-container{
+      display: none;
+    }
+
+    .edit-menu{
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      padding: 30px 0;
+      height: unset;
+      width: 60px;
+      background-color: rgba($theme-color-dark, 0.5);
+    }
+
+    .edit-menu-item{
+      @include flex(center, center);
+      width: 100%;
+      flex-direction: column;
+      margin-bottom: 20px;
+      padding: 0;
+
+      &:last-child{
+        margin-bottom: 0;
+      }
+
+      &:hover {
+        background-color: unset;
+      }
+
+      span{
+        display: none;
+      }
+    }
+    .menu-icon-container{
+      margin: 0;
+      height: 30px;
+      width: 30px;
+
+      &:hover img{
+        filter: $svg-grey-hover-filter;
+      }
+
+      img{
+        filter: brightness(500%);
+        margin: 0
+      }
+    }
+  }
 }
 
 .more-container {
