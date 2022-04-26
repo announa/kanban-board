@@ -27,6 +27,12 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   left = false;
   top = false;
   spanWidth: number = 0;
+  bigger700 = false;
+  showTooltipEdit = false;
+  showTooltipAdd = false;
+  showTooltipBgImg = false;
+  showTooltipCat = false;
+  showTooltipDelete = false;
 
   @Input('hostObject') hostObject: any;
   @Input('index') index?: number;
@@ -45,7 +51,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   @ViewChild('hiddenSpan') hiddenSpan!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
-      this.resetVariables(event);
+    this.resetVariables(event);
   }
   @HostListener('window:resize', ['$event'])
   resizeListener(event: any) {
@@ -61,7 +67,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.title = this.hostObject.title;
-    this.checkMenu()
+    this.checkMenu();
   }
 
   ngAfterViewChecked(): void {
@@ -74,11 +80,11 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   }
 
   toggleMenu() {
-    if(!(this.boardTitle && window.innerWidth > 700)){
-      console.log('toggle')
-    this.checkOpeningPosition();
-    this.menuIsOpen = !this.menuIsOpen;
-    this.emitBoardPreviewEvent();
+    if (!(this.boardTitle && window.innerWidth > 700)) {
+      console.log('toggle');
+      this.checkOpeningPosition();
+      this.menuIsOpen = !this.menuIsOpen;
+      this.emitBoardPreviewEvent();
     }
   }
 
@@ -113,8 +119,8 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   resetVariables(event: any) {
     this.resetEditTitle(event);
     this.toggleMoveColumnMenu(event);
-    if(!(this.boardTitle && window.innerWidth > 700))
-    this.resetOpenMenu(event);
+    if (!(this.boardTitle && window.innerWidth > 700))
+      this.resetOpenMenu(event);
   }
 
   resetEditTitle(event: any) {
@@ -184,7 +190,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   setBackgroundImage(event: any) {
     event.stopPropagation();
     this.setBackground.emit(true);
-    this.toggleMenu()
+    this.toggleMenu();
   }
 
   toggleMoveColumnMenu(event: any) {
@@ -203,12 +209,15 @@ export class TitleComponent implements OnInit, AfterViewChecked {
       this.moveColumnEvent.emit({ col1: this.index, col2: index });
   }
 
-  checkMenu(){
-    if(this.boardTitle == true && window.innerWidth > 700){
-    console.log('if')
-    this.menuIsOpen = true;}
-    else if(this.boardTitle == true && window.innerWidth < 700){
-      console.log('else')
-    this.menuIsOpen = false;
-  }}
+  checkMenu() {
+    if (this.boardTitle == true && window.innerWidth > 700) {
+      console.log('if');
+      this.menuIsOpen = true;
+      this.bigger700 = true;
+    } else if (this.boardTitle == true && window.innerWidth < 700) {
+      console.log('else');
+      this.menuIsOpen = false;
+      this.bigger700 = false;
+    }
+  }
 }

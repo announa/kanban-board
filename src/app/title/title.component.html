@@ -37,11 +37,22 @@
       *ngIf="menuIsOpen"
       #editMenu
     >
-      <div class="edit-menu-item menu" (click)="edit($event)">
+      <div
+        class="edit-menu-item menu"
+        (click)="edit($event)"
+        (mouseenter)="showTooltipEdit = true"
+        (mouseleave)="showTooltipEdit = false"
+      >
         <div class="menu-icon-container menu">
           <img src="assets/img/edit.svg" alt="edit title" class="menu" />
         </div>
         <span class="edit-menu-text menu">Edit title</span>
+        <app-tooltip
+          *ngIf="showTooltipEdit && boardTitle && bigger700"
+          [text]="'Edit board title'"
+          [left]="true"
+        >
+        </app-tooltip>
       </div>
       <div
         *ngIf="collection == 'columns'"
@@ -67,17 +78,16 @@
             id="move-column-icon"
           />
         </div>
-        <span class="edit-menu-text menu"
-          >Move column to position...</span
-        >
+        <span class="edit-menu-text menu">Move column to position...</span>
         <div *ngIf="showMoveColumnMenu" class="submenu">
           <div
             *ngFor="let column of fireService.columns; let i = index"
             (click)="moveColumn(i)"
             [id]="i == index ? 'current-column' : ''"
-            [ngStyle]="{'color':
-              i == index ? 'rgba(var(--letter-color-dark), 0.5)' : '', 'cursor': i == index ? 'default' : ''}
-            "
+            [ngStyle]="{
+              color: i == index ? 'rgba(var(--letter-color-dark), 0.5)' : '',
+              cursor: i == index ? 'default' : ''
+            }"
             [class.submenu-hover]="i != index"
           >
             {{ i }}
@@ -88,37 +98,68 @@
         *ngIf="collection == 'boards'"
         class="edit-menu-item menu"
         (click)="setBackgroundImage($event)"
+        (mouseenter)="showTooltipBgImg = true"
+        (mouseleave)="showTooltipBgImg = false"
       >
         <div class="menu-icon-container menu">
           <img src="assets/img/image.svg" alt="Background image" class="menu" />
         </div>
         <span class="edit-menu-text menu">Background image</span>
+        <app-tooltip
+          *ngIf="showTooltipBgImg && boardTitle && bigger700"
+          [text]="'Change background image'"
+          [left]="true"
+        >
+        </app-tooltip>
       </div>
       <div
         *ngIf="hostObject == fireService.currentBoard"
         class="edit-menu-item menu"
         (click)="fireService.addColumn()"
+        (mouseenter)="showTooltipAdd = true"
+        (mouseleave)="showTooltipAdd = false"
       >
         <div class="menu-icon-container menu">
           <img src="assets/img/add.svg" alt="add column" class="menu" />
         </div>
         <span class="edit-menu-text menu">Add column</span>
+        <app-tooltip
+          *ngIf="showTooltipAdd && boardTitle && bigger700"
+          [text]="'Add column'"
+          [left]="true"
+        >
+        </app-tooltip>
       </div>
       <div
         *ngIf="hostObject == fireService.currentBoard"
         class="edit-menu-item menu"
         (click)="showCategoryModal()"
+        (mouseenter)="showTooltipCat = true"
+        (mouseleave)="showTooltipCat = false"
       >
         <div class="menu-icon-container menu">
           <img src="assets/img/folder.svg" alt="add category" class="menu" />
         </div>
         <span class="edit-menu-text menu">Edit categories</span>
+        <app-tooltip
+        *ngIf="showTooltipCat && boardTitle && bigger700"
+        [text]="'Edit categories'"
+        [left]="true"
+      >
+      </app-tooltip>
       </div>
-      <div class="edit-menu-item menu" (click)="delete($event, hostObject.id)">
+      <div class="edit-menu-item menu" (click)="delete($event, hostObject.id)"         (mouseenter)="showTooltipDelete = true"
+      (mouseleave)="showTooltipDelete = false">
         <div class="menu-icon-container menu">
           <img src="assets/img/delete.svg" alt="delete column" class="menu" />
         </div>
         <span class="edit-menu-text menu">Delete</span>
+        <app-tooltip
+        *ngIf="showTooltipDelete && boardTitle && bigger700"
+        [text]="'Delete board'"
+        [left]="true"
+      >
+      </app-tooltip>
       </div>
     </div>
   </div>
@@ -133,6 +174,6 @@
     </div>
   </div>
   <span class="hidden-span" #hiddenSpan>
-    {{ title || 'Add a title'}}
+    {{ title || "Add a title" }}
   </span>
 </div>
