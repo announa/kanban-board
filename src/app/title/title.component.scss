@@ -40,6 +40,11 @@
   overflow: hidden;
   cursor: pointer;
 
+  &::placeholder{
+    opacity: .8;
+    font-style: italic;
+  }
+
   &:focus {
     outline: none;
   }

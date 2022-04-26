@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FirestoreService } from '../services/firestore.service';
 import { AddTicketService } from '../services/add-ticket.service';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './backlog.component.html',
   styleUrls: ['./backlog.component.scss']
 })
-export class BacklogComponent implements OnInit {
+export class BacklogComponent implements OnInit, OnDestroy {
   showBacklog = true;
   showTooltip = false;
 
@@ -22,6 +22,10 @@ export class BacklogComponent implements OnInit {
     } else {
       this.showBacklog = false;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.fireService.backlogTicketsSubscription.unsubscribe()
   }
   
   async loadBacklog(){
@@ -36,7 +40,6 @@ export class BacklogComponent implements OnInit {
   }
 
   userHasAccess() {
-    console.log(this.fireService.currentBoard?.userId === this.fireService.currentUser.id)
     return (
       this.fireService.currentBoard?.userId === this.fireService.currentUser.id
     );

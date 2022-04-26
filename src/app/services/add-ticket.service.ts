@@ -30,7 +30,7 @@ export class AddTicketService {
       '==',
       ticketId
     );
-    ticketRef.subscribe((doc) => {
+    ticketRef.subscribe((doc: any) => {
       this.ticket = doc[0];
     });
   }

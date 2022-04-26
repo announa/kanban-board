@@ -4,6 +4,7 @@ import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
 import { Column } from '../models/Column.class';
 import { Observable } from 'rxjs';
+import { Ticket } from '../models/Ticket.class';
 
 export interface columnData {
   index: number;
@@ -20,7 +21,8 @@ export class BoardColumnComponent implements OnInit {
   dragStart = false;
   @Input('column') column!: Column;
   @Input('index') index!: number;
-  tickets!: Observable<any>;
+  ticketsObservable!: Observable<unknown>;
+  tickets!: Observable<Ticket[]>
   showTooltip = false;
 
   constructor(
@@ -30,7 +32,7 @@ export class BoardColumnComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.tickets = this.fireService.loadTickets(this.column.id);
+    this.tickets = this.fireService.loadTickets(this.column.id) as Observable<Ticket[]>
   }
 
   onDragstart(event: any) {
@@ -60,7 +62,6 @@ export class BoardColumnComponent implements OnInit {
   }
 
   onDragend(event: any) {
-    console.log('dragend');
     this.dragService.toggleInputs(false);
     this.dragService.resetDragColumn(event);
     this.dragService.removeCloneNode();

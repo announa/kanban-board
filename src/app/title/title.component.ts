@@ -172,8 +172,10 @@ export class TitleComponent implements OnInit, AfterViewChecked {
     this.showCatModal.emit(true);
   }
 
-  setBackgroundImage() {
+  setBackgroundImage(event: any) {
+    event.stopPropagation();
     this.setBackground.emit(true);
+    this.menuIsOpen = false;
   }
 
   toggleMoveColumnMenu(event: any) {

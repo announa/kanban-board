@@ -1,8 +1,8 @@
 <div  *ngIf="fireService.currentBoard && showBacklog"
   class="backlog component-container"
-  style.backgroundImage="url('assets/bg-img/{{
+  style.backgroundImage="url({{
     fireService.currentBoard?.bgImg
-  }}')"
+  }})"
 >
   <h2>Backlog of {{ fireService.currentBoard?.title }}</h2>
   <div class="outer-ticket-container" *ngIf="fireService.backlogTickets">

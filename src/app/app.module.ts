@@ -9,11 +9,9 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { TicketComponent } from './ticket/ticket.component';
 import { TicketAddComponent } from './ticket-add/ticket-add.component';
 import { FormsModule } from '@angular/forms';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import {
-  AngularFirestoreDocument,
   AngularFirestoreModule,
 } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
@@ -62,7 +60,6 @@ import { AddTitleComponent } from './add-title/add-title.component';
     AngularFirestoreModule,
     AngularFireStorageModule,
     HttpClientModule
-    /* AngularFirestoreDocument */
   ],
   providers: [],
   bootstrap: [AppComponent],

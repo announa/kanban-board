@@ -83,7 +83,7 @@ a {
 }
 
 .btn-container {
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 .btn {
@@ -150,8 +150,12 @@ a {
   z-index: 2;
 
   &:hover {
-    background-color: $nav-hover-color;
+    background-color: $loading-bar-color;
     box-shadow: 2px 2px 6px rgba($box-shadow-dark, 0.6);
+
+    & img{
+      filter: invert(100%) brightness(300%);
+    }
   }
 }
 

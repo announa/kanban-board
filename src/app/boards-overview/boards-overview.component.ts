@@ -17,9 +17,10 @@ export class BoardsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fireService.clearTemp(false);
     this.fireService.getUserFromLocalStorage();
     this.fireService.loadBoards();
+    /* this.fireService.clearTemp(false); */
+    /* this.fireService.loadUserBoards(); */
   }
 
   toggleTooltip(){

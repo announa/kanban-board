@@ -9,7 +9,11 @@ export class Column {
 
   constructor(order: number, boardId: string) {
     this.id = Date.now().toString();
-    this.order = order + 1;
+    this.order = order;
     this.boardId = boardId;
+  }
+
+  getOrder(){
+    return this.order;
   }
 }

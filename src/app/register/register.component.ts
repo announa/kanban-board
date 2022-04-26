@@ -19,8 +19,8 @@ import { FirestoreService } from '../services/firestore.service';
 export class RegisterComponent implements OnInit {
   newUser = new User();
   passwordConfirmation!: string;
-  width = 0;
-  alert='';
+  alert = '';
+  existingUser!: User;
 
   @ViewChild('modal') modal!: ElementRef;
 
@@ -36,11 +36,10 @@ export class RegisterComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.width = this.modal.nativeElement.clientWidth;
     this.cd.detectChanges();
   }
 
-  hideAlert(){
+  hideAlert() {
     this.alert = '';
   }
 
@@ -54,31 +53,43 @@ export class RegisterComponent implements OnInit {
       
     }) */
   async register() {
-    let userCheck = await this.checkIfUserExists();
-    if(userCheck === false){
-      if(this.passwordCheck() === true){
+    await this.getExistingUsers();
+    if (this.usernameCheck() === false) {
+      if (this.passwordCheck() === true) {
         await this.fireService.addUser(this.newUser);
         this.router.navigateByUrl('/boards');
-      } else{
-        this.alert = 'You typed in two different passwords. The password and the password confirmation must be the same combination of characters.';
+      } else {
+        this.showAlert('pw-alert')
         this.fireService.isProcessing = false;
       }
-    } else{
-      this.alert = 'Username already exists. Please choose another username.';
+    } else {
+      this.showAlert('username-alert')
       this.fireService.isProcessing = false;
     }
   }
 
-  passwordCheck(){
-    console.log(this.newUser.password === this.passwordConfirmation)
-    return this.newUser.password === this.passwordConfirmation
+  async getExistingUsers() {
+    this.existingUser = this.fireService.checkForExistingUser(
+      this.newUser.username
+    )[0];
   }
-  
-  async checkIfUserExists(){
-    let existingUser = await firstValueFrom(this.fireService.checkForExistingUser(this.newUser.username));
-    if(existingUser.length == 0){
-      return false;
-    } else
-    return true;
+
+  usernameCheck(){
+    if (this.existingUser) {
+      return true;
+    } else return false;
+  }
+
+  passwordCheck() {
+    return this.newUser.password === this.passwordConfirmation;
+  }
+
+  showAlert(type: string){
+    if(type == 'pw-alert'){
+      this.alert =
+      'You typed in two different passwords. The password and the password confirmation must be the same combination of characters.';
+    } else{
+      this.alert = 'Username already exists. Please choose another username.';
+    }
   }
 }

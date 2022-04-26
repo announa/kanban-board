@@ -4,12 +4,13 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, Subscriber, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { AddTicketService } from '../services/add-ticket.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -19,7 +20,7 @@ import { FirestoreService } from '../services/firestore.service';
   templateUrl: './set-bg.component.html',
   styleUrls: ['./set-bg.component.scss'],
 })
-export class SetBgComponent implements OnInit {
+export class SetBgComponent implements OnInit, OnDestroy {
   @Input('selectedBoard') boardId!: string | undefined;
   @Output() onCloseModal = new EventEmitter();
   @Output() selectedImage = new EventEmitter();
@@ -31,6 +32,7 @@ export class SetBgComponent implements OnInit {
   uploadPercent!: Observable<number | undefined>;
   uploadFinished = false;
   downloadURL!: Observable<string>;
+  currentImageSubscription!: Subscription;
 
   constructor(
     public fireService: FirestoreService,
@@ -46,8 +48,12 @@ export class SetBgComponent implements OnInit {
     this.getCurrentImage();
   }
 
+  ngOnDestroy(): void {
+    this.currentImageSubscription.unsubscribe();
+  }
+
   getCurrentImage() {
-    this.fireService
+    this.currentImageSubscription = this.fireService
       .getFilteredCollection('boards', 'id', '==', this.boardId)
       .subscribe((b: any) => {
         this.currentImage = b[0].bgImg;

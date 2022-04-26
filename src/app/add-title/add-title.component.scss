@@ -1,0 +1,26 @@
+@import "../../vars.scss";
+
+
+.modal-transp-container{
+ @include flex(center, center)
+}
+
+.modal-transp{
+ width: 60vw;
+ transform: none;
+
+ @media (max-width: 700px) {
+  width: 80vw;
+ }
+
+ @media (max-width: 500px) {
+  width: 100vw;
+  padding: 40px 10px;
+ }
+ @media (max-width: 350px) {
+  .btn{
+   width: 100%;
+   margin-top: 10px;
+  }
+ }
+}

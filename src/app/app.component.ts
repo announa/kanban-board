@@ -58,12 +58,4 @@ export class AppComponent {
   constructor(public fireService: FirestoreService, public router:Router){}
   ngOnInit(): void {
   }
-  
-  ngOnDestroy(){
-      this.deleteData()
-  }
-  
-  deleteData(){
-    this.fireService.clearData();
-  }
 }

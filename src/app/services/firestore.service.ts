@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { Board } from '../models/Board.class';
 import { Column } from '../models/Column.class';
 import { Ticket } from '../models/Ticket.class';
@@ -11,11 +11,17 @@ import { User } from '../models/User.class';
   providedIn: 'root',
 })
 export class FirestoreService {
-  tickets!: Observable<any>;
+  users: User[] = [];
   boards: Board[] = [];
-  currentBoard!: Board | undefined;
-  boardSubscription: any;
   columns: Column[] = [];
+  guests: User[] = [];
+  currentUser!: User;
+  matchingUser!: User;
+  currentBoard: Board | undefined;
+  userCollectionSubscription!: Subscription;
+  boardSubscription!: Subscription;
+  backlogTicketsSubscription!: Subscription;
+  deleteImagesSubscription!: Subscription;
   sortCol = {
     ref: 'order',
     dir: 'asc',
@@ -26,14 +32,34 @@ export class FirestoreService {
   };
   backlogTickets: Ticket[] = [];
   colOrder!: number[];
-  matchingUser!: User;
-  currentUser!: User;
   isProcessing = false;
 
   constructor(
     private firestore: AngularFirestore,
     private storage: AngularFireStorage
   ) {}
+
+  getUserCollection(collection: string) {
+    return new Promise((resolve, reject) => {
+      this.userCollectionSubscription = this.firestore
+        .collection(collection)
+        .valueChanges()
+        .subscribe((user) => {
+          if (collection == 'user') this.users = user as User[];
+          else this.guests = user as User[];
+          resolve(user);
+        }),
+        (err: any) => reject(err);
+    });
+  }
+
+  loadCurrentUser(userId: string) {
+    this.getDocRef('user', userId)
+      .valueChanges()
+      .subscribe((user: any) => {
+        this.currentUser = user;
+      });
+  }
 
   getDocRef(collection: string, doc: string) {
     return this.firestore.collection(collection).doc(doc);
@@ -47,7 +73,7 @@ export class FirestoreService {
     field2?: string,
     operator2?: any,
     value2?: any
-  ) {
+  ): Observable<unknown> {
     if (!field2) {
       return this.firestore
         .collection(collection, (ref) => ref.where(field, operator, value))
@@ -78,47 +104,37 @@ export class FirestoreService {
         .valueChanges()
         .subscribe((board) => {
           this.currentBoard = board as Board;
-          console.log(this.currentBoard);
           resolve(board);
         })),
         (err: any) => reject(err);
     });
   }
 
-  loadCurrentUser(userId: string) {
-    this.getDocRef('user', userId)
-      .valueChanges()
-      .subscribe((user: any) => {
-        this.currentUser = user;
-      });
-  }
-
   loadColumns() {
-    this.colOrder = [];
-    this.firestore
-      .collection('columns', (ref) =>
-        ref
-          .where('boardId', '==', this.currentBoard?.id)
-          .orderBy(this.sortCol.ref, 'asc')
-      )
-      .valueChanges()
-      .subscribe((columns: any) => {
-        this.columns = columns;
-        columns.forEach((col: any) => {
-          this.colOrder = [];
-          this.colOrder.push(Number(col.order));
-        });
-      });
+    return new Promise((resolve, reject) => {
+      this.firestore
+        .collection('columns', (ref) =>
+          ref
+            .where('boardId', '==', this.currentBoard?.id)
+            .orderBy(this.sortCol.ref, 'asc')
+        )
+        .valueChanges()
+        .subscribe((columns: any) => {
+          this.columns = columns;
+          resolve(this.columns);
+        }),
+        (err: any) => reject(err);
+    });
   }
 
   loadTickets(columnId: string, ref?: string, dir?: string) {
-    if (ref) this.sort.ref = ref;
-    if (dir) this.sort.dir = dir;
+/*     if (ref) this.sort.ref = ref;
+    if (dir) this.sort.dir = dir; */
     return this.getFilteredCollection('tickets', 'columnId', '==', columnId);
   }
 
   loadBacklogTickets() {
-    this.getFilteredCollection(
+    this.backlogTicketsSubscription = this.getFilteredCollection(
       'tickets',
       'columnId',
       '==',
@@ -152,7 +168,6 @@ export class FirestoreService {
       .collection(collection)
       .doc(id)
       .set({ ...object })
-      .then(() => console.log(`new ${collection}-object with id ${id} added`))
       .catch((err) => console.log(err));
   }
 
@@ -161,7 +176,10 @@ export class FirestoreService {
   }
 
   addColumn() {
-    let order_max = this.colOrder.length > 0 ? Math.max(...this.colOrder) : 0;
+    const order_max =
+      this.columns.length > 0
+        ? this.columns[this.columns.length - 1].order + 1
+        : 0;
     if (this.currentBoard) {
       let column = new Column(order_max, this.currentBoard.id);
       this.addDoc('columns', column.id, column);
@@ -180,13 +198,14 @@ export class FirestoreService {
     switch (collection) {
       case 'guest':
         await this.deleteUserImages(id);
+        this.deleteImagesSubscription.unsubscribe();
         await this.deleteSubCollection('boards', 'userId', id);
-        setTimeout(async() => {
+        setTimeout(async () => {
           await this.deleteDoc(collection, id);
         }, 1000);
         break;
-        case 'boards':
-        this.boardSubscription.unsubscribe();
+      case 'boards':
+        if (this.boardSubscription) this.boardSubscription.unsubscribe();
         await this.deleteSubCollection('columns', 'boardId', id);
         await this.deleteDoc(collection, id);
         break;
@@ -195,6 +214,8 @@ export class FirestoreService {
         await this.deleteDoc(collection, id);
         /*  this.updateColOrder(id); */
         break;
+      case 'tickets':
+        await this.deleteDoc(collection, id);
     }
   }
 
@@ -216,19 +237,15 @@ export class FirestoreService {
 
   async deleteUserImages(userId: string) {
     console.log(userId);
-    const subscription = this.getFilteredCollection(
-      'guest',
-      'id',
-      '==',
-      userId
-    ).subscribe(async (user: any) => {
-      console.log(subscription)
+    let guest = await this.getFilteredCollection('guest', 'id', '==', userId);
+    console.log(guest);
+    this.deleteImagesSubscription = guest.subscribe(async (user: any) => {
+      console.log(this.deleteImagesSubscription);
       console.log(user);
       user[0].userImages.forEach(async (image: any) => {
+        console.log('deleting image ' + image.filePath);
         console.log(image);
         await this.storage.storage.ref(image.filePath).delete();
-        subscription.unsubscribe();
-        console.log(subscription)
       });
     });
   }
@@ -246,24 +263,20 @@ export class FirestoreService {
 
   checkForMatchingUser(userinput: { username: string; password: string }) {
     this.isProcessing = true;
-    return this.getFilteredCollection(
-      'user',
-      'username',
-      '==',
-      userinput.username,
-      'password',
-      '==',
-      userinput.password
+    return this.users.filter(
+      (user) =>
+        user.username == userinput.username &&
+        user.password == userinput.password
     );
   }
 
   checkForExistingUser(username: string) {
     this.isProcessing = true;
-    return this.getFilteredCollection('user', 'username', '==', username);
+    return this.users.filter((user) => user.username == username);
   }
 
-  async setCurrentUser() {
-    this.currentUser = this.matchingUser;
+  async setCurrentUser(matchingUser: User) {
+    this.currentUser = matchingUser;
     this.saveUserToLocalStorage();
     this.isProcessing = false;
   }
@@ -275,6 +288,7 @@ export class FirestoreService {
   getUserFromLocalStorage() {
     const storage = localStorage.getItem('user');
     this.currentUser = storage ? JSON.parse(storage) : this.getEmptyUser();
+    console.log(this.currentUser);
   }
 
   removeUserFromLocalStorage() {
@@ -288,7 +302,7 @@ export class FirestoreService {
       const newGuest = await this.setIds(guest);
       this.setTemp(newGuest);
       this.saveUserToLocalStorage();
-      resolve('guest account set');
+      resolve('guest account set'), (err: any) => reject(err);
     });
   }
 
@@ -332,17 +346,15 @@ export class FirestoreService {
   }
 
   checkForOldGuestData() {
-    this.getFilteredCollection(
-      'guest',
-      'id',
-      '<=',
-      (Date.now() - 86400000).toString()
-    ).subscribe((guests) => {
-      this.deleteOldGuests(guests as User[]);
-    });
+    const oldGuests = this.guests.filter((guest) => guest.id <= this.oneDay());
+    this.deleteOldGuestData(oldGuests as User[]);
   }
 
-  deleteOldGuests(oldGuests: User[]) {
+  oneDay() {
+    return (Date.now() - 86400000).toString();
+  }
+
+  deleteOldGuestData(oldGuests: User[]) {
     oldGuests.forEach((guest) => this.deleteFromDb('guest', guest.id));
   }
 
@@ -352,16 +364,16 @@ export class FirestoreService {
     return new Promise((resolve, reject) => {
       if (this.currentUser.username == 'guest') {
         console.log('delete guest data');
-        this.clearGuestData();
+        this.deleteCurrentGuestData();
       }
       this.clearTemp(true);
       this.removeUserFromLocalStorage();
+      resolve('data deleted'), (err: any) => reject(err);
     });
   }
 
-  clearGuestData() {
+  deleteCurrentGuestData() {
     this.deleteFromDb('guest', this.currentUser.id);
-    console.log(this.currentUser.id);
   }
 
   clearTemp(clearUser: boolean) {
@@ -422,10 +434,10 @@ export class FirestoreService {
       'boardId',
       '==',
       this.currentBoard?.id
-    ).subscribe((cols: any[]) => {
-      let colOrders = cols.map((col) => col.order);
+    ).subscribe((cols: any) => {
+      let colOrders = cols.map((col: any) => col.order);
       const min = Math.min(...colOrders);
-      const matchingCol = cols.find((col) => col.order == min);
+      const matchingCol = cols.find((col: any) => col.order == min);
       this.updateDoc('tickets', ticketId, { columnId: matchingCol.id });
     });
   }

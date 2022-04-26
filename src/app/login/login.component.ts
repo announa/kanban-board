@@ -3,31 +3,31 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { User } from '../models/User.class';
 import { FirestoreService } from '../services/firestore.service';
 import { HttpClient } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   userInput = {
     username: '',
     password: '',
   };
 
   @ViewChild('modal') modal!: ElementRef;
-  width = 0;
   alert = false;
   guestData: any;
+  guestDataSubscription!: Subscription;
 
   constructor(
     public fireService: FirestoreService,
@@ -36,34 +36,40 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private http: HttpClient
   ) {}
 
-  ngOnInit(): void {
-    this.fireService.checkForOldGuestData()
+  async ngOnInit(): Promise<void> {
+    await this.subscribeToCollectios();
+    this.fireService.checkForOldGuestData();
   }
+  
+    ngAfterViewInit() {
+      this.cd.detectChanges();
+    }
 
-  ngAfterViewInit() {
-    this.width = this.modal.nativeElement.clientWidth;
-    this.cd.detectChanges();
+    ngOnDestroy(): void {
+      this.guestDataSubscription.unsubscribe()
+      this.fireService.userCollectionSubscription.unsubscribe()
+    }
+
+  async subscribeToCollectios() {
+    await this.fireService.getUserCollection('user');
+    await this.fireService.getUserCollection('guest');
   }
 
   async checkLoginData() {
     console.log('logging in ...');
-    const matchingUser = await firstValueFrom(
-      this.fireService.checkForMatchingUser(
-        this.userInput
-      )
-    );
+    const matchingUser = this.fireService.checkForMatchingUser(
+      this.userInput
+    )[0];
 
-    this.fireService.matchingUser = matchingUser[0] as User;
-
-    if (this.fireService.matchingUser) {
-      this.login();
-    } else{
+    if (matchingUser) {
+      this.login(matchingUser);
+    } else {
       this.rejectLogin();
     }
   }
 
-  login(){
-    this.fireService.setCurrentUser();
+  login(matchingUser: User) {
+    this.fireService.setCurrentUser(matchingUser);
     this.loadUserBoards();
   }
 
@@ -71,19 +77,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.router.navigateByUrl('/boards');
   }
 
-  rejectLogin(){
+  rejectLogin() {
     this.alert = true;
     this.fireService.isProcessing = false;
   }
 
-  loginAsGuest(){
+  loginAsGuest() {
     this.fireService.isProcessing = true;
-    this.guestData = this.http.get('assets/json/guest.json')
-    this.guestData.subscribe(async (guest: any) => {
-      await this.fireService.setGuestAccount(guest)
-      await this.fireService.setGuestAccountInDb(guest)
+    this.guestData = this.http.get('assets/json/guest.json');
+    this.guestDataSubscription = this.guestData.subscribe(async (guest: any) => {
+      await this.fireService.setGuestAccount(guest);
+      await this.fireService.setGuestAccountInDb(guest);
       this.fireService.isProcessing = false;
       this.loadUserBoards();
-    })
+    });
   }
 }
