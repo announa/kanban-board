@@ -16,6 +16,7 @@ import {
   AngularFirestoreDocument,
   AngularFirestoreModule,
 } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { TitleComponent } from './title/title.component';
 import { BoardsOverviewComponent } from './boards-overview/boards-overview.component';
 import { BoardsPreviewComponent } from './boards-preview/boards-preview.component';
@@ -59,6 +60,7 @@ import { AddTitleComponent } from './add-title/add-title.component';
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireStorageModule,
     HttpClientModule
     /* AngularFirestoreDocument */
   ],

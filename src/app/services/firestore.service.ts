@@ -75,6 +75,7 @@ export class FirestoreService {
         .valueChanges()
         .subscribe((board) => {
           this.currentBoard = board as Board;
+          console.log(this.currentBoard)
           resolve(board);
         }),
         (err: any) => reject(err);

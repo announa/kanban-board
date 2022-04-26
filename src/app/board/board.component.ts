@@ -45,9 +45,9 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   getBackgroundImage() {
     if (this.previewImage != '') {
-      return `url('assets/bg-img/${this.previewImage}')`;
+      return `url('${this.previewImage}')`;
     } else {
-      return `url('assets/bg-img/${this.fireService.currentBoard?.bgImg}')`;
+      return `url('${this.fireService.currentBoard?.bgImg}')`;
     }
   }
 

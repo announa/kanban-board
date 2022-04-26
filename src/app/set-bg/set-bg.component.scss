@@ -38,35 +38,67 @@
   box-shadow: 0 0 6px 6px rgba($box-shadow-dark, 0.6);
 }
 
-.btn-container{
- @include flex($justify: flex-end)
+.btn-container {
+  @include flex($justify: flex-end);
 }
 
-@media (max-width: 450px){
+@media (max-width: 450px) {
   .modal-transp {
     padding: 50px 30px 30px;
   }
-  
+
   .content {
     padding: 0;
   }
-  
+
   h3 {
     padding-left: 10px;
   }
-  
+
   .images-container {
     padding-top: 15px;
     scrollbar-gutter: stable;
     padding: 10px;
- 
+
     img {
-     width: 100%;
-   }
+      width: 100%;
+    }
   }
-  
+
   .btn-container {
     padding: 0 10px;
   }
-  
+}
+
+.add-bg-img-container {
+  img {
+    height: 20px;
+    width: auto;
+    margin-right: 10px;
+  }
+  input{
+    
+    &::file-selector-button {
+      padding: 5px 10px;
+      border-radius: 20px;
+      margin-right: 10px;
+      color: #fff;
+      background: rgba($theme-color-dark, 0.4);
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba($theme-color-dark, 0.5);
+      }
+    }
+  }
+}
+
+.add-bg-img-text {
+  @include flex($align: center);
+  margin: 20px 0 10px;
+}
+
+.success{
+  margin-top: 10px;
 }

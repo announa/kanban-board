@@ -5,9 +5,9 @@
     "categories": ["Management", "Product", "Sale"],
     "id": "1",
     "userId": "",
-    "bgImg": "bg-1.jpg",
-    "placeholder": "Guestboard"
-
+    "bgImg": "assets/bg-img/bg-1.jpg",
+    "placeholder": "Guestboard",
+    "userImages": []
   },
   "guestColumns": [
     { "title": "To do", "order": 1, "id": "", "boardId": "", "placeholder": "New Column" },

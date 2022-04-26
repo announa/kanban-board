@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   guestData: any;
 
   constructor(
-    private fireService: FirestoreService,
+    public fireService: FirestoreService,
     private router: Router,
     private cd: ChangeDetectorRef,
     private http: HttpClient

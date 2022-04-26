@@ -1,20 +1,53 @@
-<div class="modal-transp-container">
+<div class="modal-transp-container" #modal>
   <div class="modal-transp" #modal>
     <div class="content">
       <h3>Change Background Image</h3>
       <div class="images-container">
         <img
+          *ngFor="let image of fireService.currentBoard?.userImages"
+          src="{{ image.downloadUrl }}"
+          alt=""
+          (click)="selectImage(image.downloadUrl)"
+          [class.selected]="newImage == image.downloadUrl"
+        />
+        <img
           *ngFor="let image of images"
-          src="assets/bg-img/{{ image }}"
+          src="{{ image }}"
           alt=""
           (click)="selectImage(image)"
           [class.selected]="newImage == image"
         />
       </div>
+      <div class="add-bg-img-container">
+        <div class="add-bg-img-text">
+          <img src="assets/img/add-image.svg" alt="" />Add your own background
+          image...
+        </div>
+        <input
+          type="file"
+          placeholder="Select file"
+          (change)="uploadImage($event)"
+          #fileInput
+        />
+<!--         <div>{{ uploadPercent | async }}</div>  -->
+        <div class="success" *ngIf="uploadFinished">Your image has been successfully uploaded</div>
+      </div>
       <div class="btn-container">
-        <button class="btn btn-light" (click)="$event.stopPropagation(); closeModal()">Cancel</button>
-        <button class="btn" (click)="$event.stopPropagation(); saveImage()" [disabled]="newImage == ''">Save</button>
+        <button
+          class="btn btn-light"
+          (click)="$event.stopPropagation(); closeModal()"
+        >
+          Cancel
+        </button>
+        <button
+          class="btn"
+          (click)="$event.stopPropagation(); saveImage()"
+          [disabled]="newImage == ''"
+        >
+          Save
+        </button>
       </div>
     </div>
+    <app-loading-bar *ngIf="fireService.isProcessing" [percent]="uploadPercent"></app-loading-bar>
   </div>
 </div>

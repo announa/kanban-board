@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
   @ViewChild('modal') modal!: ElementRef;
 
   constructor(
-    private fireService: FirestoreService,
+    public fireService: FirestoreService,
     private router: Router,
     private auth: AngularFireAuth,
     private cd: ChangeDetectorRef

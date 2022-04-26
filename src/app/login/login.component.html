@@ -37,6 +37,6 @@
       <p>Not registered yet? Register <a routerLink="/register">here</a></p>
       <p>Or log in as <a (click)="loginAsGuest()">guest</a></p>
     </div>
-    <app-loading-bar [width]="this.width"></app-loading-bar>
+    <app-loading-bar *ngIf="fireService.isProcessing"  [width]="this.width"></app-loading-bar>
   </div>
 </div>

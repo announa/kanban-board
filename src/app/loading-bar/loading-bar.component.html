@@ -1,4 +1,12 @@
-
-    <div class="loading-bar" *ngIf="addTicketServ.isSavingTicket || fireService.isProcessing" #loadingBar [style.width.px]="width">
-     <div class="moving-bar"></div>
-   </div>
+<div
+  class="loading-bar"
+  [class.overflow-h]="!outputPercent"
+  #loadingBar
+  >
+<!--   [style.width.px]="width" -->
+  <div class="percentage">{{ outputPercent }} %</div>
+  <div
+  [ngClass]="outputPercent ? 'percentage-bar' : 'moving-bar'"
+  [ngStyle]="{ width: outputPercent ? outputPercent + '%' : '' }"
+  ></div>
+</div>
