@@ -1,13 +1,12 @@
 {
-  "guest": { "username": "guest", "password": "", "id": "" },
+  "guest": { "username": "guest", "password": "", "id": "", "userImages": [] },
   "guestBoard": {
     "title": "Guestboard",
     "categories": ["Management", "Product", "Sale"],
     "id": "1",
     "userId": "",
     "bgImg": "assets/bg-img/bg-1.jpg",
-    "placeholder": "Guestboard",
-    "userImages": []
+    "placeholder": "Guestboard"
   },
   "guestColumns": [
     { "title": "To do", "order": 1, "id": "", "boardId": "", "placeholder": "New Column" },

@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewChecked,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -15,7 +15,7 @@ import { FirestoreService } from '../services/firestore.service';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
 })
-export class NavigationComponent implements OnInit, AfterViewInit {
+export class NavigationComponent implements OnInit, AfterViewChecked {
   navIsOpen = false;
   navIconClose = false;
   @ViewChild('submenu') submenu!: ElementRef;
@@ -33,7 +33,7 @@ export class NavigationComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {}
 
-  ngAfterViewInit(): void {
+  ngAfterViewChecked(): void {
     this.cd.detectChanges();
   }
 
@@ -42,9 +42,9 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     this.router.navigateByUrl(url);
   }
 
-  logout() {
+  async logout() {
     console.log('log out');
-    this.fireService.clearData();
+    await this.fireService.clearData();
     this.navigate('/');
   }
 

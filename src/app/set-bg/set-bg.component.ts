@@ -104,13 +104,14 @@ export class SetBgComponent implements OnInit {
     const downloadUrl = await firstValueFrom(
       this.storage.ref(filePath).getDownloadURL()
     );
-    if (this.fireService.currentBoard) {
-      this.fireService.currentBoard.userImages.push({
+    if (this.fireService.currentUser) {
+      this.fireService.currentUser.userImages.push({
         filePath: filePath,
         downloadUrl: downloadUrl,
       });
-      this.fireService.updateDoc('boards', this.fireService.currentBoard.id, {
-        userImages: this.fireService.currentBoard.userImages,
+      const collection = this.fireService.currentUser.username == 'guest' ? 'guest' : 'user'
+      this.fireService.updateDoc(collection, this.fireService.currentUser.id, {
+        userImages: this.fireService.currentUser.userImages,
       });
     }
   }

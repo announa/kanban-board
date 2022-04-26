@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable } from 'rxjs';
 import { Board } from '../models/Board.class';
 import { Column } from '../models/Column.class';
@@ -13,6 +14,7 @@ export class FirestoreService {
   tickets!: Observable<any>;
   boards: Board[] = [];
   currentBoard!: Board | undefined;
+  boardSubscription: any;
   columns: Column[] = [];
   sortCol = {
     ref: 'order',
@@ -30,6 +32,7 @@ export class FirestoreService {
 
   constructor(
     private firestore: AngularFirestore,
+    private storage: AngularFireStorage
   ) {}
 
   getDocRef(collection: string, doc: string) {
@@ -71,13 +74,13 @@ export class FirestoreService {
 
   loadCurrentBoard(boardId: string) {
     return new Promise((resolve, reject) => {
-      this.getDocRef('boards', boardId)
+      (this.boardSubscription = this.getDocRef('boards', boardId)
         .valueChanges()
         .subscribe((board) => {
           this.currentBoard = board as Board;
-          console.log(this.currentBoard)
+          console.log(this.currentBoard);
           resolve(board);
-        }),
+        })),
         (err: any) => reject(err);
     });
   }
@@ -176,17 +179,23 @@ export class FirestoreService {
   async deleteFromDb(collection: string, id: string) {
     switch (collection) {
       case 'guest':
+        await this.deleteUserImages(id);
         await this.deleteSubCollection('boards', 'userId', id);
+        setTimeout(async() => {
+          await this.deleteDoc(collection, id);
+        }, 1000);
         break;
-      case 'boards':
+        case 'boards':
+        this.boardSubscription.unsubscribe();
         await this.deleteSubCollection('columns', 'boardId', id);
+        await this.deleteDoc(collection, id);
         break;
       case 'columns':
         await this.deleteSubCollection('tickets', 'columnId', id);
+        await this.deleteDoc(collection, id);
         /*  this.updateColOrder(id); */
         break;
     }
-    this.deleteDoc(collection, id);
   }
 
   async deleteSubCollection(collection: string, field: string, id: string) {
@@ -201,7 +210,27 @@ export class FirestoreService {
   }
 
   async deleteDoc(collection: string, id: string) {
+    console.log('delete doc ' + collection + id);
     await this.firestore.collection(collection).doc(id).delete();
+  }
+
+  async deleteUserImages(userId: string) {
+    console.log(userId);
+    const subscription = this.getFilteredCollection(
+      'guest',
+      'id',
+      '==',
+      userId
+    ).subscribe(async (user: any) => {
+      console.log(subscription)
+      console.log(user);
+      user[0].userImages.forEach(async (image: any) => {
+        console.log(image);
+        await this.storage.storage.ref(image.filePath).delete();
+        subscription.unsubscribe();
+        console.log(subscription)
+      });
+    });
   }
 
   // #############  Register and login  ##############
@@ -303,8 +332,6 @@ export class FirestoreService {
   }
 
   checkForOldGuestData() {
-    /* this.firestore.collection('guest')    .valueChanges()
-     */
     this.getFilteredCollection(
       'guest',
       'id',
@@ -322,19 +349,19 @@ export class FirestoreService {
   // #############  Logout  ###############
 
   clearData() {
-    if (this.currentUser.username == 'guest') {
-      console.log('delete guest data');
-      this.clearGuestData();
-    }
-    this.clearTemp(true);
-    this.removeUserFromLocalStorage();
+    return new Promise((resolve, reject) => {
+      if (this.currentUser.username == 'guest') {
+        console.log('delete guest data');
+        this.clearGuestData();
+      }
+      this.clearTemp(true);
+      this.removeUserFromLocalStorage();
+    });
   }
 
   clearGuestData() {
-    this.boards.forEach(async (board) => {
-      await this.deleteFromDb('boards', board.id);
-    });
-    this.deleteDoc('guest', this.currentUser.id);
+    this.deleteFromDb('guest', this.currentUser.id);
+    console.log(this.currentUser.id);
   }
 
   clearTemp(clearUser: boolean) {
@@ -351,6 +378,7 @@ export class FirestoreService {
       username: '',
       password: '',
       id: '',
+      userImages: [],
     };
   }
 

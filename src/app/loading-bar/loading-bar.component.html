@@ -3,8 +3,7 @@
   [class.overflow-h]="!outputPercent"
   #loadingBar
   >
-<!--   [style.width.px]="width" -->
-  <div class="percentage">{{ outputPercent }} %</div>
+  <div *ngIf="outputPercent" class="percentage">{{ outputPercent }} %</div>
   <div
   [ngClass]="outputPercent ? 'percentage-bar' : 'moving-bar'"
   [ngStyle]="{ width: outputPercent ? outputPercent + '%' : '' }"

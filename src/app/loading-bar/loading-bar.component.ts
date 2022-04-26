@@ -20,6 +20,7 @@ export class LoadingBarComponent implements OnInit, OnChanges {
   }
   
   ngOnChanges(changes: SimpleChanges): void {
+    if(this.percent)
     this.percent.subscribe(p => {this.outputPercent = p?.toFixed(0)})
   }
 

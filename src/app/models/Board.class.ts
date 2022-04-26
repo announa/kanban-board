@@ -4,7 +4,6 @@ export class Board {
   id: string = '';
   userId: string = '';
   bgImg: string;
-  userImages: { filePath: string; downloadUrl: any}[] = [];
   placeholder: string = 'New Board';
 
   constructor(title: string) {
