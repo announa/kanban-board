@@ -2,6 +2,7 @@
   class="title-container"
   [class.board-title]="hostObject == fireService.currentBoard"
   #titleContainer
+  [id]="boardTitle? 'boardtitle-container' : ''"
 >
   <input
     type="text"
@@ -36,12 +37,14 @@
       [class.top]="top"
       *ngIf="menuIsOpen"
       #editMenu
+      [id]="boardTitle? 'boardtitle-menu' : ''"
     >
       <div
         class="edit-menu-item menu"
-        (click)="edit($event)"
+        (click)="editTitle($event)"
         (mouseenter)="showTooltipEdit = true"
         (mouseleave)="showTooltipEdit = false"
+        #edit
       >
         <div class="menu-icon-container menu">
           <img src="assets/img/edit.svg" alt="edit title" class="menu" />
@@ -90,7 +93,7 @@
             }"
             [class.submenu-hover]="i != index"
           >
-            {{ i }}
+            {{ i + 1 }}
           </div>
         </div>
       </div>

@@ -9,3 +9,31 @@
 position: relative;
  cursor: pointer;
 }
+
+.color-circle{
+ @include flex();
+ flex-wrap: wrap;
+ width: 15px;
+ height: 15px;
+ border-radius: 50%;
+ overflow: hidden;
+
+ span{
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+
+  &:first-child{
+   background-color: coral;
+  }
+  &:nth-child(2){
+   background-color: lightseagreen;
+  }
+  &:nth-child(3){
+   background-color: lightgreen;
+  }
+  &:last-child{
+   background-color: yellow;
+  }
+ }
+}

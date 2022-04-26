@@ -44,13 +44,16 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   @Output() boardPreviewEvent = new EventEmitter();
   @Output() moveColumnEvent = new EventEmitter();
   @ViewChild('titleInput') titleInput!: ElementRef;
+  @ViewChild('titleContainer') titleContainer!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
   @ViewChild('editMenu') editMenu!: ElementRef;
+  @ViewChild('edit') edit!: ElementRef;
   @ViewChild('moveColumnMenu') moveColumnMenu!: ElementRef;
   @ViewChild('saveTitleMenu') saveTitleMenu!: ElementRef;
   @ViewChild('hiddenSpan') hiddenSpan!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
+    console.log('click')
     this.resetVariables(event);
   }
   @HostListener('window:resize', ['$event'])
@@ -81,7 +84,6 @@ export class TitleComponent implements OnInit, AfterViewChecked {
 
   toggleMenu() {
     if (!(this.boardTitle && window.innerWidth > 700)) {
-      console.log('toggle');
       this.checkOpeningPosition();
       this.menuIsOpen = !this.menuIsOpen;
       this.emitBoardPreviewEvent();
@@ -106,7 +108,8 @@ export class TitleComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  edit(event: any) {
+  editTitle(event: any) {
+    if(!this.boardTitleOnDesktopClicked(event))
     event.stopPropagation();
     this.isEditingTitle = true;
     this.toggleMenu();
@@ -125,8 +128,8 @@ export class TitleComponent implements OnInit, AfterViewChecked {
 
   resetEditTitle(event: any) {
     if (
-      event.target != this.titleInput.nativeElement &&
-      event.target != this.saveTitleMenu?.nativeElement
+      !this.thisInputClicked(event) &&
+      event.target != this.saveTitleMenu?.nativeElement && (!this.titleComponentHasId(event) || this.titleComponentHasId(event) && !this.thisEditTitleClicked(event))
     ) {
       this.isEditingTitle = false;
       this.dragService.isEditingTitle = false;
@@ -137,8 +140,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   resetOpenMenu(event: any) {
     if (
       this.menuIsOpen &&
-      event.target != this.editMenu.nativeElement &&
-      event.target.parentElement.parentElement != this.menu.nativeElement
+      !this.thisMenuClicked(event)
     ) {
       this.menuIsOpen = false;
     }
@@ -194,9 +196,10 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   }
 
   toggleMoveColumnMenu(event: any) {
+    if(!this.boardTitleOnDesktopClicked(event))
     event.stopPropagation();
-    if (event.target.id != 'current-column') {
-      if (!event.target != this.moveColumnMenu?.nativeElement) {
+    if (this.menuIsOpen && event.target.id != 'current-column') {
+      if (!this.thisMoveColumnMenuClicked(event)) {
         this.showMoveColumnMenu = false;
       } else {
         this.showMoveColumnMenu = !this.showMoveColumnMenu;
@@ -210,14 +213,68 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   }
 
   checkMenu() {
-    if (this.boardTitle == true && window.innerWidth > 700) {
-      console.log('if');
+    if (this.isBoardTitleOnDesktop()) {
       this.menuIsOpen = true;
       this.bigger700 = true;
     } else if (this.boardTitle == true && window.innerWidth < 700) {
-      console.log('else');
       this.menuIsOpen = false;
       this.bigger700 = false;
+    }
+  }
+
+  titleComponentHasId(event: any){
+    return this.titleContainer.nativeElement.id != ''
+  }
+
+  isBoardTitleOnDesktop() {
+    return this.boardTitle && window.innerWidth > 700;
+  }
+
+  thisInputClicked(event: any) {
+    return event.target == this.titleInput.nativeElement;
+  }
+
+  thisMenuClicked(event: any) {
+    const target = event.target;
+    return (
+      target == this.menu.nativeElement ||
+      target.parentElement == this.menu.nativeElement ||
+      target.parentElement.parentElement == this.menu.nativeElement
+    );
+  }
+
+  boardTitleOnDesktopClicked(event: any){
+    const target = event.target
+    const id = 'boardtitle-menu'
+    return target.id == id || target.parentElement.id == id || target.parentElement.parentElement.id == id || target.parentElement.parentElement.parentElement.id == id
+  }
+
+  thisEditTitleClicked(event: any) {
+    const target = event.target;
+    return (
+      target == this.edit.nativeElement ||
+      target.parentElement == this.edit.nativeElement ||
+      target.parentElement.parentElement == this.edit.nativeElement
+    );
+  }
+
+  editBoardTitleClicked(event: any){
+    const target = event.target
+    const id = 'edit-boardtitle'
+    return target.id == id || target.parentElement.id == id || target.parentElement.parentElement.id == id || target.parentElement.parentElement.parentElement.id == id
+  }
+
+  thisMoveColumnMenuClicked(event: any) {
+    if (this.moveColumnMenu) {
+      const thisMenu = this.moveColumnMenu.nativeElement;
+      const target = event.target;
+      return (
+        target == thisMenu ||
+        target.parentElement == thisMenu ||
+        target.parentElement.parentElement == thisMenu
+      );
+    } else {
+      return false;
     }
   }
 }

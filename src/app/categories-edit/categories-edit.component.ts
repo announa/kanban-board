@@ -8,8 +8,9 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class CategoriesEditComponent implements OnInit {
 
-  showTooltip1 = false;
-  showTooltip2 = false;
+  showTooltipEdit = false;
+  showTooltipColor = false;
+  showTooltipDelete = false;
   isEditingCategory = false;
   @Input('index') index!: number;
   @Input('categories') categories!: any;
@@ -20,11 +21,6 @@ export class CategoriesEditComponent implements OnInit {
   constructor(private fireService: FirestoreService) { }
 
   ngOnInit(): void {
-  }
-
-  toggleTooltip(number: number) {
-    if (number === 1) this.showTooltip1 = !this.showTooltip1;
-    else this.showTooltip2 = !this.showTooltip2;
   }
 
   editCategory() {
