@@ -1,6 +1,6 @@
 export class Board {
   title = '';
-  categories: string[] = [];
+  categories: {category: string, color: string}[] = [];
   id: string = '';
   userId: string = '';
   bgImg: string;

@@ -26,9 +26,6 @@ export class BoardsPreviewComponent implements OnInit {
   ngOnInit(): void {}
 
   navigate(boardId: string, event: any) {
-    console.log(event.target)
-    console.log(event.target.parentElement.parentElement)
-    console.log(this.title.menu.nativeElement)
     if (event.target.parentElement.parentElement != this.title.menu.nativeElement) {
       this.router.navigateByUrl('/board/' + boardId);
     }

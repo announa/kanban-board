@@ -2,7 +2,7 @@
   <div
     *ngIf="!isEditingCategory"
     class="menu-icon-container"
-    (click)="editCategory()"
+    (click)="editCategoryTitle()"
     (mouseenter)="showTooltipEdit = true"
     (mouseleave)="showTooltipEdit = false"
   >
@@ -13,12 +13,13 @@
       [left]="true"
     ></app-tooltip>
   </div>
-<!--   <div
+  <div
     class="menu-icon-container"
     (mouseenter)="showTooltipColor = true"
     (mouseleave)="showTooltipColor = false"
   >
-    <div class="color-circle">
+    <div class="color-circle" (click)="editCategoryColor()"
+    >
       <span></span><span></span><span></span><span></span>
     </div>
     <app-tooltip
@@ -26,7 +27,7 @@
       [text]="'Set category color'"
       [left]="true"
     ></app-tooltip>
-  </div> -->
+  </div>
   <div
     *ngIf="isEditingCategory"
     class="menu-icon-container"

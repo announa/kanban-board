@@ -29,6 +29,7 @@ import { CategoriesEditComponent } from './categories-edit/categories-edit.compo
 import { SetBgComponent } from './set-bg/set-bg.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AddTitleComponent } from './add-title/add-title.component';
+import { ColorSketchModule } from 'ngx-color/sketch';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { AddTitleComponent } from './add-title/add-title.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,
-    HttpClientModule
+    HttpClientModule,
+    ColorSketchModule
   ],
   providers: [],
   bootstrap: [AppComponent],

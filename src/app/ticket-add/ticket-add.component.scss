@@ -1,3 +1,5 @@
+@import "../../vars.scss";
+
 .modal-transp {
   align-items: center;
   gap: 20px;
@@ -87,4 +89,31 @@ label {
 .btn{
   position: relative;
   overflow: hidden;
+}
+
+.category-select{
+  position: relative;
+}
+
+.category-colors{
+  @include flex($justify: flex-end);
+  flex-direction: column;
+  width: 30px;
+  background-color: white;
+  position: absolute;
+  right: -20px;
+  bottom: -100px;
+  z-index: 5;
+  border: 1px solid rgba($theme-color-dark, .5);
+}
+.color-container{
+  @include flex(space-evenly, center);
+  flex-direction: column;
+  width: 100%;
+  span{
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+  }
 }

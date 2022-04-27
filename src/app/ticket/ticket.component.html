@@ -2,12 +2,15 @@
   #ticketElem
   class="ticket"
   (click)="showTicket()"
+  [style.backgroundColor]="getTicketBackground()"
   draggable="true"
   (dragstart)="dragService.dragTicket($event, ticket)"
 >
   <div class="ticket-title" [class.border-r-0]="isVisible">
     <div
-    [ngClass]="ticket.priority != '' ? 'priority-' + ticket.priority.toLowerCase() : ''"
+      [ngClass]="
+        ticket.priority != '' ? 'priority-' + ticket.priority.toLowerCase() : ''
+      "
       class="priority-border"
     ></div>
     <p>{{ ticket.title }}</p>
@@ -20,13 +23,23 @@
       <img src="assets/img/clock.svg" class="h-0" #icon />
       {{ getDeadline() || "No deadline" }}
     </p>
-    <p class="d-none" #priority >
+    <p class="d-none" #priority>
       <img src="assets/img/priority.svg" class="h-0" #icon />
-      <span [ngClass]="ticket.priority != '' ? 'priority-' + ticket.priority.toLowerCase() : ''" [ngStyle]="{'padding': ticket.priority == ''? '0' : '0 5px' }">{{ ticket.priority || "No priority" }}</span>
+      <span
+        [ngClass]="
+          ticket.priority != ''
+            ? 'priority-' + ticket.priority.toLowerCase()
+            : ''
+        "
+        [ngStyle]="{ padding: ticket.priority == '' ? '0' : '0 5px' }"
+        >{{ ticket.priority || "No priority" }}</span
+      >
     </p>
     <p class="d-none" #category>
       <img src="assets/img/folder.svg" class="h-0" #icon />
-      {{ ticket.category || "No category" }}
+      <span class="category-span" [ngStyle]="{ padding: ticket.category == '' ? '0' : '0 5px', 'background-color': getTicketBackground() }">
+        {{ ticket.category || "No category" }}</span
+      >
     </p>
     <p class="d-none" #date>
       <img src="assets/img/date.svg" class="h-0" #icon /> {{ ticket.date }}
@@ -35,13 +48,19 @@
   <div class="ticket-footer" [class.h-0]="!isVisible" #footer>
     <div class="footer-left">
       <div
-      *ngIf="ticket.columnId == 'backlog'"
-      class="footer-icon"
-      (click)="moveToBoard()" (mouseenter)="showTooltipMoveBoard = true" (mouseleave)="showTooltipMoveBoard = false"
+        *ngIf="ticket.columnId == 'backlog'"
+        class="footer-icon"
+        (click)="moveToBoard()"
+        (mouseenter)="showTooltipMoveBoard = true"
+        (mouseleave)="showTooltipMoveBoard = false"
       >
-      <app-tooltip *ngIf="showTooltipMoveBoard" [text]="'Move ticket to board'" [left]="false">
-      </app-tooltip>
-      
+        <app-tooltip
+          *ngIf="showTooltipMoveBoard"
+          [text]="'Move ticket to board'"
+          [left]="false"
+        >
+        </app-tooltip>
+
         <img
           class="icon h-0"
           src="assets/img/arrow-up.svg"
@@ -51,8 +70,17 @@
       </div>
     </div>
     <div class="footer-right">
-      <div class="footer-icon" (click)="editTicket()"  (mouseenter)="showTooltipEdit = true" (mouseleave)="showTooltipEdit = false">
-        <app-tooltip *ngIf="showTooltipEdit" [text]="'Edit ticket'" [left]="true">
+      <div
+        class="footer-icon"
+        (click)="editTicket()"
+        (mouseenter)="showTooltipEdit = true"
+        (mouseleave)="showTooltipEdit = false"
+      >
+        <app-tooltip
+          *ngIf="showTooltipEdit"
+          [text]="'Edit ticket'"
+          [left]="true"
+        >
         </app-tooltip>
         <img
           class="icon h-0"
@@ -63,11 +91,17 @@
       </div>
       <div
         class="footer-icon"
-        (click)="toggleMoveTicketMenu($event)" (mouseenter)="showTooltipMove = true" (mouseleave)="showTooltipMove = false"
+        (click)="toggleMoveTicketMenu($event)"
+        (mouseenter)="showTooltipMove = true"
+        (mouseleave)="showTooltipMove = false"
         id="move-ticket"
       >
-      <app-tooltip *ngIf="showTooltipMove" [text]="'Move ticket to ...'" [left]="true">
-      </app-tooltip>
+        <app-tooltip
+          *ngIf="showTooltipMove"
+          [text]="'Move ticket to ...'"
+          [left]="true"
+        >
+        </app-tooltip>
         <img
           id="move-ticket-icon"
           class="icon h-0"
@@ -95,8 +129,17 @@
           </div>
         </div>
       </div>
-      <div class="footer-icon" (click)="deleteTicket()" (mouseenter)="showTooltipDelete = true" (mouseleave)="showTooltipDelete = false">
-        <app-tooltip *ngIf="showTooltipDelete" [text]="'Delete ticket'" [left]="true">
+      <div
+        class="footer-icon"
+        (click)="deleteTicket()"
+        (mouseenter)="showTooltipDelete = true"
+        (mouseleave)="showTooltipDelete = false"
+      >
+        <app-tooltip
+          *ngIf="showTooltipDelete"
+          [text]="'Delete ticket'"
+          [left]="true"
+        >
         </app-tooltip>
         <img
           class="icon"

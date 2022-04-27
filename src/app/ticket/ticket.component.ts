@@ -102,18 +102,16 @@ export class TicketComponent implements OnInit {
     console.log(this.ticket.id);
     console.log(this.fireService.columns[index].id);
     if (this.fireService.columns[index].id != this.ticket.columnId) {
-      this.fireService.updateDoc(
-        'tickets',
-        this.ticket.id,
-        {columnId: this.fireService.columns[index].id}
-      );
+      this.fireService.updateDoc('tickets', this.ticket.id, {
+        columnId: this.fireService.columns[index].id,
+      });
     }
   }
 
-  getDeadline(){
-    if(this.ticket.deadline){
-      const deadline = new Date(this.ticket.deadline)
-      deadline.setMinutes( deadline.getMinutes() + deadline.getTimezoneOffset() );
+  getDeadline() {
+    if (this.ticket.deadline) {
+      const deadline = new Date(this.ticket.deadline);
+      deadline.setMinutes(deadline.getMinutes() + deadline.getTimezoneOffset());
       return (
         deadline.getDate() +
         '/' +
@@ -121,8 +119,17 @@ export class TicketComponent implements OnInit {
         '/' +
         deadline.getFullYear()
       );
-    } else{
+    } else {
       return null;
     }
+  }
+
+  getTicketBackground() {
+    if (this.fireService.currentBoard) {
+      const boardCategory = this.fireService.currentBoard.categories.find(
+        (cat) => cat.category == this.ticket.category
+      );
+      return boardCategory?.color;
+    } else return '';
   }
 }

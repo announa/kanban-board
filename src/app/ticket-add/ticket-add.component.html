@@ -4,7 +4,7 @@
       Add a new Ticket to {{ fireService.currentBoard?.title }}
     </h2>
     <h2 *ngIf="addTicketServ.action == 'edit'">Edit Ticket</h2>
-    <form (ngSubmit)="addTicketServ.saveTicket()" #ticketForm="ngForm">
+    <form *ngIf="addTicketServ.ticket" (ngSubmit)="saveTicket()" #ticketForm="ngForm">
       <div class="form-input">
         <label for="">Title</label>
         <input
@@ -27,32 +27,60 @@
           required
           minlength="1"
           placeholder="Ticket Description*"
-          ></textarea>
-          <!--          cols="30"
+        ></textarea>
+        <!--          cols="30"
                    rows="10" -->
       </div>
 
-      <div class="form-input">
+      <div class="form-input category-select">
         <label for="">Category</label>
         <select
-          *ngIf="fireService.currentBoard && fireService.currentBoard.categories.length > 0"
+          *ngIf="
+            fireService.currentBoard &&
+            fireService.currentBoard.categories.length > 0
+          "
           name="category"
           class="input"
           id=""
           [(ngModel)]="addTicketServ.ticket.category"
+          (click)="toggleCategoryColor($event)"
+          #select
         >
           <option
-            *ngFor="let category of fireService.currentBoard.categories"
-            value="{{category}}"
+            *ngFor="let category of categories"
+            value="{{ category.category }}"
           >
-            {{ category }}
+            {{ category.category }}
           </option>
         </select>
         <span
           style="font-size: 13px"
-          *ngIf="fireService.currentBoard && fireService.currentBoard.categories.length == 0"
+          *ngIf="
+            fireService.currentBoard &&
+            fireService.currentBoard.categories.length == 0
+          "
           >You did not add any categories to this board yet</span
         >
+<!--         <div
+          *ngIf="
+            fireService.currentBoard &&
+            fireService.currentBoard.categories.length > 0 &&
+            colorsAreOpen
+          "
+          class="category-colors"
+          [style.bottom.px]="-(categories.length * 29 + 1)"
+        >
+          <div
+            class="color-container"
+            [style.height.px]="categories.length * 29"
+          >
+            <span
+              *ngFor="let category of categories"
+              [style.backgroundColor]="category.color"
+              class="category-color-span"
+            ></span>
+          </div>
+        </div> -->
       </div>
       <div class="form-input">
         <label for="">Priority</label>
@@ -77,7 +105,7 @@
           [(ngModel)]="addTicketServ.ticket.deadline"
         />
       </div>
-<!--       <div class="form-input">
+      <!--       <div class="form-input">
         <label for="">Add responsibles</label>
         <input type="text" class="input" placeholder="Add users" />
       </div> -->
@@ -100,6 +128,6 @@
       </div>
     </form>
 
-    <app-loading-bar *ngIf="addTicketServ.isSavingTicket" ></app-loading-bar>
+    <app-loading-bar *ngIf="addTicketServ.isSavingTicket"></app-loading-bar>
   </div>
 </div>

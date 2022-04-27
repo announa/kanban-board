@@ -7,6 +7,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { ColorEvent } from 'ngx-color';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -15,8 +16,11 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./categories.component.scss'],
 })
 export class CategoriesComponent implements OnInit {
-  newCategory = '';
+  newCategory = {category: '', color: '#fff'};
   isEditingCategory = false;
+  isEditingColor = false;
+  currentColor!: any;
+  currentColorItem!: number;
   @ViewChildren('categories') categories!: QueryList<ElementRef>;
   @Output() closeCatModal = new EventEmitter();
 
@@ -27,10 +31,10 @@ export class CategoriesComponent implements OnInit {
   addCategory() {
     console.log('add category');
     this.fireService.addNewCategory(this.newCategory);
-    this.newCategory = '';
+    this.newCategory = {category: '', color: '#fff'};
   }
 
-  editCategory(index: number){
+  editCategoryTitle(index: number) {
     this.isEditingCategory = true;
     setTimeout(() => {
       this.categories.toArray()[index].nativeElement.focus();
@@ -47,18 +51,53 @@ export class CategoriesComponent implements OnInit {
   saveCategory(index: number) {
     const editedCategory =
       this.categories.toArray()[index].nativeElement.textContent;
-    if (editedCategory != this.fireService.currentBoard?.categories[index]) {
-      this.fireService.updateCategories(editedCategory, index);
+    if (
+      editedCategory !=
+        this.fireService.currentBoard?.categories[index].category &&
+      this.fireService.currentBoard
+    ) {
+      this.fireService.updateCategories(
+        {
+          category: editedCategory,
+          color: this.fireService.currentBoard.categories[index].color,
+        },
+        index
+      );
     }
     this.isEditingCategory = false;
   }
 
-  deleteCategory(index: number){
-    this.fireService.deleteCategory(index);
-
+  editCategoryColor(index: number) {
+    this.isEditingColor = true;
+    this.currentColorItem = index;
   }
 
-  closeCategoryModal(){
-    this.closeCatModal.emit(true)
+  setCurrentColor(event: ColorEvent) {
+    console.log(event.color.rgb);
+    this.currentColor = `rgba(${event.color.rgb.r}, ${event.color.rgb.g}, ${event.color.rgb.b}, ${event.color.rgb.a})`;
+    console.log(this.currentColor);
+    
+  }
+
+  saveColor() {
+    if (this.fireService.currentBoard)
+      this.fireService.updateCategories(
+        {
+          category:
+            this.fireService.currentBoard.categories[this.currentColorItem]
+              .category,
+          color: this.currentColor,
+        },
+        this.currentColorItem
+      );
+    this.isEditingColor = false;
+  }
+
+  deleteCategory(index: number) {
+    this.fireService.deleteCategory(index);
+  }
+
+  closeCategoryModal() {
+    this.closeCatModal.emit(true);
   }
 }

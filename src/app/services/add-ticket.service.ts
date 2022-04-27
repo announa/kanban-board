@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { Ticket } from '../models/Ticket.class';
 import { FirestoreService } from './firestore.service';
 
@@ -21,17 +22,17 @@ export class AddTicketService {
     this.isAddingTicket = true;
   }
 
-  editTicket(ticketId: string) {
+  async editTicket(ticketId: string) {
     this.action = 'edit';
     this.isAddingTicket = true;
-    const ticketRef = this.fireService.getFilteredCollection(
+    this.fireService.getFilteredCollection(
       'tickets',
       'id',
       '==',
       ticketId
-    );
-    ticketRef.subscribe((doc: any) => {
-      this.ticket = doc[0];
+    ).subscribe(async (doc: any) => {
+      this.ticket = await doc[0];
+      console.log(this.ticket)
     });
   }
 

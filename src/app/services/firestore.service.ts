@@ -104,6 +104,8 @@ export class FirestoreService {
         .valueChanges()
         .subscribe((board) => {
           this.currentBoard = board as Board;
+          console.log('load current board')
+          console.log(this.currentBoard)
           resolve(board);
         })),
         (err: any) => reject(err);
@@ -236,15 +238,9 @@ export class FirestoreService {
   }
 
   async deleteUserImages(userId: string) {
-    console.log(userId);
     let guest = await this.getFilteredCollection('guest', 'id', '==', userId);
-    console.log(guest);
     this.deleteImagesSubscription = guest.subscribe(async (user: any) => {
-      console.log(this.deleteImagesSubscription);
-      console.log(user);
       user[0].userImages.forEach(async (image: any) => {
-        console.log('deleting image ' + image.filePath);
-        console.log(image);
         await this.storage.storage.ref(image.filePath).delete();
       });
     });
@@ -331,7 +327,6 @@ export class FirestoreService {
     this.currentUser = guest.guest;
     this.currentBoard = guest.guestBoard;
     this.columns = guest.guestColumns;
-    console.log(this.currentUser);
   }
 
   async setGuestAccountInDb(guest: any) {
@@ -396,7 +391,7 @@ export class FirestoreService {
 
   // #############  Edit current board categories  ##############
 
-  addNewCategory(newCategory: string) {
+  addNewCategory(newCategory: {category: string, color: string}) {
     if (this.currentBoard) {
       let categories = this.currentBoard.categories;
       categories.push(newCategory);
@@ -406,7 +401,7 @@ export class FirestoreService {
     }
   }
 
-  updateCategories(editedCategory: string, index: number) {
+  updateCategories(editedCategory: {category: string, color: string}, index: number) {
     if (this.currentBoard) {
       let newCategoryArr = this.currentBoard.categories;
       newCategoryArr[index] = editedCategory;

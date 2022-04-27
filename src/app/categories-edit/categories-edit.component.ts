@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, } from '@angular/core';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -15,7 +15,8 @@ export class CategoriesEditComponent implements OnInit {
   @Input('index') index!: number;
   @Input('categories') categories!: any;
   @Output() saveCat = new EventEmitter();
-  @Output() editCat = new EventEmitter();
+  @Output() editCatTitle = new EventEmitter();
+  @Output() editCatColor = new EventEmitter();
   @Output() deleteCat = new EventEmitter();
 
   constructor(private fireService: FirestoreService) { }
@@ -23,16 +24,19 @@ export class CategoriesEditComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  editCategory() {
+  editCategoryTitle() {
     this.isEditingCategory = true;
-    this.editCat.emit(true)
+    this.editCatTitle.emit(true)
+  }
+  
+  editCategoryColor(){
+    this.editCatColor.emit(true)
   }
   
   saveCategory() {
     this.saveCat.emit(true)
     this.isEditingCategory = false;
   }
-
 
   deleteCategory() {
     this.deleteCat.emit(true)

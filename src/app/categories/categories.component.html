@@ -1,39 +1,81 @@
 <div class="modal-transp-container">
   <div class="modal-transp" #modal>
     <div class="content">
-    <h3>Edit Board Cateories</h3>
-    <div class="category-container">
-      <form (ngSubmit)="addCategory()" #form="ngForm">
-        <label for="add-catgory">Add a new category:</label>
-        <input
-          type="text"
-          name="add-catgory"
-          [(ngModel)]="newCategory"
-          placeholder="Category name"
-          required
-        />
-        <button type="submit" class="btn btn-add-cat" [disabled]="form.invalid">Add Category</button>
-      </form>
-      <div class="catgories">
-        <h4>Board Categories:</h4>
-       <ul *ngIf="fireService.currentBoard">
-        <li *ngFor="let category of fireService.currentBoard.categories; let i = index">
-          <div
-          class="edit-category"
-          [contentEditable]="isEditingCategory"
-          (keyup)="checkKey(i, $event)"
-          #categories
-        >
-        <span class="category-span">
-          {{ category }}
-        </span>
+      <h3>Edit Board Cateories</h3>
+      <div class="category-container">
+        <form (ngSubmit)="addCategory()" #form="ngForm">
+          <label for="add-catgory">Add a new category:</label>
+          <input
+            type="text"
+            name="add-catgory"
+            [(ngModel)]="newCategory.category"
+            placeholder="Category name"
+            required
+          />
+          <button
+            type="submit"
+            class="btn btn-add-cat"
+            [disabled]="form.invalid"
+          >
+            Add Category
+          </button>
+        </form>
+        <div class="catgories">
+          <h4>Board Categories:</h4>
+          <ul *ngIf="fireService.currentBoard">
+            <li
+              *ngFor="
+                let category of fireService.currentBoard.categories;
+                let i = index
+              "
+            >
+              <div
+                class="edit-category"
+                [contentEditable]="isEditingCategory"
+                (keyup)="checkKey(i, $event)"
+                #categories
+              >
+                <div class="category">
+                  <span class="color-span" [style.backgroundColor]="fireService.currentBoard.categories[i].color"></span>
+                  {{ category.category }}
+                </div>
+              </div>
+              <app-categories-edit
+                [index]="i"
+                [categories]="categories"
+                (saveCat)="saveCategory(i)"
+                (editCatTitle)="editCategoryTitle(i)"
+                (editCatColor)="editCategoryColor(i)"
+                (deleteCat)="deleteCategory(i)"
+              ></app-categories-edit>
+            </li>
+          </ul>
         </div>
-        <app-categories-edit [index]="i" [categories]="categories" (saveCat)="saveCategory(i)" (editCat)="editCategory(i)" (deleteCat)="deleteCategory(i)"></app-categories-edit>
-        </li>
-       </ul>
       </div>
+      <div *ngIf="isEditingColor" class="color-modal">
+        <color-sketch
+          [color]="'#fff'"
+          (onChangeComplete)="setCurrentColor($event)"
+        ></color-sketch>
+        <div class="btn-container">
+          <button
+            class="btn btn-light"
+            (click)="$event.stopPropagation(); isEditingColor = false"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn"
+            (click)="$event.stopPropagation(); saveColor()"
+            [disabled]="!currentColor"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+      <button class="btn btn-close" (click)="closeCategoryModal()">
+        Close
+      </button>
     </div>
-    <button class="btn btn-close" (click)="closeCategoryModal()">Close</button>
-  </div>
   </div>
 </div>

@@ -2,7 +2,7 @@
   class="title-container"
   [class.board-title]="hostObject == fireService.currentBoard"
   #titleContainer
-  [id]="boardTitle? 'boardtitle-container' : ''"
+  [id]="boardTitle ? 'boardtitle-container' : ''"
 >
   <input
     type="text"
@@ -12,6 +12,7 @@
     }"
     [(ngModel)]="title"
     class="edit-title-input"
+    [class.boardTitle-input]="boardTitle"
     [readonly]="!isEditingTitle && !dragService.isDragging"
     (click)="noDefault($event)"
     (keydown)="checkWidth()"
@@ -37,7 +38,7 @@
       [class.top]="top"
       *ngIf="menuIsOpen"
       #editMenu
-      [id]="boardTitle? 'boardtitle-menu' : ''"
+      [id]="boardTitle ? 'boardtitle-menu' : ''"
     >
       <div
         class="edit-menu-item menu"
@@ -145,24 +146,28 @@
         </div>
         <span class="edit-menu-text menu">Edit categories</span>
         <app-tooltip
-        *ngIf="showTooltipCat && boardTitle && bigger700"
-        [text]="'Edit categories'"
-        [left]="true"
-      >
-      </app-tooltip>
+          *ngIf="showTooltipCat && boardTitle && bigger700"
+          [text]="'Edit categories'"
+          [left]="true"
+        >
+        </app-tooltip>
       </div>
-      <div class="edit-menu-item menu" (click)="delete($event, hostObject.id)"         (mouseenter)="showTooltipDelete = true"
-      (mouseleave)="showTooltipDelete = false">
+      <div
+        class="edit-menu-item menu"
+        (click)="delete($event, hostObject.id)"
+        (mouseenter)="showTooltipDelete = true"
+        (mouseleave)="showTooltipDelete = false"
+      >
         <div class="menu-icon-container menu">
           <img src="assets/img/delete.svg" alt="delete column" class="menu" />
         </div>
         <span class="edit-menu-text menu">Delete</span>
         <app-tooltip
-        *ngIf="showTooltipDelete && boardTitle && bigger700"
-        [text]="'Delete board'"
-        [left]="true"
-      >
-      </app-tooltip>
+          *ngIf="showTooltipDelete && boardTitle && bigger700"
+          [text]="'Delete board'"
+          [left]="true"
+        >
+        </app-tooltip>
       </div>
     </div>
   </div>

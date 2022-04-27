@@ -1,5 +1,10 @@
 @import "../../vars.scss";
 
+.modal-transp-container {
+  @media (max-width: 700px) {
+    padding: 0;
+  }
+}
 .modal-transp {
   align-self: center;
   width: 600px;
@@ -7,11 +12,22 @@
   margin-top: 50px;
   padding: 50px 40px;
   position: relative;
+
+  @media (max-width: 700px) {
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 0;
+    transform: none;
+  }
+
+  @media (max-width: 450px) {
+    padding: 50px 0;
+  }
 }
 
 .content {
- height: 100%;
- padding: 0 20px;
+  height: 100%;
+  padding: 0 20px;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -32,8 +48,8 @@ form {
   padding: 20px;
 }
 
-label{
- display: block;
+label {
+  display: block;
 }
 
 input {
@@ -41,12 +57,12 @@ input {
   margin-top: 20px;
   border: none;
   background-color: white;
-  border: 1px solid rgba($letter-color-dark, .5);
+  border: 1px solid rgba($letter-color-dark, 0.5);
   width: 60%;
 
   &:focus {
-   outline: none;
- }
+    outline: none;
+  }
 }
 
 .btn-add-cat {
@@ -83,11 +99,28 @@ li {
   background-color: transparent;
   border: none;
 
-  span {
-    display: inline-block;
+  .category {
+    @include flex($align: center);
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     width: 100%;
+
+    .color-span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+  }
+}
+
+.color-modal {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba($theme-color-dark, 0.1);
+
+  .btn-container {
+    @include flex($justify: flex-end);
   }
 }

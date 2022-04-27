@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
 import { Board } from '../models/Board.class';
 import { Ticket } from '../models/Ticket.class';
 import { AddTicketService } from '../services/add-ticket.service';
@@ -11,13 +11,27 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class TicketAddComponent implements OnInit {
   action!: string;
+  categories: {category: string, color: string}[] = []
+  selectedCategory: string = '';
+  colorsAreOpen = false;
+  @HostListener('document:click', ['$event'])
+  clickEvent(event: any){
+    this.colorsAreOpen = false;
+  }
 
   constructor(
     public fireService: FirestoreService,
     public addTicketServ: AddTicketService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getBoardCategories();
+  }
+
+  getBoardCategories(){
+    if(this.fireService.currentBoard)
+    this.categories = this.fireService.currentBoard.categories;
+  }
 
   getMinDate() {
     let date: Date | string = new Date();
@@ -28,5 +42,20 @@ export class TicketAddComponent implements OnInit {
     let dd = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
     date = date.getFullYear() + '-' + mm + '-' + dd;
     return date;
+  }
+
+  saveTicket(){
+/*     const category = {category: this.selectedCategory, color: this.getCategoryColor()} */
+    this.addTicketServ.saveTicket()
+  }
+/* 
+  getCategoryColor(){
+    const category = this.categories.find(category => category.category == this.selectedCategory)
+    return category? category.color : '#fff';
+  } */
+
+  toggleCategoryColor(event: any){
+    event.stopPropagation()
+    this.colorsAreOpen = !this.colorsAreOpen;
   }
 }

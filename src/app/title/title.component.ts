@@ -53,7 +53,6 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   @ViewChild('hiddenSpan') hiddenSpan!: ElementRef;
   @HostListener('document:click', ['$event'])
   clickListener(event: any) {
-    console.log('click')
     this.resetVariables(event);
   }
   @HostListener('window:resize', ['$event'])
@@ -246,16 +245,18 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   boardTitleOnDesktopClicked(event: any){
     const target = event.target
     const id = 'boardtitle-menu'
-    return target.id == id || target.parentElement.id == id || target.parentElement.parentElement.id == id || target.parentElement.parentElement.parentElement.id == id
+    return target.id == id || target.parentElement?.id == id || target.parentElement?.parentElement.id == id || target.parentElement?.parentElement.parentElement.id == id
   }
 
   thisEditTitleClicked(event: any) {
     const target = event.target;
+    if(this.edit)
     return (
       target == this.edit.nativeElement ||
       target.parentElement == this.edit.nativeElement ||
       target.parentElement.parentElement == this.edit.nativeElement
     );
+    else return false
   }
 
   editBoardTitleClicked(event: any){
