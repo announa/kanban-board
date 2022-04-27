@@ -11,6 +11,7 @@
             [(ngModel)]="newCategory.category"
             placeholder="Category name"
             required
+            (blur)="resetInput($event)"
           />
           <button
             type="submit"

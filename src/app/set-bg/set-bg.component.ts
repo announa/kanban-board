@@ -117,7 +117,7 @@ export class SetBgComponent implements OnInit, OnDestroy {
       });
       const collection = this.fireService.currentUser.username == 'guest' ? 'guest' : 'user'
       this.fireService.updateDoc(collection, this.fireService.currentUser.id, {
-        userImages: this.fireService.currentUser.userImages,
+        userImages: this.fireService.currentUser.userImages
       });
     }
   }

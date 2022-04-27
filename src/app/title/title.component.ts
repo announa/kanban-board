@@ -245,7 +245,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   boardTitleOnDesktopClicked(event: any){
     const target = event.target
     const id = 'boardtitle-menu'
-    return target.id == id || target.parentElement?.id == id || target.parentElement?.parentElement.id == id || target.parentElement?.parentElement.parentElement.id == id
+    return target.id == id || target.parentElement && target.parentElement.id == id || target.parentElement.parent &&target.parentElement.parentElement.id == id || target.parentElement.parentElement.parentElement && target.parentElement.parentElement.parentElement.id == id
   }
 
   thisEditTitleClicked(event: any) {

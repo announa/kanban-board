@@ -200,50 +200,55 @@ export class FirestoreService {
     switch (collection) {
       case 'guest':
         await this.deleteUserImages(id);
-        this.deleteImagesSubscription.unsubscribe();
         await this.deleteSubCollection('boards', 'userId', id);
-        setTimeout(async () => {
-          await this.deleteDoc(collection, id);
-        }, 1000);
         break;
       case 'boards':
         if (this.boardSubscription) this.boardSubscription.unsubscribe();
         await this.deleteSubCollection('columns', 'boardId', id);
-        await this.deleteDoc(collection, id);
         break;
       case 'columns':
         await this.deleteSubCollection('tickets', 'columnId', id);
-        await this.deleteDoc(collection, id);
-        /*  this.updateColOrder(id); */
         break;
-      case 'tickets':
+        case 'tickets':
+        }
         await this.deleteDoc(collection, id);
-    }
   }
 
   async deleteSubCollection(collection: string, field: string, id: string) {
-    this.getFilteredCollection(collection, field, '==', id).subscribe(
-      async (subCollection: any) => {
+    const subCollection = await firstValueFrom(this.getFilteredCollection(collection, field, '==', id)) as any;
+
         for (let index = 0; index < subCollection.length; index++) {
           const item = subCollection[index];
           await this.deleteFromDb(collection, item.id);
-        }
+        
       }
-    );
   }
 
   async deleteDoc(collection: string, id: string) {
-    console.log('delete doc ' + collection + id);
     await this.firestore.collection(collection).doc(id).delete();
   }
 
-  async deleteUserImages(userId: string) {
-    let guest = await this.getFilteredCollection('guest', 'id', '==', userId);
-    this.deleteImagesSubscription = guest.subscribe(async (user: any) => {
+ async deleteUserImages(userId: string) {
+    console.log('delete guest images ' + userId)
+
+    const user = await firstValueFrom( this.getDocRef('guest', userId).valueChanges() ) as User;
+    
+
+    for (let index = 0; index < user.userImages.length; index++) {
+      const image = user.userImages[index];
+      await this.storage.storage.ref(image.filePath).delete();
+    }
+/* 
+
+
+
+    this.deleteImagesSubscription = this.getFilteredCollection('guest', 'id', '==', userId).subscribe(async (user: any) => {
+      console.log(user)
       user[0].userImages.forEach(async (image: any) => {
+        console.log('delete guest image ' + image)
         await this.storage.storage.ref(image.filePath).delete();
       });
-    });
+    }); */
   }
 
   // #############  Register and login  ##############

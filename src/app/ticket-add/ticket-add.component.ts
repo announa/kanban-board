@@ -1,6 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
-import { Board } from '../models/Board.class';
-import { Ticket } from '../models/Ticket.class';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { AddTicketService } from '../services/add-ticket.service';
 import { FirestoreService } from '../services/firestore.service';
 

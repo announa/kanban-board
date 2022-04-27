@@ -17,6 +17,7 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class CategoriesComponent implements OnInit {
   newCategory = {category: '', color: '#fff'};
+  oldCategory: string = '';
   isEditingCategory = false;
   isEditingColor = false;
   currentColor!: any;
@@ -36,6 +37,8 @@ export class CategoriesComponent implements OnInit {
 
   editCategoryTitle(index: number) {
     this.isEditingCategory = true;
+    if(this.fireService.currentBoard)
+    this.oldCategory = this.fireService.currentBoard.categories[index].category;
     setTimeout(() => {
       this.categories.toArray()[index].nativeElement.focus();
     }, 50);
@@ -63,6 +66,7 @@ export class CategoriesComponent implements OnInit {
         },
         index
       );
+      /* this.fireService.updateCategoriesInTickets() */
     }
     this.isEditingCategory = false;
   }
@@ -99,5 +103,9 @@ export class CategoriesComponent implements OnInit {
 
   closeCategoryModal() {
     this.closeCatModal.emit(true);
+  }
+
+  resetInput(event: any){
+    console.log(event)
   }
 }
