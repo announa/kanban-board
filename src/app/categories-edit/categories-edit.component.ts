@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren, } from '@angular/core';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -12,33 +12,73 @@ export class CategoriesEditComponent implements OnInit {
   showTooltipColor = false;
   showTooltipDelete = false;
   isEditingCategory = false;
+  oldCategory = '';
+  @ViewChild('categoryElem') categoryElem!: ElementRef;
+  @ViewChildren('save') save!: QueryList<ElementRef>;
+  @Input('category') category!:  {category: string, color: string};
   @Input('index') index!: number;
-  @Input('categories') categories!: any;
-  @Output() saveCat = new EventEmitter();
-  @Output() editCatTitle = new EventEmitter();
   @Output() editCatColor = new EventEmitter();
-  @Output() deleteCat = new EventEmitter();
 
-  constructor(private fireService: FirestoreService) { }
+  constructor(public fireService: FirestoreService) { }
 
   ngOnInit(): void {
   }
 
   editCategoryTitle() {
     this.isEditingCategory = true;
-    this.editCatTitle.emit(true)
+    if(this.fireService.currentBoard)
+    this.oldCategory = this.fireService.currentBoard.categories[this.index].category;
+    setTimeout(() => {
+      console.log(this.categoryElem)
+      this.categoryElem.nativeElement.focus();
+    }, 50);
+  }
+
+  checkKey(event: any) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      this.saveCategory();
+    }
   }
   
   editCategoryColor(){
-    this.editCatColor.emit(true)
+    this.editCatColor.emit(this.index)
   }
-  
+
   saveCategory() {
-    this.saveCat.emit(true)
+    const editedCategory =
+      this.categoryElem.nativeElement.textContent;
+    if (editedCategory && 
+      editedCategory !=
+        this.fireService.currentBoard?.categories[this.index].category &&
+      this.fireService.currentBoard
+    ) {
+      this.fireService.updateCategories(
+        {
+          category: editedCategory,
+          color: this.fireService.currentBoard.categories[this.index].color,
+        },
+        this.index
+      );
+      /* this.fireService.updateCategoriesInTickets() */
+    }
     this.isEditingCategory = false;
   }
 
   deleteCategory() {
-    this.deleteCat.emit(true)
+    this.fireService.deleteCategory(this.index);
+  }
+
+
+  onBlur(event: any){
+    if(!this.saveWasClicked(event)){
+      this.isEditingCategory = false;
+      this.categoryElem.nativeElement.textContent = this.oldCategory;
+    }
+  }
+
+  saveWasClicked(event: any){
+    const isClicked = this.save.find(elem => elem.nativeElement == event.target)
+    return isClicked ? true : false
   }
 }

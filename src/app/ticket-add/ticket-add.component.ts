@@ -12,6 +12,7 @@ export class TicketAddComponent implements OnInit {
   categories: {category: string, color: string}[] = []
   selectedCategory: string = '';
   colorsAreOpen = false;
+  ticketCategory!: string;
   @HostListener('document:click', ['$event'])
   clickEvent(event: any){
     this.colorsAreOpen = false;
@@ -44,7 +45,12 @@ export class TicketAddComponent implements OnInit {
 
   saveTicket(){
 /*     const category = {category: this.selectedCategory, color: this.getCategoryColor()} */
-    this.addTicketServ.saveTicket()
+const categoryNumber = this.getCategoryNumber()
+    this.addTicketServ.saveTicket(categoryNumber)
+  }
+
+  getCategoryNumber(){
+    return this.categories.findIndex(cat => cat.category == this.ticketCategory)
   }
 /* 
   getCategoryColor(){

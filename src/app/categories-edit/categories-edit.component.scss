@@ -1,6 +1,41 @@
 @import "../../vars.scss";
 
+
 .edit-container {
+ @include flex($justify: space-between);
+ list-style: none;
+ padding: 5px;
+ margin-bottom: 5px;
+ background-color: white;
+}
+
+.edit-category {
+ @include flex($align: center);
+ flex: 1;
+ font-size: 1em;
+ font-weight: 500;
+ color: $letter-color-dark;
+ background-color: transparent;
+ border: none;
+
+ .category {
+   @include flex($align: center);
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
+   width: 100%;
+
+   .color-span {
+     display: inline-block;
+     width: 10px;
+     height: 10px;
+     border-radius: 50%;
+     margin-right: 15px;
+   }
+ }
+}
+
+.edit-menu {
  @include flex($align: center);
  height: 100%;
 }

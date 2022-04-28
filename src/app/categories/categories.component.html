@@ -11,7 +11,6 @@
             [(ngModel)]="newCategory.category"
             placeholder="Category name"
             required
-            (blur)="resetInput($event)"
           />
           <button
             type="submit"
@@ -23,34 +22,17 @@
         </form>
         <div class="catgories">
           <h4>Board Categories:</h4>
-          <ul *ngIf="fireService.currentBoard">
-            <li
+          <div *ngIf="fireService.currentBoard" class="edit-outer-container">
+            <app-categories-edit
               *ngFor="
                 let category of fireService.currentBoard.categories;
                 let i = index
               "
-            >
-              <div
-                class="edit-category"
-                [contentEditable]="isEditingCategory"
-                (keyup)="checkKey(i, $event)"
-                #categories
-              >
-                <div class="category">
-                  <span class="color-span" [style.backgroundColor]="fireService.currentBoard.categories[i].color"></span>
-                  {{ category.category }}
-                </div>
-              </div>
-              <app-categories-edit
-                [index]="i"
-                [categories]="categories"
-                (saveCat)="saveCategory(i)"
-                (editCatTitle)="editCategoryTitle(i)"
-                (editCatColor)="editCategoryColor(i)"
-                (deleteCat)="deleteCategory(i)"
-              ></app-categories-edit>
-            </li>
-          </ul>
+              [category]="category"
+              [index]="i"
+              (editCatColor)="editCategoryColor(i)"
+            ></app-categories-edit>
+          </div>
         </div>
       </div>
       <div *ngIf="isEditingColor" class="color-modal">

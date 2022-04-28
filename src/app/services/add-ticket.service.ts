@@ -36,22 +36,23 @@ export class AddTicketService {
     });
   }
 
-  saveTicket() {
+  saveTicket(categoryNumber: number) {
     this.isSavingTicket = true;
-    this.setTicketData();
+    this.setTicketData(categoryNumber);
     this.fireService.addDoc('tickets', this.ticket.id, this.ticket).then(() => {
       this.closeModal();
       this.isSavingTicket = false;
     });
   }
 
-  setTicketData() {
+  setTicketData(categoryNumber: number) {
     if (this.action === 'add') {
       const date = new Date();
       this.ticket.date =
         date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
       this.ticket.id = date.getTime().toString();
     }
+    this.ticket.category = categoryNumber;
     this.ticket.title_transf = this.ticket.title.toLowerCase();
     this.ticket.description_transf = this.ticket.description.toLowerCase();
   }

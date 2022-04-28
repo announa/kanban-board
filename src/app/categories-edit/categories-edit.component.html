@@ -1,25 +1,53 @@
 <div class="edit-container">
   <div
-    *ngIf="!isEditingCategory"
-    class="menu-icon-container"
-    (click)="editCategoryTitle()"
-    (mouseenter)="showTooltipEdit = true"
-    (mouseleave)="showTooltipEdit = false"
+    class="edit-category"
+    [contentEditable]="isEditingCategory"
+    (keyup)="checkKey($event)"
+    (blur)="onBlur($event)"
+    #categoryElem
   >
-    <img src="assets/img/edit.svg" alt="edit category" />
-    <app-tooltip
-      *ngIf="showTooltipEdit"
-      [text]="'Edit category title'"
-      [left]="true"
-    ></app-tooltip>
+    <div class="category">
+      <span
+        class="color-span"
+        [style.backgroundColor]="
+          fireService.currentBoard
+            ? fireService.currentBoard.categories[index].color
+            : ''
+        "
+      ></span>
+      {{ category.category }}
+    </div>
   </div>
-  <div
+
+  <div class="edit-menu">
+    <div
+      *ngIf="!isEditingCategory"
+      class="menu-icon-container"
+      (click)="editCategoryTitle()"
+      (mouseenter)="showTooltipEdit = true"
+      (mouseleave)="showTooltipEdit = false"
+    >
+      <img src="assets/img/edit.svg" alt="edit category" />
+      <app-tooltip
+        *ngIf="showTooltipEdit"
+        [text]="'Edit category title'"
+        [left]="true"
+      ></app-tooltip>
+    </div>
+    <div
+      *ngIf="isEditingCategory"
+      class="menu-icon-container"
+      (click)="saveCategory()"
+      #save
+    >
+      <img src="assets/img/done.svg" alt="save catgory" id="save-title" #save />
+    </div>
+    <div
     class="menu-icon-container"
     (mouseenter)="showTooltipColor = true"
     (mouseleave)="showTooltipColor = false"
   >
-    <div class="color-circle" (click)="editCategoryColor()"
-    >
+    <div class="color-circle" (click)="editCategoryColor()">
       <span></span><span></span><span></span><span></span>
     </div>
     <app-tooltip
@@ -28,24 +56,18 @@
       [left]="true"
     ></app-tooltip>
   </div>
-  <div
-    *ngIf="isEditingCategory"
-    class="menu-icon-container"
-    (click)="saveCategory()"
-  >
-    <img src="assets/img/done.svg" alt="save catgory" id="save-title" />
-  </div>
-  <div
-    class="menu-icon-container"
-    (click)="deleteCategory()"
-    (mouseenter)="showTooltipDelete = true"
-    (mouseleave)="showTooltipDelete = false"
-  >
-    <img src="assets/img/delete.svg" alt="delete category" />
-    <app-tooltip
-      *ngIf="showTooltipDelete"
-      [text]="'Delete category'"
-      [left]="true"
-    ></app-tooltip>
+    <div
+      class="menu-icon-container"
+      (click)="deleteCategory()"
+      (mouseenter)="showTooltipDelete = true"
+      (mouseleave)="showTooltipDelete = false"
+    >
+      <img src="assets/img/delete.svg" alt="delete category" />
+      <app-tooltip
+        *ngIf="showTooltipDelete"
+        [text]="'Delete category'"
+        [left]="true"
+      ></app-tooltip>
+    </div>
   </div>
 </div>

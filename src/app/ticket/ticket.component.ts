@@ -125,11 +125,9 @@ export class TicketComponent implements OnInit {
   }
 
   getTicketBackground() {
-    if (this.fireService.currentBoard) {
-      const boardCategory = this.fireService.currentBoard.categories.find(
-        (cat) => cat.category == this.ticket.category
-      );
-      return boardCategory?.color;
+    if (this.fireService.currentBoard && this.fireService.currentBoard.categories[this.ticket.category]) {
+      const categoryColor = this.fireService.currentBoard.categories[this.ticket.category].color;
+      return categoryColor;
     } else return '';
   }
 }

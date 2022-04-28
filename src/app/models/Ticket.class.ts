@@ -4,7 +4,7 @@ export class Ticket{
  description = '';
  deadline?: string;
  date!: Date;
- category: string = '';
+ category!: number;
  priority: string = '';
  id!: string;
  columnId: string;
