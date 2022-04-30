@@ -33,7 +33,11 @@ export class CategoriesComponent implements OnInit {
 
   addCategory() {
     this.fireService.addNewCategory(this.newCategory);
-    this.newCategory = {category: '', color: '#fff'};
+    this.newCategory = {category: '', color: this.getRandomColor()};
+  }
+
+  getRandomColor(){
+    return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, ${Math.random()})`
   }
 
   editCategoryColor(index: number) {

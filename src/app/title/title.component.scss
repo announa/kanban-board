@@ -82,7 +82,7 @@
   > img {
     width: 70%;
     height: 70%;
-    filter: invert(150%) brightness(500%);
+    filter: invert(150%) brightness(500%) drop-shadow(0 0 6px $theme-color-dark);
   }
 }
 
