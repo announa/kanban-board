@@ -3,9 +3,9 @@
   "guestBoard": {
     "title": "Guestboard",
     "categories": [
-      { "category": "Management", "color": "#f99" },
-      { "category": "Product", "color": "#9f9" },
-      { "category": "Sale", "color": "#99f" }
+      { "category": "Management", "color": "rgba(255, 150, 150, .4)" },
+      { "category": "Product", "color": "rgba(150, 255, 180, .4)" },
+      { "category": "Sale", "color": "rgba(150, 150, 255, .4)" }
     ],
     "id": "1",
     "userId": "",
@@ -49,8 +49,8 @@
       "deadline": "05/03/2022",
       "id": "",
       "date": "4/11/2022",
-      "category": "Management",
-      "priority": "High",
+      "category": 0,
+      "priority": "Middle",
       "columnId": "1",
       "boardId": "1",
       "title_transf": "ticket 1",
@@ -62,8 +62,8 @@
       "deadline": "06/12/2022",
       "id": "",
       "date": "1/22/2022",
-      "category": "Sale",
-      "priority": "Middle",
+      "category": 1,
+      "priority": "High",
       "columnId": "2",
       "boardId": "1",
       "title_transf": "ticket 2",
@@ -75,7 +75,7 @@
       "deadline": "6/30/2022",
       "id": "",
       "date": "2/15/2022",
-      "category": "Sale",
+      "category": 2,
       "priority": "Low",
       "columnId": "2",
       "boardId": "1",
