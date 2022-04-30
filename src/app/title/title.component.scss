@@ -10,19 +10,8 @@
   flex: 1;
   height: 100%;
   width: 100%;
-/*   position: relative; */
+  /*   position: relative; */
   padding-right: 10px;
-}
-
-.board-title {
-  width: unset;
-  height: unset;
-
-  .edit-title-input {
-    max-width: calc(100vw - 150px);
-    cursor: default;
-    text-align: left;
-  }
 }
 
 .edit-title-input {
@@ -40,8 +29,8 @@
   overflow: hidden;
   cursor: pointer;
 
-  &::placeholder{
-    opacity: .8;
+  &::placeholder {
+    opacity: 0.8;
     font-style: italic;
   }
 
@@ -143,10 +132,20 @@
 
 /* ########### title container for board title ########### */
 
-.boardTitle-input{
+.board-title {
+  width: unset;
+  height: unset;
+  margin-left: -15px;
+}
+
+.boardTitle-input {
+  max-width: calc(100vw - 150px);
+  text-indent: 15px;
+  cursor: default;
+  text-align: left;
   text-shadow: 0 0 15px $letter-color-dark;
 }
-.menu-container-boardTitle{
+.menu-container-boardTitle {
   position: absolute;
   right: 40px;
 
@@ -154,21 +153,21 @@
     right: 20px;
   }
 
-  .more-container{
+  .more-container {
     width: 30px;
     height: 30px;
   }
 
-  @media (min-width: 700px){
+  @media (min-width: 700px) {
     right: 0;
     top: 50vh;
     transform: translateY(-50%);
 
-    .more-container{
+    .more-container {
       display: none;
     }
 
-    .edit-menu{
+    .edit-menu {
       top: 50%;
       right: 0;
       transform: translateY(-50%);
@@ -178,14 +177,14 @@
       background-color: rgba($theme-color-dark, 0.5);
     }
 
-    .edit-menu-item{
+    .edit-menu-item {
       @include flex(center, center);
       width: 100%;
       flex-direction: column;
       margin-bottom: 20px;
       padding: 0;
 
-      &:last-child{
+      &:last-child {
         margin-bottom: 0;
       }
 
@@ -193,22 +192,22 @@
         background-color: unset;
       }
 
-      span{
+      span {
         display: none;
       }
     }
-    .menu-icon-container{
+    .menu-icon-container {
       margin: 0;
       height: 30px;
       width: 30px;
 
-      &:hover img{
+      &:hover img {
         filter: $svg-grey-hover-filter;
       }
 
-      img{
+      img {
         filter: brightness(500%);
-        margin: 0
+        margin: 0;
       }
     }
   }
