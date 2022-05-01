@@ -12,6 +12,7 @@ import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { User } from '../models/User.class';
 import { FirestoreService } from '../services/firestore.service';
 import { HttpClient } from '@angular/common/http';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,8 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     public fireService: FirestoreService,
     private router: Router,
     private cd: ChangeDetectorRef,
-    private http: HttpClient
+    private http: HttpClient,
+    public authService: AuthenticationService
   ) {}
 
   async ngOnInit(): Promise<void> {

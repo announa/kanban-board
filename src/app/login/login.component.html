@@ -3,7 +3,7 @@
   <div class="modal" #modal>
     <h2>Please log in</h2>
     <div content-container>
-      <form (ngSubmit)="checkLoginData()" #form="ngForm">
+      <form (ngSubmit)="authService.SignIn(userInput.username, userInput.password)" #form="ngForm">
         <div class="form-input">
           <label for="">Username</label>
           <input

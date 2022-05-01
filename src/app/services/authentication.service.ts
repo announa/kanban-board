@@ -19,7 +19,7 @@ import { User } from '../models/User.class';
 @Injectable({
   providedIn: 'root',
 })
-export class NgAuthService {
+export class AuthenticationService {
   userState: any;
 
   constructor(
@@ -120,7 +120,7 @@ export class NgAuthService {
       });
   } */
 
-  SetUserData(user: User) {
+  SetUserData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `user/${user.id}`
     );

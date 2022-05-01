@@ -9,6 +9,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { User } from '../models/User.class';
+import { AuthenticationService } from '../services/authentication.service';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -17,7 +18,7 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  newUser = new User();
+  newUser!: {username: string, password: string};
   passwordConfirmation!: string;
   alert = '';
   existingUser!: User;
@@ -27,7 +28,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     public fireService: FirestoreService,
     private router: Router,
-    private auth: AngularFireAuth,
+    public authService: AuthenticationService,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -52,7 +53,7 @@ export class RegisterComponent implements OnInit {
     .then(result =>{
       
     }) */
-  async register() {
+  /* async register() {
     await this.getExistingUsers();
     if (this.usernameCheck() === false) {
       if (this.passwordCheck() === true) {
@@ -92,4 +93,5 @@ export class RegisterComponent implements OnInit {
       this.alert = 'Username already exists. Please choose another username.';
     }
   }
+  */
 }

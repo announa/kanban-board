@@ -3,7 +3,7 @@
  <div class="modal" #modal>
    <h2>Please register</h2>
    <div content-container>
-     <form (ngSubmit)="register()" #form="ngForm">
+     <form (ngSubmit)="authService.SignUp(newUser.username, newUser.password)" #form="ngForm">
        <div class="form-input">
          <label for="username">Username</label>
          <input
