@@ -3,13 +3,14 @@ export class Board {
   categories: {category: string, color: string}[] = [];
   id: string = '';
   userId: string = '';
-  bgImg: string;
-  placeholder: string = 'New Board';
+  bgImg: string = '';
+  placeholder: string = '';
 
-  constructor(title: string) {
-    this.title = title;
-    this.id = Date.now().toString();
-    this.bgImg = `assets/bg-img/bg-${Math.round(Math.random() * 7) + 1}.jpg`;
+  constructor(title?: string) {
+    this.title = title ? title : '';
+    this.id = title ? Date.now().toString() : '';
+    this.bgImg = title ? `assets/bg-img/bg-${Math.round(Math.random() * 7) + 1}.jpg` : '';
+    this.placeholder = title ? 'New Board' : ''
   }
 
   getBgImage() {

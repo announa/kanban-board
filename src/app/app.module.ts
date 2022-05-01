@@ -30,6 +30,7 @@ import { SetBgComponent } from './set-bg/set-bg.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AddTitleComponent } from './add-title/add-title.component';
 import { ColorSketchModule } from 'ngx-color/sketch';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { ColorSketchModule } from 'ngx-color/sketch';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,

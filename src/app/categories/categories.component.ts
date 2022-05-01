@@ -46,14 +46,11 @@ export class CategoriesComponent implements OnInit {
   }
 
   setCurrentColor(event: ColorEvent) {
-    console.log(event.color.rgb);
     this.currentColor = `rgba(${event.color.rgb.r}, ${event.color.rgb.g}, ${event.color.rgb.b}, ${event.color.rgb.a})`;
-    console.log(this.currentColor);
     
   }
 
   saveColor() {
-    if (this.fireService.currentBoard)
       this.fireService.updateCategories(
         {
           category:

@@ -99,8 +99,6 @@ export class TicketComponent implements OnInit {
   }
 
   moveToColumn(index: number) {
-    console.log(this.ticket.id);
-    console.log(this.fireService.columns[index].id);
     if (this.fireService.columns[index].id != this.ticket.columnId) {
       this.fireService.updateDoc('tickets', this.ticket.id, {
         columnId: this.fireService.columns[index].id,
@@ -125,7 +123,7 @@ export class TicketComponent implements OnInit {
   }
 
   getTicketBackground() {
-    if (this.fireService.currentBoard && this.fireService.currentBoard.categories[this.ticket.category]) {
+    if (this.fireService.currentBoard.categories[this.ticket.category]) {
       const categoryColor = this.fireService.currentBoard.categories[this.ticket.category].color;
       return categoryColor;
     } else return '';

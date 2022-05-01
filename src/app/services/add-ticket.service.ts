@@ -17,23 +17,19 @@ export class AddTicketService {
 
   addTicket(columnId: string) {
     this.action = 'add';
-    if (this.fireService.currentBoard)
-      this.ticket = new Ticket(columnId, this.fireService.currentBoard.id);
+    this.ticket = new Ticket(columnId, this.fireService.currentBoard.id);
     this.isAddingTicket = true;
   }
 
   async editTicket(ticketId: string) {
     this.action = 'edit';
     this.isAddingTicket = true;
-    this.fireService.getFilteredCollection(
-      'tickets',
-      'id',
-      '==',
-      ticketId
-    ).subscribe(async (doc: any) => {
-      this.ticket = await doc[0];
-      console.log(this.ticket)
-    });
+    this.fireService
+      .getFilteredCollection('tickets', 'id', '==', ticketId)
+      .subscribe(async (doc: any) => {
+        this.ticket = await doc[0];
+        console.log(this.ticket);
+      });
   }
 
   saveTicket(categoryNumber: number) {

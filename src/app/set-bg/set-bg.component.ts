@@ -110,7 +110,7 @@ export class SetBgComponent implements OnInit, OnDestroy {
     const downloadUrl = await firstValueFrom(
       this.storage.ref(filePath).getDownloadURL()
     );
-    if (this.fireService.currentUser) {
+    if (this.fireService.currentUser.username != '') {
       this.fireService.currentUser.userImages.push({
         filePath: filePath,
         downloadUrl: downloadUrl,

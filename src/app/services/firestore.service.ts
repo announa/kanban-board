@@ -17,7 +17,7 @@ export class FirestoreService {
   guests: User[] = [];
   currentUser!: User;
   matchingUser!: User;
-  currentBoard: Board | undefined;
+  currentBoard!: Board;
   userCollectionSubscription!: Subscription;
   boardSubscription!: Subscription;
   backlogTicketsSubscription!: Subscription;
@@ -117,7 +117,7 @@ export class FirestoreService {
       this.firestore
         .collection('columns', (ref) =>
           ref
-            .where('boardId', '==', this.currentBoard?.id)
+            .where('boardId', '==', this.currentBoard.id)
             .orderBy(this.sortCol.ref, 'asc')
         )
         .valueChanges()
@@ -143,7 +143,7 @@ export class FirestoreService {
       'backlog',
       'boardId',
       '==',
-      this.currentBoard?.id
+      this.currentBoard.id
     ).subscribe((tickets: any) => {
       this.backlogTickets = tickets;
     });
@@ -266,8 +266,9 @@ export class FirestoreService {
     this.isProcessing = true;
     return this.users.filter(
       (user) =>
-        user.username == userinput.username &&
-        user.password == userinput.password
+        user.username == userinput.username
+/*          &&
+        user.password == userinput.password */
     );
   }
 
@@ -288,7 +289,7 @@ export class FirestoreService {
 
   getUserFromLocalStorage() {
     const storage = localStorage.getItem('user');
-    this.currentUser = storage ? JSON.parse(storage) : this.getEmptyUser();
+    this.currentUser = storage ? JSON.parse(storage) : new User();
     console.log(this.currentUser);
   }
 
@@ -378,21 +379,21 @@ export class FirestoreService {
 
   clearTemp(clearUser: boolean) {
     if (clearUser) {
-      this.currentUser = this.getEmptyUser();
+      this.currentUser = new User();
     }
-    this.currentBoard = undefined;
+    this.currentBoard = new Board();
     this.backlogTickets = [];
     this.columns = [];
   }
 
-  getEmptyUser() {
+/*   getEmptyUser() {
     return {
       username: '',
       password: '',
       id: '',
       userImages: [],
     };
-  }
+  } */
 
   // #############  Edit current board categories  ##############
 
@@ -433,7 +434,7 @@ export class FirestoreService {
       'columns',
       'boardId',
       '==',
-      this.currentBoard?.id
+      this.currentBoard.id
     ).subscribe((cols: any) => {
       let colOrders = cols.map((col: any) => col.order);
       const min = Math.min(...colOrders);

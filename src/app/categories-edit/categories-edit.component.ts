@@ -26,10 +26,8 @@ export class CategoriesEditComponent implements OnInit {
 
   editCategoryTitle() {
     this.isEditingCategory = true;
-    if(this.fireService.currentBoard)
     this.oldCategory = this.fireService.currentBoard.categories[this.index].category;
     setTimeout(() => {
-      console.log(this.categoryElem)
       this.categoryElem.nativeElement.focus();
     }, 50);
   }
@@ -50,7 +48,7 @@ export class CategoriesEditComponent implements OnInit {
       this.categoryElem.nativeElement.textContent;
     if (editedCategory && 
       editedCategory !=
-        this.fireService.currentBoard?.categories[this.index].category &&
+        this.fireService.currentBoard.categories[this.index].category &&
       this.fireService.currentBoard
     ) {
       this.fireService.updateCategories(
@@ -60,7 +58,6 @@ export class CategoriesEditComponent implements OnInit {
         },
         this.index
       );
-      /* this.fireService.updateCategoriesInTickets() */
     }
     this.isEditingCategory = false;
   }

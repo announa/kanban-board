@@ -72,7 +72,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   userHasAccess() {
     return (
-      this.fireService.currentBoard?.userId === this.fireService.currentUser.id
+      this.fireService.currentBoard.userId === this.fireService.currentUser.id
     );
   }
 

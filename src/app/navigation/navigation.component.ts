@@ -68,7 +68,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
 
   isActive(link1: string, link2: string){
     setTimeout(() => {
-     return (this.router.isActive(link1 + this.fireService.currentBoard?.id + link2, true))
+     return (this.router.isActive(link1 + this.fireService.currentBoard.id + link2, true))
     }, 5000);
   }
 }

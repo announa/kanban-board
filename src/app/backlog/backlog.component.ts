@@ -41,7 +41,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
 
   userHasAccess() {
     return (
-      this.fireService.currentBoard?.userId === this.fireService.currentUser.id
+      this.fireService.currentBoard.userId === this.fireService.currentUser.id
     );
   }
 
