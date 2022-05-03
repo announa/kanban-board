@@ -1,38 +1,41 @@
 <nav class="navigation" [style.right]="navIsOpen ? '0' : ''">
   <div class="nav-right nav-section">
-    <a (click)="navigate('/boards')" [class.a-active]="router.isActive('/boards', false)">All Boards</a>
+    <a
+      (click)="navigate('/boards')"
+      [class.a-active]="router.isActive('/boards', false)"
+      >All Boards</a
+    >
     <!--   <a [routerLink]="'/backlog'">Backlog</a> -->
     <a (click)="logout()">Log out</a>
   </div>
 
   <div class="nav-left nav-section">
-    <img src="assets/img/logo_1_white.svg" alt="">
-    <div
-    class="nav-left-links"
-      *ngIf="fireService.currentBoard"
-      #navLeft
-    >
-          <a (click)="navigate('/board/' + fireService.currentBoard.id)"
-          [class.a-active]="router.url.endsWith('/board/' + fireService.currentBoard.id)">Board</a
-          >
-          <a
-            (click)="
-              navigate('/board/' + fireService.currentBoard.id + '/backlog')
-            "
-            [class.a-active]="router.url.endsWith('/board/' + fireService.currentBoard.id + '/backlog')" >Backlog</a
-          >
+    <img src="assets/img/logo_1_white.svg" alt="" />
+    <div class="nav-left-links" *ngIf="fireService.currentBoard" #navLeft>
+      <a
+        (click)="navigate('/board/' + fireService.currentBoard.id)"
+        [class.a-active]="
+          router.url.endsWith('/board/' + fireService.currentBoard.id)
+        "
+        >Board</a
+      >
+      <a
+        (click)="navigate('/board/' + fireService.currentBoard.id + '/backlog')"
+        [class.a-active]="
+          router.url.endsWith(
+            '/board/' + fireService.currentBoard.id + '/backlog'
+          )
+        "
+        >Backlog</a
+      >
     </div>
   </div>
 </nav>
-<div class="menu" (click)="toggleMenu()">
-  <img
-    src="assets/img/menu.svg"
-    alt="toggle navigation"
-    [class.d-none]="navIconClose"
-  />
-  <img
-    src="assets/img/close.svg"
-    alt="toggle navigation"
-    [class.d-none]="!navIconClose"
-  />
+<div class="menu" [class.d-none]="navIconClose" (click)="toggleMenu()" #menu>
+  <img src="assets/img/menu.svg" alt="toggle navigation" />
+  <img src="assets/img/menu_hover.svg" alt="toggle navigation" />
+</div>
+<div class="menu" [class.d-none]="!navIconClose" (click)="toggleMenu()" #menu>
+  <img src="assets/img/close.svg" alt="toggle navigation" />
+  <img src="assets/img/close_hover.svg" alt="toggle navigation" />
 </div>
