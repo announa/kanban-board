@@ -18,7 +18,7 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  newUser!: {username: string, password: string};
+  newUser = {email: '', password: ''};
   passwordConfirmation!: string;
   alert = '';
   existingUser!: User;
@@ -42,6 +42,17 @@ export class RegisterComponent implements OnInit {
 
   hideAlert() {
     this.alert = '';
+  }
+
+  register(){
+    if (this.passwordCheck() === true) {
+
+    this.authService.SignUp(this.newUser.email, this.newUser.password)
+  }
+  }
+
+  passwordCheck() {
+    return this.newUser.password === this.passwordConfirmation;
   }
 
   /*  aync login(form){
@@ -79,10 +90,6 @@ export class RegisterComponent implements OnInit {
     if (this.existingUser) {
       return true;
     } else return false;
-  }
-
-  passwordCheck() {
-    return this.newUser.password === this.passwordConfirmation;
   }
 
   showAlert(type: string){

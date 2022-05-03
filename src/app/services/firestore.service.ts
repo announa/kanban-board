@@ -259,7 +259,7 @@ export class FirestoreService {
     await this.addDoc('user', newUser.id, newUser);
     this.currentUser = newUser;
     this.isProcessing = false;
-    return newUser.id;
+    return newUser;
   }
 
   checkForMatchingUser(userinput: { username: string; password: string }) {

@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+      if(this.guestDataSubscription)
       this.guestDataSubscription.unsubscribe()
       this.fireService.userCollectionSubscription.unsubscribe()
     }

@@ -7,6 +7,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { User } from '../models/User.class';
+import { FirestoreService } from './firestore.service';
 
 /* export interface User {
   uid: string;
@@ -26,7 +27,8 @@ export class AuthenticationService {
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
     public router: Router,
-    public ngZone: NgZone
+    public ngZone: NgZone,
+    private fireService:FirestoreService
   ) {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
@@ -52,7 +54,7 @@ export class AuthenticationService {
       .then((result) => {
         if(result.user != null){
         this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['/boards']);
         });
         this.SetUserData(result.user );
       }})
@@ -65,7 +67,7 @@ export class AuthenticationService {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.SendVerificationMail();
+        /* this.SendVerificationMail(); */
         this.SetUserData(result.user);
       })
       .catch((error) => {
@@ -120,17 +122,18 @@ export class AuthenticationService {
       });
   } */
 
-  SetUserData(user: any) {
+  async SetUserData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `user/${user.id}`
     );
-    const userState: User = {
-      username: user.username,
+    const userState: User = await this.fireService.addUser(user)
+    /* {
+      username: user.username? user.username : '',
       id: user.id,
       email: user.email,
       userImages: user.userImages,
       emailVerified: user.emailVerified,
-    };
+    }; */
     return userRef.set(userState, {
       merge: true,
     });
@@ -139,7 +142,7 @@ export class AuthenticationService {
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['sign-in']);
+      this.router.navigate(['/']);
     });
   }
 }
