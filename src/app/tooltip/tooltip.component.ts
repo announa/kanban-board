@@ -8,6 +8,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 export class TooltipComponent implements OnInit, OnChanges {
   @Input ('text') text!: string;
   @Input ('left') left = false;
+  @Input ('bottom') bottom = false;
 
   constructor() { }
 

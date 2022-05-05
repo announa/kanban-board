@@ -18,7 +18,6 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { TitleComponent } from './title/title.component';
 import { BoardsOverviewComponent } from './boards-overview/boards-overview.component';
 import { BoardsPreviewComponent } from './boards-preview/boards-preview.component';
-import { EditMenuComponent } from './edit-menu/edit-menu.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { LoadingBarComponent } from './loading-bar/loading-bar.component';
@@ -30,6 +29,7 @@ import { SetBgComponent } from './set-bg/set-bg.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AddTitleComponent } from './add-title/add-title.component';
 import { ColorSketchModule } from 'ngx-color/sketch';
+import { EditBoardMenuComponent } from './edit-board-menu/edit-board-menu.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,7 @@ import { ColorSketchModule } from 'ngx-color/sketch';
     TitleComponent,
     BoardsOverviewComponent,
     BoardsPreviewComponent,
-    EditMenuComponent,
+    EditBoardMenuComponent,
     LoginComponent,
     RegisterComponent,
     LoadingBarComponent,

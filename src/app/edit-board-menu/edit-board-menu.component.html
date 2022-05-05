@@ -1,0 +1,170 @@
+<!-- <div
+      class="edit-menu menu"
+      [class.left]="left"
+      [class.top]="top"
+      #editMenu
+      #titleItem
+    >
+      <div
+        class="edit-menu-item menu"
+        (click)="editTitle($event)"
+        (mouseenter)="showTooltipEdit = true"
+        (mouseleave)="showTooltipEdit = false"
+        #edit
+        #titleItem
+      >
+        <div
+          class="menu-icon-container menu"
+          #edit
+          #titleItem
+        >
+          <img
+            src="assets/img/text.svg"
+            alt="edit title"
+            class="menu"
+            #edit
+            #titleItem
+          />
+        </div>
+        <span class="edit-menu-text menu" #titleItem
+          >Edit title</span
+        >
+        <app-tooltip
+          *ngIf="showTooltipEdit && isBoardTitle && bigger700"
+          [text]="'Edit board title'"
+          [left]="true"
+        >
+        </app-tooltip>
+      </div>
+      <div
+        *ngIf="collection == 'boards'"
+        class="edit-menu-item menu"
+        (click)="setBackgroundImage($event)"
+        (mouseenter)="showTooltipBgImg = true"
+        (mouseleave)="showTooltipBgImg = false"
+        #titleItem
+        [attr.data-boardtitle]="isBoardTitle"
+      >
+        <div
+          class="menu-icon-container menu"
+          #titleItem
+          [attr.data-boardtitle]="isBoardTitle"
+        >
+          <img
+            src="assets/img/image.svg"
+            alt="Background image"
+            class="menu"
+            #titleItem
+            [attr.data-boardtitle]="isBoardTitle"
+          />
+        </div>
+        <span class="edit-menu-text menu" #titleItem
+        [attr.data-boardtitle]="isBoardTitle"
+          >Background image</span
+        >
+        <app-tooltip
+          *ngIf="showTooltipBgImg && isBoardTitle && bigger700"
+          [text]="'Change background image'"
+          [left]="true"
+        >
+        </app-tooltip>
+      </div>
+      <div
+        *ngIf="hostObject == fireService.currentBoard"
+        class="edit-menu-item menu"
+        (click)="fireService.addColumn()"
+        (mouseenter)="showTooltipAdd = true"
+        (mouseleave)="showTooltipAdd = false"
+        #titleItem
+        [attr.data-boardtitle]="isBoardTitle"
+      >
+        <div
+          class="menu-icon-container menu"
+          #titleItem
+          [attr.data-boardtitle]="isBoardTitle"
+        >
+          <img
+            src="assets/img/add.svg"
+            alt="add column"
+            class="menu"
+            #titleItem
+            [attr.data-boardtitle]="isBoardTitle"
+          />
+        </div>
+        <span class="edit-menu-text menu" #titleItem
+        [attr.data-boardtitle]="isBoardTitle"
+          >Add column</span
+        >
+        <app-tooltip
+          *ngIf="showTooltipAdd && isBoardTitle && bigger700"
+          [text]="'Add column'"
+          [left]="true"
+        >
+        </app-tooltip>
+      </div>
+      <div
+        *ngIf="hostObject == fireService.currentBoard"
+        class="edit-menu-item menu"
+        (click)="showCategoryModal()"
+        (mouseenter)="showTooltipCat = true"
+        (mouseleave)="showTooltipCat = false"
+        #titleItem
+        [attr.data-boardtitle]="isBoardTitle"
+      >
+        <div
+          class="menu-icon-container menu"
+          #titleItem
+          [attr.data-boardtitle]="isBoardTitle"
+        >
+          <img
+            src="assets/img/folder.svg"
+            alt="add category"
+            class="menu"
+            #titleItem
+            [attr.data-boardtitle]="isBoardTitle"
+          />
+        </div>
+        <span class="edit-menu-text menu" #titleItem
+        [attr.data-boardtitle]="isBoardTitle"
+          >Edit categories</span
+        >
+        <app-tooltip
+          *ngIf="showTooltipCat && isBoardTitle && bigger700"
+          [text]="'Edit categories'"
+          [left]="true"
+        >
+        </app-tooltip>
+      </div>
+      <div
+        class="edit-menu-item menu"
+        (click)="delete($event, hostObject.id)"
+        (mouseenter)="showTooltipDelete = true"
+        (mouseleave)="showTooltipDelete = false"
+        #titleItem
+        [attr.data-boardtitle]="isBoardTitle"
+      >
+        <div
+          class="menu-icon-container menu"
+          #titleItem
+          [attr.data-boardtitle]="isBoardTitle"
+        >
+          <img
+            src="assets/img/delete.svg"
+            alt="delete column"
+            class="menu"
+            #titleItem
+            [attr.data-boardtitle]="isBoardTitle"
+          />
+        </div>
+        <span class="edit-menu-text menu" #titleItem
+        [attr.data-boardtitle]="isBoardTitle"
+          >Delete</span
+        >
+        <app-tooltip
+          *ngIf="showTooltipDelete && isBoardTitle && bigger700"
+          [text]="'Delete board'"
+          [left]="true"
+        >
+        </app-tooltip>
+      </div>
+    </div> -->

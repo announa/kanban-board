@@ -61,7 +61,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   }
   @HostListener('window:resize', ['$event'])
   resizeListener(event: any) {
-    this.checkMenu();
+    this.checkWindowSize();
   }
 
   constructor(
@@ -69,10 +69,12 @@ export class TitleComponent implements OnInit, AfterViewChecked {
     public dragService: DragNdropService,
     private cd: ChangeDetectorRef,
     private router: Router
-  ) {}
-
+  ) {
+  }
+  
   ngOnInit(): void {
     this.title = this.hostObject.title;
+    this.checkWindowSize();
     this.checkMenu();
   }
 
@@ -87,7 +89,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
 
   toggleMenu() {
     console.log('toggle');
-    if (!this.isBoardTitleOnDesktop()) {
+    if (!this.isBoardTitle) {
       console.log('toggle true');
       this.checkOpeningPosition();
       this.menuIsOpen = !this.menuIsOpen;
@@ -126,7 +128,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   resetVariables(event: any) {
     this.resetEditTitle(event);
     this.toggleMoveColumnMenu(event);
-    if (!this.isBoardTitleOnDesktop()) this.resetOpenMenu(event);
+    if (!this.isBoardTitle) this.resetOpenMenu(event);
   }
 
   resetEditTitle(event: any) {
@@ -143,9 +145,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   }
 
   resetOpenMenu(event: any) {
-    console.log('reset open menu');
     if (this.menuIsOpen && !this.thisMenuClicked(event)) {
-      console.log('reset open menu true');
       this.menuIsOpen = false;
     }
   }
@@ -216,13 +216,15 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   }
 
   checkMenu() {
-    if (this.isBoardTitleOnDesktop()) {
+    if (this.isBoardTitle) {
       this.menuIsOpen = true;
-      this.bigger700 = true;
-    } else if (this.isBoardTitle == true && window.innerWidth < 700) {
-      this.menuIsOpen = false;
-      this.bigger700 = false;
     }
+  }
+
+  checkWindowSize() {
+    if (window.innerWidth < 700) {
+      this.bigger700 = false;
+    } else this.bigger700 = true;
   }
 
   /* #############  check for hostlistener click event ########### */
