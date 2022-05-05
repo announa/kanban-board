@@ -90,7 +90,7 @@ a {
   padding: 15px;
   border: none;
   color: #fff;
-  background: rgba($theme-color-dark, 0.4);
+  background: rgba($btn-color, 1);
   border-radius: 40px;
   background-position: 30% 50%;
   cursor: pointer;
@@ -102,7 +102,7 @@ a {
   }
 
   &:hover {
-    background: rgba($theme-color-dark, 0.5);
+    background: rgba($btn-color, 0.6);
   }
 
   &:disabled,

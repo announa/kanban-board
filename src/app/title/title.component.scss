@@ -53,8 +53,8 @@
 
 .more-container {
   @include flex(center, center);
-  width: 22px;
-  height: 22px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   /* background-color: rgba($theme-color-light, 0.1); */
   cursor: pointer;
@@ -69,9 +69,9 @@
   }
 
   > img {
-    width: 70%;
-    height: 70%;
-    filter: invert(150%) brightness(500%) drop-shadow(0 0 6px $theme-color-dark);
+    width: 60%;
+    height: 60%;
+    filter: invert(150%) brightness(500%) drop-shadow(0 0 10px $theme-color-dark);
   }
 }
 
@@ -147,21 +147,22 @@
 }
 .menu-container-boardTitle {
   position: absolute;
-  right: 40px;
+  /* right: 40px; */
+  right: 0;
+  top: 50vh;
+  transform: translateY(-50%);
 
-  @media (max-width: 450px) {
+/*   @media (max-width: 450px) {
     right: 20px;
   }
-
+ */
   .more-container {
     width: 30px;
     height: 30px;
   }
 
-  @media (min-width: 700px) {
-    right: 0;
-    top: 50vh;
-    transform: translateY(-50%);
+
+/*   @media (min-width: 700px) { */
 
     .more-container {
       display: none;
@@ -179,6 +180,7 @@
 
     .edit-menu-item {
       @include flex(center, center);
+      display: inline-flex;
       width: 100%;
       flex-direction: column;
       margin-bottom: 20px;
@@ -210,5 +212,52 @@
         margin: 0;
       }
     }
+
+
+  @media (max-width: 700px){
+    top: 0;
+    left: 0;
+    right: 0;
+
+
+    .edit-menu{
+      display: flex;
+      align-items: center;
+      height: 60px;
+      /* justify-content: space-evenly; */
+      gap: 8vw;
+      top: 0;
+      transform: none;
+      padding: 0;
+      padding-left: 50px;
+      width: 100%;
+    }
+
+    .edit-menu-item{
+      width: unset;
+      margin-bottom: 0;
+
+      &:last-child{
+        margin-right: 150px;
+      }
+    }
+
+    .menu-icon-container {
+      margin: 0;
+      height: 25px;
+      width: 25px;
+    }
   }
+
+  @media (max-width: 450px){
+
+    .edit-menu{
+      padding-left: 30px;
+      gap: 6vw;
+    }
+    .edit-menu-item:last-child{
+        margin-right: 60px;
+      }
+  }
+/*   } */
 }
