@@ -56,19 +56,20 @@ export class AuthenticationService {
         this.ngZone.run(() => {
           this.router.navigate(['/boards']);
         });
-        this.SetUserData(result.user );
+        /* this.SetUserData(result.user ); */
       }})
       .catch((error) => {
         window.alert(error.message);
       });
-  }
-
-  SignUp(email: string, password: string) {
-    return this.afAuth
+    }
+    
+    SignUp(email: string, password: string) {
+      return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
+        this.router.navigate(['/boards']);
         /* this.SendVerificationMail(); */
-        this.SetUserData(result.user);
+        /* this.SetUserData(result.user); */
       })
       .catch((error) => {
         window.alert(error.message);

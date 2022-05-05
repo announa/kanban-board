@@ -1,5 +1,10 @@
 @import "../../vars.scss";
 
+.component-container{
+  @include flex();
+  flex-direction: column
+}
+
 h2 {
   @include flex($align: center);
   margin-bottom: 30px;
@@ -9,7 +14,8 @@ h2 {
   @include flex($justify: center);
   flex-wrap: wrap;
   gap: 40px;
-  min-height: calc(100vh - 210px);
+  flex: 1;
+  width: 100%;
   padding: 20px;
   background-color: rgba($theme-color-dark, 0.2);
 
