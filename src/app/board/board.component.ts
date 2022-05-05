@@ -31,8 +31,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.fireService.getUserFromLocalStorage();
-    if (this.fireService.currentUser.id != '') {
+    /* this.fireService.getUserFromLocalStorage(); */
+    if (this.fireService.currentUser.uid != '') {
       this.loadBoard();
     } else {
       this.showBoard = false;
@@ -72,7 +72,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   userHasAccess() {
     return (
-      this.fireService.currentBoard.userId === this.fireService.currentUser.id
+      this.fireService.currentBoard.userId === this.fireService.currentUser.uid
     );
   }
 

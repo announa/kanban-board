@@ -84,7 +84,7 @@ export class SetBgComponent implements OnInit, OnDestroy {
     this.fireService.isProcessing = true;
     const file = event.target.files[0];
     const filePath = `/bg-images/${
-      this.fireService.currentUser.id
+      this.fireService.currentUser.uid
     }image${new Date().getTime()}`;
     const ref = this.storage.ref(filePath);
     const upload = ref.put(file);
@@ -116,7 +116,7 @@ export class SetBgComponent implements OnInit, OnDestroy {
         downloadUrl: downloadUrl,
       });
       const collection = this.fireService.currentUser.username == 'guest' ? 'guest' : 'user'
-      this.fireService.updateDoc(collection, this.fireService.currentUser.id, {
+      this.fireService.updateDoc(collection, this.fireService.currentUser.uid, {
         userImages: this.fireService.currentUser.userImages
       });
     }

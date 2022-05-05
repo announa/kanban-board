@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
 
   constructor(
     public fireService: FirestoreService,
+    private authService: AuthenticationService,
     public router: Router,
     private cd: ChangeDetectorRef
   ) {}
@@ -43,8 +45,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   }
 
   async logout() {
-    console.log('log out');
-    await this.fireService.clearData();
+    await this.authService.signOut();
     this.navigate('/');
   }
 

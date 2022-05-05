@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../models/User.class';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -12,23 +13,22 @@ export class BoardsOverviewComponent implements OnInit {
   selectedBoard = '';
   isAddingBoard = false;
 
-  constructor(
-    public fireService: FirestoreService,
-  ) {}
+  constructor(public fireService: FirestoreService) {}
 
   ngOnInit(): void {
-    this.fireService.getUserFromLocalStorage();
-    this.fireService.loadBoards();
+    this.fireService.getCurrentUserFromLocalStorage();
+this.fireService.loadBoards();
+    
     /* this.fireService.clearTemp(false); */
     /* this.fireService.loadUserBoards(); */
   }
 
-  toggleTooltip(){
-    this.showTooltip = !this.showTooltip
+  toggleTooltip() {
+    this.showTooltip = !this.showTooltip;
   }
 
-  setBackgroundImage(boardId: string){
+  setBackgroundImage(boardId: string) {
     this.setBgImage = true;
-    this.selectedBoard = boardId
+    this.selectedBoard = boardId;
   }
 }

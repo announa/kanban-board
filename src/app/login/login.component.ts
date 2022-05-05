@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     await this.fireService.getUserCollection('guest');
   }
 
-  async checkLoginData() {
+/*   async checkLoginData() {
     console.log('logging in ...');
     const matchingUser = this.fireService.checkForMatchingUser(
       this.userInput
@@ -69,11 +69,15 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.rejectLogin();
     }
-  }
+  } */
 
-  login(matchingUser: User) {
+/*   login(matchingUser: User) {
     this.fireService.setCurrentUser(matchingUser);
     this.loadUserBoards();
+  } */
+
+  login(email: string, password: string){
+    this.authService.signIn(email, password)
   }
 
   loadUserBoards() {

@@ -13,7 +13,7 @@
 </div>
 <div class="add-icon" (click)="isAddingBoard = true;" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
   <img src="assets/img/add.svg" alt="add a board" />
-  <app-add-title *ngIf="isAddingBoard" [newObject]="'new board'" (onCloseModal)="isAddingBoard = false;"></app-add-title>
+  <app-add-title *ngIf="isAddingBoard" (mouseenter)="showTooltip = false" [newObject]="'new board'" (onCloseModal)="isAddingBoard = false;"></app-add-title>
   <app-tooltip *ngIf="showTooltip" [text]="'Add a board'" [left]="true">
   </app-tooltip>
 </div>

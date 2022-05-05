@@ -15,7 +15,7 @@ export class FirestoreService {
   boards: Board[] = [];
   columns: Column[] = [];
   guests: User[] = [];
-  currentUser!: User;
+  currentUser: User = new User();
   matchingUser!: User;
   currentBoard!: Board;
   userCollectionSubscription!: Subscription;
@@ -41,25 +41,29 @@ export class FirestoreService {
 
   getUserCollection(collection: string) {
     return new Promise((resolve, reject) => {
-      this.userCollectionSubscription = this.firestore
+      (this.userCollectionSubscription = this.firestore
         .collection(collection)
         .valueChanges()
         .subscribe((user) => {
           if (collection == 'user') this.users = user as User[];
           else this.guests = user as User[];
           resolve(user);
-        }),
+        })),
         (err: any) => reject(err);
     });
   }
 
-  loadCurrentUser(userId: string) {
+  async getCurrentUser(userId: string) {
+    this.currentUser = await firstValueFrom(this.getDocRef('user', userId)
+      .valueChanges()) as User
+  }
+/*   getCurrentUser(userId: string) {
     this.getDocRef('user', userId)
       .valueChanges()
       .subscribe((user: any) => {
         this.currentUser = user;
       });
-  }
+  } */
 
   getDocRef(collection: string, doc: string) {
     return this.firestore.collection(collection).doc(doc);
@@ -92,7 +96,7 @@ export class FirestoreService {
       'boards',
       'userId',
       '==',
-      this.currentUser.id
+      this.currentUser.uid
     ).subscribe((boards: any) => {
       this.boards = boards;
     });
@@ -104,8 +108,8 @@ export class FirestoreService {
         .valueChanges()
         .subscribe((board) => {
           this.currentBoard = board as Board;
-          console.log('load current board')
-          console.log(this.currentBoard)
+          console.log('load current board');
+          console.log(this.currentBoard);
           resolve(board);
         })),
         (err: any) => reject(err);
@@ -130,7 +134,7 @@ export class FirestoreService {
   }
 
   loadTickets(columnId: string, ref?: string, dir?: string) {
-/*     if (ref) this.sort.ref = ref;
+    /*     if (ref) this.sort.ref = ref;
     if (dir) this.sort.dir = dir; */
     return this.getFilteredCollection('tickets', 'columnId', '==', columnId);
   }
@@ -166,6 +170,9 @@ export class FirestoreService {
   }
 
   async addDoc(collection: string, id: string, object: any) {
+    console.log(collection);
+    console.log(id);
+    console.log(object);
     return await this.firestore
       .collection(collection)
       .doc(id)
@@ -190,7 +197,7 @@ export class FirestoreService {
 
   addBoard(title: string) {
     let newBoard = new Board(title);
-    newBoard.userId = this.currentUser.id;
+    newBoard.userId = this.currentUser.uid;
     this.addDoc('boards', newBoard.id, newBoard);
   }
 
@@ -209,36 +216,38 @@ export class FirestoreService {
       case 'columns':
         await this.deleteSubCollection('tickets', 'columnId', id);
         break;
-        case 'tickets':
-        }
-        await this.deleteDoc(collection, id);
+      case 'tickets':
+    }
+    await this.deleteDoc(collection, id);
   }
 
   async deleteSubCollection(collection: string, field: string, id: string) {
-    const subCollection = await firstValueFrom(this.getFilteredCollection(collection, field, '==', id)) as any;
+    const subCollection = (await firstValueFrom(
+      this.getFilteredCollection(collection, field, '==', id)
+    )) as any;
 
-        for (let index = 0; index < subCollection.length; index++) {
-          const item = subCollection[index];
-          await this.deleteFromDb(collection, item.id);
-        
-      }
+    for (let index = 0; index < subCollection.length; index++) {
+      const item = subCollection[index];
+      await this.deleteFromDb(collection, item.id);
+    }
   }
 
   async deleteDoc(collection: string, id: string) {
     await this.firestore.collection(collection).doc(id).delete();
   }
 
- async deleteUserImages(userId: string) {
-    console.log('delete guest images ' + userId)
+  async deleteUserImages(userId: string) {
+    console.log('delete guest images ' + userId);
 
-    const user = await firstValueFrom( this.getDocRef('guest', userId).valueChanges() ) as User;
-    
+    const user = (await firstValueFrom(
+      this.getDocRef('guest', userId).valueChanges()
+    )) as User;
 
     for (let index = 0; index < user.userImages.length; index++) {
       const image = user.userImages[index];
       await this.storage.storage.ref(image.filePath).delete();
     }
-/* 
+    /* 
 
 
 
@@ -253,21 +262,22 @@ export class FirestoreService {
 
   // #############  Register and login  ##############
 
-  async addUser(newUser: User) {
-    newUser.id = Date.now().toString();
+  async addUser(registeredUser: User) {
+    /* newUser.id = Date.now().toString(); */
+    console.log('addUser');
+    console.log(typeof registeredUser.uid);
     this.isProcessing = true;
-    await this.addDoc('user', newUser.id, newUser);
+    let newUser = new User(registeredUser.uid, registeredUser.email);
+    await this.addDoc('user', newUser.uid, newUser);
     this.currentUser = newUser;
     this.isProcessing = false;
-    return newUser;
   }
 
   checkForMatchingUser(userinput: { username: string; password: string }) {
     this.isProcessing = true;
     return this.users.filter(
-      (user) =>
-        user.username == userinput.username
-/*          &&
+      (user) => user.username == userinput.username
+      /*          &&
         user.password == userinput.password */
     );
   }
@@ -279,7 +289,7 @@ export class FirestoreService {
 
   async setCurrentUser(matchingUser: User) {
     this.currentUser = matchingUser;
-    this.saveUserToLocalStorage();
+    /*     this.saveUserToLocalStorage(); */
     this.isProcessing = false;
   }
 
@@ -287,9 +297,14 @@ export class FirestoreService {
     localStorage.setItem('user', JSON.stringify(this.currentUser));
   }
 
-  getUserFromLocalStorage() {
+  async getCurrentUserFromLocalStorage() {
     const storage = localStorage.getItem('user');
-    this.currentUser = storage ? JSON.parse(storage) : new User();
+    if (storage) {
+      const firebaseUser = await JSON.parse(storage);
+      await this.getCurrentUser(firebaseUser.uid);
+    } else {
+      this.currentUser = new User();
+    }
     console.log(this.currentUser);
   }
 
@@ -347,7 +362,7 @@ export class FirestoreService {
   }
 
   checkForOldGuestData() {
-    const oldGuests = this.guests.filter((guest) => guest.id <= this.oneDay());
+    const oldGuests = this.guests.filter((guest) => guest.uid <= this.oneDay());
     this.deleteOldGuestData(oldGuests as User[]);
   }
 
@@ -356,7 +371,7 @@ export class FirestoreService {
   }
 
   deleteOldGuestData(oldGuests: User[]) {
-    oldGuests.forEach((guest) => this.deleteFromDb('guest', guest.id));
+    oldGuests.forEach((guest) => this.deleteFromDb('guest', guest.uid));
   }
 
   // #############  Logout  ###############
@@ -374,7 +389,7 @@ export class FirestoreService {
   }
 
   deleteCurrentGuestData() {
-    this.deleteFromDb('guest', this.currentUser.id);
+    this.deleteFromDb('guest', this.currentUser.uid);
   }
 
   clearTemp(clearUser: boolean) {
@@ -386,7 +401,7 @@ export class FirestoreService {
     this.columns = [];
   }
 
-/*   getEmptyUser() {
+  /*   getEmptyUser() {
     return {
       username: '',
       password: '',
@@ -397,7 +412,7 @@ export class FirestoreService {
 
   // #############  Edit current board categories  ##############
 
-  addNewCategory(newCategory: {category: string, color: string}) {
+  addNewCategory(newCategory: { category: string; color: string }) {
     if (this.currentBoard) {
       let categories = this.currentBoard.categories;
       categories.push(newCategory);
@@ -407,7 +422,10 @@ export class FirestoreService {
     }
   }
 
-  updateCategories(editedCategory: {category: string, color: string}, index: number) {
+  updateCategories(
+    editedCategory: { category: string; color: string },
+    index: number
+  ) {
     if (this.currentBoard) {
       let newCategoryArr = this.currentBoard.categories;
       newCategoryArr[index] = editedCategory;

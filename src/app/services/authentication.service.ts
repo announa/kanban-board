@@ -8,6 +8,8 @@ import {
 import { Router } from '@angular/router';
 import { User } from '../models/User.class';
 import { FirestoreService } from './firestore.service';
+import { ThisReceiver } from '@angular/compiler';
+import { FirebaseApp } from '@angular/fire/app';
 
 /* export interface User {
   uid: string;
@@ -28,63 +30,81 @@ export class AuthenticationService {
     public afAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone,
-    private fireService:FirestoreService
+    private fireService: FirestoreService
   ) {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.userState = user;
+        console.log(this.userState);
         localStorage.setItem('user', JSON.stringify(this.userState));
         let userFromStorage = localStorage.getItem('user');
+        console.log(userFromStorage)
         if (userFromStorage) {
           const storageUser = JSON.parse(userFromStorage);
         }
       } else {
         localStorage.setItem('user', JSON.stringify(new User()));
         let userFromStorage = localStorage.getItem('user');
+        console.log(userFromStorage)
         if (userFromStorage) {
           const storageUser = JSON.parse(userFromStorage);
         }
       }
+      this.fireService.getCurrentUserFromLocalStorage()
     });
   }
 
-  SignIn(email: string, password: string) {
+  signIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        if(result.user != null){
-        this.ngZone.run(() => {
-          this.router.navigate(['/boards']);
-        });
-        /* this.SetUserData(result.user ); */
-      }})
-      .catch((error) => {
-        window.alert(error.message);
-      });
-    }
-    
-    SignUp(email: string, password: string) {
-      return this.afAuth
-      .createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.router.navigate(['/boards']);
-        /* this.SendVerificationMail(); */
-        /* this.SetUserData(result.user); */
+        if (result.user != null) {
+          this.ngZone.run(() => {
+            this.router.navigate(['/boards']);
+          });
+          /* this.SetUserData(result.user ); */
+        }
       })
       .catch((error) => {
         window.alert(error.message);
       });
   }
 
-  SendVerificationMail() {
+  signInAnonymously() {
+    return this.afAuth
+      .signInAnonymously()
+      .then(() => {
+        this.router.navigate(['/boards']);
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
+
+  signUp(email: string, password: string) {
+    return this.afAuth
+      .createUserWithEmailAndPassword(email, password)
+      .then((result) => {
+        this.router.navigate(['/boards']);
+        /* this.SendVerificationMail(); */
+        this.setUserData(result.user);
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
+
+  sendVerificationMail() {
     return this.afAuth.currentUser
-      .then((u) => {if (u) u.sendEmailVerification()})
+      .then((u) => {
+        if (u) u.sendEmailVerification();
+      })
       .then(() => {
         this.router.navigate(['email-verification']);
       });
   }
 
-  ForgotPassword(passwordResetEmail: string) {
+  forgotPassword(passwordResetEmail: string) {
     return this.afAuth
       .sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
@@ -123,11 +143,12 @@ export class AuthenticationService {
       });
   } */
 
-  async SetUserData(user: any) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `user/${user.id}`
-    );
-    const userState: User = await this.fireService.addUser(user)
+  async setUserData(user: any) {
+/*     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `user/${user.uid}`
+    ); */
+    /* const userState = await this.fireService.addUser(user); */
+    await this.fireService.addUser(user);
     /* {
       username: user.username? user.username : '',
       id: user.id,
@@ -135,12 +156,12 @@ export class AuthenticationService {
       userImages: user.userImages,
       emailVerified: user.emailVerified,
     }; */
-    return userRef.set(userState, {
+/*     return userRef.set(userState, {
       merge: true,
-    });
+    }); */
   }
 
-  SignOut() {
+  signOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['/']);

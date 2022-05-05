@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
   register(){
     if (this.passwordCheck() === true) {
 
-    this.authService.SignUp(this.newUser.email, this.newUser.password)
+    this.authService.signUp(this.newUser.email, this.newUser.password)
   }
   }
 
