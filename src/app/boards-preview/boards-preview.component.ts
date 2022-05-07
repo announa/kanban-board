@@ -23,12 +23,24 @@ export class BoardsPreviewComponent implements OnInit {
 
   constructor(public fireService: FirestoreService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    setTimeout(() => console.log(this.title), 2000);
+  }
 
   navigate(boardId: string, event: any) {
-    if (event.target.parentElement.parentElement != this.title.menu.nativeElement) {
+    if (!this.editMenuClicked(event)) {
       this.router.navigateByUrl('/board/' + boardId);
     }
+  }
+
+  editMenuClicked(event: any) {
+    let clicked = false;
+    for (let i = 2; i < this.title.titleItemList.length; i++) {
+      if (event.target == this.title.titleItemList.toArray()[i].nativeElement) {
+        clicked = true;
+      }
+    }
+    return clicked;
   }
 
   setBackgroundImage() {

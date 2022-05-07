@@ -147,6 +147,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
   resetOpenMenu(event: any) {
     if (this.menuIsOpen && !this.thisMenuClicked(event)) {
       this.menuIsOpen = false;
+      this.emitBoardPreviewEvent();
     }
   }
 
