@@ -21,7 +21,7 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   userInput = {
-    username: '',
+    email: '',
     password: '',
   };
 

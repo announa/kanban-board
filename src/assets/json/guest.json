@@ -1,5 +1,5 @@
 {
-  "guest": { "username": "guest", "password": "", "id": "", "userImages": [] },
+  "guest": { "username": "guest", "email": "", "emailVerified": false, "uid": "", "userImages": [] },
   "guestBoard": {
     "title": "Guestboard",
     "categories": [

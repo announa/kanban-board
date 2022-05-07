@@ -32,25 +32,27 @@ export class AuthenticationService {
     public ngZone: NgZone,
     private fireService: FirestoreService
   ) {
-    this.afAuth.authState.subscribe((user) => {
+    this.afAuth.authState.subscribe(async (user) => {
       if (user) {
         this.userState = user;
         console.log(this.userState);
-        localStorage.setItem('user', JSON.stringify(this.userState));
-        let userFromStorage = localStorage.getItem('user');
+        this.fireService.saveUserToLocalStorage(this.userState)
+        await this.fireService.getCurrentUserFromLocalStorage()
+        this.fireService.loadBoards()
+        /*    let userFromStorage = localStorage.getItem('user');
         console.log(userFromStorage)
         if (userFromStorage) {
           const storageUser = JSON.parse(userFromStorage);
-        }
-      } else {
+        } */
+      } /* else {
         localStorage.setItem('user', JSON.stringify(new User()));
-        let userFromStorage = localStorage.getItem('user');
+        await this.fireService.getCurrentUserFromLocalStorage() */
+        /*    let userFromStorage = localStorage.getItem('user');
         console.log(userFromStorage)
         if (userFromStorage) {
           const storageUser = JSON.parse(userFromStorage);
-        }
-      }
-      this.fireService.getCurrentUserFromLocalStorage()
+        } */
+      /* } */
     });
   }
 
@@ -162,8 +164,9 @@ export class AuthenticationService {
   }
 
   signOut() {
-    return this.afAuth.signOut().then(() => {
+    return this.afAuth.signOut().then(async () => {
       localStorage.removeItem('user');
+      await this.fireService.getCurrentUserFromLocalStorage()
       this.router.navigate(['/']);
     });
   }

@@ -3,15 +3,15 @@
   <div class="modal" #modal>
     <h2>Please log in</h2>
     <div content-container>
-      <form (ngSubmit)="login(userInput.username, userInput.password)" #form="ngForm">
+      <form (ngSubmit)="login(userInput.email, userInput.password)" #form="ngForm">
         <div class="form-input">
-          <label for="">Username</label>
+          <label for="">E-mail</label>
           <input
             type="text"
             class="input"
-            name="username"
-            placeholder="Please enter your username"
-            [(ngModel)]="userInput.username"
+            name="email"
+            placeholder="Please enter your e-mail"
+            [(ngModel)]="userInput.email"
             required
             (click)="alert=false;"
           />

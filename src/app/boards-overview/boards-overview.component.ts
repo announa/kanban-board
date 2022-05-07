@@ -16,7 +16,7 @@ export class BoardsOverviewComponent implements OnInit {
   constructor(public fireService: FirestoreService) {}
 
   ngOnInit(): void {
-    this.fireService.getCurrentUserFromLocalStorage();
+    /* this.fireService.getCurrentUserFromLocalStorage(); */
 this.fireService.loadBoards();
     
     /* this.fireService.clearTemp(false); */
