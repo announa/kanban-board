@@ -35,24 +35,9 @@ export class AuthenticationService {
     this.afAuth.authState.subscribe(async (user) => {
       if (user) {
         this.userState = user;
-        console.log(this.userState);
-        this.fireService.saveUserToLocalStorage(this.userState)
-        await this.fireService.getCurrentUserFromLocalStorage()
-        this.fireService.loadBoards()
-        /*    let userFromStorage = localStorage.getItem('user');
-        console.log(userFromStorage)
-        if (userFromStorage) {
-          const storageUser = JSON.parse(userFromStorage);
-        } */
-      } /* else {
-        localStorage.setItem('user', JSON.stringify(new User()));
-        await this.fireService.getCurrentUserFromLocalStorage() */
-        /*    let userFromStorage = localStorage.getItem('user');
-        console.log(userFromStorage)
-        if (userFromStorage) {
-          const storageUser = JSON.parse(userFromStorage);
-        } */
-      /* } */
+        this.fireService.saveUserToLocalStorage(this.userState);
+        await this.fireService.getCurrentUserFromLocalStorage();
+      }
     });
   }
 
@@ -127,46 +112,14 @@ export class AuthenticationService {
     } else return false;
   }
 
-  /*  GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider());
-  }
-
-  AuthLogin(provider) {
-    return this.afAuth
-      .signInWithPopup(provider)
-      .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
-        });
-        this.SetUserData(result.user);
-      })
-      .catch((error) => {
-        window.alert(error);
-      });
-  } */
-
   async setUserData(user: any) {
-/*     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `user/${user.uid}`
-    ); */
-    /* const userState = await this.fireService.addUser(user); */
     await this.fireService.addUser(user);
-    /* {
-      username: user.username? user.username : '',
-      id: user.id,
-      email: user.email,
-      userImages: user.userImages,
-      emailVerified: user.emailVerified,
-    }; */
-/*     return userRef.set(userState, {
-      merge: true,
-    }); */
   }
 
   signOut() {
     return this.afAuth.signOut().then(async () => {
       localStorage.removeItem('user');
-      await this.fireService.getCurrentUserFromLocalStorage()
+      await this.fireService.getCurrentUserFromLocalStorage();
       this.router.navigate(['/']);
     });
   }

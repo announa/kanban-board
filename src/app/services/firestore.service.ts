@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { firstValueFrom, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, Subject, Subscription } from 'rxjs';
 import { Board } from '../models/Board.class';
 import { Column } from '../models/Column.class';
 import { Ticket } from '../models/Ticket.class';
@@ -16,6 +16,7 @@ export class FirestoreService {
   columns: Column[] = [];
   guests: User[] = [];
   currentUser: User = new User();
+  currentUser$ = new Subject()
   matchingUser!: User;
   currentBoard!: Board;
   userCollectionSubscription!: Subscription;
@@ -54,9 +55,10 @@ export class FirestoreService {
     });
   }
 
-  async getCurrentUser(userId: string) {
-    this.currentUser = await firstValueFrom(this.getDocRef('user', userId)
+  async getCurrentUserFromDB(userId: string) {
+    const user = await firstValueFrom(this.getDocRef('user', userId)
       .valueChanges()) as User
+      this.setCurrentUser(user)
   }
 /*   getCurrentUser(userId: string) {
     this.getDocRef('user', userId)
@@ -109,8 +111,6 @@ export class FirestoreService {
         .valueChanges()
         .subscribe((board) => {
           this.currentBoard = board as Board;
-          console.log('load current board');
-          console.log(this.currentBoard);
           resolve(board);
         })),
         (err: any) => reject(err);
@@ -171,9 +171,6 @@ export class FirestoreService {
   }
 
   async addDoc(collection: string, id: string, object: any) {
-    console.log(collection);
-    console.log(id);
-    console.log(object);
     return await this.firestore
       .collection(collection)
       .doc(id)
@@ -205,13 +202,11 @@ export class FirestoreService {
   // ##############  Delete  ##############
 
   async deleteFromDb(collection: string, id: string) {
-    console.log('delete old guest data from DB')
     
     switch (collection) {
       case 'guest':
         await this.deleteUserImages(id);
         await this.deleteSubCollection('boards', 'userId', id);
-        console.log('delete old guest data - switch')
         break;
       case 'boards':
         if (this.currentBoardSubscription) this.currentBoardSubscription.unsubscribe();
@@ -241,37 +236,19 @@ export class FirestoreService {
   }
 
   async deleteUserImages(userId: string) {
-    console.log('delete guest images ' + userId);
-
     const user = (await firstValueFrom(
       this.getDocRef('guest', userId).valueChanges()
     )) as User;
-
-    console.log(user)
 
     for (let index = 0; index < user.userImages.length; index++) {
       const image = user.userImages[index];
       await this.storage.storage.ref(image.filePath).delete();
     }
-    /* 
-
-
-
-    this.deleteImagesSubscription = this.getFilteredCollection('guest', 'id', '==', userId).subscribe(async (user: any) => {
-      console.log(user)
-      user[0].userImages.forEach(async (image: any) => {
-        console.log('delete guest image ' + image)
-        await this.storage.storage.ref(image.filePath).delete();
-      });
-    }); */
   }
 
   // #############  Register and login  ##############
 
   async addUser(registeredUser: User) {
-    /* newUser.id = Date.now().toString(); */
-    console.log('addUser');
-    console.log(typeof registeredUser.uid);
     this.isProcessing = true;
     let newUser = new User(registeredUser.uid, registeredUser.email);
     await this.addDoc('user', newUser.uid, newUser);
@@ -292,12 +269,11 @@ export class FirestoreService {
     this.isProcessing = true;
     return this.users.filter((user) => user.username == username);
   }
-
+/* 
   async setCurrentUser(matchingUser: User) {
     this.currentUser = matchingUser;
-    /*     this.saveUserToLocalStorage(); */
     this.isProcessing = false;
-  }
+  } */
 
   saveUserToLocalStorage(object: any) {
     localStorage.setItem('user', JSON.stringify(object));
@@ -306,15 +282,16 @@ export class FirestoreService {
   async getCurrentUserFromLocalStorage() {
     const storage = localStorage.getItem('user');
     if (storage) {
-      console.log('storage')
-
       const firebaseUser = await JSON.parse(storage);
-      console.log(firebaseUser)
-      await this.getCurrentUser(firebaseUser.uid);
+      await this.getCurrentUserFromDB(firebaseUser.uid);
     } else {
-      this.currentUser = new User();
+      this.setCurrentUser(new User())
     }
-    console.log(this.currentUser);
+  }
+
+  setCurrentUser(user: User){
+    this.currentUser = user;
+    this.currentUser$.next(this.currentUser)
   }
 
   removeUserFromLocalStorage() {
@@ -379,7 +356,6 @@ export class FirestoreService {
   }
 
   deleteOldGuestData(oldGuests: User[]) {
-    console.log('delete old guest data')
     oldGuests.forEach((guest) => this.deleteFromDb('guest', guest.uid));
   }
 
@@ -388,7 +364,6 @@ export class FirestoreService {
   clearData() {
     return new Promise((resolve, reject) => {
       if (this.currentUser.username == 'guest') {
-        console.log('delete guest data');
         this.deleteCurrentGuestData();
       }
       this.clearTemp(true);

@@ -2,11 +2,13 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AddTicketService } from '../services/add-ticket.service';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -16,12 +18,13 @@ import { FirestoreService } from '../services/firestore.service';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent implements OnInit, AfterViewInit {
+export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren('column', { read: ElementRef }) columns!: QueryList<ElementRef>;
   showBoard = true;
   showCategoriesModal = false;
   setBgImage = false;
   previewImage = '';
+  userSubscription!: Subscription;
 
   constructor(
     public fireService: FirestoreService,
@@ -31,12 +34,24 @@ export class BoardComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    /* this.fireService.getUserFromLocalStorage(); */
-    if (this.fireService.currentUser.uid != '') {
-      this.loadBoard();
-    } else {
-      this.showBoard = false;
-    }
+    this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
+      console.log(user)
+      if (user) {
+        if (this.fireService.currentUser.uid != '') {
+          this.loadBoard();
+        } else {
+          this.showBoard = false;
+        }
+      }
+    });
+  }
+  /* this.fireService.getUserFromLocalStorage(); */
+  /*     if (this.fireService.currentUser.uid != '') {
+
+  } */
+
+  ngOnDestroy(): void {
+  this.userSubscription.unsubscribe()
   }
 
   ngAfterViewInit(): void {

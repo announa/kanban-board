@@ -17,7 +17,7 @@
         [class.a-active]="
           router.url.endsWith('/board/' + fireService.currentBoard.id)
         "
-        >{{ fireService.currentBoard.title}}</a
+        >{{ fireService.currentBoard.title }}</a
       >
       <a
         (click)="navigate('/board/' + fireService.currentBoard.id + '/backlog')"

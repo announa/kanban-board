@@ -37,7 +37,7 @@
     </p>
     <p class="d-none" #category>
       <img src="assets/img/folder.svg" class="h-0" #icon />
-      <span class="category-span" [ngStyle]="{ padding: ticket.category? '0 5px' : '0', 'background-color': getTicketBackground() }">
+      <span class="category-span" [ngStyle]="{ padding: ticket.category.category? '0 5px' : '0', 'background-color': getTicketBackground() }">
         {{ fireService.currentBoard && fireService.currentBoard.categories[ticket.category] ? fireService.currentBoard.categories[ticket.category].category : 'No categories' || 'No category'}}</span
       >
     </p>
