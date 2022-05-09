@@ -91,7 +91,7 @@ export class AuthenticationService {
       });
   }
 
-  forgotPassword(passwordResetEmail: string) {
+  resetPassword(passwordResetEmail: string) {
     return this.afAuth
       .sendPasswordResetEmail(passwordResetEmail)
       .then(() => {

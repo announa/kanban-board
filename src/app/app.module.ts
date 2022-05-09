@@ -31,6 +31,7 @@ import { AddTitleComponent } from './add-title/add-title.component';
 import { ColorSketchModule } from 'ngx-color/sketch';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { EditBoardMenuComponent } from './edit-board-menu/edit-board-menu.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { EditBoardMenuComponent } from './edit-board-menu/edit-board-menu.compon
     CategoriesEditComponent,
     SetBgComponent,
     AddTitleComponent,
+    PasswordResetComponent,
   ],
   imports: [
     BrowserModule,

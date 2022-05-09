@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     email: '',
     password: '',
   };
+  resetPw = false;
 
   @ViewChild('modal') modal!: ElementRef;
   alert = false;

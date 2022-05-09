@@ -254,6 +254,7 @@ img {
   @include flex(center, center);
   flex-direction: column;
   padding: 40px 40px 30px;
+  border-radius: 3px;
   color: $letter-color-dark;
   background-color: rgba($theme-color-light, 0.85);
   transform: translateX(50vw) translateX(-50%);
