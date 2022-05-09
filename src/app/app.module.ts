@@ -32,6 +32,7 @@ import { ColorSketchModule } from 'ngx-color/sketch';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { EditBoardMenuComponent } from './edit-board-menu/edit-board-menu.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
     SetBgComponent,
     AddTitleComponent,
     PasswordResetComponent,
+    VerifyEmailComponent,
   ],
   imports: [
     BrowserModule,

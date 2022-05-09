@@ -23,7 +23,7 @@ import { FirebaseApp } from '@angular/fire/app';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  userState: any;
+  userData: any;
 
   constructor(
     public afs: AngularFirestore,
@@ -34,8 +34,8 @@ export class AuthenticationService {
   ) {
     this.afAuth.authState.subscribe(async (user) => {
       if (user) {
-        this.userState = user;
-        this.fireService.saveUserToLocalStorage(this.userState);
+        this.userData = user;
+        this.fireService.saveUserToLocalStorage(this.userData);
         await this.fireService.getCurrentUserFromLocalStorage();
       }
     });
@@ -72,8 +72,7 @@ export class AuthenticationService {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.router.navigate(['/boards']);
-        /* this.SendVerificationMail(); */
+        this.sendVerificationMail();
         this.setUserData(result.user);
       })
       .catch((error) => {
@@ -87,7 +86,7 @@ export class AuthenticationService {
         if (u) u.sendEmailVerification();
       })
       .then(() => {
-        this.router.navigate(['email-verification']);
+        this.router.navigate(['/verify']);
       });
   }
 
