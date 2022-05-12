@@ -37,6 +37,7 @@ export class AuthenticationService {
         this.userData = user;
         this.fireService.saveUserToLocalStorage(this.userData);
         await this.fireService.getCurrentUserFromLocalStorage();
+        console.log(this.userData)
       }
     });
   }
@@ -49,7 +50,8 @@ export class AuthenticationService {
           this.ngZone.run(() => {
             this.router.navigate(['/boards']);
           });
-          /* this.SetUserData(result.user ); */
+          console.log(result.user)
+          this.setUserData(result.user );
         }
       })
       .catch((error) => {
@@ -112,6 +114,7 @@ export class AuthenticationService {
   }
 
   async setUserData(user: any) {
+    console.log(user)
     await this.fireService.addUser(user);
   }
 

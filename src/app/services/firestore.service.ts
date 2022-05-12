@@ -171,6 +171,7 @@ export class FirestoreService {
   }
 
   async addDoc(collection: string, id: string, object: any) {
+    console.log(object)
     return await this.firestore
       .collection(collection)
       .doc(id)
@@ -248,9 +249,9 @@ export class FirestoreService {
 
   // #############  Register and login  ##############
 
-  async addUser(registeredUser: User) {
+  async addUser(fireAuthUser: User) {
     this.isProcessing = true;
-    let newUser = new User(registeredUser.uid, registeredUser.email);
+    let newUser = new User(fireAuthUser.uid, fireAuthUser.email, fireAuthUser.emailVerified);
     await this.addDoc('user', newUser.uid, newUser);
     this.currentUser = newUser;
     this.isProcessing = false;

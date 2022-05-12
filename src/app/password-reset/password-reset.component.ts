@@ -11,9 +11,14 @@ export class PasswordResetComponent implements OnInit {
   @Output() onCloseModal = new EventEmitter();
   email: string = '';
 
-  constructor(public authService: AuthenticationService) { }
+  constructor(private authService: AuthenticationService) { }
 
   ngOnInit(): void {
+  }
+
+  resetPw(){
+    this.authService.resetPassword(this.email);
+    this.closeModal()
   }
 
   closeModal() {

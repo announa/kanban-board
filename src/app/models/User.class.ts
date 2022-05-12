@@ -6,8 +6,9 @@ export class User{
  uid: string;
  userImages: { filePath: string; downloadUrl: any}[] = [];
 
- constructor(uid?: string, email?: string){
+ constructor(uid?: string, email?: string, verified?: boolean){
   this.uid = uid? uid : '';
   this.email = email? email : '';
+  this.emailVerified = verified? verified : false;
  }
 }

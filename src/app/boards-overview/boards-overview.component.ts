@@ -27,8 +27,10 @@ export class BoardsOverviewComponent implements OnInit, OnDestroy {
     this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
       console.log(user);
       if (user) {
+        console.log(user);
         if (this.fireService.currentUser.uid != '') {
           this.fireService.loadBoards();
+          console.log(this.fireService.currentUser)
         } else {
           this.router.navigateByUrl('/');
         }

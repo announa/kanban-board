@@ -9,13 +9,15 @@
      
      <!-- Calling SendVerificationMail() method using authService Api -->
      <div class="resend">
-      You didn't get the verification mail?
+       <p>
+         You didn't get the verification mail?
+       </p>
        <button type="button" class="btn" (click)="authService.sendVerificationMail()">
          <i class="fas fa-redo-alt"></i>
          Resend Verification Email
        </button>
      </div>
-     <a routerLink="/">Go to login</a>
+     <a routerLink="/">Go to login &rArr;</a>
    </div>
  </div>
 </div>
