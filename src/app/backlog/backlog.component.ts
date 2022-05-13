@@ -17,7 +17,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
    /*  this.fireService.getUserFromLocalStorage(); */
-    if (this.fireService.currentUser.uid != '') {
+    if (this.fireService.currentUser?.uid != '') {
       this.loadBacklog();
     } else {
       this.showBacklog = false;
@@ -41,7 +41,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
 
   userHasAccess() {
     return (
-      this.fireService.currentBoard.userId === this.fireService.currentUser.uid
+      this.fireService.currentBoard?.userId === this.fireService.currentUser?.uid
     );
   }
 

@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { BehaviorSubject, firstValueFrom, Observable, Subject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  Observable,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { Board } from '../models/Board.class';
 import { Column } from '../models/Column.class';
 import { Ticket } from '../models/Ticket.class';
@@ -15,10 +21,10 @@ export class FirestoreService {
   boards: Board[] = [];
   columns: Column[] = [];
   guests: User[] = [];
-  currentUser: User = new User();
-  currentUser$ = new Subject()
+  currentUser: User | undefined;
+  currentUser$ = new Subject();
   matchingUser!: User;
-  currentBoard!: Board;
+  currentBoard: Board | undefined;
   userCollectionSubscription!: Subscription;
   boardsSubscription!: Subscription;
   currentBoardSubscription!: Subscription;
@@ -56,11 +62,12 @@ export class FirestoreService {
   }
 
   async getCurrentUserFromDB(userId: string) {
-    const user = await firstValueFrom(this.getDocRef('user', userId)
-      .valueChanges()) as User
-      this.setCurrentUser(user)
+    const user = (await firstValueFrom(
+      this.getDocRef('user', userId).valueChanges()
+    )) as User;
+    this.setCurrentUser(user);
   }
-/*   getCurrentUser(userId: string) {
+  /*   getCurrentUser(userId: string) {
     this.getDocRef('user', userId)
       .valueChanges()
       .subscribe((user: any) => {
@@ -99,7 +106,7 @@ export class FirestoreService {
       'boards',
       'userId',
       '==',
-      this.currentUser.uid
+      this.currentUser?.uid
     ).subscribe((boards: any) => {
       this.boards = boards;
     });
@@ -122,7 +129,7 @@ export class FirestoreService {
       this.firestore
         .collection('columns', (ref) =>
           ref
-            .where('boardId', '==', this.currentBoard.id)
+            .where('boardId', '==', this.currentBoard?.id)
             .orderBy(this.sortCol.ref, 'asc')
         )
         .valueChanges()
@@ -148,7 +155,7 @@ export class FirestoreService {
       'backlog',
       'boardId',
       '==',
-      this.currentBoard.id
+      this.currentBoard?.id
     ).subscribe((tickets: any) => {
       this.backlogTickets = tickets;
     });
@@ -171,7 +178,7 @@ export class FirestoreService {
   }
 
   async addDoc(collection: string, id: string, object: any) {
-    console.log(object)
+    console.log(object);
     return await this.firestore
       .collection(collection)
       .doc(id)
@@ -196,21 +203,21 @@ export class FirestoreService {
 
   addBoard(title: string) {
     let newBoard = new Board(title);
-    newBoard.userId = this.currentUser.uid;
+    if (this.currentUser) newBoard.userId = this.currentUser.uid;
     this.addDoc('boards', newBoard.id, newBoard);
   }
 
   // ##############  Delete  ##############
 
   async deleteFromDb(collection: string, id: string) {
-    
     switch (collection) {
       case 'guest':
         await this.deleteUserImages(id);
         await this.deleteSubCollection('boards', 'userId', id);
         break;
       case 'boards':
-        if (this.currentBoardSubscription) this.currentBoardSubscription.unsubscribe();
+        if (this.currentBoardSubscription)
+          this.currentBoardSubscription.unsubscribe();
         await this.deleteSubCollection('columns', 'boardId', id);
         break;
       case 'columns':
@@ -251,7 +258,11 @@ export class FirestoreService {
 
   async addUser(fireAuthUser: User) {
     this.isProcessing = true;
-    let newUser = new User(fireAuthUser.uid, fireAuthUser.email, fireAuthUser.emailVerified);
+    let newUser = new User(
+      fireAuthUser.uid,
+      fireAuthUser.email,
+      fireAuthUser.emailVerified
+    );
     await this.addDoc('user', newUser.uid, newUser);
     this.currentUser = newUser;
     this.isProcessing = false;
@@ -270,7 +281,7 @@ export class FirestoreService {
     this.isProcessing = true;
     return this.users.filter((user) => user.username == username);
   }
-/* 
+  /* 
   async setCurrentUser(matchingUser: User) {
     this.currentUser = matchingUser;
     this.isProcessing = false;
@@ -286,19 +297,19 @@ export class FirestoreService {
       const firebaseUser = await JSON.parse(storage);
       await this.getCurrentUserFromDB(firebaseUser.uid);
     } else {
-      this.setCurrentUser(new User())
+      this.setCurrentUser(undefined);
     }
   }
 
-  setCurrentUser(user: User){
+  setCurrentUser(user: User | undefined) {
     this.currentUser = user;
-    this.currentUser$.next(this.currentUser)
+    this.currentUser$.next(this.currentUser);
   }
-
+  /* 
   removeUserFromLocalStorage() {
     localStorage.removeItem('user');
   }
-
+ */
   // #############  Guest Account  #############
 
   async setGuestAccount(guest: any) {
@@ -349,11 +360,12 @@ export class FirestoreService {
   }
 
   checkForOldGuestData() {
-    console.log('check for old guest data')
-    const oldGuests = this.guests.filter((guest) => parseInt(guest.uid) >= 86400000);
-    console.log(oldGuests)
-    if(oldGuests)
-    this.deleteOldGuestData(oldGuests as User[]);
+    console.log('check for old guest data');
+    const oldGuests = this.guests.filter(
+      (guest) => parseInt(guest.uid) >= 86400000
+    );
+    console.log(oldGuests);
+    if (oldGuests) this.deleteOldGuestData(oldGuests as User[]);
   }
 
   deleteOldGuestData(oldGuests: User[]) {
@@ -364,24 +376,22 @@ export class FirestoreService {
 
   clearData() {
     return new Promise((resolve, reject) => {
-      if (this.currentUser.username == 'guest') {
+      if (this.currentUser?.username == 'guest') {
         this.deleteCurrentGuestData();
       }
-      this.clearTemp(true);
-      this.removeUserFromLocalStorage();
+      this.clearTemp();
+      /* this.removeUserFromLocalStorage(); */
       resolve('data deleted'), (err: any) => reject(err);
     });
   }
 
   deleteCurrentGuestData() {
-    this.deleteFromDb('guest', this.currentUser.uid);
+    if (this.currentUser) this.deleteFromDb('guest', this.currentUser.uid);
   }
 
-  clearTemp(clearUser: boolean) {
-/*     if (clearUser) {
-      this.currentUser = new User();
-    } */
-    this.boardsSubscription.unsubscribe()
+  clearTemp() {
+    this.currentUser = undefined;
+    this.boardsSubscription.unsubscribe();
     this.boards = [];
     this.currentBoard = new Board();
     this.backlogTickets = [];
@@ -430,7 +440,7 @@ export class FirestoreService {
       'columns',
       'boardId',
       '==',
-      this.currentBoard.id
+      this.currentBoard?.id
     ).subscribe((cols: any) => {
       let colOrders = cols.map((col: any) => col.order);
       const min = Math.min(...colOrders);

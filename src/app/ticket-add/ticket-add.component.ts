@@ -28,6 +28,7 @@ export class TicketAddComponent implements OnInit {
   }
 
   getBoardCategories(){
+    if(this.fireService.currentBoard)
     this.categories = this.fireService.currentBoard.categories;
   }
 

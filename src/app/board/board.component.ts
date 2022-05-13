@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Board } from '../models/Board.class';
 import { AddTicketService } from '../services/add-ticket.service';
 import { DragNdropService } from '../services/drag-ndrop.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -34,16 +35,28 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
-      console.log(user)
-      if (user) {
-        if (this.fireService.currentUser.uid != '') {
-          this.loadBoard();
-        } else {
-          this.showBoard = false;
+    console.log('ngOnInit - board');
+    if (!this.fireService.currentUser) {
+      this.userSubscription = this.fireService.currentUser$.subscribe(
+        (user) => {
+          console.log(user);
+          if (user) {
+            if (
+              this.fireService.currentUser &&
+              this.fireService.currentUser.uid != ''
+            ) {
+              this.loadBoard();
+            } else {
+              this.showBoard = false;
+            }
+          }
         }
-      }
-    });
+      );
+    } else {
+      console.log('else');
+      if (this.fireService.currentUser.uid != '') this.loadBoard();
+      else this.showBoard = false;
+    }
   }
   /* this.fireService.getUserFromLocalStorage(); */
   /*     if (this.fireService.currentUser.uid != '') {
@@ -51,7 +64,9 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   } */
 
   ngOnDestroy(): void {
-  this.userSubscription.unsubscribe()
+    console.log('ngOnDestroy - board');
+    if (this.userSubscription) this.userSubscription.unsubscribe();
+    this.fireService.currentBoard = undefined;
   }
 
   ngAfterViewInit(): void {
@@ -87,7 +102,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   userHasAccess() {
     return (
-      this.fireService.currentBoard.userId === this.fireService.currentUser.uid
+      this.fireService.currentBoard?.userId === this.fireService.currentUser?.uid
     );
   }
 

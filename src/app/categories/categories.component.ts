@@ -18,7 +18,7 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./categories.component.scss'],
 })
 export class CategoriesComponent implements OnInit {
-  newCategory = {category: '', color: '#fff'};
+  newCategory = { category: '', color: '#fff' };
   oldCategory: string = '';
   isEditingCategory = false;
   isEditingColor = false;
@@ -33,11 +33,13 @@ export class CategoriesComponent implements OnInit {
 
   addCategory() {
     this.fireService.addNewCategory(this.newCategory);
-    this.newCategory = {category: '', color: this.getRandomColor()};
+    this.newCategory = { category: '', color: this.getRandomColor() };
   }
 
-  getRandomColor(){
-    return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, ${Math.random()})`
+  getRandomColor() {
+    return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${
+      Math.random() * 255
+    }, ${Math.random()})`;
   }
 
   editCategoryColor(index: number) {
@@ -47,10 +49,10 @@ export class CategoriesComponent implements OnInit {
 
   setCurrentColor(event: ColorEvent) {
     this.currentColor = `rgba(${event.color.rgb.r}, ${event.color.rgb.g}, ${event.color.rgb.b}, ${event.color.rgb.a})`;
-    
   }
 
   saveColor() {
+    if (this.fireService.currentBoard) {
       this.fireService.updateCategories(
         {
           category:
@@ -60,7 +62,8 @@ export class CategoriesComponent implements OnInit {
         },
         this.currentColorItem
       );
-    this.isEditingColor = false;
+      this.isEditingColor = false;
+    }
   }
 
   closeCategoryModal() {

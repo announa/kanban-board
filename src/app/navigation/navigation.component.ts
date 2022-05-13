@@ -45,7 +45,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   }
 
   async logout() {
-    this.fireService.clearTemp(false);
+    this.fireService.clearTemp();
     await this.authService.signOut();
     this.navigate('/');
   }
@@ -70,7 +70,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
 
   isActive(link1: string, link2: string){
     setTimeout(() => {
-     return (this.router.isActive(link1 + this.fireService.currentBoard.id + link2, true))
+     return (this.router.isActive(link1 + this.fireService.currentBoard?.id + link2, true))
     }, 5000);
   }
 }

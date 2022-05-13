@@ -1,4 +1,4 @@
-<nav class="navigation" [style.right]="navIsOpen ? '0' : ''">
+##<nav class="navigation" [style.right]="navIsOpen ? '0' : ''">
   <div class="nav-right nav-section">
     <a
       (click)="navigate('/boards')"
@@ -11,19 +11,19 @@
 
   <div class="nav-left nav-section">
     <img src="assets/img/logo_1_white.svg" alt="" />
-    <div class="nav-left-links" *ngIf="fireService.currentBoard" #navLeft>
+    <div class="nav-left-links" *ngIf="fireService.currentBoard?.id != ''" #navLeft>
       <a
-        (click)="navigate('/board/' + fireService.currentBoard.id)"
+        (click)="navigate('/board/' + fireService.currentBoard?.id)"
         [class.a-active]="
-          router.url.endsWith('/board/' + fireService.currentBoard.id)
+          router.url.endsWith('/board/' + fireService.currentBoard?.id)
         "
-        >{{ fireService.currentBoard.title }}</a
+        >{{ fireService.currentBoard?.title }}</a
       >
       <a
-        (click)="navigate('/board/' + fireService.currentBoard.id + '/backlog')"
+        (click)="navigate('/board/' + fireService.currentBoard?.id + '/backlog')"
         [class.a-active]="
           router.url.endsWith(
-            '/board/' + fireService.currentBoard.id + '/backlog'
+            '/board/' + fireService.currentBoard?.id + '/backlog'
           )
         "
         >Backlog</a

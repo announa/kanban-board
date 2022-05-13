@@ -1,13 +1,22 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren, } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-categories-edit',
   templateUrl: './categories-edit.component.html',
-  styleUrls: ['./categories-edit.component.scss']
+  styleUrls: ['./categories-edit.component.scss'],
 })
 export class CategoriesEditComponent implements OnInit {
-
   showTooltipEdit = false;
   showTooltipColor = false;
   showTooltipDelete = false;
@@ -15,18 +24,19 @@ export class CategoriesEditComponent implements OnInit {
   oldCategory = '';
   @ViewChild('categoryElem') categoryElem!: ElementRef;
   @ViewChildren('save') save!: QueryList<ElementRef>;
-  @Input('category') category!:  {category: string, color: string};
+  @Input('category') category!: { category: string; color: string };
   @Input('index') index!: number;
   @Output() editCatColor = new EventEmitter();
 
-  constructor(public fireService: FirestoreService) { }
+  constructor(public fireService: FirestoreService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   editCategoryTitle() {
     this.isEditingCategory = true;
-    this.oldCategory = this.fireService.currentBoard.categories[this.index].category;
+    if (this.fireService.currentBoard)
+      this.oldCategory =
+        this.fireService.currentBoard.categories[this.index].category;
     setTimeout(() => {
       this.categoryElem.nativeElement.focus();
     }, 50);
@@ -38,17 +48,17 @@ export class CategoriesEditComponent implements OnInit {
       this.saveCategory();
     }
   }
-  
-  editCategoryColor(){
-    this.editCatColor.emit(this.index)
+
+  editCategoryColor() {
+    this.editCatColor.emit(this.index);
   }
 
   saveCategory() {
-    const editedCategory =
-      this.categoryElem.nativeElement.textContent;
-    if (editedCategory && 
+    const editedCategory = this.categoryElem.nativeElement.textContent;
+    if (
+      editedCategory &&
       editedCategory !=
-        this.fireService.currentBoard.categories[this.index].category &&
+        this.fireService.currentBoard?.categories[this.index].category &&
       this.fireService.currentBoard
     ) {
       this.fireService.updateCategories(
@@ -66,16 +76,17 @@ export class CategoriesEditComponent implements OnInit {
     this.fireService.deleteCategory(this.index);
   }
 
-
-  onBlur(event: any){
-    if(!this.saveWasClicked(event)){
+  onBlur(event: any) {
+    if (!this.saveWasClicked(event)) {
       this.isEditingCategory = false;
       this.categoryElem.nativeElement.textContent = this.oldCategory;
     }
   }
 
-  saveWasClicked(event: any){
-    const isClicked = this.save.find(elem => elem.nativeElement == event.target)
-    return isClicked ? true : false
+  saveWasClicked(event: any) {
+    const isClicked = this.save.find(
+      (elem) => elem.nativeElement == event.target
+    );
+    return isClicked ? true : false;
   }
 }

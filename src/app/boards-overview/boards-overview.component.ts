@@ -24,18 +24,27 @@ export class BoardsOverviewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
-      console.log(user);
-      if (user) {
-        console.log(user);
-        if (this.fireService.currentUser.uid != '') {
-          this.fireService.loadBoards();
-          console.log(this.fireService.currentUser)
-        } else {
-          this.router.navigateByUrl('/');
+    console.log('ngOnInit');
+    if (!this.fireService.currentUser) {
+      this.userSubscription = this.fireService.currentUser$.subscribe(
+        (user) => {
+          console.log(user);
+          if (user) {
+            console.log(user);
+            if (this.fireService.currentUser && this.fireService.currentUser.uid != '') {
+              this.fireService.loadBoards();
+              console.log(this.fireService.currentUser);
+            } else {
+              this.router.navigateByUrl('/');
+            }
+          }
         }
-      }
-    });
+      );
+    } else {
+      console.log('else');
+      if (this.fireService.currentUser.uid != '') this.fireService.loadBoards();
+      else this.router.navigateByUrl('/');
+    }
   }
   /*     this.authService.afAuth.authState.subscribe((user) => {
       if (user) this.fireService.loadBoards();
@@ -46,7 +55,8 @@ export class BoardsOverviewComponent implements OnInit, OnDestroy {
   /* this.fireService.loadUserBoards(); */
 
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
+    console.log('ngOnDestroy');
+    if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 
   toggleTooltip() {
