@@ -46,12 +46,16 @@ export class AuthenticationService {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        if (result.user != null) {
+        if (result.user != null && result.user.emailVerified) {
           this.ngZone.run(() => {
             this.router.navigate(['/boards']);
           });
           console.log(result.user)
           this.setUserData(result.user );
+        } else if(result.user != null && !result.user.emailVerified){
+          this.ngZone.run(() => {
+            this.router.navigate(['/verify']);
+          });
         }
       })
       .catch((error) => {

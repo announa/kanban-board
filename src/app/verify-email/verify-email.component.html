@@ -1,10 +1,10 @@
 <div class="modal-transp-container">
  <div class="modal-transp" #modal>
    <div class="content">
-     <h3>Thank You for Registering</h3>
+     <h3>You got a verification mail</h3>
      <div class="formGroup" *ngIf="authService.userData as user">
        <p class="text-center">We have sent a confirmation email to <strong>{{user.email}}</strong>.</p>
-       <p class="text-center">Please check your email and click on the link to verfiy your email address.</p>
+       <p class="text-center">Please check your emails and click on the link to verfiy your email address and start using Kanban.</p>
      </div>
      
      <!-- Calling SendVerificationMail() method using authService Api -->
@@ -13,11 +13,10 @@
          You didn't get the verification mail?
        </p>
        <button type="button" class="btn" (click)="authService.sendVerificationMail()">
-         <i class="fas fa-redo-alt"></i>
          Resend Verification Email
        </button>
      </div>
-     <a routerLink="/">Go to login &rArr;</a>
+     <a routerLink="/">Go to login <img src="assets/img/angles-right.svg" alt=""></a>
    </div>
  </div>
 </div>

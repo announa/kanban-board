@@ -33,6 +33,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { EditBoardMenuComponent } from './edit-board-menu/edit-board-menu.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     AddTitleComponent,
     PasswordResetComponent,
     VerifyEmailComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
