@@ -34,10 +34,11 @@ export class AuthenticationService {
   ) {
     this.afAuth.authState.subscribe(async (user) => {
       if (user) {
+        console.log(user);
         this.userData = user;
         this.fireService.saveUserToLocalStorage(this.userData);
         await this.fireService.getCurrentUserFromLocalStorage();
-        console.log(this.userData)
+        console.log(this.userData);
       }
     });
   }
@@ -50,9 +51,9 @@ export class AuthenticationService {
           this.ngZone.run(() => {
             this.router.navigate(['/boards']);
           });
-          console.log(result.user)
-          this.setUserData(result.user );
-        } else if(result.user != null && !result.user.emailVerified){
+          console.log(result.user);
+          this.setUserData(result.user);
+        } else if (result.user != null && !result.user.emailVerified) {
           this.ngZone.run(() => {
             this.router.navigate(['/verify']);
           });
@@ -63,7 +64,7 @@ export class AuthenticationService {
       });
   }
 
-  signInAnonymously() {
+  /*   signInAnonymously() {
     return this.afAuth
       .signInAnonymously()
       .then(() => {
@@ -72,7 +73,7 @@ export class AuthenticationService {
       .catch((error) => {
         window.alert(error.message);
       });
-  }
+  } */
 
   signUp(email: string, password: string) {
     return this.afAuth
@@ -118,7 +119,7 @@ export class AuthenticationService {
   }
 
   async setUserData(user: any) {
-    console.log(user)
+    console.log(user);
     await this.fireService.addUser(user);
   }
 
@@ -128,5 +129,15 @@ export class AuthenticationService {
       await this.fireService.getCurrentUserFromLocalStorage();
       this.router.navigate(['/']);
     });
+  }
+
+  async loggedInAsGuest() {
+    let user = new User();
+    const storage = localStorage.getItem('user');
+    if (storage) {
+      user = await JSON.parse(storage);
+    }
+    if (user.username == 'guest') return true;
+    else return false;
   }
 }

@@ -1,4 +1,12 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { AddTicketService } from '../services/add-ticket.service';
 import { FirestoreService } from '../services/firestore.service';
 
@@ -8,13 +16,17 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./ticket-add.component.scss'],
 })
 export class TicketAddComponent implements OnInit {
+  @ViewChildren('selectItem') selectItem!: QueryList<ElementRef>;
+  @ViewChild('selectItemContainer') selectItemContainer!: ElementRef;
+  @ViewChild('selectArrow') selectArrow!: ElementRef;
   action!: string;
-  categories: {category: string, color: string}[] = []
-  selectedCategory: string = '';
+  categories: { category: string; color: string }[] = [];
+  selectedCategoryTitle = 'Select a category ...';
+  selectedCategoryColor = '';
   colorsAreOpen = false;
-  ticketCategory!: string;
+  selectedCategoryNumber!: number;
   @HostListener('document:click', ['$event'])
-  clickEvent(event: any){
+  clickEvent(event: any) {
     this.colorsAreOpen = false;
   }
 
@@ -27,9 +39,9 @@ export class TicketAddComponent implements OnInit {
     this.getBoardCategories();
   }
 
-  getBoardCategories(){
-    if(this.fireService.currentBoard)
-    this.categories = this.fireService.currentBoard.categories;
+  getBoardCategories() {
+    if (this.fireService.currentBoard)
+      this.categories = this.fireService.currentBoard.categories;
   }
 
   getMinDate() {
@@ -43,23 +55,43 @@ export class TicketAddComponent implements OnInit {
     return date;
   }
 
-  saveTicket(){
-/*     const category = {category: this.selectedCategory, color: this.getCategoryColor()} */
-const categoryNumber = this.getCategoryNumber()
-    this.addTicketServ.saveTicket(categoryNumber)
+  saveTicket() {
+    /*     const category = {category: this.selectedCategoryTitle, color: this.getCategoryColor()} */
+    /* const categoryNumber = this.getCategoryNumber() */
+    this.addTicketServ.saveTicket(this.selectedCategoryNumber);
   }
 
-  getCategoryNumber(){
-    return this.categories.findIndex(cat => cat.category == this.ticketCategory)
-  }
-/* 
+  /*   getCategoryNumber(){
+    return this.categories.findIndex(cat => cat.category == this.selectedCategoryNumber)
+  } */
+  /* 
   getCategoryColor(){
-    const category = this.categories.find(category => category.category == this.selectedCategory)
+    const category = this.categories.find(category => category.category == this.selectedCategoryTitle)
     return category? category.color : '#fff';
   } */
 
-  toggleCategoryColor(event: any){
-    event.stopPropagation()
+  toggleSelectMenu() {
+    this.selectItemContainer.nativeElement.classList.toggle('d-none');
+    this.selectArrow.nativeElement.classList.toggle('rotate');
+  }
+
+  toggleCategoryColor(event: any) {
+    event.stopPropagation();
     this.colorsAreOpen = !this.colorsAreOpen;
+  }
+
+  selectCategory(index: number) {
+    if(index > -1){
+    this.selectedCategoryNumber = index;
+    this.selectedCategoryTitle =
+      this.categories[this.selectedCategoryNumber].category;
+    this.selectedCategoryColor =
+      this.categories[this.selectedCategoryNumber].color;
+    } else{
+      this.selectedCategoryTitle = 'Select a category ...'
+      this.selectedCategoryNumber = -1;
+      this.selectedCategoryColor = '';
+    }
+    this.toggleSelectMenu();
   }
 }

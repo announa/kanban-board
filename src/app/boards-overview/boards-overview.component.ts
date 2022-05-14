@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { threadId } from 'worker_threads';
 import { User } from '../models/User.class';
 import { AuthenticationService } from '../services/authentication.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -23,9 +24,17 @@ export class BoardsOverviewComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     console.log('ngOnInit');
-    if (!this.fireService.currentUser) {
+    if(await this.authService.loggedInAsGuest()){
+      if(this.fireService.currentUser) this.fireService.loadBoards();
+      else{
+        console.log('else 1');
+        await this.fireService.getCurrentUserFromLocalStorage();
+        this.fireService.loadBoards();
+      } 
+    } else if (!this.fireService.currentUser) {
+      console.log('subscribe')
       this.userSubscription = this.fireService.currentUser$.subscribe(
         (user) => {
           console.log(user);

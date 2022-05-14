@@ -45,7 +45,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   }
 
   async logout() {
-    this.fireService.clearTemp();
+    await this.fireService.clearData();
     await this.authService.signOut();
     this.navigate('/');
   }

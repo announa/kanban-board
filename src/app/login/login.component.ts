@@ -98,6 +98,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
       await this.fireService.setGuestAccountInDb(guest);
       this.fireService.isProcessing = false;
       this.loadUserBoards();
+      this.guestDataSubscription.unsubscribe()
     });
   }
 }

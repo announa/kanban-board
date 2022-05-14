@@ -4,7 +4,11 @@
       Add a new Ticket to {{ fireService.currentBoard?.title }}
     </h2>
     <h2 *ngIf="addTicketServ.action == 'edit'">Edit Ticket</h2>
-    <form *ngIf="addTicketServ.ticket" (ngSubmit)="saveTicket()" #ticketForm="ngForm">
+    <form
+      *ngIf="addTicketServ.ticket"
+      (ngSubmit)="saveTicket()"
+      #ticketForm="ngForm"
+    >
       <div class="form-input">
         <label for="">Title</label>
         <input
@@ -33,8 +37,8 @@
       </div>
 
       <div class="form-input category-select">
-        <label for="">Category</label>
-        <select
+        <label for="category">Category</label>
+        <!--         <select
           *ngIf="
             fireService.currentBoard &&
             fireService.currentBoard.categories.length > 0
@@ -52,7 +56,45 @@
           >
             {{ category.category }}
           </option>
-        </select>
+        </select> -->
+        <div
+          *ngIf="
+            fireService.currentBoard &&
+            fireService.currentBoard.categories.length > 0
+          "
+          class="input select-menu"
+          #select
+        >
+          <div class="select-toggle" (click)="toggleSelectMenu()">
+            <div class="selected-category">
+              <div
+                *ngIf="selectedCategoryColor != ''"
+                class="cat-color"
+                [style.backgroundColor]="selectedCategoryColor"
+              ></div>
+              {{ selectedCategoryTitle }}
+            </div>
+            <img src="assets/img/chevron-down.svg" alt="" #selectArrow />
+          </div>
+
+          <div class="select-item-container d-none" #selectItemContainer>
+            <div class="select-item" (click)="selectCategory(-1)" #selectItem>
+              None
+            </div>
+            <div
+              *ngFor="let category of categories; let i = index"
+              class="select-item"
+              (click)="selectCategory(i)"
+              #selectItem
+            >
+              <div
+                class="cat-color"
+                [style.backgroundColor]="category.color"
+              ></div>
+              {{ category.category }}
+            </div>
+          </div>
+        </div>
         <span
           style="font-size: 13px"
           *ngIf="
@@ -61,7 +103,7 @@
           "
           >You did not add any categories to this board yet</span
         >
-<!--         <div
+        <!--         <div
           *ngIf="
             fireService.currentBoard &&
             fireService.currentBoard.categories.length > 0 &&

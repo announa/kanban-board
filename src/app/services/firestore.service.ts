@@ -62,9 +62,17 @@ export class FirestoreService {
   }
 
   async getCurrentUserFromDB(userId: string) {
-    const user = (await firstValueFrom(
+    console.log('getCurrentUserFromDb')
+    console.log(userId)
+    let user = (await firstValueFrom(
       this.getDocRef('user', userId).valueChanges()
     )) as User;
+    if(!user){
+      console.log(user)
+      user = await firstValueFrom(
+        this.getDocRef('guest', userId).valueChanges()
+      ) as User;
+    }
     this.setCurrentUser(user);
   }
   /*   getCurrentUser(userId: string) {
@@ -292,6 +300,7 @@ export class FirestoreService {
   }
 
   async getCurrentUserFromLocalStorage() {
+    console.log('getCurrentUserFromLocalStorage')
     const storage = localStorage.getItem('user');
     if (storage) {
       const firebaseUser = await JSON.parse(storage);
@@ -302,6 +311,9 @@ export class FirestoreService {
   }
 
   setCurrentUser(user: User | undefined) {
+    console.log('setCurrentUser')
+    console.log(user)
+
     this.currentUser = user;
     this.currentUser$.next(this.currentUser);
   }
@@ -315,7 +327,7 @@ export class FirestoreService {
   async setGuestAccount(guest: any) {
     new Promise(async (resolve, reject) => {
       const newGuest = await this.setIds(guest);
-      this.setTemp(newGuest);
+      this.currentUser = guest.guest;
       this.saveUserToLocalStorage(newGuest.guest);
       resolve('guest account set'), (err: any) => reject(err);
     });
@@ -342,12 +354,6 @@ export class FirestoreService {
     return guest;
   }
 
-  setTemp(guest: any) {
-    this.currentUser = guest.guest;
-    this.currentBoard = guest.guestBoard;
-    this.columns = guest.guestColumns;
-  }
-
   async setGuestAccountInDb(guest: any) {
     await this.addDoc('guest', guest.guest.uid, guest.guest);
     await this.addDoc('boards', guest.guestBoard.id, guest.guestBoard);
@@ -362,7 +368,7 @@ export class FirestoreService {
   checkForOldGuestData() {
     console.log('check for old guest data');
     const oldGuests = this.guests.filter(
-      (guest) => parseInt(guest.uid) >= 86400000
+      (guest) => Date.now() - parseInt(guest.uid) >= 86400000
     );
     console.log(oldGuests);
     if (oldGuests) this.deleteOldGuestData(oldGuests as User[]);
@@ -375,9 +381,11 @@ export class FirestoreService {
   // #############  Logout  ###############
 
   clearData() {
-    return new Promise((resolve, reject) => {
+    console.log('clear data')
+    return new Promise(async (resolve, reject) => {
       if (this.currentUser?.username == 'guest') {
-        this.deleteCurrentGuestData();
+        console.log('delete guest')
+        await this.deleteCurrentGuestData();
       }
       this.clearTemp();
       /* this.removeUserFromLocalStorage(); */
@@ -385,15 +393,15 @@ export class FirestoreService {
     });
   }
 
-  deleteCurrentGuestData() {
-    if (this.currentUser) this.deleteFromDb('guest', this.currentUser.uid);
+  async deleteCurrentGuestData() {
+    if (this.currentUser) await this.deleteFromDb('guest', this.currentUser.uid);
   }
 
   clearTemp() {
     this.currentUser = undefined;
     this.boardsSubscription.unsubscribe();
     this.boards = [];
-    this.currentBoard = new Board();
+    this.currentBoard = undefined;
     this.backlogTickets = [];
     this.columns = [];
   }

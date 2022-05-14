@@ -2,38 +2,68 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FirestoreService } from '../services/firestore.service';
 import { AddTicketService } from '../services/add-ticket.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { Subscription } from 'rxjs';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-backlog',
   templateUrl: './backlog.component.html',
-  styleUrls: ['./backlog.component.scss']
+  styleUrls: ['./backlog.component.scss'],
 })
 export class BacklogComponent implements OnInit, OnDestroy {
   showBacklog = true;
   showTooltip = false;
+  userSubscription!: Subscription;
 
-  constructor(public fireService: FirestoreService, public addTicketServ: AddTicketService, private route: ActivatedRoute) { }
+  constructor(
+    public fireService: FirestoreService,
+    private authService: AuthenticationService,
 
-  ngOnInit(): void {
-   /*  this.fireService.getUserFromLocalStorage(); */
-    if (this.fireService.currentUser?.uid != '') {
-      this.loadBacklog();
+    public addTicketServ: AddTicketService,
+    private route: ActivatedRoute
+  ) {}
+
+  async ngOnInit() {
+    if(await this.authService.loggedInAsGuest()){
+      if(this.fireService.currentUser) this.loadBacklog();
+      else{
+        console.log('else 1');
+        await this.fireService.getCurrentUserFromLocalStorage();
+        this.loadBacklog();
+      } 
+    } else if (!this.fireService.currentUser) {
+      this.userSubscription = this.fireService.currentUser$.subscribe(
+        (user) => {
+          if (user) {
+            if (
+              this.fireService.currentUser &&
+              this.fireService.currentUser.uid != ''
+            ) {
+              this.loadBacklog();
+            } else {
+              this.showBacklog = false;
+            }
+          }
+        }
+      );
     } else {
-      this.showBacklog = false;
+      if (this.fireService.currentUser.uid != '') this.loadBacklog();
+      else this.showBacklog = false;
     }
   }
 
   ngOnDestroy(): void {
-    this.fireService.backlogTicketsSubscription.unsubscribe()
+    if (this.userSubscription) this.userSubscription.unsubscribe();
+    this.fireService.backlogTicketsSubscription.unsubscribe();
+    this.fireService.currentBoard = undefined;
   }
-  
-  async loadBacklog(){
+
+  async loadBacklog() {
     let boardId = this.getBoardIdFromURL();
     await this.fireService.loadCurrentBoard(boardId);
     if (this.userHasAccess()) {
       this.showBacklog = true;
-      this.fireService.loadBacklogTickets()
+      this.fireService.loadBacklogTickets();
     } else {
       this.showBacklog = false;
     }
@@ -41,7 +71,8 @@ export class BacklogComponent implements OnInit, OnDestroy {
 
   userHasAccess() {
     return (
-      this.fireService.currentBoard?.userId === this.fireService.currentUser?.uid
+      this.fireService.currentBoard?.userId ===
+      this.fireService.currentUser?.uid
     );
   }
 
@@ -53,7 +84,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
     return boardId;
   }
 
-  toggleTooltip(){
-    this.showTooltip = !this.showTooltip
+  toggleTooltip() {
+    this.showTooltip = !this.showTooltip;
   }
 }

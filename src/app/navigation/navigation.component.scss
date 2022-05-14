@@ -42,6 +42,13 @@ a {
   }
 }
 
+.board-title{
+  white-space: nowrap;
+  max-width: calc(100vw - 550px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .a-active {
   color: $nav-hover-color;
   font-weight: 600;
@@ -155,5 +162,9 @@ a {
 @media (max-width: 450px) {
   .navigation {
     width: 100%;
+  }
+
+  .nav-section{
+    padding-left: 70px;
   }
 }
