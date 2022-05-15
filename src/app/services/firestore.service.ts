@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import {
-  BehaviorSubject,
-  firstValueFrom,
-  Observable,
-  Subject,
-  Subscription,
-} from 'rxjs';
+import { firstValueFrom, Observable, Subject, Subscription } from 'rxjs';
 import { Board } from '../models/Board.class';
 import { Column } from '../models/Column.class';
 import { Ticket } from '../models/Ticket.class';
@@ -62,26 +56,19 @@ export class FirestoreService {
   }
 
   async getCurrentUserFromDB(userId: string) {
-    console.log('getCurrentUserFromDb')
-    console.log(userId)
+    console.log('getCurrentUserFromDb');
+    console.log(userId);
     let user = (await firstValueFrom(
       this.getDocRef('user', userId).valueChanges()
     )) as User;
-    if(!user){
-      console.log(user)
-      user = await firstValueFrom(
+    if (!user) {
+      console.log(user);
+      user = (await firstValueFrom(
         this.getDocRef('guest', userId).valueChanges()
-      ) as User;
+      )) as User;
     }
     this.setCurrentUser(user);
   }
-  /*   getCurrentUser(userId: string) {
-    this.getDocRef('user', userId)
-      .valueChanges()
-      .subscribe((user: any) => {
-        this.currentUser = user;
-      });
-  } */
 
   getDocRef(collection: string, doc: string) {
     return this.firestore.collection(collection).doc(doc);
@@ -110,13 +97,16 @@ export class FirestoreService {
   }
 
   loadBoards() {
-    this.boardsSubscription = this.getFilteredCollection(
-      'boards',
-      'userId',
-      '==',
-      this.currentUser?.uid
-    ).subscribe((boards: any) => {
-      this.boards = boards;
+    return new Promise((resolve, reject) => {
+      (this.boardsSubscription = this.getFilteredCollection(
+        'boards',
+        'userId',
+        '==',
+        this.currentUser?.uid
+      ).subscribe((boards: any) => {
+        this.boards = boards;
+      })),
+        (err: any) => reject(err);
     });
   }
 
@@ -155,17 +145,20 @@ export class FirestoreService {
     return this.getFilteredCollection('tickets', 'columnId', '==', columnId);
   }
 
-  loadBacklogTickets() {
-    this.backlogTicketsSubscription = this.getFilteredCollection(
-      'tickets',
-      'columnId',
-      '==',
-      'backlog',
-      'boardId',
-      '==',
-      this.currentBoard?.id
-    ).subscribe((tickets: any) => {
-      this.backlogTickets = tickets;
+  async loadBacklogTickets() {
+    return new Promise((resolve, reject) => {
+      (this.backlogTicketsSubscription = this.getFilteredCollection(
+        'tickets',
+        'columnId',
+        '==',
+        'backlog',
+        'boardId',
+        '==',
+        this.currentBoard?.id
+      ).subscribe((tickets: any) => {
+        this.backlogTickets = tickets;
+      })),
+        (err: any) => reject(err);
     });
   }
 
@@ -276,31 +269,12 @@ export class FirestoreService {
     this.isProcessing = false;
   }
 
-  checkForMatchingUser(userinput: { username: string; password: string }) {
-    this.isProcessing = true;
-    return this.users.filter(
-      (user) => user.username == userinput.username
-      /*          &&
-        user.password == userinput.password */
-    );
-  }
-
-  checkForExistingUser(username: string) {
-    this.isProcessing = true;
-    return this.users.filter((user) => user.username == username);
-  }
-  /* 
-  async setCurrentUser(matchingUser: User) {
-    this.currentUser = matchingUser;
-    this.isProcessing = false;
-  } */
-
   saveUserToLocalStorage(object: any) {
     localStorage.setItem('user', JSON.stringify(object));
   }
 
   async getCurrentUserFromLocalStorage() {
-    console.log('getCurrentUserFromLocalStorage')
+    console.log('getCurrentUserFromLocalStorage');
     const storage = localStorage.getItem('user');
     if (storage) {
       const firebaseUser = await JSON.parse(storage);
@@ -311,17 +285,13 @@ export class FirestoreService {
   }
 
   setCurrentUser(user: User | undefined) {
-    console.log('setCurrentUser')
-    console.log(user)
+    console.log('setCurrentUser');
+    console.log(user);
 
     this.currentUser = user;
     this.currentUser$.next(this.currentUser);
   }
-  /* 
-  removeUserFromLocalStorage() {
-    localStorage.removeItem('user');
-  }
- */
+
   // #############  Guest Account  #############
 
   async setGuestAccount(guest: any) {
@@ -381,25 +351,23 @@ export class FirestoreService {
   // #############  Logout  ###############
 
   clearData() {
-    console.log('clear data')
     return new Promise(async (resolve, reject) => {
       if (this.currentUser?.username == 'guest') {
-        console.log('delete guest')
         await this.deleteCurrentGuestData();
       }
       this.clearTemp();
-      /* this.removeUserFromLocalStorage(); */
       resolve('data deleted'), (err: any) => reject(err);
     });
   }
 
   async deleteCurrentGuestData() {
-    if (this.currentUser) await this.deleteFromDb('guest', this.currentUser.uid);
+    if (this.currentUser)
+      await this.deleteFromDb('guest', this.currentUser.uid);
   }
 
   clearTemp() {
     this.currentUser = undefined;
-    this.boardsSubscription.unsubscribe();
+    if (this.boardsSubscription) this.boardsSubscription.unsubscribe();
     this.boards = [];
     this.currentBoard = undefined;
     this.backlogTickets = [];

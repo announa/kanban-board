@@ -8,7 +8,6 @@ import {
   Input,
   OnInit,
   Output,
-  Query,
   QueryList,
   ViewChild,
   ViewChildren,

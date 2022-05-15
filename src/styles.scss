@@ -27,7 +27,7 @@ body {
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 500;
 }
 
@@ -49,11 +49,12 @@ h3 {
 a {
   text-decoration: none;
   text-transform: uppercase;
-  color: $letter-color-light;
+  color: $letter-color-dark;
   font-weight: 500;
+  cursor: pointer;
 
   &:hover {
-    color: rgba($letter-color-light, 0.5);
+    color: rgba($letter-color-dark, 0.5);
   }
 }
 
@@ -326,22 +327,22 @@ img {
 
   p {
     font-size: 14px;
+  }
 
-    a {
-      color: $letter-color-dark;
-      text-transform: none;
-      text-decoration: underline;
-      cursor: pointer;
+  a {
+    color: $letter-color-dark;
+    text-transform: none;
+    text-decoration: underline;
+    cursor: pointer;
+    @media (max-width: 600px) {
+      color: $letter-color-light;
+    }
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.9);
       @media (max-width: 600px) {
         color: $letter-color-light;
-      }
-
-      &:hover {
-        color: rgba(0, 0, 0, 0.9);
-        @media (max-width: 600px) {
-          color: $letter-color-light;
-          text-shadow: 0 0 1px $letter-color-light;
-        }
+        text-shadow: 0 0 1px $letter-color-light;
       }
     }
   }

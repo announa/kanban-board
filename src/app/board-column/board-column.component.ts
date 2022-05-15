@@ -31,8 +31,10 @@ export class BoardColumnComponent implements OnInit {
     public dragService: DragNdropService
   ) {}
 
-  ngOnInit(): void {
-    this.tickets = this.fireService.loadTickets(this.column.id) as Observable<Ticket[]>
+  async ngOnInit() {
+    this.tickets = await this.fireService.loadTickets(this.column.id) as Observable<Ticket[]>
+    /* this.fireService.isProcessing = false; */
+
   }
 
   onDragstart(event: any) {

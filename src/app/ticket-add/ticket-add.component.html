@@ -32,31 +32,10 @@
           minlength="1"
           placeholder="Ticket Description*"
         ></textarea>
-        <!--          cols="30"
-                   rows="10" -->
       </div>
 
       <div class="form-input category-select">
         <label for="category">Category</label>
-        <!--         <select
-          *ngIf="
-            fireService.currentBoard &&
-            fireService.currentBoard.categories.length > 0
-          "
-          name="category"
-          class="input"
-          id=""
-          [(ngModel)]="ticketCategory"
-          (click)="toggleCategoryColor($event)"
-          #select
-        >
-          <option
-            *ngFor="let category of categories"
-            value="{{ category.category }}"
-          >
-            {{ category.category }}
-          </option>
-        </select> -->
         <div
           *ngIf="
             fireService.currentBoard &&
@@ -103,26 +82,6 @@
           "
           >You did not add any categories to this board yet</span
         >
-        <!--         <div
-          *ngIf="
-            fireService.currentBoard &&
-            fireService.currentBoard.categories.length > 0 &&
-            colorsAreOpen
-          "
-          class="category-colors"
-          [style.bottom.px]="-(categories.length * 29 + 1)"
-        >
-          <div
-            class="color-container"
-            [style.height.px]="categories.length * 29"
-          >
-            <span
-              *ngFor="let category of categories"
-              [style.backgroundColor]="category.color"
-              class="category-color-span"
-            ></span>
-          </div>
-        </div> -->
       </div>
       <div class="form-input">
         <label for="">Priority</label>
@@ -147,10 +106,6 @@
           [(ngModel)]="addTicketServ.ticket.deadline"
         />
       </div>
-      <!--       <div class="form-input">
-        <label for="">Add responsibles</label>
-        <input type="text" class="input" placeholder="Add users" />
-      </div> -->
       <div class="btn-container">
         <button
           class="btn btn-light"

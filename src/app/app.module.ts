@@ -30,10 +30,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AddTitleComponent } from './add-title/add-title.component';
 import { ColorSketchModule } from 'ngx-color/sketch';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { EditBoardMenuComponent } from './edit-board-menu/edit-board-menu.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { HomeComponent } from './home/home.component';
+import { LoadingCircleComponent } from './loading-circle/loading-circle.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,6 @@ import { HomeComponent } from './home/home.component';
     TitleComponent,
     BoardsOverviewComponent,
     BoardsPreviewComponent,
-    EditBoardMenuComponent,
     LoginComponent,
     RegisterComponent,
     LoadingBarComponent,
@@ -59,6 +59,8 @@ import { HomeComponent } from './home/home.component';
     PasswordResetComponent,
     VerifyEmailComponent,
     HomeComponent,
+    LoadingCircleComponent,
+    PrivacyComponent,
   ],
   imports: [
     BrowserModule,

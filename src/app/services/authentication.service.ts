@@ -1,23 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
-import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   AngularFirestore,
-  AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { User } from '../models/User.class';
 import { FirestoreService } from './firestore.service';
-import { ThisReceiver } from '@angular/compiler';
-import { FirebaseApp } from '@angular/fire/app';
-
-/* export interface User {
-  uid: string;
-  email: string;
-  displayName: string;
-  photoURL: string;
-  emailVerified: boolean;
-} */
 
 @Injectable({
   providedIn: 'root',

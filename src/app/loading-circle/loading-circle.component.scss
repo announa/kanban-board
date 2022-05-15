@@ -1,0 +1,37 @@
+@import "../../vars.scss";
+
+.modal-transp-container {
+  @include flex(center, center);
+}
+
+
+.loading-anim {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 6px solid rgba($loading-bar-color, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -6px;
+    left: -6px;
+    border-radius: 50%;
+    border: 6px solid transparent;
+    border-right: 6px solid rgba($loading-circle-color, 1);
+    animation: loading 1s ease-in-out infinite;
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

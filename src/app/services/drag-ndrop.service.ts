@@ -51,7 +51,7 @@ export class DragNdropService {
     this.dragCopy = event.target.firstChild.cloneNode(true);
     document.body.style.overflowY = 'hidden';
     document.body.appendChild(this.dragCopy);
-    event.dataTransfer.setDragImage(this.dragCopy, 200, 100);
+    event.dataTransfer.setDragImage(this.dragCopy, 250, 100);
     event.target.firstChild.style.opacity = '0';
   }
 

@@ -56,19 +56,8 @@ export class TicketAddComponent implements OnInit {
   }
 
   saveTicket() {
-    /*     const category = {category: this.selectedCategoryTitle, color: this.getCategoryColor()} */
-    /* const categoryNumber = this.getCategoryNumber() */
     this.addTicketServ.saveTicket(this.selectedCategoryNumber);
   }
-
-  /*   getCategoryNumber(){
-    return this.categories.findIndex(cat => cat.category == this.selectedCategoryNumber)
-  } */
-  /* 
-  getCategoryColor(){
-    const category = this.categories.find(category => category.category == this.selectedCategoryTitle)
-    return category? category.color : '#fff';
-  } */
 
   toggleSelectMenu() {
     this.selectItemContainer.nativeElement.classList.toggle('d-none');
@@ -81,14 +70,14 @@ export class TicketAddComponent implements OnInit {
   }
 
   selectCategory(index: number) {
-    if(index > -1){
-    this.selectedCategoryNumber = index;
-    this.selectedCategoryTitle =
-      this.categories[this.selectedCategoryNumber].category;
-    this.selectedCategoryColor =
-      this.categories[this.selectedCategoryNumber].color;
-    } else{
-      this.selectedCategoryTitle = 'Select a category ...'
+    if (index > -1) {
+      this.selectedCategoryNumber = index;
+      this.selectedCategoryTitle =
+        this.categories[this.selectedCategoryNumber].category;
+      this.selectedCategoryColor =
+        this.categories[this.selectedCategoryNumber].color;
+    } else {
+      this.selectedCategoryTitle = 'Select a category ...';
       this.selectedCategoryNumber = -1;
       this.selectedCategoryColor = '';
     }

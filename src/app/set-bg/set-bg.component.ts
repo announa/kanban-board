@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -10,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { firstValueFrom, Observable, Subscriber, Subscription } from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { AddTicketService } from '../services/add-ticket.service';
 import { FirestoreService } from '../services/firestore.service';

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditBoardMenuComponent } from './edit-board-menu.component';
+import { LoadingCircleComponent } from './loading-circle.component';
 
-describe('EditMenuComponent', () => {
-  let component: EditBoardMenuComponent;
-  let fixture: ComponentFixture<EditBoardMenuComponent>;
+describe('LoadingCircleComponent', () => {
+  let component: LoadingCircleComponent;
+  let fixture: ComponentFixture<LoadingCircleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditBoardMenuComponent ]
+      declarations: [ LoadingCircleComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditBoardMenuComponent);
+    fixture = TestBed.createComponent(LoadingCircleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

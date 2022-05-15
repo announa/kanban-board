@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
 import { Ticket } from '../models/Ticket.class';
 import { FirestoreService } from './firestore.service';
 

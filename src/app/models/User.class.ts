@@ -1,6 +1,5 @@
 export class User{
  username?: string = '';
- /* password: string = ''; */
  email: string;
  emailVerified: boolean = false;
  uid: string;

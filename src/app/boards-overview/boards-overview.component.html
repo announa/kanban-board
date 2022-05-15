@@ -1,7 +1,5 @@
 <div class="main-background component-container">
-  <h2>
-    Your Boards
-  </h2>
+  <h2>Your Boards</h2>
   <div class="preview-container" *ngIf="fireService.boards.length > 0">
     <app-boards-preview
       *ngFor="let board of fireService.boards"
@@ -9,11 +7,26 @@
       (setBackground)="setBackgroundImage($event)"
     ></app-boards-preview>
   </div>
-  <app-set-bg *ngIf="setBgImage" [selectedBoard]="selectedBoard" (onCloseModal)="setBgImage = false;"></app-set-bg>
+  <app-set-bg
+    *ngIf="setBgImage"
+    [selectedBoard]="selectedBoard"
+    (onCloseModal)="setBgImage = false"
+  ></app-set-bg>
 </div>
-<div class="add-icon" (click)="isAddingBoard = true;" (mouseenter)="toggleTooltip()" (mouseleave)="toggleTooltip()">
+<div
+  class="add-icon"
+  (click)="isAddingBoard = true"
+  (mouseenter)="toggleTooltip()"
+  (mouseleave)="toggleTooltip()"
+>
   <img src="assets/img/add.svg" alt="add a board" />
-  <app-add-title *ngIf="isAddingBoard" (mouseenter)="showTooltip = false" [newObject]="'new board'" (onCloseModal)="isAddingBoard = false;"></app-add-title>
+  <app-add-title
+    *ngIf="isAddingBoard"
+    (mouseenter)="showTooltip = false"
+    [newObject]="'new board'"
+    (onCloseModal)="isAddingBoard = false"
+  ></app-add-title>
   <app-tooltip *ngIf="showTooltip" [text]="'Add a board'" [left]="true">
   </app-tooltip>
 </div>
+<app-loading-circle *ngIf="fireService.isProcessing"></app-loading-circle>

@@ -1,36 +1,25 @@
 <div class="main-background component-container auth-container">
-  <img class="logo-main" src="assets/img/logo_0_white.svg"  alt="">
- <div class="modal" #modal>
-   <h2>Please register</h2>
-   <div content-container>
-     <form (ngSubmit)="register()" #form="ngForm">
-       <div class="form-input">
-         <label for="email">E-mail</label>
-         <input
-           type="email"
-           class="input"
-           name="email"
-           placeholder="Please enter a valid e-mail"
-           [(ngModel)]="newUser.email"
-           required
-           #email="ngModel"
-           (click)="alert = '';"
-           />
-          </div>
-<!--          <input
-           type="text"
-           class="input"
-           name="username"
-           placeholder="Please enter a user name"
-           [(ngModel)]="newUser.username"
-           required
-           #username="ngModel"
-           (click)="alert = '';"
-           />
-          </div> -->
-          <div class="form-input">
-            <label for="password">Password</label>
-            <input
+  <img class="logo-main" src="assets/img/logo_0_white.svg" alt="" />
+  <div class="modal" #modal>
+    <h2>Please register</h2>
+    <div content-container>
+      <form (ngSubmit)="register()" #form="ngForm">
+        <div class="form-input">
+          <label for="email">E-mail</label>
+          <input
+            type="email"
+            class="input"
+            name="email"
+            placeholder="Please enter a valid e-mail"
+            [(ngModel)]="newUser.email"
+            required
+            #email="ngModel"
+            (click)="alert = ''"
+          />
+        </div>
+        <div class="form-input">
+          <label for="password">Password</label>
+          <input
             type="password"
             class="input"
             name="password"
@@ -38,13 +27,13 @@
             [(ngModel)]="newUser.password"
             required
             #password="ngModel"
-            (click)="alert = '';"
-         />
+            (click)="alert = ''"
+          />
         </div>
 
-          <div class="form-input">
-            <label for="passwordConfirm">Password Confirmation</label>
-            <input
+        <div class="form-input">
+          <label for="passwordConfirm">Password Confirmation</label>
+          <input
             type="password"
             class="input"
             name="passwordConfirm"
@@ -52,17 +41,22 @@
             [(ngModel)]="passwordConfirmation"
             required
             #password="ngModel"
-            (click)="alert = '';"
-         />
-       </div>
-       <div class="alert" *ngIf="this.alert != ''">{{ alert }}
-      </div>
-       <button type="submit" class="btn" [disabled]="!form.valid">
-         Register
-       </button>
-     </form>
-     <p>Already registered? Log in <a routerLink="/">here</a></p>
-   </div>
-   <app-loading-bar *ngIf="fireService.isProcessing"></app-loading-bar>
- </div>
+            (click)="alert = ''"
+          />
+        </div>
+        <div class="alert" *ngIf="this.alert != ''">{{ alert }}</div>
+        <div class="form-input check">
+          <input type="checkbox" name="privacy" [(ngModel)]="acceptPrivacy" required #privacy="ngModel"/>
+          <label for="privacy">I agree to the <a (click)="showPrivacy = true">Data Policy</a></label>
+        </div>
+
+        <button type="submit" class="btn" [disabled]="!form.valid">
+          Register
+        </button>
+      </form>
+      <p>Already registered? Log in <a routerLink="/">here</a></p>
+    </div>
+    <app-loading-bar *ngIf="fireService.isProcessing"></app-loading-bar>
+  </div>
 </div>
+<app-privacy *ngIf="showPrivacy" (onCloseModal)="showPrivacy = false"></app-privacy>

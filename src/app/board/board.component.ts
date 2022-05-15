@@ -37,41 +37,39 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    if(await this.authService.loggedInAsGuest()){
-      if(this.fireService.currentUser) this.loadBoard();
-      else{
-        console.log('else 1');
+    this.fireService.isProcessing = true;
+    if (await this.authService.loggedInAsGuest()) {
+      if (this.fireService.currentUser) this.loadBoard();
+      else {
         await this.fireService.getCurrentUserFromLocalStorage();
         this.loadBoard();
-      } 
-    } else if (!this.fireService.currentUser) {
-      this.userSubscription = this.fireService.currentUser$.subscribe(
-        (user) => {
-          if (user) {
-            if (
-              this.fireService.currentUser &&
-              this.fireService.currentUser.uid != ''
-            ) {
-              this.loadBoard();
-            } else {
-              this.showBoard = false;
-            }
-          }
-        }
-      );
-    } else {
+      }
+    } else if (!this.fireService.currentUser) this.subscribeToUser();
+    else {
       if (this.fireService.currentUser.uid != '') this.loadBoard();
       else this.showBoard = false;
     }
   }
-  /* this.fireService.getUserFromLocalStorage(); */
-  /*     if (this.fireService.currentUser.uid != '') {
 
-  } */
+  subscribeToUser() {
+    this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
+      if (user) {
+        if (
+          this.fireService.currentUser &&
+          this.fireService.currentUser.uid != ''
+        ) {
+          this.loadBoard();
+        } else {
+          this.showBoard = false;
+        }
+      }
+    });
+  }
 
   ngOnDestroy(): void {
     if (this.userSubscription) this.userSubscription.unsubscribe();
     this.fireService.currentBoard = undefined;
+    this.fireService.isProcessing = false;
   }
 
   ngAfterViewInit(): void {
@@ -92,6 +90,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.userHasAccess()) {
       this.showBoard = true;
       this.fireService.loadColumns();
+      this.fireService.isProcessing = false;
     } else {
       this.showBoard = false;
     }

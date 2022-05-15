@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { AddTicketService } from '../services/add-ticket.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { FirestoreService } from '../services/firestore.service';
 
@@ -28,6 +29,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
 
   constructor(
     public fireService: FirestoreService,
+    public addTicketServ: AddTicketService,
     private authService: AuthenticationService,
     public router: Router,
     private cd: ChangeDetectorRef
@@ -45,9 +47,9 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   }
 
   async logout() {
+    this.fireService.isProcessing = true;
     await this.fireService.clearData();
     await this.authService.signOut();
-    this.navigate('/');
   }
 
   goToLogin() {

@@ -31,3 +31,7 @@
 <div class="prohibited component-container main-background" *ngIf="!showBacklog">
   <div class="prohibited-modal">Sorry, you don't have access to the backlog of this board</div>
 </div>
+<app-loading-circle
+  *ngIf="
+    fireService.isProcessing && !addTicketServ.isAddingTicket"
+></app-loading-circle>

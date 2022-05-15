@@ -1,12 +1,9 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   OnInit,
   Output,
-  QueryList,
   ViewChild,
-  ViewChildren,
 } from '@angular/core';
 import { ColorEvent } from 'ngx-color';
 import { CategoriesEditComponent } from '../categories-edit/categories-edit.component';

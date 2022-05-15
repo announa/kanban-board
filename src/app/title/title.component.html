@@ -15,6 +15,7 @@
     [(ngModel)]="title"
     class="edit-title-input"
     [class.boardTitle-input]="isBoardTitle"
+    [class.columnTitle]="collection == 'columns'"
     [readonly]="!isEditingTitle && !dragService.isDragging"
     (click)="noDefault($event)"
     (keydown)="checkWidth()"
@@ -42,6 +43,7 @@
     >
       <img
         class="menu-img"
+        [class.column-edit]="collection == 'columns'"
         src="assets/img/edit.svg"
         alt="menu"
         #titleItem

@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { threadId } from 'worker_threads';
-import { User } from '../models/User.class';
 import { AuthenticationService } from '../services/authentication.service';
 import { FirestoreService } from '../services/firestore.service';
 
@@ -25,47 +23,44 @@ export class BoardsOverviewComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    console.log('ngOnInit');
-    if(await this.authService.loggedInAsGuest()){
-      if(this.fireService.currentUser) this.fireService.loadBoards();
-      else{
-        console.log('else 1');
+    this.fireService.isProcessing = true;
+    if (await this.authService.loggedInAsGuest()) {
+      if (this.fireService.currentUser) this.fireService.loadBoards();
+      else {
         await this.fireService.getCurrentUserFromLocalStorage();
         this.fireService.loadBoards();
-      } 
+      }
+      this.fireService.isProcessing = false;
     } else if (!this.fireService.currentUser) {
-      console.log('subscribe')
-      this.userSubscription = this.fireService.currentUser$.subscribe(
-        (user) => {
-          console.log(user);
-          if (user) {
-            console.log(user);
-            if (this.fireService.currentUser && this.fireService.currentUser.uid != '') {
-              this.fireService.loadBoards();
-              console.log(this.fireService.currentUser);
-            } else {
-              this.router.navigateByUrl('/');
-            }
-          }
-        }
-      );
+      this.subscribeToUser();
+      this.fireService.isProcessing = false;
     } else {
-      console.log('else');
-      if (this.fireService.currentUser.uid != '') this.fireService.loadBoards();
-      else this.router.navigateByUrl('/');
+      if (this.fireService.currentUser.uid != '') {
+        this.fireService.loadBoards();
+        this.fireService.isProcessing = false;
+      } else this.router.navigateByUrl('/');
     }
   }
-  /*     this.authService.afAuth.authState.subscribe((user) => {
-      if (user) this.fireService.loadBoards();
-    }); */
-  /* this.fireService.getCurrentUserFromLocalStorage(); */
 
-  /* this.fireService.clearTemp(false); */
-  /* this.fireService.loadUserBoards(); */
+  subscribeToUser() {
+    this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
+      if (user) {
+        if (
+          this.fireService.currentUser &&
+          this.fireService.currentUser.uid != ''
+        ) {
+          this.fireService.loadBoards();
+          this.fireService.isProcessing = false;
+        } else {
+          this.router.navigateByUrl('/');
+        }
+      }
+    });
+  }
 
   ngOnDestroy(): void {
-    console.log('ngOnDestroy');
     if (this.userSubscription) this.userSubscription.unsubscribe();
+    this.fireService.isProcessing = false;
   }
 
   toggleTooltip() {

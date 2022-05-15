@@ -24,37 +24,37 @@ export class BacklogComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    if(await this.authService.loggedInAsGuest()){
-      if(this.fireService.currentUser) this.loadBacklog();
-      else{
-        console.log('else 1');
+    if (await this.authService.loggedInAsGuest()) {
+      if (this.fireService.currentUser) this.loadBacklog();
+      else {
         await this.fireService.getCurrentUserFromLocalStorage();
         this.loadBacklog();
-      } 
-    } else if (!this.fireService.currentUser) {
-      this.userSubscription = this.fireService.currentUser$.subscribe(
-        (user) => {
-          if (user) {
-            if (
-              this.fireService.currentUser &&
-              this.fireService.currentUser.uid != ''
-            ) {
-              this.loadBacklog();
-            } else {
-              this.showBacklog = false;
-            }
-          }
-        }
-      );
-    } else {
+      }
+    } else if (!this.fireService.currentUser) this.subscribeToUser();
+    else {
       if (this.fireService.currentUser.uid != '') this.loadBacklog();
       else this.showBacklog = false;
     }
   }
 
+  subscribeToUser() {
+    this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
+      if (user) {
+        if (
+          this.fireService.currentUser &&
+          this.fireService.currentUser.uid != ''
+        ) {
+          this.loadBacklog();
+        } else {
+          this.showBacklog = false;
+        }
+      }
+    });
+  }
+
   ngOnDestroy(): void {
     if (this.userSubscription) this.userSubscription.unsubscribe();
-    this.fireService.backlogTicketsSubscription.unsubscribe();
+    if(this.fireService.backlogTicketsSubscription) this.fireService.backlogTicketsSubscription.unsubscribe();
     this.fireService.currentBoard = undefined;
   }
 
