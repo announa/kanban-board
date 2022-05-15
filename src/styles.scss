@@ -249,7 +249,7 @@ img {
   color: $letter-color-dark;
   border-radius: 20px;
   background-color: rgba($theme-color-light, 0.9);
-  transform: translateX(50vw) translateX(-50%);
+  transform: translateX(50vw) translateX(-50%) translateX(-5px);
   box-shadow: 0 0 15px rgba($box-shadow-dark, 0.6);
 }
 

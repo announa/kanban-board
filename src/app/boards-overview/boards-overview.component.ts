@@ -38,7 +38,7 @@ export class BoardsOverviewComponent implements OnInit, OnDestroy {
       if (this.fireService.currentUser.uid != '') {
         this.fireService.loadBoards();
         this.fireService.isProcessing = false;
-      } else this.router.navigateByUrl('/');
+      } else this.router.navigateByUrl('login');
     }
   }
 
@@ -52,7 +52,7 @@ export class BoardsOverviewComponent implements OnInit, OnDestroy {
           this.fireService.loadBoards();
           this.fireService.isProcessing = false;
         } else {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('login');
         }
       }
     });

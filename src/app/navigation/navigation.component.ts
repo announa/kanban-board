@@ -53,7 +53,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   }
 
   goToLogin() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('login');
   }
 
   toggleMenu() {

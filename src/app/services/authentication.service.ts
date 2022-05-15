@@ -115,7 +115,7 @@ export class AuthenticationService {
     return this.afAuth.signOut().then(async () => {
       localStorage.removeItem('user');
       await this.fireService.getCurrentUserFromLocalStorage();
-      this.router.navigate(['/']);
+      this.router.navigate(['login']);
     });
   }
 
