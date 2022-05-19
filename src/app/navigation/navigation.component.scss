@@ -170,3 +170,51 @@ a {
     padding-left: 70px;
   }
 }
+
+.user-menu{
+  color: #464646;
+  align-self: flex-start;
+  margin-left: 30px;
+  text-transform: uppercase;
+  cursor: pointer;
+  
+  img{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  &:hover .user-sub{
+    display: flex !important;
+  }
+}
+
+.user-items{
+  @include flex($align: center);
+  width: 100%;
+  max-width: 250px;
+  min-width: 200px;
+  height: 60px;
+  padding: 0 10px;
+
+  &:hover {
+    color: $nav-hover-color;
+  }
+}
+
+.user-main{
+  span{
+    width: 100%;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+}
+
+.user-sub{
+  background-color: rgba($theme-color-light, 0.5);
+  a{
+    margin-left: 0;
+  }
+}

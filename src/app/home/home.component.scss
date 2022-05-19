@@ -1,50 +1,67 @@
 @import "../../vars.scss";
 
-.component-container{
- padding: 0 150px;
+.component-container {
+  padding: 0 150px;
 }
 
-h2{
- font-size: clamp(20px, 2.5vw, 40px);
- font-weight: 400;
- text-align: center;
+h2 {
+  font-size: clamp(20px, 2.5vw, 40px);
+  font-weight: 400;
+  text-align: center;
 }
 
-p{
- font-size: 28px;
+p {
+  font-size: clamp(20px, 2.2vw, 40px);
 }
 
-.section-container{
+.section-container {
  @include flex(space-between, center);
- gap: 8vw;
+ gap: 7vw;
  height: 100vh;
  width: 100%;
-
- &:nth-child(odd):not(:first-child){
-  flex-direction: row-reverse;
-  img{
-   border-radius: 38% 62% 64% 36% / 25% 35% 65% 75% ;
+ 
+ @media (max-width: 1200px) {
+   @include flex(center, center);
+   flex-direction: column !important;
   }
 
- }
- 
- img{
-  width: 45vw;
-  height: auto;
-  border-radius: 51% 49% 56% 44% / 24% 64% 36% 76%  ;
- }
+  &:nth-child(odd):not(:first-child) {
+    flex-direction: row-reverse;
+    img {
+      border-radius: 38% 62% 64% 36% / 25% 35% 65% 75%;
+    }
+  }
+
+  img {
+    width: 45vw;
+    height: auto;
+    border-radius: 51% 49% 56% 44% / 24% 64% 36% 76%;
+    filter: drop-shadow(0 0 10px rgba($box-shadow-dark, 0.5));
+    @media (max-width: 1200px) {
+     width: 60vw;
+    }
+  }
 }
 
-.main{
- @include flex(center, center);
- flex-direction: column;
+.main {
+  @include flex(center, center);
+  flex-direction: column;
 
- img{
-  width: 30vw;
-  height: auto;
-  min-width: 250px;
-  border-radius: 0;
-  flex: 0;
-  margin-bottom: 0;
- }
- }
+  img {
+    width: 30vw;
+    height: auto;
+    min-width: 250px;
+    border-radius: 0;
+    flex: 0;
+    margin-bottom: 0;
+  }
+}
+
+.btn {
+  @include flex(center, center);
+
+  &:hover {
+    color: $letter-color-light;
+    box-shadow: 1px 1px 4px rgba($box-shadow-dark, 0.5);
+  }
+}

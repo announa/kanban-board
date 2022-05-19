@@ -20,6 +20,7 @@ import { FirestoreService } from '../services/firestore.service';
 export class NavigationComponent implements OnInit, AfterViewChecked {
   navIsOpen = false;
   navIconClose = false;
+  modalIsOpen = false;
   @ViewChild('submenu') submenu!: ElementRef;
   @ViewChild('navLeft') navLeft!: ElementRef;
   @HostListener('window:resize', ['$event'])
@@ -30,7 +31,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   constructor(
     public fireService: FirestoreService,
     public addTicketServ: AddTicketService,
-    private authService: AuthenticationService,
+    public authService: AuthenticationService,
     public router: Router,
     private cd: ChangeDetectorRef
   ) {}
@@ -74,5 +75,9 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
     setTimeout(() => {
      return (this.router.isActive(link1 + this.fireService.currentBoard?.id + link2, true))
     }, 5000);
+  }
+
+  deleteAccount(){
+    this.modalIsOpen = true;
   }
 }

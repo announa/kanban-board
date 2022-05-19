@@ -1,0 +1,21 @@
+<div class="modal-transp-container">
+  <div class="modal-transp" #modal>
+    <div class="content">
+     <p>{{ text }}</p>
+     <div class="btn-container">
+      <button
+        class="btn btn-light"
+        (click)="$event.stopPropagation(); closeModal()"
+      >
+        Cancel
+      </button>
+      <button
+        class="btn"
+        (click)="$event.stopPropagation(); confirm()"
+      >
+        Save
+      </button>
+    </div>
+    </div>
+  </div>
+</div>

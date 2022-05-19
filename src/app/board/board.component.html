@@ -1,6 +1,6 @@
 <div
   class="board component-container"
-  *ngIf="fireService.currentUser"
+  *ngIf="authService.currentUser"
   [ngStyle]="{ 'background-image': getBackgroundImage() }"
 >
   <h2 *ngIf="fireService.currentBoard && showBoard">

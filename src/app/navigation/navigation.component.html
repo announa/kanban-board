@@ -5,13 +5,31 @@
       [class.a-active]="router.isActive('/boards', false)"
       >All Boards</a
     >
-    <a (click)="logout()">Log out</a>
+    <div *ngIf="authService.currentUser" class="user-menu">
+      <div class="user-items user-main">
+        <img src="assets/img/user.svg" alt="" />
+        <span>
+          {{
+            authService.currentUser.email || authService.currentUser.username
+          }}</span
+        >
+      </div>
+      <div class="user-items user-sub d-none" (click)="deleteAccount()">
+        <img src="assets/img/delete.svg" alt="" />
+        Delete Account
+      </div>
+      <div class="user-items user-sub d-none">
+        <img src="assets/img/logout.svg" alt="" />
+        <a (click)="logout()">Log out</a>
+      </div>
+    </div>
   </div>
 
   <div class="nav-left nav-section">
     <img src="assets/img/logo_1_white.svg" alt="" />
     <div class="nav-left-links" *ngIf="fireService.currentBoard" #navLeft>
-      <a class="board-title"
+      <a
+        class="board-title"
         (click)="navigate('/board/' + fireService.currentBoard?.id)"
         [class.a-active]="
           router.url.endsWith('/board/' + fireService.currentBoard?.id)
@@ -19,7 +37,9 @@
         >{{ fireService.currentBoard?.title }}</a
       >
       <a
-        (click)="navigate('/board/' + fireService.currentBoard?.id + '/backlog')"
+        (click)="
+          navigate('/board/' + fireService.currentBoard?.id + '/backlog')
+        "
         [class.a-active]="
           router.url.endsWith(
             '/board/' + fireService.currentBoard?.id + '/backlog'
@@ -30,11 +50,23 @@
     </div>
   </div>
 </nav>
-<div class="menu menu-open" [class.d-none]="navIconClose" (click)="toggleMenu()" #menu>
+<div
+  class="menu menu-open"
+  [class.d-none]="navIconClose"
+  (click)="toggleMenu()"
+  #menu
+>
   <img src="assets/img/menu.svg" alt="toggle navigation" />
   <img src="assets/img/menu_hover.svg" alt="toggle navigation" />
 </div>
-<div class="menu menu-open" [class.d-none]="!navIconClose" (click)="toggleMenu()" #menu>
+<div
+  class="menu menu-open"
+  [class.d-none]="!navIconClose"
+  (click)="toggleMenu()"
+  #menu
+>
   <img src="assets/img/close.svg" alt="toggle navigation" />
   <img src="assets/img/close_hover.svg" alt="toggle navigation" />
 </div>
+
+<!-- <app-confirmation *ngIf="modalIsOpen" [text]="'Do you really want to delete your user account?'" [callback]="this.authService.deleteUser()"></app-confirmation> -->

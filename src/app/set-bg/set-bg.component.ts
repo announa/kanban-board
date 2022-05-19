@@ -12,6 +12,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { AddTicketService } from '../services/add-ticket.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -36,7 +37,10 @@ export class SetBgComponent implements OnInit, OnDestroy {
   constructor(
     public fireService: FirestoreService,
     public addTicketServ: AddTicketService,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    public authService: AuthenticationService
+
+    
   ) {
     for (let i = 1; i < 9; i++) {
       this.images.push(`assets/bg-img/bg-${i}.jpg`);
@@ -83,7 +87,7 @@ export class SetBgComponent implements OnInit, OnDestroy {
     this.fireService.isProcessing = true;
     const file = event.target.files[0];
     const filePath = `/bg-images/${
-      this.fireService.currentUser?.uid
+      this.authService.currentUser?.uid
     }image${new Date().getTime()}`;
     const ref = this.storage.ref(filePath);
     const upload = ref.put(file);
@@ -109,15 +113,15 @@ export class SetBgComponent implements OnInit, OnDestroy {
     const downloadUrl = await firstValueFrom(
       this.storage.ref(filePath).getDownloadURL()
     );
-    if (this.fireService.currentUser?.username != '') {
-      this.fireService.currentUser?.userImages.push({
+    if (this.authService.currentUser?.username != '') {
+      this.authService.currentUser?.userImages.push({
         filePath: filePath,
         downloadUrl: downloadUrl,
       });
-      if(this.fireService.currentUser){
-      const collection = this.fireService.currentUser.username == 'guest' ? 'guest' : 'user'
-      this.fireService.updateDoc(collection, this.fireService.currentUser.uid, {
-        userImages: this.fireService.currentUser.userImages
+      if(this.authService.currentUser){
+      const collection = this.authService.currentUser.username == 'guest' ? 'guest' : 'user'
+      this.fireService.updateDoc(collection, this.authService.currentUser.uid, {
+        userImages: this.authService.currentUser.userImages
       });
     }}
   }

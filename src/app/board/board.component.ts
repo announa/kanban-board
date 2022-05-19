@@ -30,7 +30,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     public fireService: FirestoreService,
-    private authService: AuthenticationService,
+    public authService: AuthenticationService,
     public dragService: DragNdropService,
     public addTicketServ: AddTicketService,
     private route: ActivatedRoute
@@ -39,24 +39,24 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   async ngOnInit() {
     this.fireService.isProcessing = true;
     if (await this.authService.loggedInAsGuest()) {
-      if (this.fireService.currentUser) this.loadBoard();
+      if (this.authService.currentUser) this.loadBoard();
       else {
-        await this.fireService.getCurrentUserFromLocalStorage();
+        await this.authService.getCurrentUserFromLocalStorage();
         this.loadBoard();
       }
-    } else if (!this.fireService.currentUser) this.subscribeToUser();
+    } else if (!this.authService.currentUser) this.subscribeToUser();
     else {
-      if (this.fireService.currentUser.uid != '') this.loadBoard();
+      if (this.authService.currentUser.uid != '') this.loadBoard();
       else this.showBoard = false;
     }
   }
 
   subscribeToUser() {
-    this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
+    this.userSubscription = this.authService.currentUser$.subscribe((user) => {
       if (user) {
         if (
-          this.fireService.currentUser &&
-          this.fireService.currentUser.uid != ''
+          this.authService.currentUser &&
+          this.authService.currentUser.uid != ''
         ) {
           this.loadBoard();
         } else {
@@ -107,7 +107,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
   userHasAccess() {
     return (
       this.fireService.currentBoard?.userId ===
-      this.fireService.currentUser?.uid
+      this.authService.currentUser?.uid
     );
   }
 

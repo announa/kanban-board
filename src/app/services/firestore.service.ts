@@ -6,6 +6,7 @@ import { Board } from '../models/Board.class';
 import { Column } from '../models/Column.class';
 import { Ticket } from '../models/Ticket.class';
 import { User } from '../models/User.class';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class FirestoreService {
   columns: Column[] = [];
   guests: User[] = [];
   currentUser: User | undefined;
-  currentUser$ = new Subject();
+  /*   currentUser$ = new Subject(); */
   matchingUser!: User;
   currentBoard: Board | undefined;
   userCollectionSubscription!: Subscription;
@@ -38,7 +39,7 @@ export class FirestoreService {
 
   constructor(
     private firestore: AngularFirestore,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
   ) {}
 
   getUserCollection(collection: string) {
@@ -67,7 +68,7 @@ export class FirestoreService {
         this.getDocRef('guest', userId).valueChanges()
       )) as User;
     }
-    this.setCurrentUser(user);
+    return user;
   }
 
   getDocRef(collection: string, doc: string) {
@@ -105,6 +106,7 @@ export class FirestoreService {
         this.currentUser?.uid
       ).subscribe((boards: any) => {
         this.boards = boards;
+        resolve(boards)
       })),
         (err: any) => reject(err);
     });
@@ -157,6 +159,7 @@ export class FirestoreService {
         this.currentBoard?.id
       ).subscribe((tickets: any) => {
         this.backlogTickets = tickets;
+        resolve(tickets)
       })),
         (err: any) => reject(err);
     });
@@ -204,7 +207,8 @@ export class FirestoreService {
 
   addBoard(title: string) {
     let newBoard = new Board(title);
-    if (this.currentUser) newBoard.userId = this.currentUser.uid;
+    if (this.currentUser)
+      newBoard.userId = this.currentUser.uid;
     this.addDoc('boards', newBoard.id, newBoard);
   }
 
@@ -269,36 +273,13 @@ export class FirestoreService {
     this.isProcessing = false;
   }
 
-  saveUserToLocalStorage(object: any) {
-    localStorage.setItem('user', JSON.stringify(object));
-  }
-
-  async getCurrentUserFromLocalStorage() {
-    console.log('getCurrentUserFromLocalStorage');
-    const storage = localStorage.getItem('user');
-    if (storage) {
-      const firebaseUser = await JSON.parse(storage);
-      await this.getCurrentUserFromDB(firebaseUser.uid);
-    } else {
-      this.setCurrentUser(undefined);
-    }
-  }
-
-  setCurrentUser(user: User | undefined) {
-    console.log('setCurrentUser');
-    console.log(user);
-
-    this.currentUser = user;
-    this.currentUser$.next(this.currentUser);
-  }
-
   // #############  Guest Account  #############
 
   async setGuestAccount(guest: any) {
     new Promise(async (resolve, reject) => {
       const newGuest = await this.setIds(guest);
       this.currentUser = guest.guest;
-      this.saveUserToLocalStorage(newGuest.guest);
+      localStorage.setItem('user', JSON.stringify(newGuest.guest));
       resolve('guest account set'), (err: any) => reject(err);
     });
   }
