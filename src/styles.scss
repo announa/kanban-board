@@ -230,7 +230,6 @@ img {
 }
 
 .modal-transp-container {
-  /* @include flex(center, center); */
   position: fixed;
   top: 0;
   left: 0;
@@ -252,6 +251,27 @@ img {
   transform: translateX(50vw) translateX(-50%) translateX(-5px);
   box-shadow: 0 0 15px rgba($box-shadow-dark, 0.6);
 }
+
+.modal-transp-container-centered {
+  height: 100vh;
+  @include flex(center, center)
+ }
+ 
+ .modal-transp-centered {
+  width: 500px;
+  min-height: 400px;
+  transform: none;
+ 
+  @media (max-width: 550px) {
+   width: 100%;
+   border-radius: 0;
+   padding: 30px;
+  }
+  
+  @media (max-width: 550px) {
+   min-height: 500px;
+  }
+ }
 
 .modal {
   align-self: center;

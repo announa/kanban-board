@@ -69,4 +69,4 @@
   <img src="assets/img/close_hover.svg" alt="toggle navigation" />
 </div>
 
-<!-- <app-confirmation *ngIf="modalIsOpen" [text]="'Do you really want to delete your user account?'" [callback]="this.authService.deleteUser()"></app-confirmation> -->
+<app-confirmation *ngIf="modalIsOpen" [text]="'Do you really want to delete your user account?'" [callback]="this.authService.deleteUser()" (closeConfirmModal)="modalIsOpen = false"></app-confirmation>

@@ -32,9 +32,9 @@ export class AuthenticationService {
         this.setCurrentUser(dbUser);
         console.log(this.userData);
       } else {
-        localStorage.setItem('user', '');
+/*         localStorage.setItem('user', '');
         const storageUser = localStorage.getItem('user');
-        if (storageUser) JSON.parse(storageUser);
+        if (storageUser) JSON.parse(storageUser); */
         this.setCurrentUser(undefined);
         /* await this.getCurrentUserFromLocalStorage();
         this.setCurrentUser(storageUser) */
@@ -159,8 +159,8 @@ export class AuthenticationService {
     console.log('getCurrentUserFromLocalStorage');
     const storage = localStorage.getItem('user');
     if (storage) {
-      const firebaseUser = await JSON.parse(storage);
-      const dbUser = await this.fireService.getCurrentUserFromDB(firebaseUser.uid);
+      const storageUser = await JSON.parse(storage);
+      const dbUser = await this.fireService.getCurrentUserFromDB(storageUser.uid);
       this.setCurrentUser(dbUser);
     } else {
       this.setCurrentUser(undefined);

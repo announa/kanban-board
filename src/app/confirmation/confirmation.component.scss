@@ -1,0 +1,10 @@
+@import "../../vars.scss";
+
+.modal-transp-container{
+ @include flex(center, center);
+}
+
+.modal-transp{
+ width: 60%;
+ transform: none;
+}

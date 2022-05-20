@@ -1,13 +1,8 @@
 @import "../../vars.scss";
 
 
-.modal-transp-container {
- height: 100vh;
- @include flex(center, center)
-}
-.modal-transp{
+.modal-transp-centered{
  width: 600px;
- transform: none;
 }
 
 .resend{
@@ -20,9 +15,6 @@
 
 .btn{
  width: unset;
-}
-
-.btn{
  font-size: 16px;
 }
 
