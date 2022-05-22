@@ -5,12 +5,12 @@
       [class.a-active]="router.isActive('/boards', false)"
       >All Boards</a
     >
-    <div *ngIf="authService.currentUser" class="user-menu">
+    <div *ngIf="fireService.currentUser" class="user-menu">
       <div class="user-items user-main">
         <img src="assets/img/user.svg" alt="" />
         <span>
           {{
-            authService.currentUser.email || authService.currentUser.username
+            fireService.currentUser?.email || fireService.currentUser?.username
           }}</span
         >
       </div>

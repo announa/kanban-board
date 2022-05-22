@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { User } from '../models/User.class';
 import { FirestoreService } from './firestore.service';
 
@@ -11,8 +11,7 @@ import { FirestoreService } from './firestore.service';
 })
 export class AuthenticationService {
   userData: any;
-  currentUser: User | undefined;
-  currentUser$ = new Subject();
+  authState$ = new Observable();
 
   constructor(
     public afs: AngularFirestore,
@@ -21,9 +20,12 @@ export class AuthenticationService {
     public ngZone: NgZone,
     private fireService: FirestoreService
   ) {
-    this.afAuth.authState.subscribe(async (user) => {
+    console.log(this.afAuth.currentUser)
+
+    this.afAuth.authState.subscribe(async (user: any) => {
       if (user) {
         console.log(user);
+        console.log(user.isAnonymous);
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(user));
         const storageUser = localStorage.getItem('user');
@@ -31,7 +33,9 @@ export class AuthenticationService {
         const dbUser = await this.fireService.getCurrentUserFromDB(user.uid);
         this.setCurrentUser(dbUser);
         console.log(this.userData);
+        console.log(this.afAuth.currentUser)
       } else {
+        console.log(this.afAuth.currentUser)
 /*         localStorage.setItem('user', '');
         const storageUser = localStorage.getItem('user');
         if (storageUser) JSON.parse(storageUser); */
@@ -72,7 +76,7 @@ export class AuthenticationService {
       });
   }
 
-  /*   signInAnonymously() {
+    signInAnonymously() {
     return this.afAuth
       .signInAnonymously()
       .then(() => {
@@ -81,7 +85,7 @@ export class AuthenticationService {
       .catch((error) => {
         window.alert(error.message);
       });
-  } */
+  }
 
   signUp(email: string, password: string) {
     return this.afAuth
@@ -171,14 +175,15 @@ export class AuthenticationService {
     console.log('setCurrentUser');
     console.log(user);
 
-    this.currentUser = user;
-    this.currentUser$.next(this.currentUser);
-    this.fireService.currentUser = this.currentUser;
+    this.fireService.currentUser = user;
+    this.fireService.currentUser$.next(this.fireService.currentUser);
   }
 
-  deleteUser(){
+  async deleteUser(){
+/*     if(await this.afAuth.currentUser != null){
+    (await this.afAuth.currentUser).delete} */
 /*     this.afAuth.authState.first().subscribe((authState: any) => { authState.delete(); });
  */  
-console.log('delet user account')
+console.log(this.afAuth.currentUser)
 }
 }

@@ -25,24 +25,24 @@ export class BacklogComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     if (await this.authService.loggedInAsGuest()) {
-      if (this.authService.currentUser) this.loadBacklog();
+      if (this.fireService.currentUser) this.loadBacklog();
       else {
         await this.authService.getCurrentUserFromLocalStorage();
         this.loadBacklog();
       }
-    } else if (!this.authService.currentUser) this.subscribeToUser();
+    } else if (!this.fireService.currentUser) this.subscribeToUser();
     else {
-      if (this.authService.currentUser.uid != '') this.loadBacklog();
+      if (this.fireService.currentUser.uid != '') this.loadBacklog();
       else this.showBacklog = false;
     }
   }
 
   subscribeToUser() {
-    this.userSubscription = this.authService.currentUser$.subscribe((user) => {
+    this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
       if (user) {
         if (
-          this.authService.currentUser &&
-          this.authService.currentUser.uid != ''
+          this.fireService.currentUser &&
+          this.fireService.currentUser.uid != ''
         ) {
           this.loadBacklog();
         } else {
@@ -72,7 +72,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
   userHasAccess() {
     return (
       this.fireService.currentBoard?.userId ===
-      this.authService.currentUser?.uid
+      this.fireService.currentUser?.uid
     );
   }
 

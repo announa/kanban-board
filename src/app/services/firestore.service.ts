@@ -17,6 +17,7 @@ export class FirestoreService {
   columns: Column[] = [];
   guests: User[] = [];
   currentUser: User | undefined;
+  currentUser$ = new Subject();
   /*   currentUser$ = new Subject(); */
   matchingUser!: User;
   currentBoard: Board | undefined;
