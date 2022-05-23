@@ -24,18 +24,19 @@ export class BoardsOverviewComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.fireService.isProcessing = true;
-    if (await this.authService.loggedInAsGuest()) {
+    console.log(this.fireService.currentUser)
+/*     if (await this.authService.loggedInAsGuest()) {
       if (this.fireService.currentUser) this.fireService.loadBoards();
       else {
         await this.authService.getCurrentUserFromLocalStorage();
         this.fireService.loadBoards();
       }
       this.fireService.isProcessing = false;
-    } else if (!this.fireService.currentUser) {
+    } else */ if (!this.fireService.currentUser) {
       this.subscribeToUser();
-      this.fireService.isProcessing = false;
     } else {
       if (this.fireService.currentUser.uid != '') {
+        console.log('currentUser')
         this.fireService.loadBoards();
         this.fireService.isProcessing = false;
       } else this.router.navigateByUrl('login');
@@ -43,16 +44,19 @@ export class BoardsOverviewComponent implements OnInit, OnDestroy {
   }
 
   subscribeToUser() {
+    console.log('subscribe')
     this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
       if (user) {
         if (
           this.fireService.currentUser &&
           this.fireService.currentUser.uid != ''
         ) {
+          console.log('currentUser loaded')
           this.fireService.loadBoards();
           this.fireService.isProcessing = false;
         } else {
-          this.router.navigateByUrl('login');
+          console.log('else')
+          this.router.navigateByUrl('/login');
         }
       }
     });

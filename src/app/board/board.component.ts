@@ -38,13 +38,13 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async ngOnInit() {
     this.fireService.isProcessing = true;
-    if (await this.authService.loggedInAsGuest()) {
+/*     if (await this.authService.loggedInAsGuest()) {
       if (this.fireService.currentUser) this.loadBoard();
       else {
         await this.authService.getCurrentUserFromLocalStorage();
         this.loadBoard();
       }
-    } else if (!this.fireService.currentUser) this.subscribeToUser();
+    } else */ if (!this.fireService.currentUser) this.subscribeToUser();
     else {
       if (this.fireService.currentUser.uid != '') this.loadBoard();
       else this.showBoard = false;
@@ -106,7 +106,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   userHasAccess() {
     return (
-      this.fireService.currentBoard?.userId ===
+      this.fireService.currentBoard?.uid ===
       this.fireService.currentUser?.uid
     );
   }

@@ -5,9 +5,10 @@ export class User{
  uid: string;
  userImages: { filePath: string; downloadUrl: any}[] = [];
 
- constructor(uid?: string, email?: string, verified?: boolean){
+ constructor(uid: string, email: string, verified: boolean, username: string){
   this.uid = uid? uid : '';
   this.email = email? email : '';
   this.emailVerified = verified? verified : false;
+  this.username = username
  }
 }

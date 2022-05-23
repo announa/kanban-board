@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -6,7 +7,6 @@ import { Board } from '../models/Board.class';
 import { Column } from '../models/Column.class';
 import { Ticket } from '../models/Ticket.class';
 import { User } from '../models/User.class';
-import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +16,11 @@ export class FirestoreService {
   boards: Board[] = [];
   columns: Column[] = [];
   guests: User[] = [];
-  currentUser: User | undefined;
+  currentUser!: User | null;
   currentUser$ = new Subject();
   /*   currentUser$ = new Subject(); */
+  exampleData: any;
+  exampleDataSubscription!: Subscription;
   matchingUser!: User;
   currentBoard: Board | undefined;
   userCollectionSubscription!: Subscription;
@@ -41,6 +43,7 @@ export class FirestoreService {
   constructor(
     private firestore: AngularFirestore,
     private storage: AngularFireStorage,
+    private http: HttpClient
   ) {}
 
   getUserCollection(collection: string) {
@@ -102,7 +105,7 @@ export class FirestoreService {
     return new Promise((resolve, reject) => {
       (this.boardsSubscription = this.getFilteredCollection(
         'boards',
-        'userId',
+        'uid',
         '==',
         this.currentUser?.uid
       ).subscribe((boards: any) => {
@@ -130,7 +133,7 @@ export class FirestoreService {
       this.firestore
         .collection('columns', (ref) =>
           ref
-            .where('boardId', '==', this.currentBoard?.id)
+            .where('boardId', '==', this.currentBoard?.timestamp)
             .orderBy(this.sortCol.ref, 'asc')
         )
         .valueChanges()
@@ -157,7 +160,7 @@ export class FirestoreService {
         'backlog',
         'boardId',
         '==',
-        this.currentBoard?.id
+        this.currentBoard?.timestamp
       ).subscribe((tickets: any) => {
         this.backlogTickets = tickets;
         resolve(tickets)
@@ -182,8 +185,22 @@ export class FirestoreService {
     this.sort.dir = dir;
   }
 
-  async addDoc(collection: string, id: string, object: any) {
+  async addDoc(collection: string, object: any) {
     console.log(object);
+    return await this.firestore
+      .collection(collection)
+      .add({ ...object })
+      .then(async (doc) => {
+        object.id = doc.id
+        console.log(object)
+        await this.setDoc(collection, {...object}, object.id)
+        
+      })
+      .catch((err) => console.log(err));
+  }
+
+
+  async setDoc(collection: string, object: any, id: string) {
     return await this.firestore
       .collection(collection)
       .doc(id)
@@ -192,7 +209,7 @@ export class FirestoreService {
   }
 
   async updateDoc(collection: string, id: string, update: object) {
-    return await this.firestore.collection(collection).doc(id).update(update);
+    return await this.firestore.collection(collection).doc(id).update(update).then(result => console.log(result));
   }
 
   addColumn() {
@@ -201,16 +218,16 @@ export class FirestoreService {
         ? this.columns[this.columns.length - 1].order + 1
         : 0;
     if (this.currentBoard) {
-      let column = new Column(order_max, this.currentBoard.id);
-      this.addDoc('columns', column.id, column);
+      let column = new Column(order_max, this.currentBoard.timestamp);
+      this.addDoc('columns', column);
     }
   }
 
   addBoard(title: string) {
     let newBoard = new Board(title);
     if (this.currentUser)
-      newBoard.userId = this.currentUser.uid;
-    this.addDoc('boards', newBoard.id, newBoard);
+      newBoard.uid = this.currentUser.uid;
+    this.addDoc('boards', newBoard);
   }
 
   // ##############  Delete  ##############
@@ -262,58 +279,68 @@ export class FirestoreService {
 
   // #############  Register and login  ##############
 
-  async addUser(fireAuthUser: User) {
+  async addUser(fireAuthUser: any) {
     this.isProcessing = true;
+    const username = fireAuthUser.isAnonymous? 'Guest' : 'User'
     let newUser = new User(
       fireAuthUser.uid,
       fireAuthUser.email,
-      fireAuthUser.emailVerified
+      fireAuthUser.emailVerified, username
     );
-    await this.addDoc('user', newUser.uid, newUser);
+    const collection = fireAuthUser.isAnonymous? 'guest' : 'user'
+    await this.setDoc(collection, newUser, newUser.uid);
     this.currentUser = newUser;
     this.isProcessing = false;
   }
 
   // #############  Guest Account  #############
 
-  async setGuestAccount(guest: any) {
+
+  createExampleData(userId: any){
+    this.exampleData = this.http.get('assets/json/guest.json');
+    this.exampleDataSubscription = this.exampleData.subscribe(async (data: any) => {
+      /* await this.setAccountData(data, userId); */
+      this.exampleData.board.uid = userId;
+      await this.addExampleDataToDb(data);
+      this.isProcessing = false;
+  })}
+
+  async setAccountData(dummyData: any, userId: string) {
     new Promise(async (resolve, reject) => {
-      const newGuest = await this.setIds(guest);
-      this.currentUser = guest.guest;
-      localStorage.setItem('user', JSON.stringify(newGuest.guest));
-      resolve('guest account set'), (err: any) => reject(err);
+      /* const newAccountData = await this.setIds(dummyData, userId); */
+      dummyData.board.uid = userId;
+      resolve('new account example data set'), (err: any) => reject(err);
     });
   }
 
-  setIds(guest: any) {
-    [guest.guest.uid, guest.guestBoard.userId, guest.guestBoard.id] = Array(
+/*   setIds(dummyData: any, userId: string) {
+    [dummyData.board.uid, dummyData.board.id] = Array(
       3
     ).fill(Date.now().toString());
-    guest.guestColumns.forEach((c: any, i: number) => {
+    dummyData.columns.forEach((c: any, i: number) => {
       setTimeout(() => {
         c.id = Date.now().toString();
-        c.boardId = guest.guestBoard.id;
+        c.boardId = dummyData.board.id;
       }, i);
     });
-    guest.guestTickets.forEach((t: any, i: number) => {
+    dummyData.tickets.forEach((t: any, i: number) => {
       setTimeout(() => {
         t.id = Date.now().toString();
-        t.columnId = guest.guestColumns[0].id;
-        if (i == 1) t.columnId = guest.guestColumns[1].id;
-        t.boardId = guest.guestBoard.id;
+        t.columnId = dummyData.columns[0].id;
+        if (i == 1) t.columnId = dummyData.columns[1].id;
+        t.boardId = dummyData.board.id;
       }, i);
     });
-    return guest;
-  }
+    return dummyData;
+  } */
 
-  async setGuestAccountInDb(guest: any) {
-    await this.addDoc('guest', guest.guest.uid, guest.guest);
-    await this.addDoc('boards', guest.guestBoard.id, guest.guestBoard);
-    guest.guestColumns.forEach(async (col: any) => {
-      await this.addDoc('columns', col.id, col);
+  async addExampleDataToDb(data: any) {
+    await this.addDoc('boards', data.board);
+    data.columns.forEach(async (col: any) => {
+      await this.addDoc('columns', col);
     });
-    guest.guestTickets.forEach(async (ticket: any) => {
-      await this.addDoc('tickets', ticket.id, ticket);
+    data.tickets.forEach(async (ticket: any) => {
+      await this.addDoc('tickets', ticket);
     });
   }
 
@@ -348,7 +375,7 @@ export class FirestoreService {
   }
 
   clearTemp() {
-    this.currentUser = undefined;
+    this.currentUser = null;
     if (this.boardsSubscription) this.boardsSubscription.unsubscribe();
     this.boards = [];
     this.currentBoard = undefined;

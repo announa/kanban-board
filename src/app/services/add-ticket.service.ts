@@ -35,7 +35,7 @@ export class AddTicketService {
   saveTicket(categoryNumber: number) {
     this.isSavingTicket = true;
     this.setTicketData(categoryNumber);
-    this.fireService.addDoc('tickets', this.ticket.id, this.ticket).then(() => {
+    this.fireService.addDoc('tickets', this.ticket).then(() => {
       this.closeModal();
       this.isSavingTicket = false;
     });

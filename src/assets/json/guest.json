@@ -1,7 +1,6 @@
 {
-  "guest": { "username": "guest", "email": "", "emailVerified": false, "uid": "", "userImages": [] },
-  "guestBoard": {
-    "title": "Guestboard",
+  "board": {
+    "title": "Board - Example",
     "categories": [
       { "category": "Management", "color": "rgba(255, 150, 150, .4)" },
       { "category": "Product", "color": "rgba(150, 255, 180, .4)" },
@@ -10,9 +9,9 @@
     "id": "1",
     "userId": "",
     "bgImg": "assets/bg-img/bg-1.jpg",
-    "placeholder": "Guestboard"
+    "placeholder": "Board - Example"
   },
-  "guestColumns": [
+  "columns": [
     {
       "title": "To do",
       "order": 1,
@@ -42,11 +41,11 @@
       "placeholder": "New Column"
     }
   ],
-  "guestTickets": [
+  "tickets": [
     {
       "title": "Ticket 1",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, sunt!",
-      "deadline": "05/03/2022",
+      "deadline": "05/03/2023",
       "id": "",
       "date": "4/11/2022",
       "category": 0,
@@ -59,7 +58,7 @@
     {
       "title": "Ticket 2",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, sunt!",
-      "deadline": "06/12/2022",
+      "deadline": "06/12/2023",
       "id": "",
       "date": "1/22/2022",
       "category": 1,
@@ -72,7 +71,7 @@
     {
       "title": "Ticket 3",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, sunt!",
-      "deadline": "6/30/2022",
+      "deadline": "6/30/2023",
       "id": "",
       "date": "2/15/2022",
       "category": 2,
