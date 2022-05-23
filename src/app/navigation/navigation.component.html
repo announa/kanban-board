@@ -1,26 +1,28 @@
 <nav class="navigation" [style.right]="navIsOpen ? '0' : ''">
   <div class="nav-right nav-section">
-    <a
-      (click)="navigate('/boards')"
-      [class.a-active]="router.isActive('/boards', false)"
-      >All Boards</a
-    >
     <div *ngIf="fireService.currentUser" class="user-menu">
       <div class="user-items user-main">
-        <img src="assets/img/user.svg" alt="" />
         <span>
           {{
             fireService.currentUser?.email || fireService.currentUser?.username
           }}</span
         >
+        <img src="assets/img/user.svg" alt="" />
+        <img src="assets/img/user_hover.svg" alt="" />
       </div>
-      <div class="user-items user-sub d-none" (click)="deleteAccount()">
-        <img src="assets/img/delete.svg" alt="" />
+      <div
+        *ngIf="fireService.currentUser.email"
+        class="user-items user-sub d-none"
+        (click)="deleteAccount()"
+      >
         Delete Account
+        <img src="assets/img/delete.svg" alt="" />
+        <img src="assets/img/delete_hover.svg" alt="" />
       </div>
       <div class="user-items user-sub d-none">
-        <img src="assets/img/logout.svg" alt="" />
         <a (click)="logout()">Log out</a>
+        <img src="assets/img/logout.svg" alt="" />
+        <img src="assets/img/logout_hover.svg" alt="" />
       </div>
     </div>
   </div>
@@ -48,6 +50,11 @@
         >Backlog</a
       >
     </div>
+    <a
+      (click)="navigate('/boards')"
+      [class.a-active]="router.isActive('/boards', false)"
+      >All Boards</a
+    >
   </div>
 </nav>
 <div
@@ -69,4 +76,9 @@
   <img src="assets/img/close_hover.svg" alt="toggle navigation" />
 </div>
 
-<app-confirmation *ngIf="modalIsOpen" [text]="'Do you really want to delete your user account?'" [callback]="this.authService.deleteUser()" (closeConfirmModal)="modalIsOpen = false"></app-confirmation>
+<app-confirmation
+  *ngIf="modalIsOpen"
+  [text]="'Do you really want to delete your user account?'"
+  [callback]="this.authService.deleteUser()"
+  (closeConfirmModal)="modalIsOpen = false"
+></app-confirmation>

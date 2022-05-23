@@ -6,7 +6,7 @@
   font-weight: 500;
   height: 60px;
   width: 100%;
-  padding: 0 50px;
+  padding-left: 50px;
   position: fixed;
   top: 0;
   left: 0;
@@ -172,17 +172,12 @@ a {
 }
 
 .user-menu{
+  width: 240px;
   color: #464646;
   align-self: flex-start;
   margin-left: 30px;
   text-transform: uppercase;
   cursor: pointer;
-  
-  img{
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
   
   &:hover .user-sub{
     display: flex !important;
@@ -190,21 +185,36 @@ a {
 }
 
 .user-items{
-  @include flex($align: center);
+  @include flex($justify: flex-end, $align: center);
   width: 100%;
-  max-width: 250px;
-  min-width: 200px;
   height: 60px;
-  padding: 0 10px;
+  padding: 0 50px 0 10px;
+
+  img{
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    display: inline-block;
+
+    &:last-child{
+      display: none;
+    }
+  }
 
   &:hover {
     color: $nav-hover-color;
+  }
+
+  &:hover img{
+    display: none;
+  }
+  &:hover img:last-child{
+    display: inline-block;
   }
 }
 
 .user-main{
   span{
-    width: 100%;
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
