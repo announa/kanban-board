@@ -24,38 +24,33 @@ export class BoardsOverviewComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.fireService.isProcessing = true;
-    console.log(this.fireService.currentUser)
-/*     if (await this.authService.loggedInAsGuest()) {
-      if (this.fireService.currentUser) this.fireService.loadBoards();
-      else {
-        await this.authService.getCurrentUserFromLocalStorage();
-        this.fireService.loadBoards();
-      }
-      this.fireService.isProcessing = false;
-    } else */ if (!this.fireService.currentUser) {
+    console.log(this.fireService.currentUser);
+    if (!this.fireService.currentUser) {
       this.subscribeToUser();
     } else {
-      if (this.fireService.currentUser.uid != '') {
-        console.log('currentUser')
+      if (this.fireService.currentUser == null)
+        this.router.navigateByUrl('login');
+      else {
+        console.log('currentUser');
         this.fireService.loadBoards();
         this.fireService.isProcessing = false;
-      } else this.router.navigateByUrl('login');
+      }
     }
   }
 
   subscribeToUser() {
-    console.log('subscribe')
+    console.log('subscribe');
     this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
       if (user) {
         if (
           this.fireService.currentUser &&
           this.fireService.currentUser.uid != ''
         ) {
-          console.log('currentUser loaded')
+          console.log('currentUser loaded');
           this.fireService.loadBoards();
           this.fireService.isProcessing = false;
         } else {
-          console.log('else')
+          console.log('else');
           this.router.navigateByUrl('/login');
         }
       }

@@ -30,9 +30,8 @@
   *ngIf="showCategoriesModal"
   (closeCatModal)="showCategoriesModal = false"
 ></app-categories>
-<div class="prohibited component-container main-background" *ngIf="!showBoard">
-  <div class="prohibited-modal">Sorry, you don't have access to this board</div>
-</div>
+<app-access-denied *ngIf="!showBoard" [text]="'this board'"></app-access-denied>
+
 <app-set-bg
   *ngIf="setBgImage"
   [selectedBoard]="fireService.currentBoard?.id"

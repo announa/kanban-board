@@ -17,18 +17,3 @@
  width: unset;
  font-size: 16px;
 }
-
-a{
- @include flex($align: center);
- color: $letter-color-dark;
-
- img{
-  width: 20px;
-  height: 20px;
-  margin-left: 8px;
- }
-
- &:hover{
-  filter: brightness(0%);
- }
-}

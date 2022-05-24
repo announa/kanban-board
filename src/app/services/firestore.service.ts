@@ -236,7 +236,7 @@ export class FirestoreService {
 
   async deleteFromDb(collection: string, id: string) {
     switch (collection) {
-      case 'guest':
+      case 'guest' || 'user':
         await this.deleteUserImages(id);
         await this.deleteSubCollection('boards', 'userId', id);
         break;

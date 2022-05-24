@@ -40,23 +40,21 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.fireService.isProcessing = true;
     if (!this.fireService.currentUser) this.subscribeToUser();
     else {
-      if (this.fireService.currentUser.uid != '') this.loadBoard();
-      else this.showBoard = false;
+      if(this.fireService.currentUser == null) this.showBoard = false;
+      else this.loadBoard();
     }
   }
 
   subscribeToUser() {
+    console.log('subscribe')
     this.userSubscription = this.fireService.currentUser$.subscribe((user) => {
-      if (user) {
-        if (
-          this.fireService.currentUser &&
-          this.fireService.currentUser.uid != ''
-        ) {
-          this.loadBoard();
-        } else {
+        if (user == null) {
           this.showBoard = false;
+          this.fireService.isProcessing = false;
+        } else {
+          console.log(this.showBoard)
+          this.loadBoard();
         }
-      }
     });
   }
 

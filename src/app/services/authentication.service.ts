@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -11,6 +10,7 @@ import { FirestoreService } from './firestore.service';
 })
 export class AuthenticationService {
   userData: any;
+  currentUser: any = undefined;
 
   constructor(
     public afs: AngularFirestore,
@@ -22,6 +22,7 @@ export class AuthenticationService {
     console.log(this.afAuth.currentUser);
 
     this.afAuth.authState.subscribe(async (user: any) => {
+      this.currentUser = user;
       if (user != null) {
         this.setUserData(user);
       } else if (user == null) {
@@ -36,7 +37,7 @@ export class AuthenticationService {
       localStorage.setItem('user', JSON.stringify(user));
       const dbUser = await this.fireService.getCurrentUserFromDB(user.uid);
       this.setCurrentUser(dbUser);
-    } else{
+    } else {
       localStorage.removeItem('user');
       this.setCurrentUser(null);
     }
@@ -157,10 +158,14 @@ export class AuthenticationService {
   }
 
   async deleteUser() {
-    /*     if(await this.afAuth.currentUser != null){
-    (await this.afAuth.currentUser).delete} */
-    /*     this.afAuth.authState.first().subscribe((authState: any) => { authState.delete(); });
-     */
-    console.log(this.afAuth.currentUser);
+    console.log(this.currentUser);
+    if (this.fireService.currentUser)
+      await this.fireService.deleteFromDb(
+        'user',
+        this.fireService.currentUser.uid
+      );
+    if (this.currentUser) {
+      await this.currentUser.delete();
+    }
   }
 }

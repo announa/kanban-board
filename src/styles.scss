@@ -36,7 +36,7 @@ h2 {
   color: $letter-color-light;
   margin-top: 10px;
   margin-bottom: 20px;
-  font-size: 26px;
+  font-size: clamp(20px, calc(20px + 0.1vw), 24px);
 }
 
 h3 {
@@ -57,6 +57,22 @@ a {
     color: rgba($letter-color-dark, 0.5);
   }
 }
+
+
+.img-link{
+  @include flex($align: center);
+  color: $letter-color-dark;
+ 
+  img{
+   width: 15px;
+   height: 15px;
+   margin-left: 6px;
+  }
+ 
+  &:hover img{
+   filter: brightness(200%);
+  }
+ }
 
 .d-none {
   display: none !important;
@@ -281,6 +297,7 @@ img {
   width: 500px;
   min-height: 400px;
   padding: 50px;
+  padding-bottom: 30px;
   position: relative;
   overflow: hidden;
 
@@ -318,6 +335,7 @@ img {
   }
 
   label {
+    font-size: clamp(14px, calc(13px + 0.01vw), 16px);
     display: inline-block;
     width: 100px;
 
@@ -342,7 +360,7 @@ img {
   }
 
   button {
-    margin: 15px 0 30px;
+    margin-bottom: 30px;
   }
 
   p {

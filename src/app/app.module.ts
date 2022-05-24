@@ -36,6 +36,7 @@ import { HomeComponent } from './home/home.component';
 import { LoadingCircleComponent } from './loading-circle/loading-circle.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     LoadingCircleComponent,
     PrivacyComponent,
     ConfirmationComponent,
+    AccessDeniedComponent,
   ],
   imports: [
     BrowserModule,

@@ -28,9 +28,7 @@
   ></app-tooltip>
   <img src="assets/img/add.svg" alt="add a ticket" />
 </div>
-<div class="prohibited component-container main-background" *ngIf="!showBacklog">
-  <div class="prohibited-modal">Sorry, you don't have access to the backlog of this board</div>
-</div>
+<app-access-denied *ngIf="!showBacklog" [text]="'the backlog of this board'"></app-access-denied>
 <app-loading-circle
   *ngIf="
     fireService.isProcessing && !addTicketServ.isAddingTicket"

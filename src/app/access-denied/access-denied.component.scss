@@ -1,0 +1,16 @@
+p:first-child{
+ font-weight: 500;
+ margin-bottom: 20px;
+}
+
+p:not(:first-child){
+text-align: left;
+}
+
+.img-link{
+ display: inline-flex;
+
+ img{
+  margin-right: 10px;
+ }
+}

@@ -8,17 +8,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class ConfirmationComponent implements OnInit {
   @Input('text') text: string = '';
   @Input('callback') callback: any;
-  @Output() closeConfirmModal = new EventEmitter();
+  @Output() buttonClicked = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}
 
   confirm(){
-    this.callback;
-    this.closeModal();
+    this.buttonClicked.emit('confirm');
   }
 
   closeModal() {
-    this.closeConfirmModal.emit(true);
+    this.buttonClicked.emit('close');
   }
 }

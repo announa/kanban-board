@@ -13,7 +13,7 @@
       <div
         *ngIf="fireService.currentUser.email"
         class="user-items user-sub d-none"
-        (click)="deleteAccount()"
+        (click)="openConfirmation()"
       >
         Delete Account
         <img src="assets/img/delete.svg" alt="" />
@@ -79,6 +79,5 @@
 <app-confirmation
   *ngIf="modalIsOpen"
   [text]="'Do you really want to delete your user account?'"
-  [callback]="this.authService.deleteUser()"
-  (closeConfirmModal)="modalIsOpen = false"
+  (buttonClicked)="handleButtonClick($event)"
 ></app-confirmation>

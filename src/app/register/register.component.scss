@@ -3,10 +3,19 @@
 .form-input {
   @include flex($align: flex-end);
   @media (max-width: 500px) {
-    flex-direction: column;
-    align-items: flex-start;
+    &:not(.check) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 }
+
+@media (max-width: 500px) {
+  .confirm label{
+    width: unset;
+  }
+}
+
 
 label {
   width: 120px;

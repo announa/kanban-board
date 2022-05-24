@@ -72,13 +72,25 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  isActive(link1: string, link2: string){
-    setTimeout(() => {
-     return (this.router.isActive(link1 + this.fireService.currentBoard?.id + link2, true))
-    }, 5000);
-  }
-
-  deleteAccount(){
+  openConfirmation(){
     this.modalIsOpen = true;
   }
+
+  handleButtonClick(event: string){
+    if(event == 'confirm'){
+      this.deleteAccount();
+      this.closeConfirmModal()
+    } else{
+      this.closeConfirmModal()
+    }
+    
+  }
+  
+  deleteAccount(){
+    this.authService.deleteUser();
+  }
+  
+    closeConfirmModal(){
+      this.modalIsOpen = false
+    }
 }
