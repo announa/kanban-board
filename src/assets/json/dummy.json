@@ -7,8 +7,8 @@
       { "category": "Sale", "color": "rgba(150, 150, 255, .4)" }
     ],
     "id": "1",
-    "userId": "",
-    "bgImg": "assets/bg-img/bg-1.jpg",
+    "uid": "",
+    "bgImg": "assets/bg-img/bg-2.jpg",
     "placeholder": "Board - Example"
   },
   "columns": [
@@ -50,8 +50,8 @@
       "date": "4/11/2022",
       "category": 0,
       "priority": "Middle",
-      "columnId": "1",
-      "boardId": "1",
+      "columnId": "",
+      "boardId": "",
       "title_transf": "ticket 1",
       "description_transf": "lorem ipsum dolor sit amet consectetur adipisicing elit. soluta, sunt!"
     },
@@ -63,8 +63,8 @@
       "date": "1/22/2022",
       "category": 1,
       "priority": "High",
-      "columnId": "2",
-      "boardId": "1",
+      "columnId": "",
+      "boardId": "",
       "title_transf": "ticket 2",
       "description_transf": "lorem ipsum dolor sit amet consectetur adipisicing elit. soluta, sunt!"
     },
@@ -76,8 +76,8 @@
       "date": "2/15/2022",
       "category": 2,
       "priority": "Low",
-      "columnId": "2",
-      "boardId": "1",
+      "columnId": "",
+      "boardId": "",
       "title_transf": "ticket 3",
       "description_transf": "lorem ipsum dolor sit amet consectetur adipisicing elit. soluta, sunt!"
     }

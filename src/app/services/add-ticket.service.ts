@@ -46,7 +46,6 @@ export class AddTicketService {
       const date = new Date();
       this.ticket.date =
         date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-      this.ticket.id = date.getTime().toString();
     }
     this.ticket.category = categoryNumber;
     this.ticket.title_transf = this.ticket.title.toLowerCase();

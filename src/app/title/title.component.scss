@@ -17,7 +17,7 @@
   text-align: center;
   width: 100%;
   height: 40px;
-  font-size: 1em;
+  font-size: clamp(14px, calc(14px + 0.08vw), 24px);
   font-weight: 500;
   color: $letter-color-light;
   background-color: transparent;
@@ -146,6 +146,7 @@
 
 .boardTitle-input {
   max-width: calc(100vw - 150px);
+  font-size: clamp(22px, calc(22px + 0.08vw), 32px);
   text-indent: 15px;
   cursor: default;
   text-align: left;
@@ -216,10 +217,12 @@
     left: 0;
     right: 0;
 
+
     .edit-menu {
       display: flex;
       align-items: center;
-      height: 60px;
+      height: 50px;
+      border-radius: 0;
       gap: 8vw;
       top: 0;
       transform: none;
@@ -239,8 +242,8 @@
 
     .menu-icon-container {
       margin: 0;
-      height: 25px;
-      width: 25px;
+      height: 22px;
+      width: 22px;
     }
   }
 

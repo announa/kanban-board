@@ -21,7 +21,7 @@
   transition: transform 225ms ease-in-out;
   border-bottom: 10px solid transparent;
   
-  @media (max-width: 700px) {
+  @media (max-width: 1000px) {
     width: 280px;
     border-bottom: 40px solid transparent;
   }
@@ -47,21 +47,18 @@
 }
 
 .ticket-container {
-  padding: 15px 3px 10px 13px;
+  @include flex($justify: center);
+  padding: 15px 0 10px 0;
   width: 100%;
   flex: 1;
   overflow-y: auto;
   scrollbar-gutter: stable;
-  
-  @media (max-width: 700px) {
-    padding: 15px 10px 10px 13px;
-  }
 }
 
 .column-tickets {
   @include flex($align: center);
   flex-direction: column;
-  width: 100%;
+  width: 93%;
   gap: 5px;
 }
 

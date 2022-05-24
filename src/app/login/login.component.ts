@@ -77,13 +77,5 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   loginAsGuest() {
     this.fireService.isProcessing = true;
     this.authService.signInAnonymously();
-/*     this.guestData = this.http.get('assets/json/guest.json');
-    this.guestDataSubscription = this.guestData.subscribe(async (guest: any) => {
-      await this.fireService.setGuestAccount(guest);
-      await this.fireService.setGuestAccountInDb(guest);
-      this.fireService.isProcessing = false;
-      this.loadUserBoards();
-      this.guestDataSubscription.unsubscribe()
-    }); */
   }
 }

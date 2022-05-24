@@ -10,6 +10,7 @@
   height: 60px;
   border-radius: 50%;
   border: 6px solid rgba($loading-bar-color, 0.3);
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   position: relative;
 
@@ -24,6 +25,17 @@
     border: 6px solid transparent;
     border-right: 6px solid rgba($loading-circle-color, 1);
     animation: loading 1s ease-in-out infinite;
+  }
+
+  &::after{
+     content: "";
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    top: 0px;
+    left: 0px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
   }
 }
 

@@ -58,6 +58,7 @@ export class AuthenticationService {
       })
       .catch((error) => {
         window.alert(error.message);
+        this.fireService.isProcessing = false;
       });
   }
 
@@ -118,7 +119,7 @@ export class AuthenticationService {
 
   async setUserDataInDb(user: any) {
     await this.fireService.addUser(user);
-    this.fireService.createExampleData(user.uid);
+    this.fireService.createDummyData(user.uid);
   }
 
   signOut() {
