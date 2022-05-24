@@ -158,7 +158,7 @@ export class AuthenticationService {
   }
 
   async deleteUser() {
-    console.log(this.currentUser);
+    this.fireService.isProcessing = true;
     if (this.fireService.currentUser)
       await this.fireService.deleteFromDb(
         'user',
@@ -166,6 +166,7 @@ export class AuthenticationService {
       );
     if (this.currentUser) {
       await this.currentUser.delete();
+      this.router.navigateByUrl('/register')
     }
   }
 }

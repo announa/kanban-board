@@ -45,7 +45,9 @@ export class FirestoreService {
     private firestore: AngularFirestore,
     private storage: AngularFireStorage,
     private http: HttpClient
-  ) {}
+  ) {
+    /* this.deleteFromDb('boards', 'aM7n90vHQI0URSJmDFYT') */
+  }
 
   getUserCollection(collection: string) {
     return new Promise((resolve, reject) => {
@@ -235,25 +237,31 @@ export class FirestoreService {
   // ##############  Delete  ##############
 
   async deleteFromDb(collection: string, id: string) {
+    console.log(collection, id);
     switch (collection) {
-      case 'guest' || 'user':
-        await this.deleteUserImages(id);
-        await this.deleteSubCollection('boards', 'userId', id);
+      case 'guest':
+      case 'user':
+        await this.deleteUserImages(collection, id);
+        await this.deleteSubCollection('boards', 'uid', id);
+        await this.deleteDoc(collection, id);
         break;
       case 'boards':
         if (this.currentBoardSubscription)
           this.currentBoardSubscription.unsubscribe();
         await this.deleteSubCollection('columns', 'boardId', id);
+        await this.deleteDoc(collection, id);
         break;
       case 'columns':
         await this.deleteSubCollection('tickets', 'columnId', id);
+        await this.deleteDoc(collection, id);
         break;
-      case 'tickets':
+      default:
+        await this.deleteDoc(collection, id);
     }
-    await this.deleteDoc(collection, id);
   }
 
   async deleteSubCollection(collection: string, field: string, id: string) {
+    console.log(collection, field, id);
     const subCollection = (await firstValueFrom(
       this.getFilteredCollection(collection, field, '==', id)
     )) as any;
@@ -265,12 +273,13 @@ export class FirestoreService {
   }
 
   async deleteDoc(collection: string, id: string) {
+    console.log(collection, id);
     await this.firestore.collection(collection).doc(id).delete();
   }
 
-  async deleteUserImages(userId: string) {
+  async deleteUserImages(collection: string, userId: string) {
     const user = (await firstValueFrom(
-      this.getDocRef('guest', userId).valueChanges()
+      this.getDocRef(collection, userId).valueChanges()
     )) as User;
 
     for (let index = 0; index < user.userImages.length; index++) {

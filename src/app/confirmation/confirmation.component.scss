@@ -8,3 +8,7 @@
  width: 60%;
  transform: none;
 }
+
+.btn-container{
+ @include flex(center, center);
+}
