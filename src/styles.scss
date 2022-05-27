@@ -223,6 +223,11 @@ img {
 .logo-main {
   width: 300px;
   margin-bottom: 5vh;
+
+  @media (max-width: 500px) {
+    width: 90%;
+    max-width: 300px;
+  }
 }
 
 .auth-container {
