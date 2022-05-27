@@ -56,7 +56,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
     ) {
       await this.deleteAccount('guest');
     }
-    this.fireService.clearTemp();
+    await this.fireService.clearTemp();
     this.authService.signOut();
   }
 

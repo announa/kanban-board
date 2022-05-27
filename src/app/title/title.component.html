@@ -44,6 +44,7 @@
       <img
         class="menu-img"
         [class.column-edit]="collection == 'columns'"
+        [class.img-white]="!fireService.currentBoard || fireService.currentBoard == null"
         src="assets/img/edit.svg"
         alt="menu"
         #titleItem

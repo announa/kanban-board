@@ -27,9 +27,7 @@ export class BoardsPreviewComponent implements OnInit {
   }
 
   navigate(boardId: string, event: any) {
-    console.log(boardId)
     if (!this.editMenuClicked(event)) {
-      console.log('navigate')
       this.router.navigateByUrl('/board/' + boardId);
     }
   }

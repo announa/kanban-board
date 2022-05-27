@@ -64,10 +64,6 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     this.authService.signIn(email, password)
   }
 
-  loadUserBoards() {
-    this.router.navigateByUrl('/boards');
-  }
-
   rejectLogin() {
     this.alert = true;
     this.fireService.isProcessing = false;

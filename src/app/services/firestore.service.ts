@@ -46,7 +46,6 @@ export class FirestoreService {
     private storage: AngularFireStorage,
     private http: HttpClient
   ) {
-    /* this.deleteFromDb('boards', 'aM7n90vHQI0URSJmDFYT') */
   }
 
   getUserCollection(collection: string) {
@@ -385,13 +384,18 @@ export class FirestoreService {
   // #############  Logout  ###############
 
   clearTemp() {
-    this.currentUser = null;
-    if (this.boardsSubscription) this.boardsSubscription.unsubscribe();
-    this.boards = [];
-    this.currentBoard = undefined;
-    this.backlogTickets = [];
-    this.columns = [];
-  }
+    return new Promise((resolve, reject) => {
+      this.currentUser = null;
+      if (this.boardsSubscription) this.boardsSubscription.unsubscribe();
+      this.boards = [];
+      this.currentBoard = undefined;
+      this.backlogTickets = [];
+      this.columns = [];
+      console.log('temp cleared')
+      console.log(this.currentBoard)
+      resolve(this.currentBoard), (err:any) => reject(err)
+    })
+    }
 
   // #############  Edit current board categories  ##############
 

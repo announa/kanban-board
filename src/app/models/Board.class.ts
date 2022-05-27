@@ -4,14 +4,12 @@ export class Board {
   id: string = '';
   uid: string = '';
   bgImg: string = '';
-  placeholder: string = '';
   timestamp!: number;
 
   constructor(title: string) {
     this.title = title;
     this.timestamp = Date.now();
     this.bgImg = `assets/bg-img/bg-${Math.round(Math.random() * 7) + 1}.jpg`;
-    this.placeholder = 'New Board';
   }
 
   getBgImage() {
