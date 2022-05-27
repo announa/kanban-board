@@ -5,13 +5,13 @@ export class Board {
   uid: string = '';
   bgImg: string = '';
   placeholder: string = '';
-  timestamp: string = '';
+  timestamp!: number;
 
-  constructor(title?: string) {
-    this.title = title ? title : '';
-    this.timestamp = title ? Date.now().toString() : '';
-    this.bgImg = title ? `assets/bg-img/bg-${Math.round(Math.random() * 7) + 1}.jpg` : '';
-    this.placeholder = title ? 'New Board' : ''
+  constructor(title: string) {
+    this.title = title;
+    this.timestamp = Date.now();
+    this.bgImg = `assets/bg-img/bg-${Math.round(Math.random() * 7) + 1}.jpg`;
+    this.placeholder = 'New Board';
   }
 
   getBgImage() {

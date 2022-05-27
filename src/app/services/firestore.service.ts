@@ -223,7 +223,7 @@ export class FirestoreService {
         ? this.columns[this.columns.length - 1].order + 1
         : 0;
     if (this.currentBoard) {
-      let column = new Column(order_max, this.currentBoard.timestamp);
+      let column = new Column(order_max, this.currentBoard.id);
       this.addDoc('columns', column);
     }
   }
@@ -290,19 +290,22 @@ export class FirestoreService {
 
   // #############  Register and login  ##############
 
-  async addUser(fireAuthUser: any) {
+  async addUser(userData: any) {
     this.isProcessing = true;
-    const username = fireAuthUser.isAnonymous ? 'Guest' : 'User';
     let newUser = new User(
-      fireAuthUser.uid,
-      fireAuthUser.email,
-      fireAuthUser.emailVerified,
-      username
+      userData.uid,
+      userData.username,
+      userData.email,
+      userData.emailVerified,
     );
-    const collection = fireAuthUser.isAnonymous ? 'guest' : 'user';
+    await this.addUserToDb(newUser, userData.isAnonymous) 
+    this.isProcessing = false;
+  }
+
+  async addUserToDb(newUser: User, isAnonymous: boolean){
+    const collection = isAnonymous ? 'guest' : 'user';
     await this.setDoc(collection, newUser, newUser.uid);
     this.currentUser = newUser;
-    this.isProcessing = false;
   }
 
   // #############  Guest Account  #############
@@ -310,42 +313,18 @@ export class FirestoreService {
   createDummyData(userId: any) {
     this.dummyData = this.http.get('assets/json/dummy.json');
     this.dummyDataSubscription = this.dummyData.subscribe(async (data: any) => {
-      /* await this.setAccountData(data, userId); */
-      console.log(this.dummyData.board);
       data.board.uid = userId;
-      await this.addDummyDataToDb(data); // have to get board id fr columns and columns ids for tickets
+      await this.addDummyDataToDb(data);
       this.isProcessing = false;
     });
   }
 
   async setAccountData(dummyData: any, userId: string) {
     new Promise(async (resolve, reject) => {
-      /* const newAccountData = await this.setIds(dummyData, userId); */
       dummyData.board.uid = userId;
       resolve('new account example data set'), (err: any) => reject(err);
     });
   }
-
-  /*   setIds(dummyData: any, userId: string) {
-    [dummyData.board.uid, dummyData.board.id] = Array(
-      3
-    ).fill(Date.now().toString());
-    dummyData.columns.forEach((c: any, i: number) => {
-      setTimeout(() => {
-        c.id = Date.now().toString();
-        c.boardId = dummyData.board.id;
-      }, i);
-    });
-    dummyData.tickets.forEach((t: any, i: number) => {
-      setTimeout(() => {
-        t.id = Date.now().toString();
-        t.columnId = dummyData.columns[0].id;
-        if (i == 1) t.columnId = dummyData.columns[1].id;
-        t.boardId = dummyData.board.id;
-      }, i);
-    });
-    return dummyData;
-  } */
 
   async addDummyDataToDb(data: any) {
     const boardId = await this.addDummyBoard(data);
@@ -384,35 +363,26 @@ export class FirestoreService {
     return data;
   }
 
-  checkForOldGuestData() {
-    console.log('check for old guest data');
-    const oldGuests = this.guests.filter(
-      (guest) => Date.now() - parseInt(guest.uid) >= 86400000
-    );
-    console.log(oldGuests);
-    if (oldGuests) this.deleteOldGuestData(oldGuests as User[]);
+  async checkForOldGuestData() {
+    const oldGuests =  await this.filterGuests()
+    if (oldGuests) await this.deleteOldGuestData(oldGuests as User[]);
   }
 
-  deleteOldGuestData(oldGuests: User[]) {
-    oldGuests.forEach((guest) => this.deleteFromDb('guest', guest.uid));
+  filterGuests(){
+    return new Promise((resolve, reject) => {
+      const oldGuests = this.guests.filter(
+        (guest) => Date.now() - parseInt(guest.uid) >= 86400000
+      );
+        resolve(oldGuests), (err: any) => reject(err)
+    })
   }
+
+  async deleteOldGuestData(oldGuests: User[]) {
+    for(let i = 0; i < oldGuests.length; i++){
+    await this.deleteFromDb('guest', oldGuests[i].uid);
+  }}
 
   // #############  Logout  ###############
-
-  clearData() {
-    return new Promise(async (resolve, reject) => {
-      if (this.currentUser?.username == 'guest') {
-        await this.deleteCurrentGuestData();
-      }
-      this.clearTemp();
-      resolve('data deleted'), (err: any) => reject(err);
-    });
-  }
-
-  async deleteCurrentGuestData() {
-    if (this.currentUser)
-      await this.deleteFromDb('guest', this.currentUser.uid);
-  }
 
   clearTemp() {
     this.currentUser = null;

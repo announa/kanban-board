@@ -56,6 +56,7 @@ export class TicketAddComponent implements OnInit {
   }
 
   saveTicket() {
+    if(this.selectedCategoryNumber == undefined) this.selectedCategoryNumber = -1
     this.addTicketServ.saveTicket(this.selectedCategoryNumber);
   }
 

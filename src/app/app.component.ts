@@ -12,6 +12,9 @@ export class AppComponent {
   title = 'kanban-board';
 
   constructor(public fireService: FirestoreService, public router:Router){}
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.fireService.isProcessing = true;
+    await this.fireService.checkForOldGuestData();
+    this.fireService.isProcessing = false;
   }
 }

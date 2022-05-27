@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.fireService.isProcessing = true;
     await this.subscribeToCollectios();
-    this.fireService.checkForOldGuestData();
     this.fireService.isProcessing = false;
   }
   

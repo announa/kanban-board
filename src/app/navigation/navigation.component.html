@@ -2,11 +2,7 @@
   <div class="nav-right nav-section">
     <div *ngIf="fireService.currentUser" class="user-menu">
       <div class="user-items user-main">
-        <span>
-          {{
-            fireService.currentUser?.email || fireService.currentUser?.username
-          }}</span
-        >
+        <span> {{ fireService.currentUser?.username }}</span>
         <img src="assets/img/user.svg" alt="" />
         <img src="assets/img/user_hover.svg" alt="" />
       </div>
@@ -79,5 +75,5 @@
 <app-confirmation
   *ngIf="modalIsOpen"
   [text]="'Do you really want to delete your user account?'"
-  (buttonClicked)="handleButtonClick($event)"
+  (buttonClicked)="handleConfirmClick($event)"
 ></app-confirmation>

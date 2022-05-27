@@ -4,11 +4,14 @@ export class User{
  emailVerified: boolean = false;
  uid: string;
  userImages: { filePath: string; downloadUrl: any}[] = [];
+ timestamp!: number;
 
- constructor(uid: string, email: string, verified: boolean, username: string){
-  this.uid = uid? uid : '';
-  this.email = email? email : '';
-  this.emailVerified = verified? verified : false;
-  this.username = username
+ constructor(uid: string, username: string, email: string, verified: boolean){
+  this.uid = uid;
+  this.username = username;
+  this.email = email;
+  this.emailVerified = verified;
+  this.timestamp = Date.now()
+  console.log(this)
  }
 }

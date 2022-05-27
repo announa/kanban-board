@@ -48,10 +48,16 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   }
 
   async logout() {
-    console.log('logout')
+    console.log('logout');
     this.fireService.isProcessing = true;
-    await this.fireService.clearData();
-    await this.authService.signOut();
+    if (
+      this.fireService.currentUser &&
+      this.fireService.currentUser.username == 'Guest'
+    ) {
+      await this.deleteAccount('guest');
+    }
+    this.fireService.clearTemp();
+    this.authService.signOut();
   }
 
   goToLogin() {
@@ -72,25 +78,29 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  openConfirmation(){
+  openConfirmation() {
     this.modalIsOpen = true;
   }
 
-  handleButtonClick(event: string){
-    if(event == 'confirm'){
-      this.deleteAccount();
-      this.closeConfirmModal()
-    } else{
-      this.closeConfirmModal()
+  handleConfirmClick(event: string) {
+    if (event == 'confirm') {
+      this.deleteAccount('user');
+      this.closeConfirmModal();
+    } else {
+      this.closeConfirmModal();
     }
-    
   }
-  
-  deleteAccount(){
+
+  async deleteAccount(collection: string) {
+    if (this.fireService.currentUser)
+      await this.fireService.deleteFromDb(
+        collection,
+        this.fireService.currentUser.uid
+      );
     this.authService.deleteUser();
   }
-  
-    closeConfirmModal(){
-      this.modalIsOpen = false
-    }
+
+  closeConfirmModal() {
+    this.modalIsOpen = false;
+  }
 }

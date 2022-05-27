@@ -67,7 +67,8 @@ export class AuthenticationService {
     return this.afAuth
       .signInAnonymously()
       .then((userCredentials) => {
-        this.setUserDataInDb(userCredentials.user);
+        console.log(userCredentials.user?.metadata.creationTime)
+        this.setUserDataInDb(userCredentials.user, 'Guest');
         this.router.navigate(['/boards']);
       })
       .catch((error) => {
@@ -75,12 +76,12 @@ export class AuthenticationService {
       });
   }
 
-  signUp(email: string, password: string) {
+  signUp(registerData: any) {
     return this.afAuth
-      .createUserWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(registerData.email, registerData.password)
       .then((userCredentials) => {
         this.sendVerificationMail();
-        this.setUserDataInDb(userCredentials.user);
+        this.setUserDataInDb(userCredentials.user, registerData.username);
       })
       .catch((error) => {
         window.alert(error.message);
@@ -118,7 +119,8 @@ export class AuthenticationService {
     } else return false;
   }
 
-  async setUserDataInDb(user: any) {
+  async setUserDataInDb(user: any, username: string) {
+    user.username = username;
     await this.fireService.addUser(user);
     this.fireService.createDummyData(user.uid);
   }
@@ -127,6 +129,14 @@ export class AuthenticationService {
     return this.afAuth.signOut().then(async () => {
       this.router.navigate(['login']);
     });
+  }
+
+  async deleteUser() {
+    this.fireService.isProcessing = true;
+    if (this.currentUser) {
+      await this.currentUser.delete();
+      this.router.navigateByUrl('/register')
+    }
   }
 
   /* ###########  LOCAL STORAGE  ############ */
@@ -155,18 +165,5 @@ export class AuthenticationService {
 
     this.fireService.currentUser = user;
     this.fireService.currentUser$.next(this.fireService.currentUser);
-  }
-
-  async deleteUser() {
-    this.fireService.isProcessing = true;
-    if (this.fireService.currentUser)
-      await this.fireService.deleteFromDb(
-        'user',
-        this.fireService.currentUser.uid
-      );
-    if (this.currentUser) {
-      await this.currentUser.delete();
-      this.router.navigateByUrl('/register')
-    }
   }
 }

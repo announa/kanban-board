@@ -16,7 +16,7 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  newUser = {email: '', password: ''};
+  newUser = {username: '', email: '', password: ''};
   passwordConfirmation!: string;
   alert = '';
   existingUser!: User;
@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
   register(){
     if (this.passwordCheck() === true) {
 
-    this.authService.signUp(this.newUser.email, this.newUser.password)
+    this.authService.signUp(this.newUser)
   }
   }
 

@@ -5,6 +5,19 @@
     <div content-container>
       <form (ngSubmit)="register()" #form="ngForm">
         <div class="form-input">
+          <label for="username">Username</label>
+          <input
+            type="username"
+            class="input"
+            name="username"
+            placeholder="Please enter a username"
+            [(ngModel)]="newUser.username"
+            required
+            #email="ngModel"
+            (click)="alert = ''"
+          />
+        </div>
+        <div class="form-input">
           <label for="email">E-mail</label>
           <input
             type="email"

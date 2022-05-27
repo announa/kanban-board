@@ -8,7 +8,7 @@ import { FirestoreService } from './firestore.service';
 export class AddTicketService {
   isAddingTicket = false;
   isSavingTicket = false;
-  ticket!: any;
+  ticket!: Ticket;
   action!: string;
   deadline: string = '';
 
@@ -32,13 +32,16 @@ export class AddTicketService {
       });
   }
 
-  saveTicket(categoryNumber: number) {
+  async saveTicket(categoryNumber: number) {
     this.isSavingTicket = true;
     this.setTicketData(categoryNumber);
-    this.fireService.addDoc('tickets', this.ticket).then(() => {
-      this.closeModal();
-      this.isSavingTicket = false;
-    });
+    if (this.action == 'add') {
+      await this.fireService.addDoc('tickets', this.ticket);
+    } else {
+      await this.fireService.setDoc('tickets', this.ticket, this.ticket.id);
+    }
+    this.closeModal();
+    this.isSavingTicket = false;
   }
 
   setTicketData(categoryNumber: number) {

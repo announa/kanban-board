@@ -3,7 +3,7 @@ export class Ticket{
  title = '';
  description = '';
  deadline?: string;
- date!: Date;
+ date!: string;
  category!: number;
  priority: string = '';
  id!: string;
