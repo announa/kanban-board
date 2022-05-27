@@ -49,9 +49,6 @@ a {
 .board-title{
   white-space: nowrap;
   max-width: calc(100vw - 550px);
-/*   overflow-x: hidden;
-  text-overflow: ellipsis;
-  display: inline-block; */
 }
 
 .a-active {
@@ -89,7 +86,6 @@ a {
   }
 }
 
-/* .menu-open { */
 .menu {
   img {
     width: 100%;

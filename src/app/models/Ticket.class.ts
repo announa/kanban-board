@@ -9,8 +9,6 @@ export class Ticket{
  id!: string;
  columnId: string;
  boardId: string;
- /* creator = ''; */
- /* users = []; */
 
  // transformed data for ordering when getting data from firestore
  title_transf = '';

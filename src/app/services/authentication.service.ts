@@ -19,8 +19,6 @@ export class AuthenticationService {
     public ngZone: NgZone,
     private fireService: FirestoreService
   ) {
-    console.log(this.afAuth.currentUser);
-
     this.afAuth.authState.subscribe(async (user: any) => {
       this.currentUser = user;
       if (user != null) {
@@ -66,9 +64,8 @@ export class AuthenticationService {
   signInAnonymously() {
     return this.afAuth
       .signInAnonymously()
-      .then((userCredentials) => {
-        console.log(userCredentials.user?.metadata.creationTime)
-        this.setUserDataInDb(userCredentials.user, 'Guest');
+      .then(async (userCredentials) => {
+        await this.setUserDataInDb(userCredentials.user, 'Guest');
         this.router.navigate(['/boards']);
       })
       .catch((error) => {
@@ -119,10 +116,13 @@ export class AuthenticationService {
     } else return false;
   }
 
-  async setUserDataInDb(user: any, username: string) {
-    user.username = username;
-    await this.fireService.addUser(user);
-    this.fireService.createDummyData(user.uid);
+  setUserDataInDb(user: any, username: string) {
+    return new Promise(async (resolve, reject) => {
+      user.username = username;
+      await this.fireService.addUser(user);
+      await this.fireService.createDummyData(user.uid);
+      resolve('data added'), (err: any) => reject(err);
+    });
   }
 
   signOut() {
@@ -135,7 +135,7 @@ export class AuthenticationService {
     this.fireService.isProcessing = true;
     if (this.currentUser) {
       await this.currentUser.delete();
-      this.router.navigateByUrl('/register')
+      this.router.navigateByUrl('/login');
     }
   }
 
@@ -146,7 +146,6 @@ export class AuthenticationService {
   }
 
   async getCurrentUserFromLocalStorage() {
-    console.log('getCurrentUserFromLocalStorage');
     const storage = localStorage.getItem('user');
     if (storage) {
       const storageUser = await JSON.parse(storage);
@@ -160,9 +159,6 @@ export class AuthenticationService {
   }
 
   setCurrentUser(user: User | null) {
-    console.log('setCurrentUser');
-    console.log(user);
-
     this.fireService.currentUser = user;
     this.fireService.currentUser$.next(this.fireService.currentUser);
   }

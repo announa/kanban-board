@@ -19,7 +19,6 @@ export class FirestoreService {
   guests: User[] = [];
   currentUser!: User | null;
   currentUser$ = new Subject();
-  /*   currentUser$ = new Subject(); */
   dummyData: any;
   dummyDataSubscription!: Subscription;
   matchingUser!: User;
@@ -45,8 +44,7 @@ export class FirestoreService {
     private firestore: AngularFirestore,
     private storage: AngularFireStorage,
     private http: HttpClient
-  ) {
-  }
+  ) {}
 
   getUserCollection(collection: string) {
     return new Promise((resolve, reject) => {
@@ -63,13 +61,10 @@ export class FirestoreService {
   }
 
   async getCurrentUserFromDB(userId: string) {
-    console.log('getCurrentUserFromDb');
-    console.log(userId);
     let user = (await firstValueFrom(
       this.getDocRef('user', userId).valueChanges()
     )) as User;
     if (!user) {
-      console.log(user);
       user = (await firstValueFrom(
         this.getDocRef('guest', userId).valueChanges()
       )) as User;
@@ -150,7 +145,15 @@ export class FirestoreService {
   loadTickets(columnId: string, ref?: string, dir?: string) {
     /*     if (ref) this.sort.ref = ref;
     if (dir) this.sort.dir = dir; */
-    return this.getFilteredCollection('tickets', 'columnId', '==', columnId);
+    return new Promise((resolve, reject) => {
+      const tickets = this.getFilteredCollection(
+        'tickets',
+        'columnId',
+        '==',
+        columnId
+      );
+      resolve(tickets), (err: any) => reject(err);
+    });
   }
 
   async loadBacklogTickets() {
@@ -194,7 +197,6 @@ export class FirestoreService {
       .then(async (doc) => {
         object.id = doc.id;
         await this.setDoc(collection, { ...object }, object.id);
-        console.log(collection + doc.id + ' added');
         return doc.id;
       })
       .catch((err) => console.log(err));
@@ -272,7 +274,6 @@ export class FirestoreService {
   }
 
   async deleteDoc(collection: string, id: string) {
-    console.log(collection, id);
     await this.firestore.collection(collection).doc(id).delete();
   }
 
@@ -295,13 +296,12 @@ export class FirestoreService {
       userData.uid,
       userData.username,
       userData.email,
-      userData.emailVerified,
+      userData.emailVerified
     );
-    await this.addUserToDb(newUser, userData.isAnonymous) 
-    this.isProcessing = false;
+    await this.addUserToDb(newUser, userData.isAnonymous);
   }
 
-  async addUserToDb(newUser: User, isAnonymous: boolean){
+  async addUserToDb(newUser: User, isAnonymous: boolean) {
     const collection = isAnonymous ? 'guest' : 'user';
     await this.setDoc(collection, newUser, newUser.uid);
     this.currentUser = newUser;
@@ -310,25 +310,23 @@ export class FirestoreService {
   // #############  Guest Account  #############
 
   createDummyData(userId: any) {
-    this.dummyData = this.http.get('assets/json/dummy.json');
-    this.dummyDataSubscription = this.dummyData.subscribe(async (data: any) => {
-      data.board.uid = userId;
-      await this.addDummyDataToDb(data);
-      this.isProcessing = false;
-    });
-  }
-
-  async setAccountData(dummyData: any, userId: string) {
-    new Promise(async (resolve, reject) => {
-      dummyData.board.uid = userId;
-      resolve('new account example data set'), (err: any) => reject(err);
+    return new Promise(async (resolve, reject) => {
+      this.dummyData = this.http.get('assets/json/dummy.json');
+      this.dummyDataSubscription = await this.dummyData.subscribe(
+        async (data: any) => {
+          data.board.uid = userId;
+          await this.addDummyDataToDb(data);
+          resolve('dummy data added');
+        }
+      );
+      (err: any) => reject(err);
     });
   }
 
   async addDummyDataToDb(data: any) {
     const boardId = await this.addDummyBoard(data);
-    this.addDummyColumns(data, boardId).then((colIds: any) => {
-      this.addDummyTickets(data, colIds, boardId);
+    await this.addDummyColumns(data, boardId).then(async (colIds: any) => {
+      await this.addDummyTickets(data, colIds, boardId);
     });
   }
 
@@ -349,10 +347,13 @@ export class FirestoreService {
   }
 
   addDummyTickets(data: any, colIds: any, boardId: any) {
-    data = this.setDummyTicketIds(data, colIds);
-    data.tickets.forEach(async (ticket: any) => {
-      ticket.boardId = boardId;
-      await this.addDoc('tickets', ticket);
+    return new Promise(async (resolve, reject) => {
+      data = this.setDummyTicketIds(data, colIds);
+      for (let i = 0; i < data.tickets.length; i++) {
+        data.tickets[i].boardId = boardId;
+        await this.addDoc('tickets', data.tickets[i]);
+      }
+      resolve(data), (err: any) => reject(err);
     });
   }
 
@@ -363,23 +364,24 @@ export class FirestoreService {
   }
 
   async checkForOldGuestData() {
-    const oldGuests =  await this.filterGuests()
+    const oldGuests = await this.filterGuests();
     if (oldGuests) await this.deleteOldGuestData(oldGuests as User[]);
   }
 
-  filterGuests(){
+  filterGuests() {
     return new Promise((resolve, reject) => {
       const oldGuests = this.guests.filter(
         (guest) => Date.now() - parseInt(guest.uid) >= 86400000
       );
-        resolve(oldGuests), (err: any) => reject(err)
-    })
+      resolve(oldGuests), (err: any) => reject(err);
+    });
   }
 
   async deleteOldGuestData(oldGuests: User[]) {
-    for(let i = 0; i < oldGuests.length; i++){
-    await this.deleteFromDb('guest', oldGuests[i].uid);
-  }}
+    for (let i = 0; i < oldGuests.length; i++) {
+      await this.deleteFromDb('guest', oldGuests[i].uid);
+    }
+  }
 
   // #############  Logout  ###############
 
@@ -391,11 +393,11 @@ export class FirestoreService {
       this.currentBoard = undefined;
       this.backlogTickets = [];
       this.columns = [];
-      console.log('temp cleared')
-      console.log(this.currentBoard)
-      resolve(this.currentBoard), (err:any) => reject(err)
-    })
-    }
+      console.log('temp cleared');
+      console.log(this.currentBoard);
+      resolve(this.currentBoard), (err: any) => reject(err);
+    });
+  }
 
   // #############  Edit current board categories  ##############
 
