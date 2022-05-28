@@ -17,4 +17,8 @@ export class AppComponent {
     await this.fireService.checkForOldGuestData();
     this.fireService.isProcessing = false;
   }
+
+  showNav(){
+    return this.router.url != '/' && this.router.url != '/register' && this.router.url != '/login' && this.router.url != '/imprint'
+  }
 }

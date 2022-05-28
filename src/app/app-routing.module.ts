@@ -4,6 +4,7 @@ import { BacklogComponent } from './backlog/backlog.component';
 import { BoardComponent } from './board/board.component';
 import { BoardsOverviewComponent } from './boards-overview/boards-overview.component';
 import { HomeComponent } from './home/home.component';
+import { ImprintComponent } from './imprint/imprint.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'verify', component: VerifyEmailComponent},
+  {path: 'imprint', component: ImprintComponent},
   {path: 'board/:boardId/backlog', component: BacklogComponent},
   {path: 'boards', component: BoardsOverviewComponent},
   {path: 'board/:boardId', component: BoardComponent}

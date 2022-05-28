@@ -1,2 +1,2 @@
-<app-navigation *ngIf="router.url != '/' && router.url != '/register' && router.url != '/login'"></app-navigation>
+<app-navigation *ngIf="showNav()"></app-navigation>
 <router-outlet></router-outlet>

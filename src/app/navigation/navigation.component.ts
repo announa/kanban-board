@@ -82,22 +82,26 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
     this.modalIsOpen = true;
   }
 
-  handleConfirmClick(event: string) {
+  async handleConfirmClick(event: string) {
     if (event == 'confirm') {
-      this.deleteAccount('user');
+      this.fireService.isProcessing = true;
       this.closeConfirmModal();
+      this.deleteAccount('user');
     } else {
       this.closeConfirmModal();
     }
   }
 
   async deleteAccount(collection: string) {
-    if (this.fireService.currentUser)
-      await this.fireService.deleteFromDb(
-        collection,
-        this.fireService.currentUser.uid
-      );
-    this.authService.deleteUser();
+    this.authService.deleteUser().then(async response => {
+        if (this.fireService.currentUser) {
+        await this.fireService.deleteFromDb(
+          collection,
+          this.fireService.currentUser.uid
+        );
+        this.router.navigateByUrl('/login');
+      }
+    }).catch(err => alert(err))
   }
 
   closeConfirmModal() {

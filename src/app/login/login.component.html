@@ -34,9 +34,9 @@
           Log in
         </button>
       </form>
-      <p>Not registered yet? Register <a routerLink="/register">here</a></p>
-      <p>Or log in as <a (click)="loginAsGuest()">guest</a></p>
-      <p>Forgot your Password? Reset your password <a (click)="resetPw = true">here</a></p>
+      <p>Not registered yet? Register <a class="auth-link" routerLink="/register">here</a></p>
+      <p>Or log in as <a class="auth-link" (click)="loginAsGuest()">guest</a></p>
+      <p>Forgot your Password? Reset your password <a class="auth-link" (click)="resetPw = true">here</a></p>
     </div>
     <app-loading-bar *ngIf="fireService.isProcessing"></app-loading-bar>
   </div>

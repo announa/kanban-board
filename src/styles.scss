@@ -54,7 +54,12 @@ a {
   cursor: pointer;
 
   &:hover {
-    color: rgba($letter-color-dark, 0.5);
+    /* color: rgba($letter-color-dark, 0.5); */
+    color: $nav-hover-color;
+  }
+
+  &:hover img{
+    filter: sepia(500%) saturate(500%) hue-rotate(170deg) brightness(125%);
   }
 }
 
@@ -67,10 +72,6 @@ a {
    width: 15px;
    height: 15px;
    margin-left: 6px;
-  }
- 
-  &:hover img{
-   filter: brightness(200%);
   }
  }
 
@@ -372,24 +373,6 @@ img {
     font-size: 14px;
   }
 
-  a {
-    color: $letter-color-dark;
-    text-transform: none;
-    text-decoration: underline;
-    cursor: pointer;
-    @media (max-width: 600px) {
-      color: $letter-color-light;
-    }
-
-    &:hover {
-      color: rgba(0, 0, 0, 0.9);
-      @media (max-width: 600px) {
-        color: $letter-color-light;
-        text-shadow: 0 0 1px $letter-color-light;
-      }
-    }
-  }
-
   .alert {
     font-size: 13px;
     color: rgb(181, 13, 13);
@@ -403,6 +386,17 @@ img {
     }
   }
 }
+
+.auth-link{
+  color: $letter-color-dark;
+  text-transform: none;
+  text-decoration: underline;
+  cursor: pointer;
+  @media (max-width: 600px) {
+    color: $letter-color-light;
+  }
+}
+
 .menu-icon-container {
   width: 15px;
   height: 15px;

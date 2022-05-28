@@ -2,6 +2,8 @@ import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { rejects } from 'assert';
+import { resolve } from 'dns';
 import { User } from '../models/User.class';
 import { FirestoreService } from './firestore.service';
 
@@ -79,6 +81,7 @@ export class AuthenticationService {
       .then((userCredentials) => {
         this.sendVerificationMail();
         this.setUserDataInDb(userCredentials.user, registerData.username);
+        this.fireService.isProcessing = false;
       })
       .catch((error) => {
         window.alert(error.message);
@@ -132,11 +135,13 @@ export class AuthenticationService {
   }
 
   async deleteUser() {
-    this.fireService.isProcessing = true;
-    if (this.currentUser) {
-      await this.currentUser.delete();
-      this.router.navigateByUrl('/login');
-    }
+    return new Promise((resolve, reject) => {
+      if (this.currentUser) {
+        this.currentUser.delete();
+        resolve('user deleted');
+      }
+      (err: any) => reject(err);
+    });
   }
 
   /* ###########  LOCAL STORAGE  ############ */
