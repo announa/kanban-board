@@ -166,8 +166,6 @@ p {
 .link-wrapper {
   @include flex(center, center);
   width: calc(100% - 300px);
-  /*  position: absolute;
- bottom: 70px; */
   background: transparent;
 
   @media (min-width: 1200px) {

@@ -21,6 +21,7 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   navIsOpen = false;
   navIconClose = false;
   modalIsOpen = false;
+  showReauthModal = false;
   @ViewChild('submenu') submenu!: ElementRef;
   @ViewChild('navLeft') navLeft!: ElementRef;
   @HostListener('window:resize', ['$event'])
@@ -84,7 +85,6 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
 
   async handleConfirmClick(event: string) {
     if (event == 'confirm') {
-      this.fireService.isProcessing = true;
       this.closeConfirmModal();
       this.deleteAccount('user');
     } else {
@@ -93,18 +93,34 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   }
 
   async deleteAccount(collection: string) {
-    this.authService.deleteUser().then(async response => {
+    this.fireService.isProcessing = true;
+    this.authService.currentUser
+      .delete()
+      .then(async () => {
         if (this.fireService.currentUser) {
-        await this.fireService.deleteFromDb(
-          collection,
-          this.fireService.currentUser.uid
-        );
-        this.router.navigateByUrl('/login');
-      }
-    }).catch(err => alert(err))
+          await this.fireService.deleteFromDb(
+            collection,
+            this.fireService.currentUser.uid
+          );
+          this.router.navigateByUrl('/login');
+        }
+      })
+      .catch(async () => {
+        this.fireService.isProcessing = false;
+        this.showReauthModal = true;
+      });
   }
 
   closeConfirmModal() {
     this.modalIsOpen = false;
+  }
+
+  async handleReauthComfirmation(userinput: {
+    email: string;
+    password: string;
+  }) {
+    this.fireService.isProcessing = true;
+    await this.authService.reauthenticate(userinput);
+    this.deleteAccount('user');
   }
 }

@@ -38,6 +38,7 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { ImprintComponent } from './imprint/imprint.component';
+import { ReauthenticateComponent } from './reauthenticate/reauthenticate.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { ImprintComponent } from './imprint/imprint.component';
     ConfirmationComponent,
     AccessDeniedComponent,
     ImprintComponent,
+    ReauthenticateComponent,
   ],
   imports: [
     BrowserModule,

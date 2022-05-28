@@ -77,3 +77,4 @@
   [text]="'Do you really want to delete your user account?'"
   (buttonClicked)="handleConfirmClick($event)"
 ></app-confirmation>
+<app-reauthenticate *ngIf="showReauthModal" (onCloseModal)="this.showReauthModal = false" (onConfirm)="handleReauthComfirmation($event)"></app-reauthenticate>

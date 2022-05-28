@@ -1,0 +1,17 @@
+@import "../../vars.scss";
+
+.modal-transp{
+ width: 70vw;
+}
+h2{
+ color: $letter-color-dark;
+}
+
+input{
+ margin-top: 10px;
+ margin-bottom: 20px;
+}
+
+.btn-container{
+ @include flex($justify: flex-end);
+}

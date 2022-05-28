@@ -1,0 +1,39 @@
+<div class="modal-transp-container modal-transp-container-centered">
+ <div class="modal-transp modal-transp-centered" #modal>
+   <div class="content">
+     <h2>Please enter your email and your password for deleting your account.</h2>
+     <div>
+      <label for="email">E-mail address</label>
+       <input
+       class="input"
+         type="email"
+         name="email"
+         [(ngModel)]="email"
+         placeholder="Enter your e-main address"
+         required
+       />
+       </div>
+       <div>
+       <label for="password">Password</label>
+       <input
+       class="input"
+         type="password"
+         name="password"
+         [(ngModel)]="password"
+         placeholder="Enter your password"
+         required
+       />
+      </div>
+       <div class="btn-container">
+         <button class="btn btn-light" (click)="$event.stopPropagation(); closeModal()">Cancel</button>
+         <button
+           class="btn btn-add-cat"
+           [disabled]="email == '' || password == ''"
+           (click)="$event.stopPropagation(); confirm()"
+         >
+           Confirm
+         </button>
+       </div>
+   </div>
+ </div>
+</div>

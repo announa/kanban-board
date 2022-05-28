@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { EmailAuthProvider } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { rejects } from 'assert';
 import { resolve } from 'dns';
@@ -22,6 +23,7 @@ export class AuthenticationService {
     private fireService: FirestoreService
   ) {
     this.afAuth.authState.subscribe(async (user: any) => {
+      console.log(user)
       this.currentUser = user;
       if (user != null) {
         this.setUserData(user);
@@ -142,6 +144,11 @@ export class AuthenticationService {
       }
       (err: any) => reject(err);
     });
+  }
+
+  async reauthenticate(userinput: {email: string, password: string}) {
+    console.log('reauthenticate');
+    await this.currentUser.reauthenticateWithCredential(userinput)
   }
 
   /* ###########  LOCAL STORAGE  ############ */
