@@ -82,7 +82,7 @@ export class BoardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.userHasAccess()) {
       this.showBoard = true;
       await this.fireService.loadColumns();
-      /* this.fireService.isProcessing = false; */
+      this.fireService.isProcessing = false;
     } else {
       this.showBoard = false;
     }

@@ -44,7 +44,9 @@
       <img
         class="menu-img"
         [class.column-edit]="collection == 'columns'"
-        [class.img-white]="!fireService.currentBoard || fireService.currentBoard == null"
+        [class.img-white]="
+          !fireService.currentBoard || fireService.currentBoard == null
+        "
         src="assets/img/edit.svg"
         alt="menu"
         #titleItem
@@ -324,8 +326,9 @@
     </div>
   </div>
   <div
-    class="menu-container"
     *ngIf="isEditingTitle"
+    class="menu-container"
+    [class.done-white]="collection != 'columns'"
     #titleItem
     [attr.data-boardtitle]="isBoardTitle"
   >

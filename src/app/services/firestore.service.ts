@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { rejects } from 'assert';
 import { firstValueFrom, Observable, Subject, Subscription } from 'rxjs';
+import { threadId } from 'worker_threads';
 import { Board } from '../models/Board.class';
 import { Column } from '../models/Column.class';
 import { Ticket } from '../models/Ticket.class';

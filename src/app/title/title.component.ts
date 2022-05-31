@@ -75,6 +75,7 @@ export class TitleComponent implements OnInit, AfterViewChecked {
     this.title = this.hostObject.title;
     this.checkWindowSize();
     this.checkMenu();
+    console.log(this.hostObject)
   }
 
   ngAfterViewChecked(): void {
