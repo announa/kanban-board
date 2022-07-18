@@ -7,37 +7,18 @@
     </h2>
     <a routerLink="/login" type="button" class="btn"> Go to Login </a>
   </section>
-  <section class="section-container">
-    <p>Create boards for your different work areas.</p>
-    <img src="assets/home_img/kanban1.jpg" alt="" />
+  <section
+    *ngFor="let section of content; let i; as: index"
+    class="section-container"
+  >
+    <p>{{ section.text }}</p>
+    <img src="assets/home-img/{{ section.img }}" alt="" />
   </section>
-  <section class="section-container section-divider sd-top sd-bottom">
-    <p>Create columns in your boards to structure the progress.</p>
-    <img src="assets/home_img/kanban2.jpg" alt="" />
+  <section class="section-container last">
+    <a routerLink="/login" type="button" class="btn"> Go to Login </a>
   </section>
-  <section class="section-container">
-    <p>
-      Create tickets that contain your tasks. Shift them from column to column
-      according to your work progress.
-    </p>
-    <img src="assets/home_img/kanban6.jpg" alt="" />
-  </section>
-  <section class="section-container section-divider sd-top sd-bottom">
-    <p>
-      Add board categories with colors which you can assign to your tasks for
-      giving them more structure.
-    </p>
-    <img src="assets/home_img/kanban4.jpg" alt="" />
-  </section>
-    <section class="section-container last">
-      <p>Personalize your board giving it the background image you want to.</p>
-      <img src="assets/home_img/kanban5.jpg" alt="" />
-      <div class="link-wrapper">
-        <a routerLink="/login" type="button" class="btn"> Go to Login </a>
-      </div>
-    </section>
-    <footer>
-      &copy; Anna Ludewig 2022
-      <a routerLink="/imprint">Imprint</a>
-    </footer>
+  <footer>
+    &copy; Anna Ludewig 2022
+    <a routerLink="/imprint">Imprint</a>
+  </footer>
 </div>

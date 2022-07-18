@@ -25,6 +25,7 @@ export class AuthenticationService {
     this.afAuth.authState.subscribe(async (user: any) => {
       console.log(user)
       this.currentUser = user;
+      console.log(this.currentUser)
       if (user != null) {
         this.setUserData(user);
       } else if (user == null) {
